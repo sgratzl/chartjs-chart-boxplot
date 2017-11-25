@@ -1,140 +1,153 @@
 ﻿'use strict';
 
-module.exports = function(Chart) {
+function isVertical(bar) {
+    return bar._view.width !== undefined;
+}
 
-	const helpers = Chart.helpers,
-		globalOpts = Chart.defaults.global,
-		defaultColor = globalOpts.defaultColor;
+function whiskers(boxplot) {
+    const iqr = boxplot.q3 - boxplot.q1;
+    const iqr1 = Math.max(boxplot.min, boxplot.q1 - iqr);
+    const iqr3 = Math.min(boxplot.max, boxplot.q3 + iqr);
+    return {iqr1, iqr3};
+}
 
-	globalOpts.elements.boxandwhiskers = {
-		upCandleColor: "rgba(80, 160, 115, 1)",
-		downCandleColor: "rgba(215, 85, 65, 1)",
-		outlineCandleColor: "rgba(90, 90, 90, 1)",
-		outlineCandleWidth: 1,
-	};
+/**
+ * Helper function to get the bounds of the box and whiskers
+ * @private
+ * @param elem {Chart.Element.BoxAndWhiskers} the bar
+ * @return {{left, top, right, bottom}} bounds of the bar
+ */
+function getBounds(elem) {
+    const vm = elem._view;
 
-	function isVertical(bar) {
-		return bar._view.width !== undefined;
-	}
+    const boxplot = vm.boxplot;
+    const {iqr1, iqr3} = whiskers(boxplot);
 
-	/**
-	 * Helper function to get the bounds of the candle
-	 * @private
-	 * @param bar {Chart.Element.Candlestick} the bar
-	 * @return {Bounds} bounds of the bar
-	 */
-	function getBarBounds(candle) {
-		const vm = candle._view;
-		let x1, x2, y1, y2;
+    if (isVertical(elem)) {
+        const {x, width} = vm;
+        const x0 = x - width / 2;
+        return {
+            left: x0,
+            top: iqr1,
+            right: x0 + width,
+            bottom: iqr3
+        };
+    } else {
+        const {y, height} = vm;
+        const y0 = y - height / 2;
+        return {
+            left: iqr1,
+            top: y0,
+            right: iqr3,
+            bottom: y0 + height
+        };
+    }
+}
 
-		const halfWidth = vm.width / 2;
-		x1 = vm.x - halfWidth;
-		x2 = vm.x + halfWidth;
-		y1 = vm.candle.h;
-		y2 = vm.candle.l;
+module.exports = function (Chart) {
+    Chart.defaults.global.elements.boxandwhiskers = Object.assign({}, Chart.defaults.global.elements.rectangle, {
+        borderWidth: 1
+    });
 
+    Chart.elements.BoxAndWhiskers = Chart.Element.extend({
+        draw() {
+            const ctx = this._chart.ctx;
+            const vm = this._view;
 
-		return {
-			left: x1,
-			top: y1,
-			right: x2,
-			bottom: y2
-		};
-	}
+            ctx.fillStyle = vm.backgroundColor;
+            ctx.strokeStyle = vm.borderColor;
+            ctx.lineWidth = vm.borderWidth;
 
-	Chart.elements.BoxAndWhiskers = Chart.Element.extend({
-		draw: function() {
-			const ctx = this._chart.ctx;
-			const vm = this._view;
-			let left, right, top, bottom, signX, signY, borderSkipped;
-			const borderWidth = vm.borderWidth;
+            const boxplot = vm.boxplot;
+            const {iqr1, iqr3} = whiskers(boxplot);
 
+            if (isVertical(this)) {
+                const {x, width} = vm;
+                const x0 = x - width / 2;
+                ctx.beginPath();
+                ctx.fillRect(x0, boxplot.q1, width, boxplot.q3 - boxplot.q1);
+                ctx.strokeRect(x0, boxplot.q1, width, boxplot.q3 - boxplot.q1);
+                ctx.moveTo(x0, iqr1);
+                ctx.lineTo(x0 + width, iqr1);
+                ctx.moveTo(x, iqr1);
+                ctx.lineTo(x, boxplot.q1);
+                ctx.moveTo(x0, iqr3);
+                ctx.lineTo(x0 + width, iqr3);
+                ctx.moveTo(x, iqr3);
+                ctx.lineTo(x, boxplot.q3);
+                ctx.moveTo(x0, boxplot.median);
+                ctx.lineTo(x0 + width, boxplot.median);
+            } else {
+                const {y, height} = vm;
+                const y0 = y - height / 2;
+                ctx.beginPath();
+                ctx.fillRect(boxplot.q1, y0, boxplot.q3 - boxplot.q1, height);
+                ctx.strokeRect(boxplot.q1, y0, boxplot.q3 - boxplot.q1, height);
 
-			const x = vm.x;
-			const o = vm.candle.o;
-			const h = vm.candle.h;
-			const l = vm.candle.l;
-			const c = vm.candle.c;
+                ctx.moveTo(iqr1, y0);
+                ctx.lineTo(iqr1, y0 + height);
+                ctx.moveTo(iqr1, y);
+                ctx.lineTo(boxplot.q1, y);
+                ctx.moveTo(iqr3, y0);
+                ctx.lineTo(iqr3);
+                ctx.moveTo(iqr3, y);
+                ctx.lineTo(boxplot.q3, y);
+                ctx.moveTo(boxplot.median, y0);
+                ctx.lineTo(boxplot.median, y0 + height);
+                ctx.stroke();
+                ctx.closePath();
+            }
+        },
+        height() {
+            const vm = this._view;
+            return vm.base - vm.y;
+        },
+        inRange(mouseX, mouseY) {
+            if (!this._view) {
+                return false;
+            }
+            const bounds = getBounds(this);
+            return mouseX >= bounds.left && mouseX <= bounds.right && mouseY >= bounds.top && mouseY <= bounds.bottom;
+        },
+        inLabelRange(mouseX, mouseY) {
+            if (!this._view) {
+                return false;
+            }
+            const bounds = getBounds(this);
+            if (isVertical(me)) {
+                return mouseX >= bounds.left && mouseX <= bounds.right;
+            } else {
+                return mouseY >= bounds.top && mouseY <= bounds.bottom;
+            }
+        },
+        inXRange(mouseX) {
+            const bounds = getBounds(this);
+            return mouseX >= bounds.left && mouseX <= bounds.right;
+        },
+        inYRange(mouseY) {
+            const bounds = getBounds(this);
+            return mouseY >= bounds.top && mouseY <= bounds.bottom;
+        },
+        getCenterPoint() {
+            const vm = this._view;
+            const {x, y, boxplot} = vm;
 
-			ctx.strokeStyle = helpers.getValueOrDefault(vm.outlineCandleColor, globalOpts.elements.candlestick.outlineCandleColor);
-			ctx.lineWidth = helpers.getValueOrDefault(vm.outlineCandleWidth, globalOpts.elements.candlestick.outlineCandleWidth);
-			if (c < o) {
-				ctx.fillStyle = helpers.getValueOrDefault(vm.upCandleColor, globalOpts.elements.candlestick.upCandleColor);
-			} else if (c > o) {
-				ctx.fillStyle = helpers.getValueOrDefault(vm.downCandleColor, globalOpts.elements.candlestick.downCandleColor);
-			} else {
-				ctx.fillStyle = helpers.getValueOrDefault(vm.outlineCandleColor, globalOpts.elements.candlestick.outlineCandleColor);
-			}
-
-			ctx.beginPath();
-			ctx.moveTo(x, h);
-			ctx.lineTo(x, l);
-			ctx.stroke();
-			ctx.fillRect(x - vm.width / 2, c, vm.width, o - c);
-			ctx.strokeRect(x - vm.width / 2, c, vm.width, o - c);
-			ctx.closePath();
-		},
-		height: function() {
-			const vm = this._view;
-			return vm.base - vm.y;
-		},
-		inRange: function(mouseX, mouseY) {
-			let inRange = false;
-
-			if (this._view) {
-				const bounds = getBarBounds(this);
-				inRange = mouseX >= bounds.left && mouseX <= bounds.right && mouseY >= bounds.top && mouseY <= bounds.bottom;
-			}
-
-			return inRange;
-		},
-		inLabelRange: function(mouseX, mouseY) {
-			const me = this;
-			if (!me._view) {
-				return false;
-			}
-
-			let inRange = false;
-			const bounds = getBarBounds(me);
-
-			if (isVertical(me)) {
-				inRange = mouseX >= bounds.left && mouseX <= bounds.right;
-			} else {
-				inRange = mouseY >= bounds.top && mouseY <= bounds.bottom;
-			}
-
-			return inRange;
-		},
-		inXRange: function(mouseX) {
-			const bounds = getBarBounds(this);
-			return mouseX >= bounds.left && mouseX <= bounds.right;
-		},
-		inYRange: function(mouseY) {
-			const bounds = getBarBounds(this);
-			return mouseY >= bounds.top && mouseY <= bounds.bottom;
-		},
-		getCenterPoint: function() {
-			const vm = this._view;
-			let x, y;
-
-			const halfWidth = vm.width / 2;
-			x = vm.x - halfWidth;
-			y = (vm.candle.h + vm.candle.l) / 2;
-
-			return { x: x, y: y };
-		},
-		getArea: function() {
-			const vm = this._view;
-			return vm.width * Math.abs(vm.y - vm.base);
-		},
-		tooltipPosition: function() {
-			const vm = this._view;
-			return {
-				x: vm.x,
-				y: (vm.candle.h + vm.candle.l) / 2
-			};
-		}
-	});
+            if (isVertical(this)) {
+                return {x, y: boxplot.median};
+            } else {
+                return {x: boxplot.median, y};
+            }
+        },
+        getArea() {
+            const vm = this._view;
+            const iqr = vm.boxplot.q3 - vm.boxplot.q1;
+            if (isVertical(this)) {
+                return iqr * vm.width;
+            } else {
+                return iqr * vm.height;
+            }
+        }
+    });
 
 };
 
