@@ -21,7 +21,7 @@ module.exports = function (Chart) {
             }]
         }
     }]);
-    Chart.defaults.horizontalBoxPlot = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, defaults, {
+    Chart.defaults.horizontalBoxplot = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, defaults, {
         scales: {
             xAxes: [{
                 type: 'boxplotLinear'
@@ -46,8 +46,8 @@ module.exports = function (Chart) {
 
             // fix x, y position to consider box plot data structure
             elem._model.x = horizontal && !reset ? boxplot.median : elem._model.x;
-            elem._model.y = !horizontal && !reset ? boxplot.median : elem._model.x;
-            elem._model.boxplot = boxplot; 
+            elem._model.y = !horizontal && !reset ? boxplot.median : elem._model.y;
+            elem._model.boxplot = boxplot;
         },
 
         /**
@@ -86,5 +86,5 @@ module.exports = function (Chart) {
      */
     Chart.controllers.boxplot = Chart.controllers.bar.extend(boxplot);
 
-    Chart.controllers.horizontalBoxPlot = Chart.controllers.horizontalBar.extend(boxplot);
+    Chart.controllers.horizontalBoxplot = Chart.controllers.horizontalBar.extend(boxplot);
 };

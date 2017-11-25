@@ -8,7 +8,7 @@ function whiskers(boxplot, isVertical) {
     const iqr = boxplot.q3 - boxplot.q1;
     // since top left is max
     const iqr1 = (isVertical ? Math.min : Math.max)(boxplot.min, boxplot.q1 - iqr);
-    const iqr3 = (isVertical ? Math.max : Math.in)(boxplot.max, boxplot.q3 + iqr);
+    const iqr3 = (isVertical ? Math.max : Math.min)(boxplot.max, boxplot.q3 + iqr);
     return {iqr1, iqr3};
 }
 
@@ -91,7 +91,7 @@ module.exports = function (Chart) {
                 ctx.moveTo(iqr1, y);
                 ctx.lineTo(boxplot.q1, y);
                 ctx.moveTo(iqr3, y0);
-                ctx.lineTo(iqr3);
+                ctx.lineTo(iqr3, y0 + height);
                 ctx.moveTo(iqr3, y);
                 ctx.lineTo(boxplot.q3, y);
                 ctx.moveTo(boxplot.median, y0);
