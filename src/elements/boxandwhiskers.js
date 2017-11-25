@@ -48,7 +48,8 @@ function getBounds(elem) {
 
 module.exports = function (Chart) {
     Chart.defaults.global.elements.boxandwhiskers = Object.assign({}, Chart.defaults.global.elements.rectangle, {
-        borderWidth: 1
+        borderWidth: 1,
+        outlierRadius: 2
     });
 
     Chart.elements.BoxAndWhiskers = Chart.Element.extend({
@@ -99,6 +100,25 @@ module.exports = function (Chart) {
             }
             ctx.stroke();
             ctx.closePath();
+
+            const outlierRadius = vm.outlierRadius;
+            if (boxplot.outliers) {
+                ctx.beginPath();
+                if (vert) {
+                    const x = vm.x;
+                    boxplot.outliers.forEach((v) => {
+                        ctx.arc(x, v, outlierRadius, 0, Math.PI * 2);
+                    });
+                } else {
+                    const y = vm.y;
+                    boxplot.outliers.forEach((v) => {
+                        ctx.arc(v, y, outlierRadius, 0, Math.PI * 2);
+                    });
+                }
+                ctx.fill();
+                ctx.closePath();
+            }
+
         },
         height() {
             const vm = this._view;

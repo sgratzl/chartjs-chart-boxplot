@@ -80,14 +80,16 @@ window.chartColors = {
 		},
 
 		randomBoxPlot: function(config) {
-			const base = this.numbers(Object.assign({}, config, {count: 5}));
+			const base = this.numbers(Object.assign({}, config, {count: 10}));
 			base.sort(function(a,b) { return a - b; });
+			const shift = 3;
 			return {
-				min: base[0],
-				q1: base[1],
-				median: base[2],
-				q3: base[3],
-				max: base[4]
+				min: base[shift + 0],
+				q1: base[shift + 1],
+				median: base[shift + 2],
+				q3: base[shift + 3],
+				max: base[shift + 4],
+				outliers: base.slice(0, 3).concat(base.slice(shift + 5))
 			};
 		},
 

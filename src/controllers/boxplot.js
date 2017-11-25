@@ -33,6 +33,14 @@ module.exports = function (Chart) {
 
         dataElementType: Chart.elements.BoxAndWhiskers,
 
+        updateElement: function(elem, index, reset) {
+            const dataset = this.getDataset();
+			const custom = elem.custom || {};
+			const boxplotOptions = this.chart.options.elements.boxandwhiskers;
+
+            Chart.controllers.bar.prototype.updateElement.call(this, elem, index, reset);
+            elem._model.outlierRadius = custom.outlierRadius ? custom.outlierRadius : Chart.helpers.valueAtIndexOrDefault(dataset.outlierRadius, index, boxplotOptions.outlierRadius);
+        },
         /**
          * @private
          */
@@ -50,27 +58,14 @@ module.exports = function (Chart) {
             const boxplot = this.chart.data.datasets[datasetIndex].data[index];
 
             const r = {};
-            Object.keys(boxplot).forEach((key) => {
+            ['min', 'q1', 'median', 'q3', 'max'].forEach((key) => {
                 r[key] = scale.getPixelForValue(Number(boxplot[key]));
             });
+            if (boxplot.outliers) {
+                r.outliers = boxplot.outliers.map((d) =>  scale.getPixelForValue(Number(d)));
+            }
             return r;
-        },
-
-        draw() {
-            const ctx = this.chart.chart.ctx;
-            const elements = this.getMeta().data;
-            const data = this.getDataset().data;
-            canvasHelpers.clipArea(ctx, this.chart.chartArea);
-
-            elements.forEach((elem, i) => {
-                if (data[i]) {
-                    elem.draw();
-                }
-            });
-
-            canvasHelpers.unclipArea(ctx);
-        },
-
+        }
     };
     /**
      * This class is based off controller.bar.js from the upstream Chart.js library
