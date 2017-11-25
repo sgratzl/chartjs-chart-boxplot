@@ -6,7 +6,7 @@ const defaults = {
             label: function (item, data) {
                 const datasetLabel = data.datasets[item.datasetIndex].label || '';
                 const boxPlotItem = data.datasets[item.datasetIndex].data[item.index];
-                return `${datasetLabel} (min: ${boxPlotItem.min}, q1: ${boxPlotItem.q1}, median: ${boxPlotItem.median}, q3: ${boxPlotItem.q3}, max: ${boxPlotItem.max})`;
+                return `${datasetLabel} ${typeof item.xLabel === 'string' ? item.xLabel : item.yLabel} (min: ${boxPlotItem.min}, q1: ${boxPlotItem.q1}, median: ${boxPlotItem.median}, q3: ${boxPlotItem.q3}, max: ${boxPlotItem.max})`;
             }
         }
     }
