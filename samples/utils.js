@@ -58,7 +58,7 @@ window.chartColors = {
 		numbers: function(config) {
 			var cfg = config || {};
 			var min = cfg.min || 0;
-			var max = cfg.max || 1;
+			var max = cfg.max || 100;
 			var from = cfg.from || [];
 			var count = cfg.count || 8;
 			var decimals = cfg.decimals || 8;
