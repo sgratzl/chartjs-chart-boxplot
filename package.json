@@ -1,0 +1,44 @@
+{
+  "name": "chartjs-chart-boxplot",
+  "description": "Chart.js module for charting boxplots",
+  "main": "src/index.js",
+  "version": "0.1.0",
+  "author": {
+    "name": "Samuel Gratzl",
+    "email": "samuel.gratzl@datavisyn.io",
+    "url": "http://datavisyn.io"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/datavisyn/chartjs-chart-boxplot.git"
+  },
+  "scripts": {
+    "build": "gulp"
+  },
+  "dependencies": {
+    "chart.js": "^2.7.0"
+  },
+  "devDependencies": {
+    "browserify": "^14.4.0",
+    "check-dependencies": "^1.1.0",
+    "gulp": ">=3.9.1",
+    "gulp-concat": ">=2.6.1",
+    "gulp-insert": "^0.5.0",
+    "gulp-jshint": "^2.0.4",
+    "gulp-replace": ">=0.6.1",
+    "gulp-streamify": "^1.0.2",
+    "gulp-uglify": "^3.0.0",
+    "jasmine": "^2.8.0",
+    "jshint": "^2.9.5",
+    "karma": "^1.7.1",
+    "karma-browserify": "^5.1.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.1",
+    "karma-firefox-launcher": "^1.0.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-jasmine-html-reporter": "^0.2.2",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.9.0"
+  }
+}
