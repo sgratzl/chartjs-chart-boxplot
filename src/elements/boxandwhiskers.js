@@ -4,10 +4,11 @@ function isVertical(bar) {
     return bar._view.width !== undefined;
 }
 
-function whiskers(boxplot) {
+function whiskers(boxplot, isVertical) {
     const iqr = boxplot.q3 - boxplot.q1;
-    const iqr1 = Math.max(boxplot.min, boxplot.q1 - iqr);
-    const iqr3 = Math.min(boxplot.max, boxplot.q3 + iqr);
+    // since top left is max
+    const iqr1 = (isVertical ? Math.min : Math.max)(boxplot.min, boxplot.q1 - iqr);
+    const iqr3 = (isVertical ? Math.max : Math.in)(boxplot.max, boxplot.q3 + iqr);
     return {iqr1, iqr3};
 }
 
@@ -20,17 +21,18 @@ function whiskers(boxplot) {
 function getBounds(elem) {
     const vm = elem._view;
 
+    const vert = isVertical(elem);
     const boxplot = vm.boxplot;
-    const {iqr1, iqr3} = whiskers(boxplot);
+    const {iqr1, iqr3} = whiskers(boxplot, vert);
 
-    if (isVertical(elem)) {
+    if (vert) {
         const {x, width} = vm;
         const x0 = x - width / 2;
         return {
             left: x0,
-            top: iqr1,
+            top: iqr3,
             right: x0 + width,
-            bottom: iqr3
+            bottom: iqr1
         };
     } else {
         const {y, height} = vm;
@@ -59,12 +61,13 @@ module.exports = function (Chart) {
             ctx.lineWidth = vm.borderWidth;
 
             const boxplot = vm.boxplot;
-            const {iqr1, iqr3} = whiskers(boxplot);
+            const vert = isVertical(this);
+            const {iqr1, iqr3} = whiskers(boxplot, vert);
 
-            if (isVertical(this)) {
+            ctx.beginPath();
+            if (vert) {
                 const {x, width} = vm;
                 const x0 = x - width / 2;
-                ctx.beginPath();
                 ctx.fillRect(x0, boxplot.q1, width, boxplot.q3 - boxplot.q1);
                 ctx.strokeRect(x0, boxplot.q1, width, boxplot.q3 - boxplot.q1);
                 ctx.moveTo(x0, iqr1);
@@ -80,7 +83,6 @@ module.exports = function (Chart) {
             } else {
                 const {y, height} = vm;
                 const y0 = y - height / 2;
-                ctx.beginPath();
                 ctx.fillRect(boxplot.q1, y0, boxplot.q3 - boxplot.q1, height);
                 ctx.strokeRect(boxplot.q1, y0, boxplot.q3 - boxplot.q1, height);
 
@@ -94,13 +96,13 @@ module.exports = function (Chart) {
                 ctx.lineTo(boxplot.q3, y);
                 ctx.moveTo(boxplot.median, y0);
                 ctx.lineTo(boxplot.median, y0 + height);
-                ctx.stroke();
-                ctx.closePath();
             }
+            ctx.stroke();
+            ctx.closePath();
         },
         height() {
             const vm = this._view;
-            return vm.base - vm.y;
+            return vm.base - Math.min(vm.boxplot.q1, vm.boxplot.q3);
         },
         inRange(mouseX, mouseY) {
             if (!this._view) {
@@ -114,7 +116,7 @@ module.exports = function (Chart) {
                 return false;
             }
             const bounds = getBounds(this);
-            if (isVertical(me)) {
+            if (isVertical(this)) {
                 return mouseX >= bounds.left && mouseX <= bounds.right;
             } else {
                 return mouseY >= bounds.top && mouseY <= bounds.bottom;
@@ -140,12 +142,16 @@ module.exports = function (Chart) {
         },
         getArea() {
             const vm = this._view;
-            const iqr = vm.boxplot.q3 - vm.boxplot.q1;
+            const iqr = Math.abs(vm.boxplot.q3 - vm.boxplot.q1);
             if (isVertical(this)) {
                 return iqr * vm.width;
             } else {
                 return iqr * vm.height;
             }
+        },
+
+        tooltipPosition_ () {
+            return this.getCenterPoint();
         }
     });
 

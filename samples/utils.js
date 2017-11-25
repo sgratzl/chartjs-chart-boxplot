@@ -79,6 +79,27 @@ window.chartColors = {
 			return data;
 		},
 
+		randomBoxPlot: function(config) {
+			const base = this.numbers(Object.assign({}, config, {count: 5}));
+			base.sort(function(a,b) { return a - b; });
+			return {
+				min: base[0],
+				q1: base[1],
+				median: base[2],
+				q3: base[3],
+				max: base[4]
+			};
+		},
+
+		boxplots: function(config) {
+			const count = (config || {}).count || 8;
+			const data = [];
+			for(let i = 0; i < count; ++i) {
+				data.push(this.randomBoxPlot(config));
+			}
+			return data;
+		},
+
 		labels: function(config) {
 			var cfg = config || {};
 			var min = cfg.min || 0;
@@ -113,6 +134,10 @@ window.chartColors = {
 			return values;
 		},
 
+		nextMonth: function(count) {
+			return Months[Math.ceil(count + 1) % 12];
+		},
+
 		color: function(index) {
 			return COLORS[index % COLORS.length];
 		},
@@ -131,17 +156,5 @@ window.chartColors = {
 	// INITIALIZATION
 
 	Samples.utils.srand(Date.now());
-
-	// Google Analytics
-	/* eslint-disable */
-	if (document.location.hostname.match(/^(www\.)?chartjs\.org$/)) {
-		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-		ga('create', 'UA-28909194-3', 'auto');
-		ga('send', 'pageview');
-	}
-	/* eslint-enable */
 
 }(this));

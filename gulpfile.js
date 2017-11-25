@@ -48,7 +48,7 @@ function buildTask() {
 }
 
 function watchTask() {
-    return gulp.watch(srcFiles, ['build', 'jshint']);
+    return gulp.watch(srcFiles, ['build', 'lint']);
 }
 
 function lintTask() {
