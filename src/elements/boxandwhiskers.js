@@ -2,11 +2,11 @@
 
 module.exports = function(Chart) {
 
-	var helpers = Chart.helpers,
+	const helpers = Chart.helpers,
 		globalOpts = Chart.defaults.global,
 		defaultColor = globalOpts.defaultColor;
 
-	globalOpts.elements.candlestick = {
+	globalOpts.elements.boxandwhiskers = {
 		upCandleColor: "rgba(80, 160, 115, 1)",
 		downCandleColor: "rgba(215, 85, 65, 1)",
 		outlineCandleColor: "rgba(90, 90, 90, 1)",
@@ -24,10 +24,10 @@ module.exports = function(Chart) {
 	 * @return {Bounds} bounds of the bar
 	 */
 	function getBarBounds(candle) {
-		var vm = candle._view;
-		var x1, x2, y1, y2;
+		const vm = candle._view;
+		let x1, x2, y1, y2;
 
-		var halfWidth = vm.width / 2;
+		const halfWidth = vm.width / 2;
 		x1 = vm.x - halfWidth;
 		x2 = vm.x + halfWidth;
 		y1 = vm.candle.h;
@@ -42,19 +42,19 @@ module.exports = function(Chart) {
 		};
 	}
 
-	Chart.elements.Candlestick = Chart.Element.extend({
+	Chart.elements.BoxAndWhiskers = Chart.Element.extend({
 		draw: function() {
-			var ctx = this._chart.ctx;
-			var vm = this._view;
-			var left, right, top, bottom, signX, signY, borderSkipped;
-			var borderWidth = vm.borderWidth;
+			const ctx = this._chart.ctx;
+			const vm = this._view;
+			let left, right, top, bottom, signX, signY, borderSkipped;
+			const borderWidth = vm.borderWidth;
 
 
-			var x = vm.x;
-			var o = vm.candle.o;
-			var h = vm.candle.h;
-			var l = vm.candle.l;
-			var c = vm.candle.c;
+			const x = vm.x;
+			const o = vm.candle.o;
+			const h = vm.candle.h;
+			const l = vm.candle.l;
+			const c = vm.candle.c;
 
 			ctx.strokeStyle = helpers.getValueOrDefault(vm.outlineCandleColor, globalOpts.elements.candlestick.outlineCandleColor);
 			ctx.lineWidth = helpers.getValueOrDefault(vm.outlineCandleWidth, globalOpts.elements.candlestick.outlineCandleWidth);
@@ -75,27 +75,27 @@ module.exports = function(Chart) {
 			ctx.closePath();
 		},
 		height: function() {
-			var vm = this._view;
+			const vm = this._view;
 			return vm.base - vm.y;
 		},
 		inRange: function(mouseX, mouseY) {
-			var inRange = false;
+			let inRange = false;
 
 			if (this._view) {
-				var bounds = getBarBounds(this);
+				const bounds = getBarBounds(this);
 				inRange = mouseX >= bounds.left && mouseX <= bounds.right && mouseY >= bounds.top && mouseY <= bounds.bottom;
 			}
 
 			return inRange;
 		},
 		inLabelRange: function(mouseX, mouseY) {
-			var me = this;
+			const me = this;
 			if (!me._view) {
 				return false;
 			}
 
-			var inRange = false;
-			var bounds = getBarBounds(me);
+			let inRange = false;
+			const bounds = getBarBounds(me);
 
 			if (isVertical(me)) {
 				inRange = mouseX >= bounds.left && mouseX <= bounds.right;
@@ -106,29 +106,29 @@ module.exports = function(Chart) {
 			return inRange;
 		},
 		inXRange: function(mouseX) {
-			var bounds = getBarBounds(this);
+			const bounds = getBarBounds(this);
 			return mouseX >= bounds.left && mouseX <= bounds.right;
 		},
 		inYRange: function(mouseY) {
-			var bounds = getBarBounds(this);
+			const bounds = getBarBounds(this);
 			return mouseY >= bounds.top && mouseY <= bounds.bottom;
 		},
 		getCenterPoint: function() {
-			var vm = this._view;
-			var x, y;
+			const vm = this._view;
+			let x, y;
 
-			var halfWidth = vm.width / 2;
+			const halfWidth = vm.width / 2;
 			x = vm.x - halfWidth;
 			y = (vm.candle.h + vm.candle.l) / 2;
 
 			return { x: x, y: y };
 		},
 		getArea: function() {
-			var vm = this._view;
+			const vm = this._view;
 			return vm.width * Math.abs(vm.y - vm.base);
 		},
 		tooltipPosition: function() {
-			var vm = this._view;
+			const vm = this._view;
 			return {
 				x: vm.x,
 				y: (vm.candle.h + vm.candle.l) / 2

@@ -1,47 +1,47 @@
-var utils = require('./jasmine.utils');
+const utils = require('./jasmine.utils');
 
-(function() {
+(function () {
 
-	// Keep track of all acquired charts to automatically release them after each specs
-	var charts = {};
+    // Keep track of all acquired charts to automatically release them after each specs
+    const charts = {};
 
-	function acquireChart() {
-		var chart = utils.acquireChart.apply(utils, arguments);
-		charts[chart.id] = chart;
-		return chart;
-	}
+    function acquireChart() {
+        const chart = utils.acquireChart.apply(utils, arguments);
+        charts[chart.id] = chart;
+        return chart;
+    }
 
-	function releaseChart(chart) {
-		utils.releaseChart.apply(utils, arguments);
-		delete charts[chart.id];
-	}
+    function releaseChart(chart) {
+        utils.releaseChart.apply(utils, arguments);
+        delete charts[chart.id];
+    }
 
-	function createMockContext() {
-		return new Context();
-	}
+    function createMockContext() {
+        return new Context();
+    }
 
-	window.acquireChart = acquireChart;
-	window.releaseChart = releaseChart;
-	window.createMockContext = createMockContext;
+    window.acquireChart = acquireChart;
+    window.releaseChart = releaseChart;
+    window.createMockContext = createMockContext;
 
-	// some style initialization to limit differences between browsers across different plateforms.
-	utils.injectCSS(
-		'.chartjs-wrapper, .chartjs-wrapper canvas {' +
-			'border: 0;' +
-			'margin: 0;' +
-			'padding: 0;' +
-		'}' +
-		'.chartjs-wrapper {' +
-			'position: absolute' +
-		'}');
+    // some style initialization to limit differences between browsers across different plateforms.
+    utils.injectCSS(
+        '.chartjs-wrapper, .chartjs-wrapper canvas {' +
+        'border: 0;' +
+        'margin: 0;' +
+        'padding: 0;' +
+        '}' +
+        '.chartjs-wrapper {' +
+        'position: absolute' +
+        '}');
 
-	afterEach(function() {
-		// Auto releasing acquired charts
-		Object.keys(charts).forEach(function(id) {
-			var chart = charts[id];
-			if (!(chart.$test || {}).persistent) {
-				releaseChart(chart);
-			}
-		});
-	});
+    afterEach(function () {
+        // Auto releasing acquired charts
+        Object.keys(charts).forEach(function (id) {
+            const chart = charts[id];
+            if (!(chart.$test || {}).persistent) {
+                releaseChart(chart);
+            }
+        });
+    });
 }());

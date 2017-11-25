@@ -47,12 +47,12 @@ module.exports = function (Chart) {
 
         dataElementType: Chart.elements.BoxAndWhiskers,
 
-        updateElement: function (candle, index, reset) {
-            var me = this;
-            var chart = me.chart;
-            var meta = me.getMeta();
-            var dataset = me.getDataset();
-            var custom = candle.custom || {};
+        updateElement(candle, index, reset) {
+            const me = this;
+            const chart = me.chart;
+            const meta = me.getMeta();
+            const dataset = me.getDataset();
+            const custom = candle.custom || {};
 
             candle._xScale = me.getScaleForId(meta.xAxisID);
             candle._yScale = me.getScaleForId(meta.yAxisID);
@@ -78,15 +78,15 @@ module.exports = function (Chart) {
         /**
          * @private
          */
-        updateElementGeometry: function (rectangle, index, reset) {
-            var me = this;
-            var model = rectangle._model;
-            var vscale = me.getValueScale();
-            var base = vscale.getBasePixel();
-            var horizontal = vscale.isHorizontal();
-            var ruler = me._ruler || me.getRuler();
-            var vpixels = me.calculateBarValuePixels(me.index, index);
-            var ipixels = me.calculateBarIndexPixels(me.index, index, ruler);
+        updateElementGeometry(rectangle, index, reset) {
+            const me = this;
+            const model = rectangle._model;
+            const vscale = me.getValueScale();
+            const base = vscale.getBasePixel();
+            const horizontal = vscale.isHorizontal();
+            const ruler = me._ruler || me.getRuler();
+            const vpixels = me.calculateBarValuePixels(me.index, index);
+            const ipixels = me.calculateBarIndexPixels(me.index, index, ruler);
 
             model.horizontal = horizontal;
             model.base = reset ? base : vpixels.base;
@@ -100,11 +100,11 @@ module.exports = function (Chart) {
         /**
          * @private
          */
-        calculateCandleValuesPixels: function (datasetIndex, index) {
-            var me = this;
-            var chart = me.chart;
-            var scale = me.getValueScale();
-            var datasets = chart.data.datasets;
+        calculateCandleValuesPixels(datasetIndex, index) {
+            const me = this;
+            const chart = me.chart;
+            const scale = me.getValueScale();
+            const datasets = chart.data.datasets;
 
             return {
                 o: scale.getPixelForValue(Number(datasets[datasetIndex].data[index].o)),
@@ -114,13 +114,13 @@ module.exports = function (Chart) {
             };
         },
 
-        draw: function () {
-            var ctx = this.chart.chart.ctx;
-            var elements = this.getMeta().data;
-            var dataset = this.getDataset();
-            var ilen = elements.length;
-            var i = 0;
-            var d;
+        draw() {
+            const ctx = this.chart.chart.ctx;
+            const elements = this.getMeta().data;
+            const dataset = this.getDataset();
+            const ilen = elements.length;
+            const i = 0;
+            let d;
 
             Chart.canvasHelpers.clipArea(ctx, this.chart.chartArea);
 

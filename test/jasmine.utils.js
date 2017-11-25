@@ -1,7 +1,7 @@
 /* global __karma__ */
 
 function loadJSON(url, callback) {
-	var request = new XMLHttpRequest();
+	const request = new XMLHttpRequest();
 	request.onreadystatechange = function() {
 		if (request.readyState === 4) {
 			return callback(JSON.parse(request.responseText));
@@ -14,20 +14,20 @@ function loadJSON(url, callback) {
 }
 
 function createCanvas(w, h) {
-	var canvas = document.createElement('canvas');
+	const canvas = document.createElement('canvas');
 	canvas.width = w;
 	canvas.height = h;
 	return canvas;
 }
 
 function readImageData(url, callback) {
-	var image = new Image();
+	const image = new Image();
 
 	image.onload = function() {
-		var h = image.height;
-		var w = image.width;
-		var canvas = createCanvas(w, h);
-		var ctx = canvas.getContext('2d');
+		const h = image.height;
+		const w = image.width;
+		const canvas = createCanvas(w, h);
+		const ctx = canvas.getContext('2d');
 		ctx.drawImage(image, 0, 0, w, h);
 		callback(ctx.getImageData(0, 0, w, h));
 	};
@@ -45,9 +45,9 @@ function readImageData(url, callback) {
  * @param {boolean} options.persistent - If true, the chart will not be released after the spec.
  */
 function acquireChart(config, options) {
-	var wrapper = document.createElement('div');
-	var canvas = document.createElement('canvas');
-	var chart, key;
+	const wrapper = document.createElement('div');
+	const canvas = document.createElement('canvas');
+	let chart, key;
 
 	config = config || {};
 	options = options || {};
@@ -87,7 +87,7 @@ function acquireChart(config, options) {
 function releaseChart(chart) {
 	chart.destroy();
 
-	var wrapper = (chart.$test || {}).wrapper;
+	const wrapper = (chart.$test || {}).wrapper;
 	if (wrapper && wrapper.parentNode) {
 		wrapper.parentNode.removeChild(wrapper);
 	}
@@ -95,8 +95,8 @@ function releaseChart(chart) {
 
 function injectCSS(css) {
 	// http://stackoverflow.com/q/3922139
-	var head = document.getElementsByTagName('head')[0];
-	var style = document.createElement('style');
+	const head = document.getElementsByTagName('head')[0];
+	const style = document.createElement('style');
 	style.setAttribute('type', 'text/css');
 	if (style.styleSheet) {   // IE
 		style.styleSheet.cssText = css;
@@ -109,7 +109,7 @@ function injectCSS(css) {
 function specFromFixture(description, inputs) {
 	it(inputs.json, function(done) {
 		loadJSON(inputs.json, function(json) {
-			var chart = acquireChart(json.config, json.options);
+			const chart = acquireChart(json.config, json.options);
 			if (!inputs.png) {
 				fail('Missing PNG comparison file for ' + inputs.json);
 				if (!json.debug) {
@@ -128,13 +128,13 @@ function specFromFixture(description, inputs) {
 }
 
 function specsFromFixtures(path) {
-	var regex = new RegExp('(^/base/test/fixtures/' + path + '.+)\\.(png|json)');
-	var inputs = {};
+	const regex = new RegExp('(^/base/test/fixtures/' + path + '.+)\\.(png|json)');
+	const inputs = {};
 
 	Object.keys(__karma__.files || {}).forEach(function(file) {
-		var matches = file.match(regex);
-		var name = matches && matches[1];
-		var type = matches && matches[2];
+		const matches = file.match(regex);
+		const name = matches && matches[1];
+		const type = matches && matches[2];
 
 		if (name && type) {
 			inputs[name] = inputs[name] || {};
