@@ -14,7 +14,7 @@ const defaults = {
 
 module.exports = function (Chart) {
     const canvasHelpers = Chart.canvasHelpers;
-    Chart.defaults.boxplot =  Chart.helpers.merge({}, [Chart.defaults.bar, defaults, {
+    Chart.defaults.boxplot = Chart.helpers.merge({}, [Chart.defaults.bar, defaults, {
         scales: {
             yAxes: [{
                 type: 'boxplotLinear'
@@ -38,16 +38,7 @@ module.exports = function (Chart) {
          */
         updateElementGeometry(elem, index, reset) {
             Chart.controllers.bar.prototype.updateElementGeometry.call(this, elem, index, reset);
-            const boxplot = this._calculateBoxPlotValuesPixels(this.index, index);
-
-            const vscale = this.getValueScale();
-			const base = vscale.getBasePixel();
-            const horizontal = vscale.isHorizontal();
-
-            // fix x, y position to consider box plot data structure
-            elem._model.x = horizontal && !reset ? boxplot.median : elem._model.x;
-            elem._model.y = !horizontal && !reset ? boxplot.median : elem._model.y;
-            elem._model.boxplot = boxplot;
+            elem._model.boxplot = this._calculateBoxPlotValuesPixels(this.index, index);
         },
 
         /**

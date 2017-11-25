@@ -2,6 +2,12 @@
 
 module.exports = function (Chart) {
     const BoxPlotLinearScale = Chart.scaleService.getScaleConstructor('linear').extend({
+        getRightValue(rawValue) {
+            if (rawValue.median !== undefined) {
+                rawValue = rawValue.median;
+            }
+            return Chart.LinearScaleBase.prototype.getRightValue.call(this, rawValue);
+        },
         determineDataLimits() {
             const chart = this.chart;
             const isHorizontal = this.isHorizontal();

@@ -4,6 +4,12 @@ module.exports = function (Chart) {
 	const helpers = Chart.helpers;
 
     const BoxPlotLogarithmicScale = Chart.scaleService.getScaleConstructor('logarithmic').extend({
+        getRightValue(rawValue) {
+            if (rawValue.median !== undefined) {
+                rawValue = rawValue.median;
+            }
+            return Chart.LinearScaleBase.prototype.getRightValue.call(this, rawValue);
+        },
         determineDataLimits: function() {
             const chart = this.chart;
 			const isHorizontal = this.isHorizontal();
