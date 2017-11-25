@@ -9,7 +9,10 @@ const browserify = require('browserify'),
     replace = require('gulp-replace'),
     source = require('vinyl-source-stream'),
     streamify = require('gulp-streamify'),
-    uglify = require('gulp-uglify');
+    uglifyes = require('uglify-es'),
+    composer = require('gulp-uglify/composer');
+
+const uglify = composer(uglifyes, console);
 
 const srcDir = './src/';
 const srcFiles = srcDir + '**.js';
@@ -24,9 +27,9 @@ const header = "/*!\n\
  * https://github.com/datavisyn/chartjs-chart-boxplot/blob/master/LICENSE.md\n\
  */\n";
 
-gulp.task('default', ['build', 'jshint', 'watch']);
+gulp.task('default', ['build', 'lint', 'watch']);
 gulp.task('build', buildTask);
-gulp.task('eslint', esLintTask);
+gulp.task('lint', lintTask);
 gulp.task('watch', watchTask);
 gulp.task('test', testTask);
 
@@ -48,10 +51,11 @@ function watchTask() {
     return gulp.watch(srcFiles, ['build', 'jshint']);
 }
 
-function esLintTask() {
+function lintTask() {
     return gulp.src(srcFiles)
         .pipe(eslint())
-        .pipe(eslint.reporter('default'));
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
 }
 
 function startTest() {
