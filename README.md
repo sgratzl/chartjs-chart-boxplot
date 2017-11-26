@@ -31,7 +31,7 @@ interface IBoxPlotStyling {
 }
 ```
 
-In addiiton, two new scales were created  boxplotLinear` and `boxplotLogarithmic`. They were needed to adapt to the required data structure.
+In addiiton, two new scales were created  `boxplotLinear` and `boxplotLogarithmic`. They were needed to adapt to the required data structure.
 
 ## Data structure
 
