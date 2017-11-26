@@ -14,10 +14,13 @@
     "url": "https://github.com/datavisyn/chartjs-chart-boxplot.git"
   },
   "scripts": {
-    "build": "gulp"
+    "build": "gulp",
+    "watch": "gulp watch",
+	"build:dev": "gulp build"
   },
   "dependencies": {
     "chart.js": "^2.7.0",
+    "d3-array": "^1.2.1",
     "uglify-es": "^3.1.10"
   },
   "devDependencies": {

@@ -4,14 +4,6 @@ function isVertical(bar) {
     return bar._view.width !== undefined;
 }
 
-function whiskers(boxplot, isVertical) {
-    const iqr = boxplot.q3 - boxplot.q1;
-    // since top left is max
-    const iqr1 = (isVertical ? Math.min : Math.max)(boxplot.min, boxplot.q1 - iqr);
-    const iqr3 = (isVertical ? Math.max : Math.min)(boxplot.max, boxplot.q3 + iqr);
-    return {iqr1, iqr3};
-}
-
 /**
  * Helper function to get the bounds of the box and whiskers
  * @private
@@ -23,24 +15,23 @@ function getBounds(elem) {
 
     const vert = isVertical(elem);
     const boxplot = vm.boxplot;
-    const {iqr1, iqr3} = whiskers(boxplot, vert);
 
     if (vert) {
         const {x, width} = vm;
         const x0 = x - width / 2;
         return {
             left: x0,
-            top: iqr3,
+            top: boxplot.whiskerMax,
             right: x0 + width,
-            bottom: iqr1
+            bottom: boxplot.whiskerMin
         };
     } else {
         const {y, height} = vm;
         const y0 = y - height / 2;
         return {
-            left: iqr1,
+            left: boxplot.whiskerMin,
             top: y0,
-            right: iqr3,
+            right: boxplot.whiskerMax,
             bottom: y0 + height
         };
     }
@@ -63,7 +54,6 @@ module.exports = function (Chart) {
 
             const boxplot = vm.boxplot;
             const vert = isVertical(this);
-            const {iqr1, iqr3} = whiskers(boxplot, vert);
 
             ctx.beginPath();
             if (vert) {
@@ -71,13 +61,13 @@ module.exports = function (Chart) {
                 const x0 = x - width / 2;
                 ctx.fillRect(x0, boxplot.q1, width, boxplot.q3 - boxplot.q1);
                 ctx.strokeRect(x0, boxplot.q1, width, boxplot.q3 - boxplot.q1);
-                ctx.moveTo(x0, iqr1);
-                ctx.lineTo(x0 + width, iqr1);
-                ctx.moveTo(x, iqr1);
+                ctx.moveTo(x0, boxplot.whiskerMin);
+                ctx.lineTo(x0 + width, boxplot.whiskerMin);
+                ctx.moveTo(x, boxplot.whiskerMin);
                 ctx.lineTo(x, boxplot.q1);
-                ctx.moveTo(x0, iqr3);
-                ctx.lineTo(x0 + width, iqr3);
-                ctx.moveTo(x, iqr3);
+                ctx.moveTo(x0, boxplot.whiskerMax);
+                ctx.lineTo(x0 + width, boxplot.whiskerMax);
+                ctx.moveTo(x, boxplot.whiskerMax);
                 ctx.lineTo(x, boxplot.q3);
                 ctx.moveTo(x0, boxplot.median);
                 ctx.lineTo(x0 + width, boxplot.median);
@@ -87,13 +77,13 @@ module.exports = function (Chart) {
                 ctx.fillRect(boxplot.q1, y0, boxplot.q3 - boxplot.q1, height);
                 ctx.strokeRect(boxplot.q1, y0, boxplot.q3 - boxplot.q1, height);
 
-                ctx.moveTo(iqr1, y0);
-                ctx.lineTo(iqr1, y0 + height);
-                ctx.moveTo(iqr1, y);
+                ctx.moveTo(boxplot.whiskerMin, y0);
+                ctx.lineTo(boxplot.whiskerMin, y0 + height);
+                ctx.moveTo(boxplot.whiskerMin, y);
                 ctx.lineTo(boxplot.q1, y);
-                ctx.moveTo(iqr3, y0);
-                ctx.lineTo(iqr3, y0 + height);
-                ctx.moveTo(iqr3, y);
+                ctx.moveTo(boxplot.whiskerMax, y0);
+                ctx.lineTo(boxplot.whiskerMax, y0 + height);
+                ctx.moveTo(boxplot.whiskerMax, y);
                 ctx.lineTo(boxplot.q3, y);
                 ctx.moveTo(boxplot.median, y0);
                 ctx.lineTo(boxplot.median, y0 + height);

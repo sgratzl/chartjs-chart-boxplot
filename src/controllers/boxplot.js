@@ -1,12 +1,19 @@
 ﻿'use strict';
 
+const {asBoxPlotStats} = require('../data.js');
+
 const defaults = {
     tooltips: {
         callbacks: {
             label: function (item, data) {
                 const datasetLabel = data.datasets[item.datasetIndex].label || '';
-                const boxPlotItem = data.datasets[item.datasetIndex].data[item.index];
-                return `${datasetLabel} ${typeof item.xLabel === 'string' ? item.xLabel : item.yLabel} (min: ${boxPlotItem.min}, q1: ${boxPlotItem.q1}, median: ${boxPlotItem.median}, q3: ${boxPlotItem.q3}, max: ${boxPlotItem.max})`;
+                const value = data.datasets[item.datasetIndex].data[item.index];
+                const b = asBoxPlotStats(value);
+                let label = `${datasetLabel} ${typeof item.xLabel === 'string' ? item.xLabel : item.yLabel}`;
+                if (!b) {
+                	return label + 'NaN';
+				}
+                return `${label} (min: ${b.min}, q1: ${b.q1}, median: ${b.median}, q3: ${b.q3}, max: ${b.max})`;
             }
         }
     }
@@ -17,14 +24,14 @@ module.exports = function (Chart) {
     Chart.defaults.boxplot = Chart.helpers.merge({}, [Chart.defaults.bar, defaults, {
         scales: {
             yAxes: [{
-                type: 'boxplotLinear'
+                type: 'arrayLinear'
             }]
         }
     }]);
     Chart.defaults.horizontalBoxplot = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, defaults, {
         scales: {
             xAxes: [{
-                type: 'boxplotLinear'
+                type: 'arrayLinear'
             }]
         }
     }]);
@@ -55,11 +62,13 @@ module.exports = function (Chart) {
 
         _calculateBoxPlotValuesPixels(datasetIndex, index) {
             const scale = this.getValueScale();
-            const boxplot = this.chart.data.datasets[datasetIndex].data[index];
+            const boxplot = asBoxPlotStats(this.chart.data.datasets[datasetIndex].data[index]);
 
             const r = {};
-            ['min', 'q1', 'median', 'q3', 'max'].forEach((key) => {
-                r[key] = scale.getPixelForValue(Number(boxplot[key]));
+            Object.keys(boxplot).forEach((key) => {
+            	if (key !== 'outliers') {
+					r[key] = scale.getPixelForValue(Number(boxplot[key]));
+				}
             });
             if (boxplot.outliers) {
                 r.outliers = boxplot.outliers.map((d) =>  scale.getPixelForValue(Number(d)));
