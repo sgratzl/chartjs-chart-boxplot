@@ -1,9 +1,6 @@
 'use strict';
 
-let Chart = require('chart.js');
-Chart = typeof (Chart) === 'function' ? Chart : window.Chart;
-
-require('./elements/boxandwhiskers.js')(Chart);
-require('./controllers/boxplot.js')(Chart);
-require('./scale/arrayLinear.js')(Chart);
-require('./scale/arrayLogarithmic.js')(Chart);
+export {default as BoxAndWhiskers} from './elements/boxandwhiskers';
+export * from './controllers/boxplot';
+export {default as ArrayLinearScale} from './scale/arrayLinear';
+export {default as ArrayLogarithmicScale} from './scale/arrayLogarithmic';

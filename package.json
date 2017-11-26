@@ -13,36 +13,21 @@
     "type": "git",
     "url": "https://github.com/datavisyn/chartjs-chart-boxplot.git"
   },
-  "scripts": {
-    "build": "gulp",
-    "watch": "gulp watch",
-	"build:dev": "gulp build"
-  },
   "dependencies": {
     "chart.js": "^2.7.0",
-    "d3-array": "^1.2.1",
-    "uglify-es": "^3.1.10"
+    "d3-array": "^1.2.1"
   },
   "devDependencies": {
-    "browserify": "^14.4.0",
-    "check-dependencies": "^1.1.0",
-    "eslint": "^4.9.0",
-    "gulp": ">=3.9.1",
-    "gulp-concat": ">=2.6.1",
-    "gulp-eslint": "^4.0.0",
-    "gulp-insert": "^0.5.0",
-    "gulp-replace": ">=0.6.1",
-    "gulp-streamify": "^1.0.2",
-    "gulp-uglify": "~3.0.x",
-    "jasmine": "^2.8.0",
-    "karma": "^1.7.1",
-    "karma-browserify": "^5.1.1",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-coverage": "^1.1.1",
-    "karma-firefox-launcher": "^1.0.1",
-    "karma-jasmine": "^1.1.0",
-    "karma-jasmine-html-reporter": "^0.2.2",
-    "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.9.0"
+    "eslint": "3",
+    "package-preamble": "0.0",
+    "rollup": "0.41",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "uglify-js": "^2.8.11"
+  },
+  "scripts": {
+    "prepublish": "npm run test && uglifyjs --preamble \"$(preamble)\" build/Chart.BoxPlot.js -c -m -o build/Chart.BoxPlot.min.js",
+    "build": "rollup -c -i src/index.js",
+    "pretest": "npm run build",
+    "test": "eslint src"
   }
 }

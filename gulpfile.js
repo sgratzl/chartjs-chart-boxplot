@@ -1,4 +1,4 @@
-const browserify = require('browserify'),
+const rollup = require('gulp-better-rollup'),
     concat = require('gulp-concat'),
     gulp = require('gulp'),
     insert = require('gulp-insert'),
@@ -10,12 +10,13 @@ const browserify = require('browserify'),
     source = require('vinyl-source-stream'),
     streamify = require('gulp-streamify'),
     uglifyes = require('uglify-es'),
-    composer = require('gulp-uglify/composer');
+    composer = require('gulp-uglify/composer'),
+    noderesolve = require('rollup-plugin-node-resolve');
 
 const uglify = composer(uglifyes, console);
 
 const srcDir = './src/';
-const srcFiles = srcDir + '**.js';
+const srcFiles = srcDir + '**/*.js';
 const buildDir = './build/';
 
 const header = "/*!\n\
@@ -34,12 +35,24 @@ gulp.task('watch', watchTask);
 gulp.task('test', testTask);
 
 function buildTask() {
-    return browserify('./src/index.js')
-        .ignore('chart.js')
-        .bundle()
-        .pipe(source('Chart.BoxPlot.js'))
-        .pipe(insert.prepend(header))
-        .pipe(streamify(replace('{{ version }}', package.version)))
+    return gulp.src('./src/index.js')
+      // transform the files here.
+        .pipe(rollup({
+          // any option supported by Rollup can be set here.
+          format: 'umd',
+          file: 'Chart.BoxPlot.js',
+          name: 'ChartBoxPlot',
+          externals: ['chart.js'],
+          globals: {
+            'chart.js': 'Chart'
+          },
+          plugins: [
+            noderesolve()
+          ]
+        }))
+        //.pipe(source('Chart.BoxPlot.js'))
+        //.pipe(insert.prepend(header))
+        //.pipe(streamify(replace('{{ version }}', package.version)))
         .pipe(gulp.dest(buildDir))
         .pipe(streamify(uglify()))
         .pipe(streamify(concat('Chart.BoxPlot.min.js')))

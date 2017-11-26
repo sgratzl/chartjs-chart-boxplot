@@ -1,8 +1,8 @@
 'use strict';
 
-const {quantile, extent} = require('d3-array');
+import {quantile, extent} from 'd3-array';
 
-function whiskers(boxplot) {
+export function whiskers(boxplot) {
 	const iqr = boxplot.q3 - boxplot.q1;
     // since top left is max
     const whiskerMin = Math.max(boxplot.min, boxplot.q1 - iqr);
@@ -10,7 +10,7 @@ function whiskers(boxplot) {
     return {whiskerMin, whiskerMax};
 }
 
-function boxplotStats(arr) {
+export function boxplotStats(arr) {
 	console.assert(Array.isArray(arr));
 	if (arr.length === 0) {
 		return {
@@ -43,9 +43,14 @@ function boxplotStats(arr) {
 	return base;
 }
 
-function asBoxPlotStats(value) {
+export function asBoxPlotStats(value) {
 	if (typeof value.median === 'number' && typeof value.q1 === 'number' && typeof value.q3 === 'number') {
-		// sounds good
+		// sounds good, check for helper
+		if (typeof value.whiskerMin === 'undefined') {
+			const {whiskerMin, whiskerMax} = whiskers(value);
+			value.whiskerMin = whiskerMin;
+			value.whiskerMax = whiskerMax;
+		}
 		return value;
 	}
 	if (!Array.isArray(value)) {
@@ -57,7 +62,7 @@ function asBoxPlotStats(value) {
 	return value.__stats;
 }
 
-function getRightValue(rawValue) {
+export function getRightValue(rawValue) {
 	if (!rawValue) {
 		return rawValue;
 	}
@@ -68,7 +73,7 @@ function getRightValue(rawValue) {
 	return b ? b.median : rawValue;
 }
 
-function commonDataLimits(extraCallback) {
+export function commonDataLimits(extraCallback) {
 	const chart = this.chart;
 	const isHorizontal = this.isHorizontal();
 
@@ -111,9 +116,3 @@ function commonDataLimits(extraCallback) {
 		});
 	});
 }
-
-module.exports.whiskers = whiskers;
-module.exports.boxplotStats = boxplotStats;
-module.exports.getRightValue = getRightValue;
-module.exports.asBoxPlotStats = asBoxPlotStats;
-module.exports.commonDataLimits = commonDataLimits;

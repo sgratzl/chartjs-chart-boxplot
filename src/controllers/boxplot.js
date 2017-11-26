@@ -1,6 +1,7 @@
 ﻿'use strict';
 
-const {asBoxPlotStats} = require('../data.js');
+import {asBoxPlotStats} from '../data';
+import * as Chart from 'chart.js';
 
 const defaults = {
     tooltips: {
@@ -19,67 +20,63 @@ const defaults = {
     }
 };
 
-module.exports = function (Chart) {
-    const canvasHelpers = Chart.canvasHelpers;
-    Chart.defaults.boxplot = Chart.helpers.merge({}, [Chart.defaults.bar, defaults, {
-        scales: {
-            yAxes: [{
-                type: 'arrayLinear'
-            }]
-        }
-    }]);
-    Chart.defaults.horizontalBoxplot = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, defaults, {
-        scales: {
-            xAxes: [{
-                type: 'arrayLinear'
-            }]
-        }
-    }]);
+Chart.defaults.boxplot = Chart.helpers.merge({}, [Chart.defaults.bar, defaults, {
+	scales: {
+		yAxes: [{
+			type: 'arrayLinear'
+		}]
+	}
+}]);
+Chart.defaults.horizontalBoxplot = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, defaults, {
+	scales: {
+		xAxes: [{
+			type: 'arrayLinear'
+		}]
+	}
+}]);
 
-    const boxplot = {
+const boxplot = {
 
-        dataElementType: Chart.elements.BoxAndWhiskers,
+	dataElementType: Chart.elements.BoxAndWhiskers,
 
-        updateElement: function(elem, index, reset) {
-            const dataset = this.getDataset();
-			const custom = elem.custom || {};
-			const boxplotOptions = this.chart.options.elements.boxandwhiskers;
+	updateElement: function(elem, index, reset) {
+		const dataset = this.getDataset();
+		const custom = elem.custom || {};
+		const boxplotOptions = this.chart.options.elements.boxandwhiskers;
 
-            Chart.controllers.bar.prototype.updateElement.call(this, elem, index, reset);
-            elem._model.outlierRadius = custom.outlierRadius ? custom.outlierRadius : Chart.helpers.valueAtIndexOrDefault(dataset.outlierRadius, index, boxplotOptions.outlierRadius);
-        },
-        /**
-         * @private
-         */
-        updateElementGeometry(elem, index, reset) {
-            Chart.controllers.bar.prototype.updateElementGeometry.call(this, elem, index, reset);
-            elem._model.boxplot = this._calculateBoxPlotValuesPixels(this.index, index);
-        },
+		Chart.controllers.bar.prototype.updateElement.call(this, elem, index, reset);
+		elem._model.outlierRadius = custom.outlierRadius ? custom.outlierRadius : Chart.helpers.valueAtIndexOrDefault(dataset.outlierRadius, index, boxplotOptions.outlierRadius);
+	},
+	/**
+	 * @private
+	 */
+	updateElementGeometry(elem, index, reset) {
+		Chart.controllers.bar.prototype.updateElementGeometry.call(this, elem, index, reset);
+		elem._model.boxplot = this._calculateBoxPlotValuesPixels(this.index, index);
+	},
 
-        /**
-         * @private
-         */
+	/**
+	 * @private
+	 */
 
-        _calculateBoxPlotValuesPixels(datasetIndex, index) {
-            const scale = this.getValueScale();
-            const boxplot = asBoxPlotStats(this.chart.data.datasets[datasetIndex].data[index]);
+	_calculateBoxPlotValuesPixels(datasetIndex, index) {
+		const scale = this.getValueScale();
+		const boxplot = asBoxPlotStats(this.chart.data.datasets[datasetIndex].data[index]);
 
-            const r = {};
-            Object.keys(boxplot).forEach((key) => {
-            	if (key !== 'outliers') {
-					r[key] = scale.getPixelForValue(Number(boxplot[key]));
-				}
-            });
-            if (boxplot.outliers) {
-                r.outliers = boxplot.outliers.map((d) =>  scale.getPixelForValue(Number(d)));
-            }
-            return r;
-        }
-    };
-    /**
-     * This class is based off controller.bar.js from the upstream Chart.js library
-     */
-    Chart.controllers.boxplot = Chart.controllers.bar.extend(boxplot);
-
-    Chart.controllers.horizontalBoxplot = Chart.controllers.horizontalBar.extend(boxplot);
+		const r = {};
+		Object.keys(boxplot).forEach((key) => {
+			if (key !== 'outliers') {
+				r[key] = scale.getPixelForValue(Number(boxplot[key]));
+			}
+		});
+		if (boxplot.outliers) {
+			r.outliers = boxplot.outliers.map((d) =>  scale.getPixelForValue(Number(d)));
+		}
+		return r;
+	}
 };
+/**
+ * This class is based off controller.bar.js from the upstream Chart.js library
+ */
+export const BoxPlot = Chart.controllers.boxplot = Chart.controllers.bar.extend(boxplot);
+export const HorizontalBoxPlot = Chart.controllers.horizontalBoxplot = Chart.controllers.horizontalBar.extend(boxplot);
