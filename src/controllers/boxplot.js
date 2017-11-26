@@ -45,7 +45,9 @@ const boxplot = {
 		const boxplotOptions = this.chart.options.elements.boxandwhiskers;
 
 		Chart.controllers.bar.prototype.updateElement.call(this, elem, index, reset);
-		elem._model.outlierRadius = custom.outlierRadius ? custom.outlierRadius : Chart.helpers.valueAtIndexOrDefault(dataset.outlierRadius, index, boxplotOptions.outlierRadius);
+		['outlierRadius', 'itemRadius', 'itemStyle', 'itemBackgroundColor', 'itemBorderColor'].forEach((item) => {
+			elem._model[item] = custom[item] !== undefined ? custom[item] : Chart.helpers.valueAtIndexOrDefault(dataset[item], index, boxplotOptions[item]);
+		})
 	},
 	/**
 	 * @private
@@ -61,7 +63,8 @@ const boxplot = {
 
 	_calculateBoxPlotValuesPixels(datasetIndex, index) {
 		const scale = this.getValueScale();
-		const boxplot = asBoxPlotStats(this.chart.data.datasets[datasetIndex].data[index]);
+		const data = this.chart.data.datasets[datasetIndex].data[index];
+		const boxplot = asBoxPlotStats(data);
 
 		const r = {};
 		Object.keys(boxplot).forEach((key) => {
@@ -72,6 +75,11 @@ const boxplot = {
 		if (boxplot.outliers) {
 			r.outliers = boxplot.outliers.map((d) =>  scale.getPixelForValue(Number(d)));
 		}
+
+		if (Array.isArray(data)) {
+			r.items = data.map((d) => scale.getPixelForValue(Number(d)));
+		}
+
 		return r;
 	}
 };

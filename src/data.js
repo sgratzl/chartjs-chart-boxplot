@@ -4,10 +4,10 @@ import {quantile, extent} from 'd3-array';
 
 export function whiskers(boxplot) {
 	const iqr = boxplot.q3 - boxplot.q1;
-    // since top left is max
-    const whiskerMin = Math.max(boxplot.min, boxplot.q1 - iqr);
-    const whiskerMax = Math.min(boxplot.max, boxplot.q3 + iqr);
-    return {whiskerMin, whiskerMax};
+	// since top left is max
+	const whiskerMin = Math.max(boxplot.min, boxplot.q1 - iqr);
+	const whiskerMax = Math.min(boxplot.max, boxplot.q3 + iqr);
+	return {whiskerMin, whiskerMax};
 }
 
 export function boxplotStats(arr) {
@@ -115,4 +115,15 @@ export function commonDataLimits(extraCallback) {
 			}
 		});
 	});
+}
+
+export function rnd(seed) {
+	// Adapted from http://indiegamr.com/generate-repeatable-random-numbers-in-js/
+	if (seed === undefined) {
+		seed = Date.now()
+	}
+	return () => {
+		seed = (seed * 9301 + 49297) % 233280;
+		return seed / 233280;
+	}
 }

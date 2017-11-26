@@ -1,9 +1,10 @@
 ﻿'use strict';
 
 import * as Chart from 'chart.js';
+import {rnd} from '../data';
 
 function isVertical(bar) {
-    return bar._view.width !== undefined;
+	return bar._view.width !== undefined;
 }
 
 /**
@@ -13,35 +14,39 @@ function isVertical(bar) {
  * @return {{left, top, right, bottom}} bounds of the bar
  */
 function getBounds(elem) {
-    const vm = elem._view;
+	const vm = elem._view;
 
-    const vert = isVertical(elem);
-    const boxplot = vm.boxplot;
+	const vert = isVertical(elem);
+	const boxplot = vm.boxplot;
 
-    if (vert) {
-        const {x, width} = vm;
-        const x0 = x - width / 2;
-        return {
-            left: x0,
-            top: boxplot.whiskerMax,
-            right: x0 + width,
-            bottom: boxplot.whiskerMin
-        };
-    } else {
-        const {y, height} = vm;
-        const y0 = y - height / 2;
-        return {
-            left: boxplot.whiskerMin,
-            top: y0,
-            right: boxplot.whiskerMax,
-            bottom: y0 + height
-        };
-    }
+	if (vert) {
+		const {x, width} = vm;
+		const x0 = x - width / 2;
+		return {
+			left: x0,
+			top: boxplot.whiskerMax,
+			right: x0 + width,
+			bottom: boxplot.whiskerMin
+		};
+	} else {
+		const {y, height} = vm;
+		const y0 = y - height / 2;
+		return {
+			left: boxplot.whiskerMin,
+			top: y0,
+			right: boxplot.whiskerMax,
+			bottom: y0 + height
+		};
+	}
 }
 
 Chart.defaults.global.elements.boxandwhiskers = Object.assign({}, Chart.defaults.global.elements.rectangle, {
 	borderWidth: 1,
-	outlierRadius: 2
+	outlierRadius: 2,
+	itemRadius: 2,
+	itemStyle: 'circle',
+	itemBackgroundColor: Chart.defaults.global.elements.rectangle.backgroundColor,
+	itemBorderColor: Chart.defaults.global.elements.rectangle.borderColor,
 });
 
 const BoxAndWiskers = Chart.elements.BoxAndWhiskers = Chart.Element.extend({
@@ -49,12 +54,17 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = Chart.Element.extend({
 		const ctx = this._chart.ctx;
 		const vm = this._view;
 
+		const boxplot = vm.boxplot;
+		const vert = isVertical(this);
+
+
+		this._drawItems(vm, boxplot, ctx, vert);
+
+		ctx.save();
+
 		ctx.fillStyle = vm.backgroundColor;
 		ctx.strokeStyle = vm.borderColor;
 		ctx.lineWidth = vm.borderWidth;
-
-		const boxplot = vm.boxplot;
-		const vert = isVertical(this);
 
 		ctx.beginPath();
 		if (vert) {
@@ -92,24 +102,55 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = Chart.Element.extend({
 		ctx.stroke();
 		ctx.closePath();
 
-		const outlierRadius = vm.outlierRadius;
-		if (boxplot.outliers) {
-			ctx.beginPath();
-			if (vert) {
-				const x = vm.x;
-				boxplot.outliers.forEach((v) => {
-					ctx.arc(x, v, outlierRadius, 0, Math.PI * 2);
-				});
-			} else {
-				const y = vm.y;
-				boxplot.outliers.forEach((v) => {
-					ctx.arc(v, y, outlierRadius, 0, Math.PI * 2);
-				});
-			}
-			ctx.fill();
-			ctx.closePath();
-		}
+		this._drawOutliers(vm, boxplot, ctx, vert);
 
+		ctx.restore();
+
+	},
+	_drawItems(vm, boxplot, ctx, vert) {
+		if (vm.itemRadius <= 0 || !boxplot.items || boxplot.items.length <= 0) {
+			return;
+		}
+		ctx.save();
+		ctx.strokeStle = vm.itemBorderColor;
+		ctx.fillStyle = vm.itemBackgroundColor;
+		// jitter based on random data
+		// use the median to initialize the random number generator
+		const random = rnd(boxplot.median);
+
+		const itemRadius = vm.itemRadius;
+		if (vert) {
+			const {x, width} = vm;
+			boxplot.items.forEach((v) => {
+				Chart.canvasHelpers.drawPoint(ctx, vm.itemStyle, itemRadius, x - width/2 + random() * width, v);
+			});
+		} else {
+			const {y, height} = vm;
+			boxplot.items.forEach((v) => {
+				Chart.canvasHelpers.drawPoint(ctx, vm.itemStyle, itemRadius, v, y - height/2 + random() * height);
+			});
+		}
+		ctx.restore();
+	},
+	_drawOutliers(vm, boxplot, ctx, vert) {
+		if (!boxplot.outliers) {
+			return;
+		}
+		const outlierRadius = vm.outlierRadius;
+		ctx.beginPath();
+		if (vert) {
+			const x = vm.x;
+			boxplot.outliers.forEach((v) => {
+				ctx.arc(x, v, outlierRadius, 0, Math.PI * 2);
+			});
+		} else {
+			const y = vm.y;
+			boxplot.outliers.forEach((v) => {
+				ctx.arc(v, y, outlierRadius, 0, Math.PI * 2);
+			});
+		}
+		ctx.fill();
+		ctx.closePath();
 	},
 	height() {
 		const vm = this._view;
@@ -161,7 +202,7 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = Chart.Element.extend({
 		}
 	},
 
-	tooltipPosition_ () {
+	tooltipPosition_() {
 		return this.getCenterPoint();
 	}
 });
