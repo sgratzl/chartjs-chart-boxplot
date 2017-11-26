@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 import * as Chart from 'chart.js';
-import ArrayElementBase, {defaults} from './base'
+import ArrayElementBase, {defaults} from './base';
 
 
 Chart.defaults.global.elements.violin = Object.assign({}, defaults);

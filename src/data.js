@@ -1,7 +1,7 @@
 'use strict';
 
 import {quantile, extent, range} from 'd3-array';
-import kde from './stats/kde';
+import kde from 'science/src/stats/kde';
 
 export function whiskers(boxplot) {
 	const iqr = boxplot.q3 - boxplot.q1;
@@ -12,7 +12,7 @@ export function whiskers(boxplot) {
 }
 
 export function boxplotStats(arr) {
-	console.assert(Array.isArray(arr));
+	// console.assert(Array.isArray(arr));
 	if (arr.length === 0) {
 		return {
 			min: NaN,
@@ -57,10 +57,10 @@ export function violinStats(arr) {
 	const impl = kde().sample(arr);
 
 	console.log(kde);
-	const r = range(30, 110, .1);
+	const r = range(30, 110, 0.1);
 	const points = impl(r);
 	console.log(points);
-	return {}
+	return {};
 }
 
 export function asBoxPlotStats(value) {
@@ -159,10 +159,10 @@ export function commonDataLimits(extraCallback) {
 export function rnd(seed) {
 	// Adapted from http://indiegamr.com/generate-repeatable-random-numbers-in-js/
 	if (seed === undefined) {
-		seed = Date.now()
+		seed = Date.now();
 	}
 	return () => {
 		seed = (seed * 9301 + 49297) % 233280;
 		return seed / 233280;
-	}
+	};
 }

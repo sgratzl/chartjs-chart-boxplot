@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 import * as Chart from 'chart.js';
-import ArrayElementBase, {defaults} from './base'
+import ArrayElementBase, {defaults} from './base';
 
 
 Chart.defaults.global.elements.boxandwhiskers = Object.assign({}, defaults);
@@ -23,6 +23,13 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
 		ctx.strokeStyle = vm.borderColor;
 		ctx.lineWidth = vm.borderWidth;
 
+		this._drawBoxPlot(vm, boxplot, ctx, vert);
+		this._drawOutliers(vm, boxplot, ctx, vert);
+
+		ctx.restore();
+
+	},
+	_drawBoxPlot(vm, boxplot, ctx, vert) {
 		ctx.beginPath();
 		if (vert) {
 			const {x, width} = vm;
@@ -58,11 +65,6 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
 		}
 		ctx.stroke();
 		ctx.closePath();
-
-		this._drawOutliers(vm, boxplot, ctx, vert);
-
-		ctx.restore();
-
 	},
 	_getBounds() {
 		const vm = this._view;
@@ -79,16 +81,15 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
 				right: x0 + width,
 				bottom: boxplot.whiskerMin
 			};
-		} else {
-			const {y, height} = vm;
-			const y0 = y - height / 2;
-			return {
-				left: boxplot.whiskerMin,
-				top: y0,
-				right: boxplot.whiskerMax,
-				bottom: y0 + height
-			};
 		}
+		const {y, height} = vm;
+		const y0 = y - height / 2;
+		return {
+			left: boxplot.whiskerMin,
+			top: y0,
+			right: boxplot.whiskerMax,
+			bottom: y0 + height
+		};
 	},
 	height() {
 		const vm = this._view;
@@ -99,9 +100,8 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
 		const iqr = Math.abs(vm.boxplot.q3 - vm.boxplot.q1);
 		if (this.isVertical()) {
 			return iqr * vm.width;
-		} else {
-			return iqr * vm.height;
 		}
+		return iqr * vm.height;
 	}
 });
 

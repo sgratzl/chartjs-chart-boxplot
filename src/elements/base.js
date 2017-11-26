@@ -34,12 +34,12 @@ const ArrayElementBase = Chart.Element.extend({
 		if (vert) {
 			const {x, width} = vm;
 			container.items.forEach((v) => {
-				Chart.canvasHelpers.drawPoint(ctx, vm.itemStyle, itemRadius, x - width/2 + random() * width, v);
+				Chart.canvasHelpers.drawPoint(ctx, vm.itemStyle, itemRadius, x - width / 2 + random() * width, v);
 			});
 		} else {
 			const {y, height} = vm;
 			container.items.forEach((v) => {
-				Chart.canvasHelpers.drawPoint(ctx, vm.itemStyle, itemRadius, v, y - height/2 + random() * height);
+				Chart.canvasHelpers.drawPoint(ctx, vm.itemStyle, itemRadius, v, y - height / 2 + random() * height);
 			});
 		}
 		ctx.restore();
@@ -91,9 +91,8 @@ const ArrayElementBase = Chart.Element.extend({
 		const bounds = this._getBounds();
 		if (this.isVertical()) {
 			return mouseX >= bounds.left && mouseX <= bounds.right;
-		} else {
-			return mouseY >= bounds.top && mouseY <= bounds.bottom;
 		}
+		return mouseY >= bounds.top && mouseY <= bounds.bottom;
 	},
 	inXRange(mouseX) {
 		const bounds = this._getBounds();
@@ -105,7 +104,7 @@ const ArrayElementBase = Chart.Element.extend({
 	},
 	getCenterPoint() {
 		const {x, y} = this._view;
-		return {x,y};
+		return {x, y};
 	},
 	getArea() {
 		return 0; // abstract
