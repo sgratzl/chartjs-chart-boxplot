@@ -102,6 +102,15 @@ window.chartColors = {
 			return data;
 		},
 
+		boxplotsArray: function(config) {
+			const count = (config || {}).count || 8;
+			const data = [];
+			for(let i = 0; i < count; ++i) {
+				data.push(this.numbers(Object.assign(config, {count: 50})));
+			}
+			return data;
+		},
+
 		labels: function(config) {
 			var cfg = config || {};
 			var min = cfg.min || 0;
