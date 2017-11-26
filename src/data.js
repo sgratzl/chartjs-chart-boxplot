@@ -43,6 +43,19 @@ export function boxplotStats(arr) {
 	return base;
 }
 
+export function violinStats(arr) {
+	console.assert(Array.isArray(arr));
+	if (arr.length === 0) {
+		return {
+			outliers: []
+		};
+	}
+	arr = arr.filter((v) => typeof v === 'number' && !isNaN(v));
+	arr.sort((a, b) => a - b);
+
+	return {}
+}
+
 export function asBoxPlotStats(value) {
 	if (typeof value.median === 'number' && typeof value.q1 === 'number' && typeof value.q3 === 'number') {
 		// sounds good, check for helper
@@ -60,6 +73,25 @@ export function asBoxPlotStats(value) {
 		value.__stats = boxplotStats(value);
 	}
 	return value.__stats;
+}
+
+export function asViolinStats(value) {
+	if (typeof value.median === 'number' && typeof value.q1 === 'number' && typeof value.q3 === 'number') {
+		// sounds good, check for helper
+		if (typeof value.whiskerMin === 'undefined') {
+			const {whiskerMin, whiskerMax} = whiskers(value);
+			value.whiskerMin = whiskerMin;
+			value.whiskerMax = whiskerMax;
+		}
+		return value;
+	}
+	if (!Array.isArray(value)) {
+		return undefined;
+	}
+	if (value.__kde === undefined) {
+		value.__kde = violinStats(value);
+	}
+	return value.__kde;
 }
 
 export function getRightValue(rawValue) {

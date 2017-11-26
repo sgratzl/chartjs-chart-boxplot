@@ -15,12 +15,14 @@
   },
   "dependencies": {
     "chart.js": "^2.7.0",
-    "d3-array": "^1.2.1"
+    "d3-array": "^1.2.1",
+    "science": "github:devgru/science.js"
   },
   "devDependencies": {
     "eslint": "3",
     "package-preamble": "0.0",
     "rollup": "0.41",
+    "rollup-plugin-commonjs": "^8.2.6",
     "rollup-plugin-node-resolve": "^3.0.0",
     "uglify-js": "^2.8.11"
   },

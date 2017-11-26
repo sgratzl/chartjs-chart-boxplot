@@ -4,9 +4,9 @@ import * as Chart from 'chart.js';
 import ArrayElementBase, {defaults} from './base'
 
 
-Chart.defaults.global.elements.boxandwhiskers = Object.assign({}, defaults);
+Chart.defaults.global.elements.violin = Object.assign({}, defaults);
 
-const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
+const Violin = Chart.elements.Violin = ArrayElementBase.extend({
 	draw() {
 		const ctx = this._chart.ctx;
 		const vm = this._view;
@@ -105,4 +105,4 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
 	}
 });
 
-export default BoxAndWiskers;
+export default Violin;

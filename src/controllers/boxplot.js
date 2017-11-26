@@ -2,6 +2,7 @@
 
 import {asBoxPlotStats} from '../data';
 import * as Chart from 'chart.js';
+import base, {verticalDefaults, horizontalDefaults} from './base';
 
 const defaults = {
     tooltips: {
@@ -20,34 +21,15 @@ const defaults = {
     }
 };
 
-Chart.defaults.boxplot = Chart.helpers.merge({}, [Chart.defaults.bar, defaults, {
-	scales: {
-		yAxes: [{
-			type: 'arrayLinear'
-		}]
-	}
-}]);
-Chart.defaults.horizontalBoxplot = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, defaults, {
-	scales: {
-		xAxes: [{
-			type: 'arrayLinear'
-		}]
-	}
-}]);
+Chart.defaults.boxplot = Chart.helpers.merge({}, [Chart.defaults.bar, verticalDefaults, defaults]);
+Chart.defaults.horizontalBoxplot = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, horizontalDefaults, defaults]);
 
-const boxplot = {
+const boxplot = Object.assign({}, base, {
 
 	dataElementType: Chart.elements.BoxAndWhiskers,
 
-	updateElement: function(elem, index, reset) {
-		const dataset = this.getDataset();
-		const custom = elem.custom || {};
-		const boxplotOptions = this.chart.options.elements.boxandwhiskers;
-
-		Chart.controllers.bar.prototype.updateElement.call(this, elem, index, reset);
-		['outlierRadius', 'itemRadius', 'itemStyle', 'itemBackgroundColor', 'itemBorderColor'].forEach((item) => {
-			elem._model[item] = custom[item] !== undefined ? custom[item] : Chart.helpers.valueAtIndexOrDefault(dataset[item], index, boxplotOptions[item]);
-		})
+	_elementOptions() {
+		return this.chart.options.elements.boxandwhiskers;
 	},
 	/**
 	 * @private
@@ -72,17 +54,10 @@ const boxplot = {
 				r[key] = scale.getPixelForValue(Number(boxplot[key]));
 			}
 		});
-		if (boxplot.outliers) {
-			r.outliers = boxplot.outliers.map((d) =>  scale.getPixelForValue(Number(d)));
-		}
-
-		if (Array.isArray(data)) {
-			r.items = data.map((d) => scale.getPixelForValue(Number(d)));
-		}
-
+		this._calculateCommonModel(r, data, boxplot, scale);
 		return r;
 	}
-};
+});
 /**
  * This class is based off controller.bar.js from the upstream Chart.js library
  */
