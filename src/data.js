@@ -1,6 +1,6 @@
 'use strict';
 
-import {quantile, extent, range} from 'd3-array';
+import {quantile, extent} from 'd3-array';
 import kde from 'science/src/stats/kde';
 
 export function whiskers(boxplot) {
@@ -54,13 +54,13 @@ export function violinStats(arr) {
 	arr = arr.filter((v) => typeof v === 'number' && !isNaN(v));
 	arr.sort((a, b) => a - b);
 
-	const impl = kde().sample(arr);
-
-	console.log(kde);
-	const r = range(30, 110, 0.1);
-	const points = impl(r);
-	console.log(points);
-	return {};
+	const minmax = extent(arr);
+	return {
+		min: minmax[0],
+		max: minmax[1],
+		median: quantile(arr, 0.5),
+		kde: kde().sample(arr)
+	};
 }
 
 export function asBoxPlotStats(value) {
@@ -83,13 +83,7 @@ export function asBoxPlotStats(value) {
 }
 
 export function asViolinStats(value) {
-	if (typeof value.median === 'number' && typeof value.q1 === 'number' && typeof value.q3 === 'number') {
-		// sounds good, check for helper
-		if (typeof value.whiskerMin === 'undefined') {
-			const {whiskerMin, whiskerMax} = whiskers(value);
-			value.whiskerMin = whiskerMin;
-			value.whiskerMax = whiskerMax;
-		}
+	if (typeof value.median === 'number' && typeof value.kde === 'function') {
 		return value;
 	}
 	if (!Array.isArray(value)) {
