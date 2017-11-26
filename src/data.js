@@ -1,6 +1,7 @@
 'use strict';
 
-import {quantile, extent} from 'd3-array';
+import {quantile, extent, range} from 'd3-array';
+import kde from './stats/kde';
 
 export function whiskers(boxplot) {
 	const iqr = boxplot.q3 - boxplot.q1;
@@ -53,6 +54,12 @@ export function violinStats(arr) {
 	arr = arr.filter((v) => typeof v === 'number' && !isNaN(v));
 	arr.sort((a, b) => a - b);
 
+	const impl = kde().sample(arr);
+
+	console.log(kde);
+	const r = range(30, 110, .1);
+	const points = impl(r);
+	console.log(points);
 	return {}
 }
 
