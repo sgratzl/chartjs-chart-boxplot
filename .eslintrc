@@ -5,6 +5,9 @@ env:
   jquery: true
   node: true
 
+parserOptions:
+  sourceType: module
+
 # http://eslint.org/docs/rules/
 rules:
   # Possible Errors
@@ -68,7 +71,7 @@ rules:
   no-lone-blocks: 2
   no-loop-func: 2
   no-magic-number: 0
-  no-multi-spaces: [2, {ignoreEOLComments: true}]
+  no-multi-spaces: 2
   no-multi-str: 2
   no-native-reassign: 2
   no-new-func: 2
@@ -137,7 +140,7 @@ rules:
   func-style: 0
   id-length: 0
   id-match: 0
-  indent: [2, tab, {flatTernaryExpressions: true}]
+  indent: [2, tab]
   jsx-quotes: 0
   key-spacing: 2
   keyword-spacing: 2

@@ -16,7 +16,7 @@
   "dependencies": {
     "chart.js": "^2.7.0",
     "d3-array": "^1.2.1",
-    "science": "github:devgru/science.js"
+    "science": "github:sgratzl/science.js"
   },
   "devDependencies": {
     "eslint": "3",
