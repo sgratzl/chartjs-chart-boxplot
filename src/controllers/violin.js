@@ -10,7 +10,7 @@ const defaults = {};
 Chart.defaults.violin = Chart.helpers.merge({}, [Chart.defaults.bar, verticalDefaults, defaults]);
 Chart.defaults.horizontalViolin = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, horizontalDefaults, defaults]);
 
-const violin = Object.assign({}, base, {
+const controller = Object.assign({}, base, {
 
 	dataElementType: Chart.elements.Violin,
 
@@ -46,7 +46,7 @@ const violin = Object.assign({}, base, {
 			min: scale.getPixelForValue(violin.min),
 			max: scale.getPixelForValue(violin.max),
 			median: scale.getPixelForValue(violin.median),
-			coords: coords.map(({v,estimate}) => ({v: scale.getPixelForValue(v), estimate})),
+			coords: coords.map(({v, estimate}) => ({v: scale.getPixelForValue(v), estimate})),
 			maxEstimate: d3max(coords, (d) => d.estimate)
 		};
 		this._calculateCommonModel(r, data, violin, scale);
@@ -56,5 +56,5 @@ const violin = Object.assign({}, base, {
 /**
  * This class is based off controller.bar.js from the upstream Chart.js library
  */
-export const Violin = Chart.controllers.violin = Chart.controllers.bar.extend(violin);
-export const HorizontalViolin = Chart.controllers.horizontalViolin = Chart.controllers.horizontalBar.extend(violin);
+export const Violin = Chart.controllers.violin = Chart.controllers.bar.extend(controller);
+export const HorizontalViolin = Chart.controllers.horizontalViolin = Chart.controllers.horizontalBar.extend(controller);

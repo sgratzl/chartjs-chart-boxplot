@@ -45,7 +45,7 @@ export function boxplotStats(arr) {
 }
 
 export function violinStats(arr) {
-	console.assert(Array.isArray(arr));
+	// console.assert(Array.isArray(arr));
 	if (arr.length === 0) {
 		return {
 			outliers: []

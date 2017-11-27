@@ -2,6 +2,7 @@
 
 Chart.js module for charting boxplots and violin plots. 
 
+
 ## Chart
 
 four new types: `boxplot`, `horizontalBoxplot`, `violin`, and `horizontalViolin`. 
