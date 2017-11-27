@@ -9,11 +9,6 @@ const ArrayLinearScale = Chart.scaleService.getScaleConstructor('linear').extend
 	},
 	determineDataLimits() {
 		commonDataLimits.call(this);
-
-		// Add whitespace around bars. Axis shouldn't go exactly from min to max
-		this.min = this.min - this.min * 0.05;
-		this.max = this.max + this.max * 0.05;
-
 		// Common base implementation to handle ticks.min, ticks.max, ticks.beginAtZero
 		this.handleTickRangeOptions();
 	}

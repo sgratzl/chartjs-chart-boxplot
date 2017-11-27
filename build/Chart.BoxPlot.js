@@ -388,7 +388,7 @@ function boxplotStats(arr) {
 }
 
 function violinStats(arr) {
-	console.assert(Array.isArray(arr));
+	// console.assert(Array.isArray(arr));
 	if (arr.length === 0) {
 		return {
 			outliers: []
@@ -755,7 +755,7 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
 		ctx.beginPath();
 		if (vert) {
 			const {x, width} = vm;
-			const factor = (width/2) / violin.maxEstimate;
+			const factor = (width / 2) / violin.maxEstimate;
 			ctx.moveTo(x, violin.min);
 			coords.forEach(({v, estimate}) => {
 				ctx.lineTo(x - estimate * factor, v);
@@ -768,7 +768,7 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
 			ctx.lineTo(x, violin.max);
 		} else {
 			const {y, height} = vm;
-			const factor = (height/2) / violin.maxEstimate;
+			const factor = (height / 2) / violin.maxEstimate;
 			ctx.moveTo(violin.min, y);
 			coords.forEach(({v, estimate}) => {
 				ctx.lineTo(v, y - estimate * factor);
@@ -804,16 +804,15 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
 				right: x0 + width,
 				bottom: violin.min
 			};
-		} else {
-			const {y, height} = vm;
-			const y0 = y - height / 2;
-			return {
-				left: violin.min,
-				top: y0,
-				right: violin.max,
-				bottom: y0 + height
-			};
 		}
+		const {y, height} = vm;
+		const y0 = y - height / 2;
+		return {
+			left: violin.min,
+			top: y0,
+			right: violin.max,
+			bottom: y0 + height
+		};
 	},
 	height() {
 		const vm = this._view;
@@ -824,9 +823,8 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
 		const iqr = Math.abs(vm.violin.max - vm.violin.min);
 		if (this.isVertical()) {
 			return iqr * vm.width;
-		} else {
-			return iqr * vm.height;
 		}
+		return iqr * vm.height;
 	}
 });
 
@@ -935,7 +933,7 @@ const defaults$3 = {};
 Chart.defaults.violin = Chart.helpers.merge({}, [Chart.defaults.bar, verticalDefaults, defaults$3]);
 Chart.defaults.horizontalViolin = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, horizontalDefaults, defaults$3]);
 
-const violin = Object.assign({}, array$1, {
+const controller = Object.assign({}, array$1, {
 
 	dataElementType: Chart.elements.Violin,
 
@@ -971,7 +969,7 @@ const violin = Object.assign({}, array$1, {
 			min: scale.getPixelForValue(violin.min),
 			max: scale.getPixelForValue(violin.max),
 			median: scale.getPixelForValue(violin.median),
-			coords: coords.map(({v,estimate}) => ({v: scale.getPixelForValue(v), estimate})),
+			coords: coords.map(({v, estimate}) => ({v: scale.getPixelForValue(v), estimate})),
 			maxEstimate: d3max(coords, (d) => d.estimate)
 		};
 		this._calculateCommonModel(r, data, violin, scale);
@@ -981,8 +979,8 @@ const violin = Object.assign({}, array$1, {
 /**
  * This class is based off controller.bar.js from the upstream Chart.js library
  */
-const Violin$2 = Chart.controllers.violin = Chart.controllers.bar.extend(violin);
-const HorizontalViolin = Chart.controllers.horizontalViolin = Chart.controllers.horizontalBar.extend(violin);
+const Violin$2 = Chart.controllers.violin = Chart.controllers.bar.extend(controller);
+const HorizontalViolin = Chart.controllers.horizontalViolin = Chart.controllers.horizontalBar.extend(controller);
 
 const ArrayLinearScale = Chart.scaleService.getScaleConstructor('linear').extend({
 	getRightValue(rawValue) {
@@ -990,11 +988,6 @@ const ArrayLinearScale = Chart.scaleService.getScaleConstructor('linear').extend
 	},
 	determineDataLimits() {
 		commonDataLimits.call(this);
-
-		// Add whitespace around bars. Axis shouldn't go exactly from min to max
-		this.min = this.min - this.min * 0.05;
-		this.max = this.max + this.max * 0.05;
-
 		// Common base implementation to handle ticks.min, ticks.max, ticks.beginAtZero
 		this.handleTickRangeOptions();
 	}

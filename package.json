@@ -27,8 +27,9 @@
     "uglify-es": "^3.2.0"
   },
   "scripts": {
-    "prepublish": "npm run test && uglifyjs build/Chart.BoxPlot.js -c -m -o build/Chart.BoxPlot.min.js",
-    "build": "rollup -c -i src/index.js",
+    "prepublish": "npm run build && npm run test",
+    "build:dev": "rollup -c -i src/index.js",
+		"build": "npm run build:dev && uglifyjs build/Chart.BoxPlot.js -c -m -o build/Chart.BoxPlot.min.js",
     "test": "eslint src"
   }
 }
