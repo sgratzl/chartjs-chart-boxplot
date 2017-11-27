@@ -2,6 +2,9 @@
 
 Chart.js module for charting boxplots and violin plots. 
 
+![Box Plot](https://user-images.githubusercontent.com/4129778/33257815-cee715e8-d357-11e7-899b-9f18f5ab7a5c.png)
+![Violin Plot](https://user-images.githubusercontent.com/4129778/33257814-cecc222e-d357-11e7-8def-e298b7e655b1.png)
+
 
 ## Chart
 
