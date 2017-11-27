@@ -24,10 +24,10 @@
     "rollup": "0.41",
     "rollup-plugin-commonjs": "^8.2.6",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "uglify-js": "^2.8.11"
+    "uglify-es": "^3.2.0"
   },
   "scripts": {
-    "prepublish": "npm run test && uglifyjs --preamble \"$(preamble)\" build/Chart.BoxPlot.js -c -m -o build/Chart.BoxPlot.min.js",
+    "prepublish": "npm run test && uglifyjs build/Chart.BoxPlot.js -c -m -o build/Chart.BoxPlot.min.js",
     "build": "rollup -c -i src/index.js",
     "test": "eslint src"
   }

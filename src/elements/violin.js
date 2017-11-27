@@ -33,7 +33,7 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
 		ctx.beginPath();
 		if (vert) {
 			const {x, width} = vm;
-			const factor = (width/2) / violin.maxEstimate;
+			const factor = (width / 2) / violin.maxEstimate;
 			ctx.moveTo(x, violin.min);
 			coords.forEach(({v, estimate}) => {
 				ctx.lineTo(x - estimate * factor, v);
@@ -46,7 +46,7 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
 			ctx.lineTo(x, violin.max);
 		} else {
 			const {y, height} = vm;
-			const factor = (height/2) / violin.maxEstimate;
+			const factor = (height / 2) / violin.maxEstimate;
 			ctx.moveTo(violin.min, y);
 			coords.forEach(({v, estimate}) => {
 				ctx.lineTo(v, y - estimate * factor);
@@ -82,16 +82,15 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
 				right: x0 + width,
 				bottom: violin.min
 			};
-		} else {
-			const {y, height} = vm;
-			const y0 = y - height / 2;
-			return {
-				left: violin.min,
-				top: y0,
-				right: violin.max,
-				bottom: y0 + height
-			};
 		}
+		const {y, height} = vm;
+		const y0 = y - height / 2;
+		return {
+			left: violin.min,
+			top: y0,
+			right: violin.max,
+			bottom: y0 + height
+		};
 	},
 	height() {
 		const vm = this._view;
@@ -102,9 +101,8 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
 		const iqr = Math.abs(vm.violin.max - vm.violin.min);
 		if (this.isVertical()) {
 			return iqr * vm.width;
-		} else {
-			return iqr * vm.height;
 		}
+		return iqr * vm.height;
 	}
 });
 
