@@ -44,17 +44,19 @@ interface IBaseStyling {
      * item style used to render items
      * @default circle
      */
-		itemStyle: 'circle'|'triangle'|'rect'|'rectRounded'|'rectRot'|'cross'|'crossRot'|'star'|'line'|'dash';
-		/*
-		 * background color for items
-		 * @default see rectangle backgroundColor
-		 */
-	  itemBackgroundColor: string;
-		/*
-		 * border color for items
-		 * @default see rectangle backgroundColor
-		 */
-	  itemBorderColor: string;
+    itemStyle: 'circle'|'triangle'|'rect'|'rectRounded'|'rectRot'|'cross'|'crossRot'|'star'|'line'|'dash';
+
+    /*
+     * background color for items
+     * @default see rectangle backgroundColor
+     */
+    itemBackgroundColor: string;
+
+    /*
+     * border color for items
+     * @default see rectangle backgroundColor
+     */
+    itemBorderColor: string;
 }
 
 interface IBoxPlotStyling extends IBaseStyling {
