@@ -83,7 +83,7 @@ export function asBoxPlotStats(value) {
 }
 
 export function asViolinStats(value) {
-	if (typeof value.median === 'number' && typeof value.kde === 'function') {
+	if (typeof value.median === 'number' && (typeof value.kde === 'function' || Array.isArray(value.coords))) {
 		return value;
 	}
 	if (!Array.isArray(value)) {
@@ -93,6 +93,16 @@ export function asViolinStats(value) {
 		value.__kde = violinStats(value);
 	}
 	return value.__kde;
+}
+
+export function asMinMaxStats(value) {
+	if (typeof value.min === 'number' && typeof value.max === 'number') {
+		return value;
+	}
+	if (!Array.isArray(value)) {
+		return undefined;
+	}
+	return asBoxPlotStats(value);
 }
 
 export function getRightValue(rawValue) {
@@ -127,24 +137,24 @@ export function commonDataLimits(extraCallback) {
 			if (!value || meta.data[j].hidden) {
 				return;
 			}
-			const boxPlot = asBoxPlotStats(value);
-			if (!boxPlot) {
+			const minmax = asMinMaxStats(value);
+			if (!minmax) {
 				return;
 			}
 			if (this.min === null) {
-				this.min = boxPlot.min;
-			} else if (boxPlot.min < this.min) {
-				this.min = boxPlot.min;
+				this.min = minmax.min;
+			} else if (minmax.min < this.min) {
+				this.min = minmax.min;
 			}
 
 			if (this.max === null) {
-				this.max = boxPlot.max;
-			} else if (boxPlot.max > this.max) {
-				this.max = boxPlot.max;
+				this.max = minmax.max;
+			} else if (minmax.max > this.max) {
+				this.max = minmax.max;
 			}
 
 			if (extraCallback) {
-				extraCallback(boxPlot);
+				extraCallback(minmax);
 			}
 		});
 	});
