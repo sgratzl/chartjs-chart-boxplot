@@ -19,9 +19,13 @@
     "science": "github:sgratzl/science.js"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.6.1",
     "eslint": "3",
     "package-preamble": "0.0",
     "rollup": "0.41",
+    "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-commonjs": "^8.2.6",
     "rollup-plugin-node-resolve": "^3.0.0",
     "uglify-es": "^3.2.0"
@@ -29,7 +33,7 @@
   "scripts": {
     "prepublish": "npm run build && npm run test",
     "build:dev": "rollup -c -i src/index.js",
-		"build": "npm run build:dev && uglifyjs build/Chart.BoxPlot.js -c -m -o build/Chart.BoxPlot.min.js",
+    "build": "npm run build:dev && uglifyjs build/Chart.BoxPlot.js -c -m -o build/Chart.BoxPlot.min.js",
     "test": "eslint src"
   }
 }

@@ -4,30 +4,28 @@
 	(factory((global.ChartBoxPlot = global.ChartBoxPlot || {}),global.Chart));
 }(this, (function (exports,Chart) { 'use strict';
 
-var ascending = function(a, b) {
+var ascending = function (a, b) {
   return a < b ? -1 : a > b ? 1 : a >= b ? 0 : NaN;
 };
 
-var bisector = function(compare) {
+var bisector = function (compare) {
   if (compare.length === 1) compare = ascendingComparator(compare);
   return {
-    left: function(a, x, lo, hi) {
+    left: function left(a, x, lo, hi) {
       if (lo == null) lo = 0;
       if (hi == null) hi = a.length;
       while (lo < hi) {
         var mid = lo + hi >>> 1;
-        if (compare(a[mid], x) < 0) lo = mid + 1;
-        else hi = mid;
+        if (compare(a[mid], x) < 0) lo = mid + 1;else hi = mid;
       }
       return lo;
     },
-    right: function(a, x, lo, hi) {
+    right: function right(a, x, lo, hi) {
       if (lo == null) lo = 0;
       if (hi == null) hi = a.length;
       while (lo < hi) {
         var mid = lo + hi >>> 1;
-        if (compare(a[mid], x) > 0) hi = mid;
-        else lo = mid + 1;
+        if (compare(a[mid], x) > 0) hi = mid;else lo = mid + 1;
       }
       return lo;
     }
@@ -35,7 +33,7 @@ var bisector = function(compare) {
 };
 
 function ascendingComparator(f) {
-  return function(d, x) {
+  return function (d, x) {
     return ascending(f(d), x);
   };
 }
@@ -47,11 +45,11 @@ function pair(a, b) {
   return [a, b];
 }
 
-var number = function(x) {
+var number = function (x) {
   return x === null ? NaN : +x;
 };
 
-var extent = function(values, valueof) {
+var extent = function (values, valueof) {
   var n = values.length,
       i = -1,
       value,
@@ -59,10 +57,12 @@ var extent = function(values, valueof) {
       max;
 
   if (valueof == null) {
-    while (++i < n) { // Find the first comparable value.
+    while (++i < n) {
+      // Find the first comparable value.
       if ((value = values[i]) != null && value >= value) {
         min = max = value;
-        while (++i < n) { // Compare the remaining values.
+        while (++i < n) {
+          // Compare the remaining values.
           if ((value = values[i]) != null) {
             if (min > value) min = value;
             if (max < value) max = value;
@@ -70,13 +70,13 @@ var extent = function(values, valueof) {
         }
       }
     }
-  }
-
-  else {
-    while (++i < n) { // Find the first comparable value.
+  } else {
+    while (++i < n) {
+      // Find the first comparable value.
       if ((value = valueof(values[i], i, values)) != null && value >= value) {
         min = max = value;
-        while (++i < n) { // Compare the remaining values.
+        while (++i < n) {
+          // Compare the remaining values.
           if ((value = valueof(values[i], i, values)) != null) {
             if (min > value) min = value;
             if (max < value) max = value;
@@ -89,11 +89,11 @@ var extent = function(values, valueof) {
   return [min, max];
 };
 
-var identity = function(x) {
+var identity = function (x) {
   return x;
 };
 
-var d3range = function(start, stop, step) {
+var d3range = function (start, stop, step) {
   start = +start, stop = +stop, step = (n = arguments.length) < 2 ? (stop = start, start = 0, 1) : n < 3 ? 1 : +step;
 
   var i = -1,
@@ -112,29 +112,25 @@ var e5 = Math.sqrt(10);
 var e2 = Math.sqrt(2);
 
 function tickIncrement(start, stop, count) {
-  var step = (stop - start) / Math.max(0, count),
-      power = Math.floor(Math.log(step) / Math.LN10),
-      error = step / Math.pow(10, power);
-  return power >= 0
-      ? (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1) * Math.pow(10, power)
-      : -Math.pow(10, -power) / (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1);
+    var step = (stop - start) / Math.max(0, count),
+        power = Math.floor(Math.log(step) / Math.LN10),
+        error = step / Math.pow(10, power);
+    return power >= 0 ? (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1) * Math.pow(10, power) : -Math.pow(10, -power) / (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1);
 }
 
 function tickStep(start, stop, count) {
-  var step0 = Math.abs(stop - start) / Math.max(0, count),
-      step1 = Math.pow(10, Math.floor(Math.log(step0) / Math.LN10)),
-      error = step0 / step1;
-  if (error >= e10) step1 *= 10;
-  else if (error >= e5) step1 *= 5;
-  else if (error >= e2) step1 *= 2;
-  return stop < start ? -step1 : step1;
+    var step0 = Math.abs(stop - start) / Math.max(0, count),
+        step1 = Math.pow(10, Math.floor(Math.log(step0) / Math.LN10)),
+        error = step0 / step1;
+    if (error >= e10) step1 *= 10;else if (error >= e5) step1 *= 5;else if (error >= e2) step1 *= 2;
+    return stop < start ? -step1 : step1;
 }
 
-var sturges = function(values) {
+var sturges = function (values) {
   return Math.ceil(Math.log(values.length) / Math.LN2) + 1;
 };
 
-var quantile = function(values, p, valueof) {
+var quantile = function (values, p, valueof) {
   if (valueof == null) valueof = number;
   if (!(n = values.length)) return;
   if ((p = +p) <= 0 || n < 2) return +valueof(values[0], 0, values);
@@ -147,30 +143,32 @@ var quantile = function(values, p, valueof) {
   return value0 + (value1 - value0) * (i - i0);
 };
 
-var d3max = function(values, valueof) {
+var d3max = function (values, valueof) {
   var n = values.length,
       i = -1,
       value,
       max;
 
   if (valueof == null) {
-    while (++i < n) { // Find the first comparable value.
+    while (++i < n) {
+      // Find the first comparable value.
       if ((value = values[i]) != null && value >= value) {
         max = value;
-        while (++i < n) { // Compare the remaining values.
+        while (++i < n) {
+          // Compare the remaining values.
           if ((value = values[i]) != null && value > max) {
             max = value;
           }
         }
       }
     }
-  }
-
-  else {
-    while (++i < n) { // Find the first comparable value.
+  } else {
+    while (++i < n) {
+      // Find the first comparable value.
       if ((value = valueof(values[i], i, values)) != null && value >= value) {
         max = value;
-        while (++i < n) { // Compare the remaining values.
+        while (++i < n) {
+          // Compare the remaining values.
           if ((value = valueof(values[i], i, values)) != null && value > max) {
             max = value;
           }
@@ -182,30 +180,32 @@ var d3max = function(values, valueof) {
   return max;
 };
 
-var min = function(values, valueof) {
+var min = function (values, valueof) {
   var n = values.length,
       i = -1,
       value,
       min;
 
   if (valueof == null) {
-    while (++i < n) { // Find the first comparable value.
+    while (++i < n) {
+      // Find the first comparable value.
       if ((value = values[i]) != null && value >= value) {
         min = value;
-        while (++i < n) { // Compare the remaining values.
+        while (++i < n) {
+          // Compare the remaining values.
           if ((value = values[i]) != null && min > value) {
             min = value;
           }
         }
       }
     }
-  }
-
-  else {
-    while (++i < n) { // Find the first comparable value.
+  } else {
+    while (++i < n) {
+      // Find the first comparable value.
       if ((value = valueof(values[i], i, values)) != null && value >= value) {
         min = value;
-        while (++i < n) { // Compare the remaining values.
+        while (++i < n) {
+          // Compare the remaining values.
           if ((value = valueof(values[i], i, values)) != null && min > value) {
             min = value;
           }
@@ -242,8 +242,9 @@ function mean$1(x) {
   if (n === 0) return NaN;
   var m = 0,
       i = -1;
-  while (++i < n) m += (x[i] - m) / (i + 1);
-  return m;
+  while (++i < n) {
+    m += (x[i] - m) / (i + 1);
+  }return m;
 }
 
 // Unbiased estimate of a sample's variance.
@@ -270,9 +271,8 @@ function ascending$1(a, b) {
 function quantiles(d, quantiles) {
   d = d.slice().sort(ascending$1);
   var n_1 = d.length - 1;
-  return quantiles.map(function(q) {
-    if (q === 0) return d[0];
-    else if (q === 1) return d[n_1];
+  return quantiles.map(function (q) {
+    if (q === 0) return d[0];else if (q === 1) return d[n_1];
 
     var index = 1 + q * n_1,
         lo = Math.floor(index),
@@ -298,12 +298,13 @@ function iqr(x) {
 // Visualization. Wiley.
 function nrd(x) {
     var h = iqr(x) / 1.34;
-    return 1.06 * Math.min(Math.sqrt(variance$1(x)), h)
-        * Math.pow(x.length, -1 / 5);
+    return 1.06 * Math.min(Math.sqrt(variance$1(x)), h) * Math.pow(x.length, -1 / 5);
 }
 
 function functor(v) {
-  return typeof v === "function" ? v : function() { return v; };
+  return typeof v === "function" ? v : function () {
+    return v;
+  };
 }
 
 // http://exploringdata.net/den_trac.htm
@@ -314,7 +315,7 @@ function kde() {
 
   function kde(points, i) {
     var bw = bandwidth.call(this, sample);
-    return points.map(function(x) {
+    return points.map(function (x) {
       var i = -1,
           y = 0,
           n = sample.length;
@@ -325,19 +326,19 @@ function kde() {
     });
   }
 
-  kde.kernel = function(x) {
+  kde.kernel = function (x) {
     if (!arguments.length) return kernel;
     kernel = x;
     return kde;
   };
 
-  kde.sample = function(x) {
+  kde.sample = function (x) {
     if (!arguments.length) return sample;
     sample = x;
     return kde;
   };
 
-  kde.bandwidth = function(x) {
+  kde.bandwidth = function (x) {
     if (!arguments.length) return bandwidth;
     bandwidth = functor(x);
     return kde;
@@ -347,11 +348,11 @@ function kde() {
 }
 
 function whiskers(boxplot) {
-	const iqr = boxplot.q3 - boxplot.q1;
+	var iqr = boxplot.q3 - boxplot.q1;
 	// since top left is max
-	const whiskerMin = Math.max(boxplot.min, boxplot.q1 - iqr);
-	const whiskerMax = Math.min(boxplot.max, boxplot.q3 + iqr);
-	return {whiskerMin, whiskerMax};
+	var whiskerMin = Math.max(boxplot.min, boxplot.q1 - iqr);
+	var whiskerMax = Math.min(boxplot.max, boxplot.q3 + iqr);
+	return { whiskerMin: whiskerMin, whiskerMax: whiskerMax };
 }
 
 function boxplotStats(arr) {
@@ -368,11 +369,15 @@ function boxplotStats(arr) {
 			outliers: []
 		};
 	}
-	arr = arr.filter((v) => typeof v === 'number' && !isNaN(v));
-	arr.sort((a, b) => a - b);
+	arr = arr.filter(function (v) {
+		return typeof v === 'number' && !isNaN(v);
+	});
+	arr.sort(function (a, b) {
+		return a - b;
+	});
 
-	const minmax = extent(arr);
-	const base = {
+	var minmax = extent(arr);
+	var base = {
 		min: minmax[0],
 		max: minmax[1],
 		median: quantile(arr, 0.5),
@@ -380,8 +385,14 @@ function boxplotStats(arr) {
 		q3: quantile(arr, 0.75),
 		outliers: []
 	};
-	const {whiskerMin, whiskerMax} = whiskers(base);
-	base.outliers = arr.filter((v) => v < whiskerMin || v > whiskerMax);
+
+	var _whiskers = whiskers(base),
+	    whiskerMin = _whiskers.whiskerMin,
+	    whiskerMax = _whiskers.whiskerMax;
+
+	base.outliers = arr.filter(function (v) {
+		return v < whiskerMin || v > whiskerMax;
+	});
 	base.whiskerMin = whiskerMin;
 	base.whiskerMax = whiskerMax;
 	return base;
@@ -394,10 +405,14 @@ function violinStats(arr) {
 			outliers: []
 		};
 	}
-	arr = arr.filter((v) => typeof v === 'number' && !isNaN(v));
-	arr.sort((a, b) => a - b);
+	arr = arr.filter(function (v) {
+		return typeof v === 'number' && !isNaN(v);
+	});
+	arr.sort(function (a, b) {
+		return a - b;
+	});
 
-	const minmax = extent(arr);
+	var minmax = extent(arr);
 	return {
 		min: minmax[0],
 		max: minmax[1],
@@ -410,7 +425,10 @@ function asBoxPlotStats(value) {
 	if (typeof value.median === 'number' && typeof value.q1 === 'number' && typeof value.q3 === 'number') {
 		// sounds good, check for helper
 		if (typeof value.whiskerMin === 'undefined') {
-			const {whiskerMin, whiskerMax} = whiskers(value);
+			var _whiskers2 = whiskers(value),
+			    whiskerMin = _whiskers2.whiskerMin,
+			    whiskerMax = _whiskers2.whiskerMax;
+
 			value.whiskerMin = whiskerMin;
 			value.whiskerMax = whiskerMax;
 		}
@@ -455,15 +473,19 @@ function getRightValue(rawValue) {
 	if (typeof rawValue === 'number' || typeof rawValue === 'string') {
 		return Number(rawValue);
 	}
-	const b = asBoxPlotStats(rawValue);
+	var b = asBoxPlotStats(rawValue);
 	return b ? b.median : rawValue;
 }
 
 function commonDataLimits(extraCallback) {
-	const chart = this.chart;
-	const isHorizontal = this.isHorizontal();
+	var _this = this;
 
-	const matchID = (meta) => isHorizontal ? meta.xAxisID === this.id : meta.yAxisID === this.id;
+	var chart = this.chart;
+	var isHorizontal = this.isHorizontal();
+
+	var matchID = function matchID(meta) {
+		return isHorizontal ? meta.xAxisID === _this.id : meta.yAxisID === _this.id;
+	};
 
 	// First Calculate the range
 	this.min = null;
@@ -471,29 +493,29 @@ function commonDataLimits(extraCallback) {
 
 	// Regular charts use x, y values
 	// For the boxplot chart we have rawValue.min and rawValue.max for each point
-	chart.data.datasets.forEach((d, i) => {
-		const meta = chart.getDatasetMeta(i);
+	chart.data.datasets.forEach(function (d, i) {
+		var meta = chart.getDatasetMeta(i);
 		if (!chart.isDatasetVisible(i) || !matchID(meta)) {
 			return;
 		}
-		d.data.forEach((value, j) => {
+		d.data.forEach(function (value, j) {
 			if (!value || meta.data[j].hidden) {
 				return;
 			}
-			const minmax = asMinMaxStats(value);
+			var minmax = asMinMaxStats(value);
 			if (!minmax) {
 				return;
 			}
-			if (this.min === null) {
-				this.min = minmax.min;
-			} else if (minmax.min < this.min) {
-				this.min = minmax.min;
+			if (_this.min === null) {
+				_this.min = minmax.min;
+			} else if (minmax.min < _this.min) {
+				_this.min = minmax.min;
 			}
 
-			if (this.max === null) {
-				this.max = minmax.max;
-			} else if (minmax.max > this.max) {
-				this.max = minmax.max;
+			if (_this.max === null) {
+				_this.max = minmax.max;
+			} else if (minmax.max > _this.max) {
+				_this.max = minmax.max;
 			}
 
 			if (extraCallback) {
@@ -508,29 +530,29 @@ function rnd(seed) {
 	if (seed === undefined) {
 		seed = Date.now();
 	}
-	return () => {
+	return function () {
 		seed = (seed * 9301 + 49297) % 233280;
 		return seed / 233280;
 	};
 }
 
-const defaults$1 = Object.assign({}, Chart.defaults.global.elements.rectangle, {
+var defaults$1 = Object.assign({}, Chart.defaults.global.elements.rectangle, {
 	borderWidth: 1,
 	outlierRadius: 2,
 	itemRadius: 2,
 	itemStyle: 'circle',
 	itemBackgroundColor: Chart.defaults.global.elements.rectangle.backgroundColor,
-	itemBorderColor: Chart.defaults.global.elements.rectangle.borderColor,
+	itemBorderColor: Chart.defaults.global.elements.rectangle.borderColor
 });
 
-const ArrayElementBase = Chart.Element.extend({
-	isVertical() {
+var ArrayElementBase = Chart.Element.extend({
+	isVertical: function isVertical() {
 		return this._view.width !== undefined;
 	},
-	draw() {
+	draw: function draw() {
 		// abstract
 	},
-	_drawItems(vm, container, ctx, vert) {
+	_drawItems: function _drawItems(vm, container, ctx, vert) {
 		if (vm.itemRadius <= 0 || !container.items || container.items.length <= 0) {
 			return;
 		}
@@ -539,44 +561,47 @@ const ArrayElementBase = Chart.Element.extend({
 		ctx.fillStyle = vm.itemBackgroundColor;
 		// jitter based on random data
 		// use the median to initialize the random number generator
-		const random = rnd(container.median);
+		var random = rnd(container.median);
 
-		const itemRadius = vm.itemRadius;
+		var itemRadius = vm.itemRadius;
 		if (vert) {
-			const {x, width} = vm;
-			container.items.forEach((v) => {
+			var x = vm.x,
+			    width = vm.width;
+
+			container.items.forEach(function (v) {
 				Chart.canvasHelpers.drawPoint(ctx, vm.itemStyle, itemRadius, x - width / 2 + random() * width, v);
 			});
 		} else {
-			const {y, height} = vm;
-			container.items.forEach((v) => {
+			var y = vm.y,
+			    height = vm.height;
+
+			container.items.forEach(function (v) {
 				Chart.canvasHelpers.drawPoint(ctx, vm.itemStyle, itemRadius, v, y - height / 2 + random() * height);
 			});
 		}
 		ctx.restore();
 	},
-	_drawOutliers(vm, container, ctx, vert) {
+	_drawOutliers: function _drawOutliers(vm, container, ctx, vert) {
 		if (!container.outliers) {
 			return;
 		}
-		const outlierRadius = vm.outlierRadius;
+		var outlierRadius = vm.outlierRadius;
 		ctx.beginPath();
 		if (vert) {
-			const x = vm.x;
-			container.outliers.forEach((v) => {
+			var x = vm.x;
+			container.outliers.forEach(function (v) {
 				ctx.arc(x, v, outlierRadius, 0, Math.PI * 2);
 			});
 		} else {
-			const y = vm.y;
-			container.outliers.forEach((v) => {
+			var y = vm.y;
+			container.outliers.forEach(function (v) {
 				ctx.arc(v, y, outlierRadius, 0, Math.PI * 2);
 			});
 		}
 		ctx.fill();
 		ctx.closePath();
 	},
-
-	_getBounds() {
+	_getBounds: function _getBounds() {
 		// abstract
 		return {
 			left: 0,
@@ -585,56 +610,58 @@ const ArrayElementBase = Chart.Element.extend({
 			bottom: 0
 		};
 	},
-	height() {
+	height: function height() {
 		return 0; // abstract
 	},
-	inRange(mouseX, mouseY) {
+	inRange: function inRange(mouseX, mouseY) {
 		if (!this._view) {
 			return false;
 		}
-		const bounds = this._getBounds();
+		var bounds = this._getBounds();
 		return mouseX >= bounds.left && mouseX <= bounds.right && mouseY >= bounds.top && mouseY <= bounds.bottom;
 	},
-	inLabelRange(mouseX, mouseY) {
+	inLabelRange: function inLabelRange(mouseX, mouseY) {
 		if (!this._view) {
 			return false;
 		}
-		const bounds = this._getBounds();
+		var bounds = this._getBounds();
 		if (this.isVertical()) {
 			return mouseX >= bounds.left && mouseX <= bounds.right;
 		}
 		return mouseY >= bounds.top && mouseY <= bounds.bottom;
 	},
-	inXRange(mouseX) {
-		const bounds = this._getBounds();
+	inXRange: function inXRange(mouseX) {
+		var bounds = this._getBounds();
 		return mouseX >= bounds.left && mouseX <= bounds.right;
 	},
-	inYRange(mouseY) {
-		const bounds = this._getBounds();
+	inYRange: function inYRange(mouseY) {
+		var bounds = this._getBounds();
 		return mouseY >= bounds.top && mouseY <= bounds.bottom;
 	},
-	getCenterPoint() {
-		const {x, y} = this._view;
-		return {x, y};
+	getCenterPoint: function getCenterPoint() {
+		var _view = this._view,
+		    x = _view.x,
+		    y = _view.y;
+
+		return { x: x, y: y };
 	},
-	getArea() {
+	getArea: function getArea() {
 		return 0; // abstract
 	},
-	tooltipPosition_() {
+	tooltipPosition_: function tooltipPosition_() {
 		return this.getCenterPoint();
 	}
 });
 
 Chart.defaults.global.elements.boxandwhiskers = Object.assign({}, defaults$1);
 
-const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
-	draw() {
-		const ctx = this._chart.ctx;
-		const vm = this._view;
+var BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
+	draw: function draw() {
+		var ctx = this._chart.ctx;
+		var vm = this._view;
 
-		const boxplot = vm.boxplot;
-		const vert = this.isVertical();
-
+		var boxplot = vm.boxplot;
+		var vert = this.isVertical();
 
 		this._drawItems(vm, boxplot, ctx, vert);
 
@@ -648,13 +675,14 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
 		this._drawOutliers(vm, boxplot, ctx, vert);
 
 		ctx.restore();
-
 	},
-	_drawBoxPlot(vm, boxplot, ctx, vert) {
+	_drawBoxPlot: function _drawBoxPlot(vm, boxplot, ctx, vert) {
 		ctx.beginPath();
 		if (vert) {
-			const {x, width} = vm;
-			const x0 = x - width / 2;
+			var x = vm.x,
+			    width = vm.width;
+
+			var x0 = x - width / 2;
 			ctx.fillRect(x0, boxplot.q1, width, boxplot.q3 - boxplot.q1);
 			ctx.strokeRect(x0, boxplot.q1, width, boxplot.q3 - boxplot.q1);
 			ctx.moveTo(x0, boxplot.whiskerMin);
@@ -668,8 +696,10 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
 			ctx.moveTo(x0, boxplot.median);
 			ctx.lineTo(x0 + width, boxplot.median);
 		} else {
-			const {y, height} = vm;
-			const y0 = y - height / 2;
+			var y = vm.y,
+			    height = vm.height;
+
+			var y0 = y - height / 2;
 			ctx.fillRect(boxplot.q1, y0, boxplot.q3 - boxplot.q1, height);
 			ctx.strokeRect(boxplot.q1, y0, boxplot.q3 - boxplot.q1, height);
 
@@ -687,15 +717,17 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
 		ctx.stroke();
 		ctx.closePath();
 	},
-	_getBounds() {
-		const vm = this._view;
+	_getBounds: function _getBounds() {
+		var vm = this._view;
 
-		const vert = this.isVertical();
-		const boxplot = vm.boxplot;
+		var vert = this.isVertical();
+		var boxplot = vm.boxplot;
 
 		if (vert) {
-			const {x, width} = vm;
-			const x0 = x - width / 2;
+			var x = vm.x,
+			    width = vm.width;
+
+			var x0 = x - width / 2;
 			return {
 				left: x0,
 				top: boxplot.whiskerMax,
@@ -703,8 +735,10 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
 				bottom: boxplot.whiskerMin
 			};
 		}
-		const {y, height} = vm;
-		const y0 = y - height / 2;
+		var y = vm.y,
+		    height = vm.height;
+
+		var y0 = y - height / 2;
 		return {
 			left: boxplot.whiskerMin,
 			top: y0,
@@ -712,13 +746,13 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
 			bottom: y0 + height
 		};
 	},
-	height() {
-		const vm = this._view;
+	height: function height() {
+		var vm = this._view;
 		return vm.base - Math.min(vm.boxplot.q1, vm.boxplot.q3);
 	},
-	getArea() {
-		const vm = this._view;
-		const iqr = Math.abs(vm.boxplot.q3 - vm.boxplot.q1);
+	getArea: function getArea() {
+		var vm = this._view;
+		var iqr = Math.abs(vm.boxplot.q3 - vm.boxplot.q1);
 		if (this.isVertical()) {
 			return iqr * vm.width;
 		}
@@ -730,14 +764,13 @@ Chart.defaults.global.elements.violin = Object.assign({
 	points: 100
 }, defaults$1);
 
-const Violin = Chart.elements.Violin = ArrayElementBase.extend({
-	draw() {
-		const ctx = this._chart.ctx;
-		const vm = this._view;
+var Violin = Chart.elements.Violin = ArrayElementBase.extend({
+	draw: function draw() {
+		var ctx = this._chart.ctx;
+		var vm = this._view;
 
-		const violin = vm.violin;
-		const vert = this.isVertical();
-
+		var violin = vm.violin;
+		var vert = this.isVertical();
 
 		this._drawItems(vm, violin, ctx, vert);
 
@@ -747,36 +780,52 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
 		ctx.strokeStyle = vm.borderColor;
 		ctx.lineWidth = vm.borderWidth;
 
-		const coords = violin.coords;
+		var coords = violin.coords;
 
 		Chart.canvasHelpers.drawPoint(ctx, 'rectRot', 5, vm.x, vm.y);
 		ctx.stroke();
 
 		ctx.beginPath();
 		if (vert) {
-			const {x, width} = vm;
-			const factor = (width / 2) / violin.maxEstimate;
+			var x = vm.x,
+			    width = vm.width;
+
+			var factor = width / 2 / violin.maxEstimate;
 			ctx.moveTo(x, violin.min);
-			coords.forEach(({v, estimate}) => {
+			coords.forEach(function (_ref) {
+				var v = _ref.v,
+				    estimate = _ref.estimate;
+
 				ctx.lineTo(x - estimate * factor, v);
 			});
 			ctx.lineTo(x, violin.max);
 			ctx.moveTo(x, violin.min);
-			coords.forEach(({v, estimate}) => {
+			coords.forEach(function (_ref2) {
+				var v = _ref2.v,
+				    estimate = _ref2.estimate;
+
 				ctx.lineTo(x + estimate * factor, v);
 			});
 			ctx.lineTo(x, violin.max);
 		} else {
-			const {y, height} = vm;
-			const factor = (height / 2) / violin.maxEstimate;
+			var y = vm.y,
+			    height = vm.height;
+
+			var _factor = height / 2 / violin.maxEstimate;
 			ctx.moveTo(violin.min, y);
-			coords.forEach(({v, estimate}) => {
-				ctx.lineTo(v, y - estimate * factor);
+			coords.forEach(function (_ref3) {
+				var v = _ref3.v,
+				    estimate = _ref3.estimate;
+
+				ctx.lineTo(v, y - estimate * _factor);
 			});
 			ctx.lineTo(violin.max, y);
 			ctx.moveTo(violin.min, y);
-			coords.forEach(({v, estimate}) => {
-				ctx.lineTo(v, y + estimate * factor);
+			coords.forEach(function (_ref4) {
+				var v = _ref4.v,
+				    estimate = _ref4.estimate;
+
+				ctx.lineTo(v, y + estimate * _factor);
 			});
 			ctx.lineTo(violin.max, y);
 		}
@@ -787,17 +836,18 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
 		this._drawOutliers(vm, violin, ctx, vert);
 
 		ctx.restore();
-
 	},
-	_getBounds() {
-		const vm = this._view;
+	_getBounds: function _getBounds() {
+		var vm = this._view;
 
-		const vert = this.isVertical();
-		const violin = vm.violin;
+		var vert = this.isVertical();
+		var violin = vm.violin;
 
 		if (vert) {
-			const {x, width} = vm;
-			const x0 = x - width / 2;
+			var x = vm.x,
+			    width = vm.width;
+
+			var x0 = x - width / 2;
 			return {
 				left: x0,
 				top: violin.max,
@@ -805,8 +855,10 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
 				bottom: violin.min
 			};
 		}
-		const {y, height} = vm;
-		const y0 = y - height / 2;
+		var y = vm.y,
+		    height = vm.height;
+
+		var y0 = y - height / 2;
 		return {
 			left: violin.min,
 			top: y0,
@@ -814,13 +866,13 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
 			bottom: y0 + height
 		};
 	},
-	height() {
-		const vm = this._view;
+	height: function height() {
+		var vm = this._view;
 		return vm.base - Math.min(vm.violin.min, vm.violin.max);
 	},
-	getArea() {
-		const vm = this._view;
-		const iqr = Math.abs(vm.violin.max - vm.violin.min);
+	getArea: function getArea() {
+		var vm = this._view;
+		var iqr = Math.abs(vm.violin.max - vm.violin.min);
 		if (this.isVertical()) {
 			return iqr * vm.width;
 		}
@@ -828,14 +880,14 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
 	}
 });
 
-const verticalDefaults = {
+var verticalDefaults = {
 	scales: {
 		yAxes: [{
 			type: 'arrayLinear'
 		}]
 	}
 };
-const horizontalDefaults = {
+var horizontalDefaults = {
 	scales: {
 		xAxes: [{
 			type: 'arrayLinear'
@@ -843,43 +895,47 @@ const horizontalDefaults = {
 	}
 };
 
-const array$1 = {
-	_elementOptions() {
+var array$1 = {
+	_elementOptions: function _elementOptions() {
 		return {};
 	},
-	updateElement(elem, index, reset) {
-		const dataset = this.getDataset();
-		const custom = elem.custom || {};
-		const options = this._elementOptions();
+	updateElement: function updateElement(elem, index, reset) {
+		var dataset = this.getDataset();
+		var custom = elem.custom || {};
+		var options = this._elementOptions();
 
 		Chart.controllers.bar.prototype.updateElement.call(this, elem, index, reset);
-		['outlierRadius', 'itemRadius', 'itemStyle', 'itemBackgroundColor', 'itemBorderColor'].forEach((item) => {
+		['outlierRadius', 'itemRadius', 'itemStyle', 'itemBackgroundColor', 'itemBorderColor'].forEach(function (item) {
 			elem._model[item] = custom[item] !== undefined ? custom[item] : Chart.helpers.valueAtIndexOrDefault(dataset[item], index, options[item]);
 		});
 	},
-	_calculateCommonModel(r, data, container, scale) {
+	_calculateCommonModel: function _calculateCommonModel(r, data, container, scale) {
 		if (container.outliers) {
-			r.outliers = container.outliers.map((d) => scale.getPixelForValue(Number(d)));
+			r.outliers = container.outliers.map(function (d) {
+				return scale.getPixelForValue(Number(d));
+			});
 		}
 
 		if (Array.isArray(data)) {
-			r.items = data.map((d) => scale.getPixelForValue(Number(d)));
+			r.items = data.map(function (d) {
+				return scale.getPixelForValue(Number(d));
+			});
 		}
 	}
 };
 
-const defaults$2 = {
+var defaults$2 = {
 	tooltips: {
 		callbacks: {
-			label(item, data) {
-				const datasetLabel = data.datasets[item.datasetIndex].label || '';
-				const value = data.datasets[item.datasetIndex].data[item.index];
-				const b = asBoxPlotStats(value);
-				let label = `${datasetLabel} ${typeof item.xLabel === 'string' ? item.xLabel : item.yLabel}`;
+			label: function label(item, data) {
+				var datasetLabel = data.datasets[item.datasetIndex].label || '';
+				var value = data.datasets[item.datasetIndex].data[item.index];
+				var b = asBoxPlotStats(value);
+				var label = datasetLabel + ' ' + (typeof item.xLabel === 'string' ? item.xLabel : item.yLabel);
 				if (!b) {
 					return label + 'NaN';
 				}
-				return `${label} (min: ${b.min}, q1: ${b.q1}, median: ${b.median}, q3: ${b.q3}, max: ${b.max})`;
+				return label + ' (min: ' + b.min + ', q1: ' + b.q1 + ', median: ' + b.median + ', q3: ' + b.q3 + ', max: ' + b.max + ')';
 			}
 		}
 	}
@@ -888,32 +944,34 @@ const defaults$2 = {
 Chart.defaults.boxplot = Chart.helpers.merge({}, [Chart.defaults.bar, verticalDefaults, defaults$2]);
 Chart.defaults.horizontalBoxplot = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, horizontalDefaults, defaults$2]);
 
-const boxplot = Object.assign({}, array$1, {
+var boxplot = Object.assign({}, array$1, {
 
 	dataElementType: Chart.elements.BoxAndWhiskers,
 
-	_elementOptions() {
+	_elementOptions: function _elementOptions() {
 		return this.chart.options.elements.boxandwhiskers;
 	},
+
 	/**
-	 * @private
-	 */
-	updateElementGeometry(elem, index, reset) {
+  * @private
+  */
+	updateElementGeometry: function updateElementGeometry(elem, index, reset) {
 		Chart.controllers.bar.prototype.updateElementGeometry.call(this, elem, index, reset);
 		elem._model.boxplot = this._calculateBoxPlotValuesPixels(this.index, index);
 	},
 
+
 	/**
-	 * @private
-	 */
+  * @private
+  */
 
-	_calculateBoxPlotValuesPixels(datasetIndex, index) {
-		const scale = this.getValueScale();
-		const data = this.chart.data.datasets[datasetIndex].data[index];
-		const v = asBoxPlotStats(data);
+	_calculateBoxPlotValuesPixels: function _calculateBoxPlotValuesPixels(datasetIndex, index) {
+		var scale = this.getValueScale();
+		var data = this.chart.data.datasets[datasetIndex].data[index];
+		var v = asBoxPlotStats(data);
 
-		const r = {};
-		Object.keys(v).forEach((key) => {
+		var r = {};
+		Object.keys(v).forEach(function (key) {
 			if (key !== 'outliers') {
 				r[key] = scale.getPixelForValue(Number(v[key]));
 			}
@@ -925,52 +983,62 @@ const boxplot = Object.assign({}, array$1, {
 /**
  * This class is based off controller.bar.js from the upstream Chart.js library
  */
-const BoxPlot = Chart.controllers.boxplot = Chart.controllers.bar.extend(boxplot);
-const HorizontalBoxPlot = Chart.controllers.horizontalBoxplot = Chart.controllers.horizontalBar.extend(boxplot);
+var BoxPlot = Chart.controllers.boxplot = Chart.controllers.bar.extend(boxplot);
+var HorizontalBoxPlot = Chart.controllers.horizontalBoxplot = Chart.controllers.horizontalBar.extend(boxplot);
 
-const defaults$3 = {};
+var defaults$3 = {};
 
 Chart.defaults.violin = Chart.helpers.merge({}, [Chart.defaults.bar, verticalDefaults, defaults$3]);
 Chart.defaults.horizontalViolin = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, horizontalDefaults, defaults$3]);
 
-const controller = Object.assign({}, array$1, {
+var controller = Object.assign({}, array$1, {
 
 	dataElementType: Chart.elements.Violin,
 
-	_elementOptions() {
+	_elementOptions: function _elementOptions() {
 		return this.chart.options.elements.violin;
 	},
+
 	/**
-	 * @private
-	 */
-	updateElementGeometry(elem, index, reset) {
+  * @private
+  */
+	updateElementGeometry: function updateElementGeometry(elem, index, reset) {
 		Chart.controllers.bar.prototype.updateElementGeometry.call(this, elem, index, reset);
-		const custom = elem.custom || {};
-		const options = this._elementOptions();
+		var custom = elem.custom || {};
+		var options = this._elementOptions();
 		elem._model.violin = this._calculateViolinValuesPixels(this.index, index, custom.points !== undefined ? custom.points : options.points);
 	},
 
+
 	/**
-	 * @private
-	 */
+  * @private
+  */
 
-	_calculateViolinValuesPixels(datasetIndex, index, points) {
-		const scale = this.getValueScale();
-		const data = this.chart.data.datasets[datasetIndex].data[index];
-		const violin = asViolinStats(data);
+	_calculateViolinValuesPixels: function _calculateViolinValuesPixels(datasetIndex, index, points) {
+		var scale = this.getValueScale();
+		var data = this.chart.data.datasets[datasetIndex].data[index];
+		var violin = asViolinStats(data);
 
-		const range$$1 = violin.max - violin.min;
-		const samples = d3range(violin.min, violin.max, range$$1 / points);
+		var range$$1 = violin.max - violin.min;
+		var samples = d3range(violin.min, violin.max, range$$1 / points);
 		if (samples[samples.length - 1] !== violin.max) {
 			samples.push(violin.max);
 		}
-		const coords = violin.coords || violin.kde(samples).map((v) => ({v: v[0], estimate: v[1]}));
-		const r = {
+		var coords = violin.coords || violin.kde(samples).map(function (v) {
+			return { v: v[0], estimate: v[1] };
+		});
+		var r = {
 			min: scale.getPixelForValue(violin.min),
 			max: scale.getPixelForValue(violin.max),
 			median: scale.getPixelForValue(violin.median),
-			coords: coords.map(({v, estimate}) => ({v: scale.getPixelForValue(v), estimate})),
-			maxEstimate: d3max(coords, (d) => d.estimate)
+			coords: coords.map(function (_ref) {
+				var v = _ref.v,
+				    estimate = _ref.estimate;
+				return { v: scale.getPixelForValue(v), estimate: estimate };
+			}),
+			maxEstimate: d3max(coords, function (d) {
+				return d.estimate;
+			})
 		};
 		this._calculateCommonModel(r, data, violin, scale);
 		return r;
@@ -979,14 +1047,14 @@ const controller = Object.assign({}, array$1, {
 /**
  * This class is based off controller.bar.js from the upstream Chart.js library
  */
-const Violin$2 = Chart.controllers.violin = Chart.controllers.bar.extend(controller);
-const HorizontalViolin = Chart.controllers.horizontalViolin = Chart.controllers.horizontalBar.extend(controller);
+var Violin$2 = Chart.controllers.violin = Chart.controllers.bar.extend(controller);
+var HorizontalViolin = Chart.controllers.horizontalViolin = Chart.controllers.horizontalBar.extend(controller);
 
-const ArrayLinearScale = Chart.scaleService.getScaleConstructor('linear').extend({
-	getRightValue(rawValue) {
+var ArrayLinearScale = Chart.scaleService.getScaleConstructor('linear').extend({
+	getRightValue: function getRightValue$$1(rawValue) {
 		return Chart.LinearScaleBase.prototype.getRightValue.call(this, getRightValue(rawValue));
 	},
-	determineDataLimits() {
+	determineDataLimits: function determineDataLimits() {
 		commonDataLimits.call(this);
 		// Common base implementation to handle ticks.min, ticks.max, ticks.beginAtZero
 		this.handleTickRangeOptions();
@@ -994,22 +1062,24 @@ const ArrayLinearScale = Chart.scaleService.getScaleConstructor('linear').extend
 });
 Chart.scaleService.registerScaleType('arrayLinear', ArrayLinearScale, Chart.scaleService.getScaleDefaults('linear'));
 
-const helpers$1 = Chart.helpers;
+var helpers$1 = Chart.helpers;
 
-const ArrayLogarithmicScale = Chart.scaleService.getScaleConstructor('logarithmic').extend({
-	getRightValue(rawValue) {
+var ArrayLogarithmicScale = Chart.scaleService.getScaleConstructor('logarithmic').extend({
+	getRightValue: function getRightValue$$1(rawValue) {
 		return Chart.LinearScaleBase.prototype.getRightValue.call(this, getRightValue(rawValue));
 	},
-	determineDataLimits() {
+	determineDataLimits: function determineDataLimits() {
+		var _this = this;
+
 		this.minNotZero = null;
-		commonDataLimits.call(this, (boxPlot) => {
-			if (boxPlot.min !== 0 && (this.minNotZero === null || boxPlot.min < this.minNotZero)) {
-				this.minNotZero = boxPlot.min;
+		commonDataLimits.call(this, function (boxPlot) {
+			if (boxPlot.min !== 0 && (_this.minNotZero === null || boxPlot.min < _this.minNotZero)) {
+				_this.minNotZero = boxPlot.min;
 			}
 		});
 
 		// Add whitespace around bars. Axis shouldn't go exactly from min to max
-		const tickOpts = this.options.ticks;
+		var tickOpts = this.options.ticks;
 		this.min = helpers$1.valueOrDefault(tickOpts.min, this.min - this.min * 0.05);
 		this.max = helpers$1.valueOrDefault(tickOpts.max, this.max + this.max * 0.05);
 
