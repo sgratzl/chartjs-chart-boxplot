@@ -35,7 +35,7 @@ interface IBaseStyling {
     outlierRadius: number;
     
     /**
-     * @default see arc
+     * @default see rectangle.backgroundColor
      */
     outlierColor: string;
 
