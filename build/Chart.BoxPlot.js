@@ -539,6 +539,7 @@ function rnd(seed) {
 var defaults$1 = Object.assign({}, Chart.defaults.global.elements.rectangle, {
 	borderWidth: 1,
 	outlierRadius: 2,
+	outlierColor: Chart.defaults.global.elements.arc.fillStyle,
 	itemRadius: 2,
 	itemStyle: 'circle',
 	itemBackgroundColor: Chart.defaults.global.elements.rectangle.backgroundColor,

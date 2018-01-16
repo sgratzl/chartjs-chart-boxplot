@@ -35,6 +35,11 @@ interface IBaseStyling {
     outlierRadius: number;
     
     /**
+     * @default see arc
+     */
+    outlierColor: string;
+
+    /**
      * radius used to render items
      * @default 2
      */
