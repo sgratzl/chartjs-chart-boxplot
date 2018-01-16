@@ -586,6 +586,7 @@ var ArrayElementBase = Chart.Element.extend({
 			return;
 		}
 		var outlierRadius = vm.outlierRadius;
+		ctx.fillStyle = vm.outlierColor;
 		ctx.beginPath();
 		if (vert) {
 			var x = vm.x;
@@ -905,7 +906,7 @@ var array$1 = {
 		var options = this._elementOptions();
 
 		Chart.controllers.bar.prototype.updateElement.call(this, elem, index, reset);
-		['outlierRadius', 'itemRadius', 'itemStyle', 'itemBackgroundColor', 'itemBorderColor'].forEach(function (item) {
+		['outlierRadius', 'itemRadius', 'itemStyle', 'itemBackgroundColor', 'itemBorderColor', 'outlierColor'].forEach(function (item) {
 			elem._model[item] = custom[item] !== undefined ? custom[item] : Chart.helpers.valueAtIndexOrDefault(dataset[item], index, options[item]);
 		});
 	},

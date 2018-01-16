@@ -49,6 +49,7 @@ const ArrayElementBase = Chart.Element.extend({
 			return;
 		}
 		const outlierRadius = vm.outlierRadius;
+		ctx.fillStyle = vm.outlierColor;
 		ctx.beginPath();
 		if (vert) {
 			const x = vm.x;
