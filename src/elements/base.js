@@ -6,6 +6,7 @@ import {rnd} from '../data';
 export const defaults = Object.assign({}, Chart.defaults.global.elements.rectangle, {
 	borderWidth: 1,
 	outlierRadius: 2,
+	outlierColor: Chart.defaults.global.elements.rectangle.backgroundColor,
 	itemRadius: 2,
 	itemStyle: 'circle',
 	itemBackgroundColor: Chart.defaults.global.elements.rectangle.backgroundColor,
@@ -49,6 +50,7 @@ const ArrayElementBase = Chart.Element.extend({
 			return;
 		}
 		const outlierRadius = vm.outlierRadius;
+		ctx.fillStyle = vm.outlierColor;
 		ctx.beginPath();
 		if (vert) {
 			const x = vm.x;
