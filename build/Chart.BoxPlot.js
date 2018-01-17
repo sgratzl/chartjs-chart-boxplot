@@ -536,6 +536,21 @@ function rnd(seed) {
 	};
 }
 
+function computeLaneWidth(width, padding) {
+	if (padding === null || !padding || padding === 0) {
+		return width;
+	}
+	var laneWidth = void 0;
+	if (padding > 1) {
+		// compute as pixel
+		laneWidth = width - Math.abs(padding);
+	} else {
+		// compute as percent
+		laneWidth = width - width * Math.abs(padding);
+	}
+	return laneWidth < 0 ? 0 : laneWidth;
+}
+
 var defaults$1 = Object.assign({}, Chart.defaults.global.elements.rectangle, {
 	borderWidth: 1,
 	outlierRadius: 2,
@@ -566,16 +581,14 @@ var ArrayElementBase = Chart.Element.extend({
 
 		var itemRadius = vm.itemRadius;
 		if (vert) {
-			var x = vm.x,
-			    width = vm.width;
-
+			var x = vm.x;
+			var width = computeLaneWidth(vm.width, vm.padding);
 			container.items.forEach(function (v) {
 				Chart.canvasHelpers.drawPoint(ctx, vm.itemStyle, itemRadius, x - width / 2 + random() * width, v);
 			});
 		} else {
-			var y = vm.y,
-			    height = vm.height;
-
+			var y = vm.y;
+			var height = computeLaneWidth(vm.height, vm.padding);
 			container.items.forEach(function (v) {
 				Chart.canvasHelpers.drawPoint(ctx, vm.itemStyle, itemRadius, v, y - height / 2 + random() * height);
 			});
@@ -681,9 +694,8 @@ var BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
 	_drawBoxPlot: function _drawBoxPlot(vm, boxplot, ctx, vert) {
 		ctx.beginPath();
 		if (vert) {
-			var x = vm.x,
-			    width = vm.width;
-
+			var x = vm.x;
+			var width = computeLaneWidth(vm.width, vm.padding);
 			var x0 = x - width / 2;
 			ctx.fillRect(x0, boxplot.q1, width, boxplot.q3 - boxplot.q1);
 			ctx.strokeRect(x0, boxplot.q1, width, boxplot.q3 - boxplot.q1);
@@ -698,9 +710,8 @@ var BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
 			ctx.moveTo(x0, boxplot.median);
 			ctx.lineTo(x0 + width, boxplot.median);
 		} else {
-			var y = vm.y,
-			    height = vm.height;
-
+			var y = vm.y;
+			var height = computeLaneWidth(vm.height, vm.padding);
 			var y0 = y - height / 2;
 			ctx.fillRect(boxplot.q1, y0, boxplot.q3 - boxplot.q1, height);
 			ctx.strokeRect(boxplot.q1, y0, boxplot.q3 - boxplot.q1, height);
@@ -789,9 +800,8 @@ var Violin = Chart.elements.Violin = ArrayElementBase.extend({
 
 		ctx.beginPath();
 		if (vert) {
-			var x = vm.x,
-			    width = vm.width;
-
+			var x = vm.x;
+			var width = computeLaneWidth(vm.width, vm.padding);
 			var factor = width / 2 / violin.maxEstimate;
 			ctx.moveTo(x, violin.min);
 			coords.forEach(function (_ref) {
@@ -810,9 +820,8 @@ var Violin = Chart.elements.Violin = ArrayElementBase.extend({
 			});
 			ctx.lineTo(x, violin.max);
 		} else {
-			var y = vm.y,
-			    height = vm.height;
-
+			var y = vm.y;
+			var height = computeLaneWidth(vm.height, vm.padding);
 			var _factor = height / 2 / violin.maxEstimate;
 			ctx.moveTo(violin.min, y);
 			coords.forEach(function (_ref3) {
@@ -907,7 +916,7 @@ var array$1 = {
 		var options = this._elementOptions();
 
 		Chart.controllers.bar.prototype.updateElement.call(this, elem, index, reset);
-		['outlierRadius', 'itemRadius', 'itemStyle', 'itemBackgroundColor', 'itemBorderColor', 'outlierColor'].forEach(function (item) {
+		['outlierRadius', 'itemRadius', 'itemStyle', 'itemBackgroundColor', 'itemBorderColor', 'outlierColor', 'padding'].forEach(function (item) {
 			elem._model[item] = custom[item] !== undefined ? custom[item] : Chart.helpers.valueAtIndexOrDefault(dataset[item], index, options[item]);
 		});
 	},

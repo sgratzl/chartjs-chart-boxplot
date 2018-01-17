@@ -2,6 +2,7 @@
 
 import * as Chart from 'chart.js';
 import {rnd} from '../data';
+import {computeLaneWidth} from '../utils';
 
 export const defaults = Object.assign({}, Chart.defaults.global.elements.rectangle, {
 	borderWidth: 1,
@@ -33,12 +34,14 @@ const ArrayElementBase = Chart.Element.extend({
 
 		const itemRadius = vm.itemRadius;
 		if (vert) {
-			const {x, width} = vm;
+			const x = vm.x;
+			const width = computeLaneWidth(vm.width, vm.padding);
 			container.items.forEach((v) => {
 				Chart.canvasHelpers.drawPoint(ctx, vm.itemStyle, itemRadius, x - width / 2 + random() * width, v);
 			});
 		} else {
-			const {y, height} = vm;
+			const y = vm.y;
+			const height = computeLaneWidth(vm.height, vm.padding);
 			container.items.forEach((v) => {
 				Chart.canvasHelpers.drawPoint(ctx, vm.itemStyle, itemRadius, v, y - height / 2 + random() * height);
 			});

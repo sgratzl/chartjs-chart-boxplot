@@ -27,7 +27,7 @@ const array = {
 		const options = this._elementOptions();
 
 		Chart.controllers.bar.prototype.updateElement.call(this, elem, index, reset);
-		['outlierRadius', 'itemRadius', 'itemStyle', 'itemBackgroundColor', 'itemBorderColor', 'outlierColor'].forEach((item) => {
+		['outlierRadius', 'itemRadius', 'itemStyle', 'itemBackgroundColor', 'itemBorderColor', 'outlierColor', 'padding'].forEach((item) => {
 			elem._model[item] = custom[item] !== undefined ? custom[item] : Chart.helpers.valueAtIndexOrDefault(dataset[item], index, options[item]);
 		});
 	},
