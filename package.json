@@ -2,7 +2,7 @@
   "name": "chartjs-chart-boxplot",
   "description": "Chart.js module for charting boxplots",
   "main": "build/Chart.BoxPlot.js",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": {
     "name": "Samuel Gratzl",
     "email": "samuel.gratzl@datavisyn.io",
