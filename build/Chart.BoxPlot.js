@@ -422,6 +422,9 @@ function violinStats(arr) {
 }
 
 function asBoxPlotStats(value) {
+	if (!value) {
+		return null;
+	}
 	if (typeof value.median === 'number' && typeof value.q1 === 'number' && typeof value.q3 === 'number') {
 		// sounds good, check for helper
 		if (typeof value.whiskerMin === 'undefined') {
@@ -444,6 +447,9 @@ function asBoxPlotStats(value) {
 }
 
 function asViolinStats(value) {
+	if (!value) {
+		return null;
+	}
 	if (typeof value.median === 'number' && (typeof value.kde === 'function' || Array.isArray(value.coords))) {
 		return value;
 	}
@@ -736,6 +742,15 @@ var BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
 		var vert = this.isVertical();
 		var boxplot = vm.boxplot;
 
+		if (!boxplot) {
+			return {
+				left: 0,
+				top: 0,
+				right: 0,
+				bottom: 0
+			};
+		}
+
 		if (vert) {
 			var x = vm.x,
 			    width = vm.width;
@@ -979,6 +994,9 @@ var boxplot = Object.assign({}, array$1, {
 	_calculateBoxPlotValuesPixels: function _calculateBoxPlotValuesPixels(datasetIndex, index) {
 		var scale = this.getValueScale();
 		var data = this.chart.data.datasets[datasetIndex].data[index];
+		if (!data) {
+			return null;
+		}
 		var v = asBoxPlotStats(data);
 
 		var r = {};

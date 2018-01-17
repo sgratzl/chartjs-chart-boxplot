@@ -46,6 +46,9 @@ const boxplot = Object.assign({}, base, {
 	_calculateBoxPlotValuesPixels(datasetIndex, index) {
 		const scale = this.getValueScale();
 		const data = this.chart.data.datasets[datasetIndex].data[index];
+		if (!data) {
+			return null;
+		}
 		const v = asBoxPlotStats(data);
 
 		const r = {};

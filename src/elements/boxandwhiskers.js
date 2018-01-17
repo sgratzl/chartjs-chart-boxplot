@@ -75,6 +75,15 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
 		const vert = this.isVertical();
 		const boxplot = vm.boxplot;
 
+		if (!boxplot) {
+			return {
+				left: 0,
+				top: 0,
+				right: 0,
+				bottom: 0
+			};
+		}
+
 		if (vert) {
 			const {x, width} = vm;
 			const x0 = x - width / 2;
