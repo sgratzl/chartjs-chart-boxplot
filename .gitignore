@@ -39,6 +39,9 @@ jspm_packages
 # Visual Studio
 .vs
 
+# Idea
+.idea
+
 # Build files
 /Chart.Financial.js
 /Chart.Financial.min.js
