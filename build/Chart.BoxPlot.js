@@ -537,18 +537,18 @@ function rnd(seed) {
 }
 
 function computeLaneWidth(width, padding) {
-    if (padding == null || padding === 0) {
-        return width;
-    }
-    var laneWidth = void 0;
-    if (padding > 1) {
-        // compute as pixel
-        laneWidth = width - Math.abs(padding);
-    } else {
-        // compute as percent
-        laneWidth = width - width * Math.abs(padding);
-    }
-    return laneWidth < 0 ? 0 : laneWidth;
+	if (padding === null || !padding || padding === 0) {
+		return width;
+	}
+	var laneWidth = void 0;
+	if (padding > 1) {
+		// compute as pixel
+		laneWidth = width - Math.abs(padding);
+	} else {
+		// compute as percent
+		laneWidth = width - width * Math.abs(padding);
+	}
+	return laneWidth < 0 ? 0 : laneWidth;
 }
 
 var defaults$1 = Object.assign({}, Chart.defaults.global.elements.rectangle, {
