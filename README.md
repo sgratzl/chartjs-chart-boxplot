@@ -1,10 +1,18 @@
-# Chart.js BoxPlot Charting [![CircleCI](https://circleci.com/gh/datavisyn/chartjs-chart-box-and-violin-plot.svg?style=badge)](https://circleci.com/gh/datavisyn/chartjs-chart-box-and-violin-plot)
+# Chart.js Box and Violin Plot 
+[![datavisyn][datavisyn-image]][datavisyn-url] [![NPM Package][npm-image]][npm-url] [![CircleCI][circleci-image]][circleci-url]
 
-Chart.js module for charting boxplots and violin plots. 
+Chart.js module for charting box and violin plots
 
 ![Box Plot](https://user-images.githubusercontent.com/4129778/33257815-cee715e8-d357-11e7-899b-9f18f5ab7a5c.png)
 ![Violin Plot](https://user-images.githubusercontent.com/4129778/33257814-cecc222e-d357-11e7-8def-e298b7e655b1.png)
 
+## Install
+```bash
+npm install --save chartjs chartjs-chart-box-and-violin-plot
+```
+
+## Usage
+see [Samples](https://github.com/datavisyn/chartjs-chart-box-and-violin-plot/tree/master/samples) on Github
 
 ## Chart
 
@@ -137,3 +145,20 @@ interface IViolinItem extends IBaseItem {
 npm install
 npm run build
 ```
+
+
+***
+
+<div style="display:flex;align-items:center">
+<a href="http://datavisyn.io"><img src="https://user-images.githubusercontent.com/5220584/35052732-9efb1de2-fba8-11e7-91fd-8e80216c0dc3.png" align="left" width="200px" hspace="10" vspace="6"></a>
+This repository is created by&nbsp;<strong><a href="http://datavisyn.io">datavisyn</a></strong>.
+</div>
+
+
+[datavisyn-image]: https://img.shields.io/badge/datavisyn-io-black.svg
+[datavisyn-url]: http://datavisyn.io
+[npm-image]: https://badge.fury.io/js/chartjs-chart-box-and-violin-plot.svg
+[npm-url]: https://npmjs.org/package/chartjs-chart-box-and-violin-plot 
+[circleci-image]: https://circleci.com/gh/datavisyn/chartjs-chart-box-and-violin-plot.svg?style=shield
+[circleci-url]: https://circleci.com/gh/datavisyn/chartjs-chart-box-and-violin-plot
+
