@@ -1,5 +1,5 @@
 {
-  "name": "chartjs-chart-boxplot",
+  "name": "chartjs-chart-box-and-violin-plot",
   "description": "Chart.js module for charting boxplots",
   "main": "build/Chart.BoxPlot.js",
   "version": "1.0.0",
@@ -11,7 +11,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/datavisyn/chartjs-chart-boxplot.git"
+    "url": "https://github.com/datavisyn/chartjs-chart-box-and-violin-plot.git"
   },
   "dependencies": {
     "chart.js": "^2.7.0",

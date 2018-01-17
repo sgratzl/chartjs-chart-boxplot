@@ -1,4 +1,4 @@
-# Chart.js BoxPlot Charting [![CircleCI](https://circleci.com/gh/datavisyn/chartjs-chart-boxplot.svg?style=badge)](https://circleci.com/gh/datavisyn/chartjs-chart-boxplot)
+# Chart.js BoxPlot Charting [![CircleCI](https://circleci.com/gh/datavisyn/chartjs-chart-box-and-violin-plot.svg?style=badge)](https://circleci.com/gh/datavisyn/chartjs-chart-box-and-violin-plot)
 
 Chart.js module for charting boxplots and violin plots. 
 
