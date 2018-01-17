@@ -64,6 +64,9 @@ export function violinStats(arr) {
 }
 
 export function asBoxPlotStats(value) {
+	if (!value) {
+		return null;
+	}
 	if (typeof value.median === 'number' && typeof value.q1 === 'number' && typeof value.q3 === 'number') {
 		// sounds good, check for helper
 		if (typeof value.whiskerMin === 'undefined') {
@@ -83,6 +86,9 @@ export function asBoxPlotStats(value) {
 }
 
 export function asViolinStats(value) {
+	if (!value) {
+		return null;
+	}
 	if (typeof value.median === 'number' && (typeof value.kde === 'function' || Array.isArray(value.coords))) {
 		return value;
 	}
