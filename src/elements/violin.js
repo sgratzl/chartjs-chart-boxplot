@@ -2,6 +2,7 @@
 
 import * as Chart from 'chart.js';
 import ArrayElementBase, {defaults} from './base';
+import {computeLaneWidth} from '../utils';
 
 
 Chart.defaults.global.elements.violin = Object.assign({
@@ -32,7 +33,8 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
 
 		ctx.beginPath();
 		if (vert) {
-			const {x, width} = vm;
+			const x = vm.x;
+			const width = computeLaneWidth(vm.width, vm.padding);
 			const factor = (width / 2) / violin.maxEstimate;
 			ctx.moveTo(x, violin.min);
 			coords.forEach(({v, estimate}) => {
@@ -45,7 +47,8 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
 			});
 			ctx.lineTo(x, violin.max);
 		} else {
-			const {y, height} = vm;
+			const y = vm.y;
+			const height = computeLaneWidth(vm.height, vm.padding);
 			const factor = (height / 2) / violin.maxEstimate;
 			ctx.moveTo(violin.min, y);
 			coords.forEach(({v, estimate}) => {

@@ -2,6 +2,7 @@
 
 import * as Chart from 'chart.js';
 import ArrayElementBase, {defaults} from './base';
+import {computeLaneWidth} from '../utils';
 
 
 Chart.defaults.global.elements.boxandwhiskers = Object.assign({}, defaults);
@@ -32,7 +33,8 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
 	_drawBoxPlot(vm, boxplot, ctx, vert) {
 		ctx.beginPath();
 		if (vert) {
-			const {x, width} = vm;
+			const x = vm.x;
+			const width = computeLaneWidth(vm.width, vm.padding);
 			const x0 = x - width / 2;
 			ctx.fillRect(x0, boxplot.q1, width, boxplot.q3 - boxplot.q1);
 			ctx.strokeRect(x0, boxplot.q1, width, boxplot.q3 - boxplot.q1);
@@ -47,7 +49,8 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
 			ctx.moveTo(x0, boxplot.median);
 			ctx.lineTo(x0 + width, boxplot.median);
 		} else {
-			const {y, height} = vm;
+			const y = vm.y;
+			const height = computeLaneWidth(vm.height, vm.padding);
 			const y0 = y - height / 2;
 			ctx.fillRect(boxplot.q1, y0, boxplot.q3 - boxplot.q1, height);
 			ctx.strokeRect(boxplot.q1, y0, boxplot.q3 - boxplot.q1, height);

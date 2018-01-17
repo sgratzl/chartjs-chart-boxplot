@@ -34,13 +34,17 @@
                 backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
                 borderColor: window.chartColors.red,
                 borderWidth: 1,
-                data: samples.boxplots({count: 7})
+                data: samples.boxplots({count: 7}),
+                outlierColor: '#999999',
+                padding: 10
             }, {
                 label: 'Dataset 2',
                 backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
                 borderColor: window.chartColors.blue,
                 borderWidth: 1,
-                data: samples.boxplotsArray({count: 7})
+                data: samples.boxplotsArray({count: 7}),
+                outlierColor: '#999999',
+                padding: 10
             }]
 
         };

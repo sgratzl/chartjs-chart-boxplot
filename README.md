@@ -62,6 +62,14 @@ interface IBaseStyling {
      * @default see rectangle backgroundColor
      */
     itemBorderColor: string;
+
+    /**
+     * padding for a single box or violin
+     * less than 1 is interpreted as percent
+     * greater than 1 is interpreted as pixel
+     * @default 0;
+     */
+    padding: number;
 }
 
 interface IBoxPlotStyling extends IBaseStyling {
