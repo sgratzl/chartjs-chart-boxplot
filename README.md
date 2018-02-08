@@ -8,7 +8,7 @@ Chart.js module for charting box and violin plots
 
 ## Install
 ```bash
-npm install --save chartjs chartjs-chart-box-and-violin-plot
+npm install --save chart.js chartjs-chart-box-and-violin-plot
 ```
 
 ## Usage
