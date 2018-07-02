@@ -14,6 +14,8 @@ npm install --save chart.js chartjs-chart-box-and-violin-plot
 ## Usage
 see [Samples](https://github.com/datavisyn/chartjs-chart-box-and-violin-plot/tree/master/samples) on Github
 
+and [CodePen](https://codepen.io/sgratzl/pen/QxoLoY)
+
 ## Chart
 
 four new types: `boxplot`, `horizontalBoxplot`, `violin`, and `horizontalViolin`. 
