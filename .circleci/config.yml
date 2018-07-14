@@ -7,23 +7,23 @@ jobs:
   steps:
     - checkout
     - restore_cache:
-      key: deps2-{{ .Branch }}-{{ checksum "package.json" }}
+        key: deps2-{{ .Branch }}-{{ checksum "package.json" }}
     - run:
-      name: install-npm-wee
-      command: npm install
+        name: install-npm-wee
+        command: npm install
     - run: #remove all resolved github dependencies
-      name: delete-vcs-dependencies
-      command: |
-      (grep -l '._resolved.: .\(git[^:]*\|bitbucket\):' ./node_modules/*/package.json || true) | xargs -r dirname | xargs -r rm -rf
+        name: delete-vcs-dependencies
+        command: |
+          (grep -l '._resolved.: .\(git[^:]*\|bitbucket\):' ./node_modules/*/package.json || true) | xargs -r dirname | xargs -r rm -rf
     - save_cache:
-      key: deps2-{{ .Branch }}-{{ checksum "package.json" }}
-      paths:
-      - ./node_modules
+        key: deps2-{{ .Branch }}-{{ checksum "package.json" }}
+        paths:
+          - ./node_modules
     - run: #install all dependencies
-      name: install-npm-wee2
-      command: npm install
+        name: install-npm-wee2
+        command: npm install
     - run:
-      name: build
-      command: npm run build
+        name: build
+        command: npm run build
     - store_artifacts:
-      path: build
+        path: build
