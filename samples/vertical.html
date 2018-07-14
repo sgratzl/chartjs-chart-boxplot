@@ -28,6 +28,8 @@
   <script>
     const samples = this.Samples.utils;
     var color = Chart.helpers.color;
+    var b = d3.randomNormal();
+    var random = (min, max) => () => (b() * ((max || 1) - (min || 0))) + (min || 0);
     var boxplotData = {
       labels: samples.months({count: 7}),
       datasets: [{
@@ -35,14 +37,14 @@
         backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
         borderColor: window.chartColors.red,
         borderWidth: 1,
-        data: samples.boxplots({count: 7}),
+        data: samples.boxplots({count: 7, random: random}),
         outlierColor: '#999999'
       }, {
         label: 'Dataset 2',
         backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
         borderColor: window.chartColors.blue,
         borderWidth: 1,
-        data: samples.boxplotsArray({count: 7}),
+        data: samples.boxplotsArray({count: 7, random: random}),
         outlierColor: '#999999'
       }]
 
@@ -65,8 +67,8 @@
           scales: {
             xAxes: [{
               // Specific to Bar Controller
-              categoryPercentage: 0.8,
-              barPercentage: 0.5
+              categoryPercentage: 0.9,
+              barPercentage: 0.8
             }]
           }
         }
