@@ -2,7 +2,6 @@
 
 import * as Chart from 'chart.js';
 import ArrayElementBase, {defaults} from './base';
-import {computeLaneWidth} from '../utils';
 
 
 Chart.defaults.global.elements.boxandwhiskers = Object.assign({}, defaults);

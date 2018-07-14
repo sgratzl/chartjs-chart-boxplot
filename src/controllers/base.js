@@ -4,7 +4,7 @@ import * as Chart from 'chart.js';
 
 export const verticalDefaults = {
   scales: {
-    yAxes: [{
+		yAxes: [{
       type: 'arrayLinear'
     }]
   }
@@ -12,8 +12,8 @@ export const verticalDefaults = {
 export const horizontalDefaults = {
   scales: {
     xAxes: [{
-      type: 'arrayLinear'
-    }]
+			type: 'arrayLinear'
+		}],
   }
 };
 

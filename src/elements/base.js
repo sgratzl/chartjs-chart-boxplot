@@ -2,7 +2,6 @@
 
 import * as Chart from 'chart.js';
 import {rnd} from '../data';
-import {computeLaneWidth} from '../utils';
 
 export const defaults = Object.assign({}, Chart.defaults.global.elements.rectangle, {
   borderWidth: 1,
@@ -11,7 +10,7 @@ export const defaults = Object.assign({}, Chart.defaults.global.elements.rectang
   itemRadius: 2,
   itemStyle: 'circle',
   itemBackgroundColor: Chart.defaults.global.elements.rectangle.backgroundColor,
-  itemBorderColor: Chart.defaults.global.elements.rectangle.borderColor,
+  itemBorderColor: Chart.defaults.global.elements.rectangle.borderColor
 });
 
 const ArrayElementBase = Chart.Element.extend({
