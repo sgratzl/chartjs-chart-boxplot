@@ -27,6 +27,7 @@
 				var color = Chart.helpers.color;
 				var b = d3.randomNormal();
 				var random = (min, max) => () => (b() * ((max || 1) - (min || 0))) + (min || 0);
+				// var random = d3.randomUniform;
 				var boxplotData = {
             labels: samples.months({count: 7}),
             datasets: [{
@@ -58,7 +59,7 @@
 								text: 'Chart.js Box Plot Chart'
 						},
 						scales: {
-							xScales: [{
+							yAxes: [{
 								ticks: {
 									minStats: 'min',
 									maxStats: 'max'
@@ -76,14 +77,22 @@
 						});
 
 						document.getElementById('limitMinMax').onclick = function() {
-							options.scales.xScales[0].ticks.minStats = 'min';
-							options.scales.xScales[0].ticks.maxStats = 'max';
-							window.myBar.update();
+							options.scales.yAxes[0].ticks.minStats = 'min';
+							options.scales.yAxes[0].ticks.maxStats = 'max';
+							window.myBar = new Chart(ctx, {
+									type: 'boxplot',
+									data: boxplotData,
+									options: options
+							});
 						};
 						document.getElementById('limitWhiskers').onclick = function() {
-							options.scales.xScales[0].ticks.minStats = 'whiskersMin';
-							options.scales.xScales[0].ticks.maxStats = 'whiskersMax';
-							window.myBar.update();
+							options.scales.yAxes[0].ticks.minStats = 'whiskerMin';
+							options.scales.yAxes[0].ticks.maxStats = 'whiskerMax';
+							window.myBar = new Chart(ctx, {
+									type: 'boxplot',
+									data: boxplotData,
+									options: options
+							});
 						};
 				};
     </script>

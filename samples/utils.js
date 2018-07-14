@@ -71,7 +71,7 @@ window.chartColors = {
 			var data = [];
 			var i, value;
 			var rand = cfg.random ? cfg.random(min, max) : this.randF(min, max);
-			var rand01 = cfg.random ? cfg.random() : this.randF();
+			var rand01 = cfg.random01 ? cfg.random01() : this.randF();
 
 			for (i = 0; i < count; ++i) {
 				value = (from[i] || 0) + rand();
