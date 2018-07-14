@@ -24,6 +24,6 @@ jobs:
           command: npm install
       - run:
           name: build
-          command: npm run prepublish
+          command: npm run build
       - store_artifacts:
           path: build
