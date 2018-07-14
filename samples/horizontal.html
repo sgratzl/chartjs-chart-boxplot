@@ -34,15 +34,13 @@
         backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
         borderColor: window.chartColors.red,
         borderWidth: 1,
-        data: [null].concat(samples.boxplots({count: 6})),
-        padding: 0.1
+        data: [null].concat(samples.boxplots({count: 6}))
       }, {
         label: 'Dataset 2',
         backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
         borderColor: window.chartColors.blue,
         borderWidth: 1,
-        data: samples.boxplots({count: 6}).concat([null]),
-        padding: 0.1
+        data: samples.boxplots({count: 6}).concat([null])
       }]
 
     };
