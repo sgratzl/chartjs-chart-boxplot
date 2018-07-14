@@ -4,47 +4,48 @@
   "main": "build/Chart.BoxPlot.js",
   "version": "1.0.0",
   "author": {
-  "name": "Samuel Gratzl",
-  "email": "samuel.gratzl@datavisyn.io",
-  "url": "http://datavisyn.io"
+    "name": "Samuel Gratzl",
+    "email": "samuel.gratzl@datavisyn.io",
+    "url": "http://datavisyn.io"
   },
   "license": "MIT",
   "repository": {
-  "type": "git",
-  "url": "https://github.com/datavisyn/chartjs-chart-box-and-violin-plot.git"
+    "type": "git",
+    "url": "https://github.com/datavisyn/chartjs-chart-box-and-violin-plot.git"
   },
   "dependencies": {
-  "chart.js": "^2.7.2",
-  "d3-array": "^1.2.1",
-  "science": "github:sgratzl/science.js"
+    "chart.js": "^2.7.2",
+    "d3-array": "^1.2.1",
+    "science": "github:sgratzl/science.js"
   },
   "devDependencies": {
-  "babel-core": "^6.26.0",
-  "babel-plugin-external-helpers": "^6.22.0",
-  "babel-preset-env": "^1.6.1",
-  "eslint": "3",
-  "package-preamble": "0.0",
-  "rimraf": "^2.6.2",
-  "rollup": "0.41",
-  "rollup-plugin-babel": "^3.0.3",
-  "rollup-plugin-commonjs": "^8.2.6",
-  "rollup-plugin-node-resolve": "^3.0.0",
-  "uglify-es": "^3.2.0"
+    "babel-core": "^6.26.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "3",
+    "package-preamble": "0.0",
+    "rimraf": "^2.6.2",
+    "rollup": "0.41",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-watch": "^4.3.1",
+    "uglify-es": "^3.2.0"
   },
   "scripts": {
     "clean": "rimraf build",
-  "watch": "rollup -c -w -i src/index.js",
-  "test": "eslint src",
-  "build:dev": "rollup -c -i src/index.js",
-  "build:prod": "npm run build:dev && uglifyjs build/Chart.BoxPlot.js -c -m -o build/Chart.BoxPlot.min.js",
-  "prebuild": "npm run clean && npm test",
-  "build": "npm run build:prod",
-  "preversion": "npm run test",
-  "prepare": "npm run build:dev",
-  "prepublishOnly": "npm run build:prod",
-  "release:major": "npm version major && npm publish && git push --follow-tags",
-  "release:minor": "npm version minor && npm publish && git push --follow-tags",
-  "release:patch": "npm version patch && npm publish && git push --follow-tags",
+    "watch": "rollup -c -w -i src/index.js",
+    "test": "eslint src",
+    "build:dev": "rollup -c -i src/index.js",
+    "build:prod": "npm run build:dev && uglifyjs build/Chart.BoxPlot.js -c -m -o build/Chart.BoxPlot.min.js",
+    "prebuild": "npm run clean && npm test",
+    "build": "npm run build:prod",
+    "preversion": "npm run test",
+    "prepare": "npm run build:dev",
+    "prepublishOnly": "npm run build:prod",
+    "release:major": "npm version major && npm publish && git push --follow-tags",
+    "release:minor": "npm version minor && npm publish && git push --follow-tags",
+    "release:patch": "npm version patch && npm publish && git push --follow-tags",
     "release:pre": "npm version prerelease && npm publish --tag=next && git push --follow-tags"
   }
 }
