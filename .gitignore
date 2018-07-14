@@ -43,5 +43,4 @@ jspm_packages
 .idea
 
 # Build files
-/Chart.Financial.js
-/Chart.Financial.min.js
+/build
