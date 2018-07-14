@@ -25,73 +25,73 @@ The boxplot element is called `boxandwhiskers`. The basic options are from the `
 
 ```typescript
 interface IBaseStyling {
-    /**
-     * @default see rectangle
-     */
-    backgroundColor: string;
-    /**
-     * @default see rectangle
-     */
-    strokeColor: string;
-    /**
-     * @default 1
-     */
-    borderWidth: number;
+  /**
+   * @default see rectangle
+   */
+  backgroundColor: string;
+  /**
+   * @default see rectangle
+   */
+  strokeColor: string;
+  /**
+   * @default 1
+   */
+  borderWidth: number;
 
-    /**
-     * radius used to render outliers
-     * @default 2
-     */
-    outlierRadius: number;
+  /**
+   * radius used to render outliers
+   * @default 2
+   */
+  outlierRadius: number;
 
-    /**
-     * @default see rectangle.backgroundColor
-     */
-    outlierColor: string;
+  /**
+   * @default see rectangle.backgroundColor
+   */
+  outlierColor: string;
 
-    /**
-     * radius used to render items
-     * @default 2
-     */
-    itemRadius: number;
+  /**
+   * radius used to render items
+   * @default 2
+   */
+  itemRadius: number;
 
-    /**
-     * item style used to render items
-     * @default circle
-     */
-    itemStyle: 'circle'|'triangle'|'rect'|'rectRounded'|'rectRot'|'cross'|'crossRot'|'star'|'line'|'dash';
+  /**
+   * item style used to render items
+   * @default circle
+   */
+  itemStyle: 'circle'|'triangle'|'rect'|'rectRounded'|'rectRot'|'cross'|'crossRot'|'star'|'line'|'dash';
 
-    /*
-     * background color for items
-     * @default see rectangle backgroundColor
-     */
-    itemBackgroundColor: string;
+  /*
+   * background color for items
+   * @default see rectangle backgroundColor
+   */
+  itemBackgroundColor: string;
 
-    /*
-     * border color for items
-     * @default see rectangle backgroundColor
-     */
-    itemBorderColor: string;
+  /*
+   * border color for items
+   * @default see rectangle backgroundColor
+   */
+  itemBorderColor: string;
 
-    /**
-     * padding for a single box or violin
-     * less than 1 is interpreted as percent
-     * greater than 1 is interpreted as pixel
-     * @default 0;
-     */
-    padding: number;
+  /**
+   * padding for a single box or violin
+   * less than 1 is interpreted as percent
+   * greater than 1 is interpreted as pixel
+   * @default 0;
+   */
+  padding: number;
 }
 
 interface IBoxPlotStyling extends IBaseStyling {
-    // no extra styling options
+  // no extra styling options
 }
 
 interface IViolinStyling extends IBaseStyling {
-    /**
-    * number of sample points of the underlying KDE for creating the violin plot
-    * @default 100
-    */
-    points: number;
+  /**
+  * number of sample points of the underlying KDE for creating the violin plot
+  * @default 100
+  */
+  points: number;
 }
 ```
 
@@ -103,19 +103,19 @@ Both `arrayLinear` and `arrayLogarithmic` support the two additional options to 
 
 ```typescript
 interface IArrayLinearScale {
-	ticks: {
-		/**
-		 * statistic measure that should be used for computing the minimal data limit
-		 * @default 'min'
-		 */
-		minStats: 'min'|'q1'|'whiskerMin';
+  ticks: {
+    /**
+     * statistic measure that should be used for computing the minimal data limit
+     * @default 'min'
+     */
+    minStats: 'min'|'q1'|'whiskerMin';
 
-		/**
-		 * statistic measure that should be used for computing the maximal data limit
-		 * @default 'max'
-		 */
-		minStats: 'max'|'q3'|'whiskerMax';
-	}
+    /**
+     * statistic measure that should be used for computing the maximal data limit
+     * @default 'max'
+     */
+    minStats: 'max'|'q3'|'whiskerMax';
+  }
 }
 ```
 
