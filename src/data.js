@@ -101,8 +101,8 @@ export function asViolinStats(value) {
 	return value.__kde;
 }
 
-export function asMinMaxStats(value) {
-	if (typeof value.min === 'number' && typeof value.max === 'number') {
+export function asValueStats(value, minStats, maxStats) {
+	if (typeof value[minStats] === 'number' && typeof value[maxStats] === 'number') {
 		return value;
 	}
 	if (!Array.isArray(value)) {
@@ -122,9 +122,19 @@ export function getRightValue(rawValue) {
 	return b ? b.median : rawValue;
 }
 
+export const commonScaleOptions = {
+	ticks: {
+		minStats: 'min',
+		maxStats: 'max'
+	}
+};
+
 export function commonDataLimits(extraCallback) {
 	const chart = this.chart;
 	const isHorizontal = this.isHorizontal();
+	const tickOpts = this.options.ticks;
+	const minStats = tickOpts.minStats;
+	const maxStats = tickOpts.maxStats;
 
 	const matchID = (meta) => isHorizontal ? meta.xAxisID === this.id : meta.yAxisID === this.id;
 
@@ -143,24 +153,21 @@ export function commonDataLimits(extraCallback) {
 			if (!value || meta.data[j].hidden) {
 				return;
 			}
-			const minmax = asMinMaxStats(value);
-			if (!minmax) {
+			const stats = asValueStats(value, minStats, maxStats);
+			if (!stats) {
 				return;
 			}
-			if (this.min === null) {
-				this.min = minmax.min;
-			} else if (minmax.min < this.min) {
-				this.min = minmax.min;
+
+			if (this.min === null || stats[minStats] < this.min) {
+				this.min = stats[minStats];
 			}
 
-			if (this.max === null) {
-				this.max = minmax.max;
-			} else if (minmax.max > this.max) {
-				this.max = minmax.max;
+			if (this.max === null || stats[maxStats] > this.max) {
+				this.max = stats[maxStats];
 			}
 
 			if (extraCallback) {
-				extraCallback(minmax);
+				extraCallback(stats);
 			}
 		});
 	});

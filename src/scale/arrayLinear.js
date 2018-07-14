@@ -1,7 +1,11 @@
 'use strict';
 
 import * as Chart from 'chart.js';
-import {getRightValue, commonDataLimits} from '../data';
+import {getRightValue, commonDataLimits, commonScaleOptions} from '../data';
+
+const helpers = Chart.helpers;
+
+const ArrayLinearScaleOptions = helpers.merge({}, [commonScaleOptions, Chart.scaleService.getScaleDefaults('linear')]);
 
 const ArrayLinearScale = Chart.scaleService.getScaleConstructor('linear').extend({
 	getRightValue(rawValue) {
@@ -13,6 +17,6 @@ const ArrayLinearScale = Chart.scaleService.getScaleConstructor('linear').extend
 		this.handleTickRangeOptions();
 	}
 });
-Chart.scaleService.registerScaleType('arrayLinear', ArrayLinearScale, Chart.scaleService.getScaleDefaults('linear'));
+Chart.scaleService.registerScaleType('arrayLinear', ArrayLinearScale, ArrayLinearScaleOptions);
 
 export default ArrayLinearScale;
