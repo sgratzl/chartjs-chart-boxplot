@@ -8,7 +8,7 @@ export const defaults = Object.assign({}, Chart.defaults.global.elements.rectang
 	borderWidth: 1,
 	outlierRadius: 2,
 	outlierColor: Chart.defaults.global.elements.rectangle.backgroundColor,
-	itemRadius: 2,
+	itemRadius: 0,
 	itemStyle: 'circle',
 	itemBackgroundColor: Chart.defaults.global.elements.rectangle.backgroundColor,
 	itemBorderColor: Chart.defaults.global.elements.rectangle.borderColor,
