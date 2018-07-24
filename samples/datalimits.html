@@ -5,8 +5,8 @@
   <title>Box Plot Chart</title>
   <script src="../node_modules/chart.js/dist/Chart.bundle.js"></script>
   <script src="../build/Chart.BoxPlot.js" type="text/javascript"></script>
-    <script src="./utils.js"></script>
-    <script src="https://d3js.org/d3-random.v1.min.js"></script>
+  <script src="https://unpkg.com/d3-random"></script>
+  <script src="./utils.js"></script>
   <style>
   canvas {
     -moz-user-select: none;
@@ -24,11 +24,10 @@
   <button id="limitWhiskers">Limit to whiskers</button>
   <script>
     const samples = this.Samples.utils;
-        var color = Chart.helpers.color;
-        var b = d3.randomNormal();
-        var random = (min, max) => () => (b() * ((max || 1) - (min || 0))) + (min || 0);
-        // var random = d3.randomUniform;
-        var boxplotData = {
+    var color = Chart.helpers.color;
+    var b = d3.randomNormal();
+    var random = (min, max) => () => (b() * ((max || 1) - (min || 0))) + (min || 0);
+    var boxplotData = {
       labels: samples.months({count: 7}),
       datasets: [{
         label: 'Dataset 1',
@@ -36,37 +35,34 @@
         borderColor: window.chartColors.red,
         borderWidth: 1,
         data: samples.boxplots({count: 7, random: random}),
-        outlierColor: '#999999',
-        padding: 10
+        outlierColor: '#999999'
       }, {
         label: 'Dataset 2',
         backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
         borderColor: window.chartColors.blue,
         borderWidth: 1,
         data: samples.boxplotsArray({count: 7, random: random}),
-        outlierColor: '#999999',
-        padding: 10
+        outlierColor: '#999999'
       }]
-
-        };
-        const options = {
-            responsive: true,
-            legend: {
-                position: 'top',
-            },
-            title: {
-                display: true,
-                text: 'Chart.js Box Plot Chart'
-            },
-            scales: {
-              yAxes: [{
-                ticks: {
-                  minStats: 'min',
-                  maxStats: 'max'
-                }
-              }]
+    };
+    const options = {
+        responsive: true,
+        legend: {
+            position: 'top',
+        },
+        title: {
+            display: true,
+            text: 'Chart.js Box Plot Chart'
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              minStats: 'min',
+              maxStats: 'max'
             }
-        };
+          }]
+        }
+    };
 
     window.onload = function() {
       var ctx = document.getElementById("canvas").getContext("2d");
@@ -74,27 +70,27 @@
         type: 'boxplot',
         data: boxplotData,
         options: options
-            });
+      });
 
-            document.getElementById('limitMinMax').onclick = function() {
-              options.scales.yAxes[0].ticks.minStats = 'min';
-              options.scales.yAxes[0].ticks.maxStats = 'max';
-              window.myBar = new Chart(ctx, {
-                  type: 'boxplot',
-                  data: boxplotData,
-                  options: options
-              });
-            };
-            document.getElementById('limitWhiskers').onclick = function() {
-              options.scales.yAxes[0].ticks.minStats = 'whiskerMin';
-              options.scales.yAxes[0].ticks.maxStats = 'whiskerMax';
-              window.myBar = new Chart(ctx, {
-                  type: 'boxplot',
-                  data: boxplotData,
-                  options: options
-              });
-            };
-        };
+      document.getElementById('limitMinMax').onclick = function() {
+        options.scales.yAxes[0].ticks.minStats = 'min';
+        options.scales.yAxes[0].ticks.maxStats = 'max';
+        window.myBar = new Chart(ctx, {
+            type: 'boxplot',
+            data: boxplotData,
+            options: options
+        });
+      };
+      document.getElementById('limitWhiskers').onclick = function() {
+        options.scales.yAxes[0].ticks.minStats = 'whiskerMin';
+        options.scales.yAxes[0].ticks.maxStats = 'whiskerMax';
+        window.myBar = new Chart(ctx, {
+            type: 'boxplot',
+            data: boxplotData,
+            options: options
+        });
+      };
+    };
   </script>
 </body>
 

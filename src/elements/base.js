@@ -2,7 +2,6 @@
 
 import * as Chart from 'chart.js';
 import {rnd} from '../data';
-import {computeLaneWidth} from '../utils';
 
 export const defaults = Object.assign({}, Chart.defaults.global.elements.rectangle, {
   borderWidth: 1,
@@ -11,7 +10,7 @@ export const defaults = Object.assign({}, Chart.defaults.global.elements.rectang
   itemRadius: 2,
   itemStyle: 'circle',
   itemBackgroundColor: Chart.defaults.global.elements.rectangle.backgroundColor,
-  itemBorderColor: Chart.defaults.global.elements.rectangle.borderColor,
+  itemBorderColor: Chart.defaults.global.elements.rectangle.borderColor
 });
 
 const ArrayElementBase = Chart.Element.extend({
@@ -32,18 +31,13 @@ const ArrayElementBase = Chart.Element.extend({
     // use the median to initialize the random number generator
     const random = rnd(container.median);
 
-    const itemRadius = vm.itemRadius;
     if (vert) {
-      const x = vm.x;
-      const width = computeLaneWidth(vm.width, vm.padding);
       container.items.forEach((v) => {
-        Chart.canvasHelpers.drawPoint(ctx, vm.itemStyle, itemRadius, x - width / 2 + random() * width, v);
+        Chart.canvasHelpers.drawPoint(ctx, vm.itemStyle, vm.itemRadius, vm.x - vm.width / 2 + random() * vm.width, v);
       });
     } else {
-      const y = vm.y;
-      const height = computeLaneWidth(vm.height, vm.padding);
       container.items.forEach((v) => {
-        Chart.canvasHelpers.drawPoint(ctx, vm.itemStyle, itemRadius, v, y - height / 2 + random() * height);
+        Chart.canvasHelpers.drawPoint(ctx, vm.itemStyle, vm.itemRadius, v, vm.y - vm.height / 2 + random() * vm.height);
       });
     }
     ctx.restore();
@@ -52,18 +46,15 @@ const ArrayElementBase = Chart.Element.extend({
     if (!container.outliers) {
       return;
     }
-    const outlierRadius = vm.outlierRadius;
     ctx.fillStyle = vm.outlierColor;
     ctx.beginPath();
     if (vert) {
-      const x = vm.x;
       container.outliers.forEach((v) => {
-        ctx.arc(x, v, outlierRadius, 0, Math.PI * 2);
+        ctx.arc(vm.x, v, vm.outlierRadius, 0, Math.PI * 2);
       });
     } else {
-      const y = vm.y;
       container.outliers.forEach((v) => {
-        ctx.arc(v, y, outlierRadius, 0, Math.PI * 2);
+        ctx.arc(v, vm.y, vm.outlierRadius, 0, Math.PI * 2);
       });
     }
     ctx.fill();

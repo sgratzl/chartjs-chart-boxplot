@@ -3,8 +3,9 @@
 
 Chart.js module for charting box and violin plots
 
-![Box Plot](https://user-images.githubusercontent.com/4129778/33257815-cee715e8-d357-11e7-899b-9f18f5ab7a5c.png)
-![Violin Plot](https://user-images.githubusercontent.com/4129778/33257814-cecc222e-d357-11e7-8def-e298b7e655b1.png)
+![Box Plot](https://user-images.githubusercontent.com/4129778/42724341-9a6ec554-8770-11e8-99b5-626e34dafdb3.png)
+![Violin Plot](https://user-images.githubusercontent.com/4129778/42724342-9a8dbb58-8770-11e8-9a30-3e69d07d3b79.png)
+
 
 ## Install
 ```bash
@@ -72,14 +73,6 @@ interface IBaseStyling {
    * @default see rectangle backgroundColor
    */
   itemBorderColor: string;
-
-  /**
-   * padding for a single box or violin
-   * less than 1 is interpreted as percent
-   * greater than 1 is interpreted as pixel
-   * @default 0;
-   */
-  padding: number;
 }
 
 interface IBoxPlotStyling extends IBaseStyling {

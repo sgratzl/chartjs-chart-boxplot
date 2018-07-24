@@ -1,6 +1,9 @@
 'use strict';
 
-import {quantile, extent} from 'd3-array';
+import {
+  quantile,
+  extent
+} from 'd3-array';
 import kde from 'science/src/stats/kde';
 
 export function whiskers(boxplot) {
@@ -8,7 +11,10 @@ export function whiskers(boxplot) {
   // since top left is max
   const whiskerMin = Math.max(boxplot.min, boxplot.q1 - iqr);
   const whiskerMax = Math.min(boxplot.max, boxplot.q3 + iqr);
-  return {whiskerMin, whiskerMax};
+  return {
+    whiskerMin,
+    whiskerMax
+  };
 }
 
 export function boxplotStats(arr) {
@@ -37,7 +43,10 @@ export function boxplotStats(arr) {
     q3: quantile(arr, 0.75),
     outliers: []
   };
-  const {whiskerMin, whiskerMax} = whiskers(base);
+  const {
+    whiskerMin,
+    whiskerMax
+  } = whiskers(base);
   base.outliers = arr.filter((v) => v < whiskerMin || v > whiskerMax);
   base.whiskerMin = whiskerMin;
   base.whiskerMax = whiskerMax;
@@ -70,7 +79,10 @@ export function asBoxPlotStats(value) {
   if (typeof value.median === 'number' && typeof value.q1 === 'number' && typeof value.q3 === 'number') {
     // sounds good, check for helper
     if (typeof value.whiskerMin === 'undefined') {
-      const {whiskerMin, whiskerMax} = whiskers(value);
+      const {
+        whiskerMin,
+        whiskerMax
+      } = whiskers(value);
       value.whiskerMin = whiskerMin;
       value.whiskerMax = whiskerMax;
     }
