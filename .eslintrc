@@ -43,7 +43,7 @@ rules:
   accessor-pairs: 2
   array-callback-return: 0
   block-scoped-var: 0
-  complexity: [2, 10]
+  complexity: [2, 15]
   consistent-return: 0
   curly: [2, all]
   default-case: 2
@@ -140,7 +140,7 @@ rules:
   func-style: 0
   id-length: 0
   id-match: 0
-  indent: [2, tab]
+  indent: [2, 2]
   jsx-quotes: 0
   key-spacing: 2
   keyword-spacing: 2

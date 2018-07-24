@@ -29,10 +29,11 @@
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-commonjs": "^8.2.6",
     "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-watch": "^4.3.1",
     "uglify-es": "^3.2.0"
   },
   "scripts": {
-		"clean": "rimraf build",
+    "clean": "rimraf build",
     "watch": "rollup -c -w -i src/index.js",
     "test": "eslint src",
     "build:dev": "rollup -c -i src/index.js",
@@ -45,6 +46,6 @@
     "release:major": "npm version major && npm publish && git push --follow-tags",
     "release:minor": "npm version minor && npm publish && git push --follow-tags",
     "release:patch": "npm version patch && npm publish && git push --follow-tags",
-		"release:pre": "npm version prerelease && npm publish --tag=next && git push --follow-tags"
+    "release:pre": "npm version prerelease && npm publish --tag=next && git push --follow-tags"
   }
 }
