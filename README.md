@@ -107,8 +107,8 @@ interface IArrayLinearScale {
      * statistic measure that should be used for computing the maximal data limit
      * @default 'max'
      */
-    minStats: 'max'|'q3'|'whiskerMax';
-  }
+    maxStats: 'max'|'q3'|'whiskerMax';
+	}
 }
 ```
 
