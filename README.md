@@ -157,7 +157,7 @@ interface IKDESamplePoint {
 
 interface IViolinItem extends IBaseItem {
   /**
-   * samples of the underlying KDE
+   * samples of the underlying Kernel Density Estimator (KDE)
    */
   coords: IKDESamplePoint[];
 }
