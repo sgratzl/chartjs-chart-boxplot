@@ -47,12 +47,16 @@ window.chartColors = {
 			this._seed = seed;
 		},
 
-		rand: function(min, max) {
+		randF: function(min, max) {
 			var seed = this._seed;
 			min = min === undefined ? 0 : min;
 			max = max === undefined ? 1 : max;
 			this._seed = (seed * 9301 + 49297) % 233280;
-			return min + (this._seed / 233280) * (max - min);
+			return () => min + (this._seed / 233280) * (max - min);
+		},
+
+		rand: function(min, max) {
+			return this.randF(min, max)();
 		},
 
 		numbers: function(config) {
@@ -66,10 +70,12 @@ window.chartColors = {
 			var dfactor = Math.pow(10, decimals) || 0;
 			var data = [];
 			var i, value;
+			var rand = cfg.random ? cfg.random(min, max) : this.randF(min, max);
+			var rand01 = cfg.random01 ? cfg.random01() : this.randF();
 
 			for (i = 0; i < count; ++i) {
-				value = (from[i] || 0) + this.rand(min, max);
-				if (this.rand() <= continuity) {
+				value = (from[i] || 0) + rand();
+				if (rand01() <= continuity) {
 					data.push(Math.round(dfactor * value) / dfactor);
 				} else {
 					data.push(null);

@@ -1,4 +1,4 @@
-# Chart.js Box and Violin Plot 
+# Chart.js Box and Violin Plot
 [![datavisyn][datavisyn-image]][datavisyn-url] [![NPM Package][npm-image]][npm-url] [![CircleCI][circleci-image]][circleci-url]
 
 Chart.js module for charting box and violin plots
@@ -18,7 +18,7 @@ and [CodePen](https://codepen.io/sgratzl/pen/QxoLoY)
 
 ## Chart
 
-four new types: `boxplot`, `horizontalBoxplot`, `violin`, and `horizontalViolin`. 
+four new types: `boxplot`, `horizontalBoxplot`, `violin`, and `horizontalViolin`.
 
 ## Styling
 The boxplot element is called `boxandwhiskers`. The basic options are from the `rectangle` element. The violin element is called `violin` also based on the `rectangle` element.
@@ -37,13 +37,13 @@ interface IBaseStyling {
      * @default 1
      */
     borderWidth: number;
-    
+
     /**
      * radius used to render outliers
      * @default 2
      */
     outlierRadius: number;
-    
+
     /**
      * @default see rectangle.backgroundColor
      */
@@ -54,7 +54,7 @@ interface IBaseStyling {
      * @default 2
      */
     itemRadius: number;
-    
+
     /**
      * item style used to render items
      * @default circle
@@ -95,7 +95,29 @@ interface IViolinStyling extends IBaseStyling {
 }
 ```
 
-In addition, two new scales were created  `arrayLinear` and `arrayLogarithmic`. They were needed to adapt to the required data structure.
+In addition, two new scales were created `arrayLinear` and `arrayLogarithmic`. They were needed to adapt to the required data structure.
+
+## Scale Options
+
+Both `arrayLinear` and `arrayLogarithmic` support the two additional options to their regular counterparts:
+
+```typescript
+interface IArrayLinearScale {
+	ticks: {
+		/**
+		 * statistic measure that should be used for computing the minimal data limit
+		 * @default 'min'
+		 */
+		minStats: 'min'|'q1'|'whiskerMin';
+
+		/**
+		 * statistic measure that should be used for computing the maximal data limit
+		 * @default 'max'
+		 */
+		maxStats: 'max'|'q3'|'whiskerMax';
+	}
+}
+```
 
 ## Data structure
 
@@ -108,34 +130,34 @@ interface IBaseItem {
   median: number;
   max: number;
   /**
-   * values of the raw items used for rendering jittered background points 
+   * values of the raw items used for rendering jittered background points
    */
-  items?: number[];     
+  items?: number[];
 }
 
 interface IBoxPlotItem extends IBaseItem {
   q1: number;
   q3: number;
   /**
-   * list of box plot outlier values  
+   * list of box plot outlier values
    */
   outliers?: number[];
 }
 
 interface IKDESamplePoint {
   /**
-   * sample value 
-   */   
+   * sample value
+   */
   v: number;
   /**
-   * sample estimation 
+   * sample estimation
    */
   estimate: number;
 }
 
 interface IViolinItem extends IBaseItem {
   /**
-   * samples of the underlying KDE 
+   * samples of the underlying Kernel Density Estimator (KDE)
    */
   coords: IKDESamplePoint[];
 }
@@ -160,7 +182,7 @@ This repository is created by&nbsp;<strong><a href="http://datavisyn.io">datavis
 [datavisyn-image]: https://img.shields.io/badge/datavisyn-io-black.svg
 [datavisyn-url]: http://datavisyn.io
 [npm-image]: https://badge.fury.io/js/chartjs-chart-box-and-violin-plot.svg
-[npm-url]: https://npmjs.org/package/chartjs-chart-box-and-violin-plot 
+[npm-url]: https://npmjs.org/package/chartjs-chart-box-and-violin-plot
 [circleci-image]: https://circleci.com/gh/datavisyn/chartjs-chart-box-and-violin-plot.svg?style=shield
 [circleci-url]: https://circleci.com/gh/datavisyn/chartjs-chart-box-and-violin-plot
 

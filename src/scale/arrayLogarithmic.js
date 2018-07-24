@@ -1,24 +1,28 @@
 'use strict';
 
 import * as Chart from 'chart.js';
-import {getRightValue, commonDataLimits} from '../data';
+import {getRightValue, commonDataLimits, commonScaleOptions} from '../data';
 
 const helpers = Chart.helpers;
+
+const ArrayLogarithmicScaleOptions = helpers.merge({}, [commonScaleOptions, Chart.scaleService.getScaleDefaults('logarithmic')]);
+
 
 const ArrayLogarithmicScale = Chart.scaleService.getScaleConstructor('logarithmic').extend({
 	getRightValue(rawValue) {
 		return Chart.LinearScaleBase.prototype.getRightValue.call(this, getRightValue(rawValue));
 	},
 	determineDataLimits() {
+		// Add whitespace around bars. Axis shouldn't go exactly from min to max
+		const tickOpts = this.options.ticks;
 		this.minNotZero = null;
 		commonDataLimits.call(this, (boxPlot) => {
-			if (boxPlot.min !== 0 && (this.minNotZero === null || boxPlot.min < this.minNotZero)) {
-				this.minNotZero = boxPlot.min;
+			const value = boxPlot[tickOpts.minStats];
+			if (value !== 0 && (this.minNotZero === null || value < this.minNotZero)) {
+				this.minNotZero = value;
 			}
 		});
 
-		// Add whitespace around bars. Axis shouldn't go exactly from min to max
-		const tickOpts = this.options.ticks;
 		this.min = helpers.valueOrDefault(tickOpts.min, this.min - this.min * 0.05);
 		this.max = helpers.valueOrDefault(tickOpts.max, this.max + this.max * 0.05);
 
@@ -33,6 +37,6 @@ const ArrayLogarithmicScale = Chart.scaleService.getScaleConstructor('logarithmi
 		}
 	}
 });
-Chart.scaleService.registerScaleType('arrayLogarithmic', ArrayLogarithmicScale, Chart.scaleService.getScaleDefaults('logarithmic'));
+Chart.scaleService.registerScaleType('arrayLogarithmic', ArrayLogarithmicScale, ArrayLogarithmicScaleOptions);
 
 export default ArrayLogarithmicScale;
