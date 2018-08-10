@@ -4,13 +4,15 @@ import commonjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
 
 export default {
-  dest: 'build/Chart.BoxPlot.js',
-  format: 'umd',
-  external: ['chart.js'],
-  globals: {
-    'chart.js': 'Chart'
+  output: {
+    file: 'build/Chart.BoxPlot.js',
+    name: 'ChartBoxPlot',
+    format: 'umd',
+    globals: {
+      'chart.js': 'Chart'
+    }
   },
-  moduleName: 'ChartBoxPlot',
+  external: ['chart.js'],
   plugins: [
     resolve(),
     commonjs(),
