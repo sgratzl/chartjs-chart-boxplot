@@ -52,7 +52,7 @@ interface IBaseStyling {
 
   /**
    * radius used to render items
-   * @default 2
+   * @default 0 so disabled
    */
   itemRadius: number;
 
@@ -108,7 +108,7 @@ interface IArrayLinearScale {
      * @default 'max'
      */
     maxStats: 'max'|'q3'|'whiskerMax';
-	}
+  };
 }
 ```
 
