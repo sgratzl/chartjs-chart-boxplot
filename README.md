@@ -131,6 +131,8 @@ interface IBaseItem {
 interface IBoxPlotItem extends IBaseItem {
   q1: number;
   q3: number;
+  whiskerMin?: number;
+  whiskerMax?: number;
   /**
    * list of box plot outlier values
    */
