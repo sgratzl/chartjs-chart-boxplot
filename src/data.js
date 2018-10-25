@@ -6,11 +6,30 @@ import {
 } from 'd3-array';
 import kde from 'science/src/stats/kde';
 
-export function whiskers(boxplot) {
+export function whiskers(boxplot, arr) {
   const iqr = boxplot.q3 - boxplot.q1;
   // since top left is max
-  const whiskerMin = Math.max(boxplot.min, boxplot.q1 - iqr);
-  const whiskerMax = Math.min(boxplot.max, boxplot.q3 + iqr);
+  let whiskerMin = Math.max(boxplot.min, boxplot.q1 - iqr);
+  let whiskerMax = Math.min(boxplot.max, boxplot.q3 + iqr);
+
+  if (Array.isArray(arr)) {
+    // compute the closest real element
+    for (let i = 0; i < arr.length; i++) {
+      const v = arr[i];
+      if (v >= whiskerMin) {
+        whiskerMin = v;
+        break;
+      }
+    }
+    for (let i = arr.length - 1; i >= 0; i--) {
+      const v = arr[i];
+      if (v <= whiskerMax) {
+        whiskerMax = v;
+        break;
+      }
+    }
+  }
+
   return {
     whiskerMin,
     whiskerMax
@@ -46,7 +65,7 @@ export function boxplotStats(arr) {
   const {
     whiskerMin,
     whiskerMax
-  } = whiskers(base);
+  } = whiskers(base, arr);
   base.outliers = arr.filter((v) => v < whiskerMin || v > whiskerMax);
   base.whiskerMin = whiskerMin;
   base.whiskerMax = whiskerMax;
@@ -82,7 +101,7 @@ export function asBoxPlotStats(value) {
       const {
         whiskerMin,
         whiskerMax
-      } = whiskers(value);
+      } = whiskers(value, Array.isArray(value.items) ? value.items.slice().sort((a, b) => a - b) : null);
       value.whiskerMin = whiskerMin;
       value.whiskerMax = whiskerMax;
     }
