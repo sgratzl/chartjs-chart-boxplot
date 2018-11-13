@@ -10,7 +10,8 @@ export const defaults = Object.assign({}, Chart.defaults.global.elements.rectang
   itemRadius: 0,
   itemStyle: 'circle',
   itemBackgroundColor: Chart.defaults.global.elements.rectangle.backgroundColor,
-  itemBorderColor: Chart.defaults.global.elements.rectangle.borderColor
+  itemBorderColor: Chart.defaults.global.elements.rectangle.borderColor,
+  hitPadding: 2
 });
 
 const ArrayElementBase = Chart.Element.extend({
@@ -70,6 +71,16 @@ const ArrayElementBase = Chart.Element.extend({
       bottom: 0
     };
   },
+  _getHitBounds() {
+    const padding = this._view.hitPadding;
+    const b = this._getBounds();
+    return {
+      left: b.left - padding,
+      top: b.top - padding,
+      right: b.right + padding,
+      bottom: b.bottom + padding
+    };
+  },
   height() {
     return 0; // abstract
   },
@@ -77,25 +88,25 @@ const ArrayElementBase = Chart.Element.extend({
     if (!this._view) {
       return false;
     }
-    const bounds = this._getBounds();
+    const bounds = this._getHitBounds();
     return mouseX >= bounds.left && mouseX <= bounds.right && mouseY >= bounds.top && mouseY <= bounds.bottom;
   },
   inLabelRange(mouseX, mouseY) {
     if (!this._view) {
       return false;
     }
-    const bounds = this._getBounds();
+    const bounds = this._getHitBounds();
     if (this.isVertical()) {
       return mouseX >= bounds.left && mouseX <= bounds.right;
     }
     return mouseY >= bounds.top && mouseY <= bounds.bottom;
   },
   inXRange(mouseX) {
-    const bounds = this._getBounds();
+    const bounds = this._getHitBounds();
     return mouseX >= bounds.left && mouseX <= bounds.right;
   },
   inYRange(mouseY) {
-    const bounds = this._getBounds();
+    const bounds = this._getHitBounds();
     return mouseY >= bounds.top && mouseY <= bounds.bottom;
   },
   getCenterPoint() {

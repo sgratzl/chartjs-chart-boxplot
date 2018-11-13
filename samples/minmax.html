@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Box Plot Chart</title>
+  <script src="../node_modules/chart.js/dist/Chart.bundle.js"></script>
+  <script src="../build/Chart.BoxPlot.js" type="text/javascript"></script>
+  <script src="https://unpkg.com/d3-random"></script>
+  <script src="./utils.js"></script>
+  <style>
+  canvas {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="container" style="width: 75%;">
+    <canvas id="canvas"></canvas>
+  </div>
+  <script>
+    var boxplotData = {
+      labels: ['A', 'B'],
+      datasets: [{
+        label: 'Min = Max',
+        data: [
+          [10, 20, 30, 40, 60, 80, 100],
+          [20, 20, 20]
+        ]
+      }]
+
+    };
+
+    window.onload = function() {
+      var ctx = document.getElementById("canvas").getContext("2d");
+      window.myBar = new Chart(ctx, {
+        type: 'boxplot',
+        data: boxplotData,
+        options: {
+          responsive: true,
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Chart.js Box Plot Chart'
+          },
+          scales: {
+            xAxes: [{
+              // Specific to Bar Controller
+              categoryPercentage: 0.9,
+              barPercentage: 0.8
+            }]
+          }
+        }
+      });
+    };
+  </script>
+</body>
+
+</html>

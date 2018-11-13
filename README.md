@@ -73,6 +73,12 @@ interface IBaseStyling {
    * @default see rectangle backgroundColor
    */
   itemBorderColor: string;
+
+  /**
+   * padding thst is added around the bounding box when computing a mouse hit
+   * @default 1
+   */
+  hitPadding: number;
 }
 
 interface IBoxPlotStyling extends IBaseStyling {
