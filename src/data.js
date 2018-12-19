@@ -4,7 +4,7 @@ import quantiles from '@sgratzl/science/src/stats/quantiles';
 import kde from '@sgratzl/science/src/stats/kde';
 
 function extent(arr) {
-  return arr.reduce((acc, v) => [Math.min(acc[0], v), Math.max(acc[1], v)], [Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY]);
+  return arr.reduce((acc, v) => [Math.min(acc[0], v), Math.max(acc[1], v)], [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY]);
 }
 
 export function whiskers(boxplot, arr) {
@@ -54,7 +54,7 @@ export function boxplotStats(arr) {
   arr = arr.filter((v) => typeof v === 'number' && !isNaN(v));
   arr.sort((a, b) => a - b);
 
-  const {median, q1, q3} = quantiles(arr, [0.5, 0.25, 0.75]);
+  const [median, q1, q3] = quantiles(arr, [0.5, 0.25, 0.75]);
 
   const minmax = extent(arr);
   const base = {
