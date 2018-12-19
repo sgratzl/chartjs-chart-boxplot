@@ -3,7 +3,6 @@
 import {asViolinStats} from '../data';
 import * as Chart from 'chart.js';
 import base, {verticalDefaults, horizontalDefaults} from './base';
-import {range as d3range, max as d3max} from 'd3-array';
 
 const defaults = {};
 
@@ -37,7 +36,11 @@ const controller = Object.assign({}, base, {
     const violin = asViolinStats(data);
 
     const range = violin.max - violin.min;
-    const samples = d3range(violin.min, violin.max, range / points);
+    const samples = [];
+    const inc = range / points;
+    for (let v = violin.min; v <= violin.max; v += inc) {
+      samples.push(v);
+    };
     if (samples[samples.length - 1] !== violin.max) {
       samples.push(violin.max);
     }
@@ -47,7 +50,7 @@ const controller = Object.assign({}, base, {
       max: scale.getPixelForValue(violin.max),
       median: scale.getPixelForValue(violin.median),
       coords: coords.map(({v, estimate}) => ({v: scale.getPixelForValue(v), estimate})),
-      maxEstimate: d3max(coords, (d) => d.estimate)
+      maxEstimate: coords.reduce((a, d) => Math.max(a, d.estimate), Number.NEGATIVE_INFINITY)
     };
     this._calculateCommonModel(r, data, violin, scale);
     return r;

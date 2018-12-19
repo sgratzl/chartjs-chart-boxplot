@@ -1,7 +1,6 @@
 {
   "name": "chartjs-chart-box-and-violin-plot",
   "description": "Chart.js module for charting boxplots",
-  "main": "build/Chart.BoxPlot.js",
   "version": "1.1.2",
   "author": {
     "name": "Samuel Gratzl",
@@ -13,22 +12,30 @@
     "type": "git",
     "url": "https://github.com/datavisyn/chartjs-chart-box-and-violin-plot.git"
   },
+  "main": "build/Chart.BoxPlot.js",
+  "unpkg": "build/Chart.BoxPlot.min.js",
+  "module": "build/Chart.BoxPlot.mjs",
+  "files": [
+    "build",
+    "src/**/*.js"
+  ],
   "dependencies": {
-    "chart.js": "^2.7.2",
-    "d3-array": "^1.2.1",
-    "science": "github:sgratzl/science.js"
+    "chart.js": "^2.7.3",
+    "@sgratzl/science": "^2.0.0"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-preset-env": "^1.7.0",
-    "eslint": "^5.3.0",
-    "package-preamble": "^0.1.0",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
+    "eslint": "^5.10.0",
+    "jest": "^23.6.0",
+    "release-it": "^9.2.0",
     "rimraf": "^2.6.2",
-    "rollup": "^0.64.1",
-    "rollup-plugin-babel": "^3.0.7",
-    "rollup-plugin-commonjs": "^9.1.5",
-    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup": "^0.68.0",
+    "rollup-plugin-babel": "^4.1.0",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^4.0.0",
     "rollup-watch": "^4.3.1",
     "uglify-es": "^3.3.9"
   },
@@ -36,6 +43,7 @@
     "clean": "rimraf build",
     "watch": "rollup -c -w -i src/index.js",
     "test": "eslint src",
+    "test:watch": "jest --watch",
     "build:dev": "rollup -c -i src/index.js",
     "build:prod": "npm run build:dev && uglifyjs build/Chart.BoxPlot.js -c -m -o build/Chart.BoxPlot.min.js",
     "prebuild": "npm run clean && npm test",
@@ -43,9 +51,9 @@
     "preversion": "npm run test",
     "prepare": "npm run build:dev",
     "prepublishOnly": "npm run build:prod",
-    "release:major": "npm version major && npm publish && git push --follow-tags",
-    "release:minor": "npm version minor && npm publish && git push --follow-tags",
-    "release:patch": "npm version patch && npm publish && git push --follow-tags",
-    "release:pre": "npm version prerelease && npm publish --tag=next && git push --follow-tags"
+    "release:major": "release-it major",
+    "release:minor": "release-it minor",
+    "release:patch": "release-it patch",
+    "release:pre": "release-it --preRelease=alpha --npm.tag=next"
   }
 }

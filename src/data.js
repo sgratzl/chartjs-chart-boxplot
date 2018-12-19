@@ -1,10 +1,11 @@
 'use strict';
 
-import {
-  quantile,
-  extent
-} from 'd3-array';
-import kde from 'science/src/stats/kde';
+import quantiles from '@sgratzl/science/src/stats/quantiles';
+import kde from '@sgratzl/science/src/stats/kde';
+
+function extent(arr) {
+  return arr.reduce((acc, v) => [Math.min(acc[0], v), Math.max(acc[1], v)], [Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY]);
+}
 
 export function whiskers(boxplot, arr) {
   const iqr = boxplot.q3 - boxplot.q1;
@@ -53,13 +54,15 @@ export function boxplotStats(arr) {
   arr = arr.filter((v) => typeof v === 'number' && !isNaN(v));
   arr.sort((a, b) => a - b);
 
+  const {median, q1, q3} = quantiles(arr, [0.5, 0.25, 0.75]);
+
   const minmax = extent(arr);
   const base = {
     min: minmax[0],
     max: minmax[1],
-    median: quantile(arr, 0.5),
-    q1: quantile(arr, 0.25),
-    q3: quantile(arr, 0.75),
+    median,
+    q1,
+    q3,
     outliers: []
   };
   const {
@@ -86,7 +89,7 @@ export function violinStats(arr) {
   return {
     min: minmax[0],
     max: minmax[1],
-    median: quantile(arr, 0.5),
+    median: quantiles(arr, [0.5])[0],
     kde: kde().sample(arr)
   };
 }

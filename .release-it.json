@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "beforeStart": "npm test",
+    "beforeStage": "npm run build",
+    "afterRelease": "echo Successfully released ${name} v${version} to ${repo.repository}."
+  },
+  "git": {
+    "tagName": "v%s"
+  },
+  "npm": {
+    "publish": true
+  },
+  "github": {
+    "release": true,
+    "assets": ["build/*.js", "build/*.mjs"]
+  }
+}
