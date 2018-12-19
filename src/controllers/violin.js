@@ -40,7 +40,7 @@ const controller = Object.assign({}, base, {
     const inc = range / points;
     for (let v = violin.min; v <= violin.max; v += inc) {
       samples.push(v);
-    };
+    }
     if (samples[samples.length - 1] !== violin.max) {
       samples.push(violin.max);
     }
