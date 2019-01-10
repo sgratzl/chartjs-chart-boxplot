@@ -29,8 +29,8 @@ const ArrayElementBase = Chart.Element.extend({
     ctx.strokeStle = vm.itemBorderColor;
     ctx.fillStyle = vm.itemBackgroundColor;
     // jitter based on random data
-    // use the median to initialize the random number generator
-    const random = rnd(container.median);
+    // use the datesetindex and index to initialize the random number generator
+    const random = rnd(this._datasetIndex * 1000 + this._index);
 
     if (vert) {
       container.items.forEach((v) => {

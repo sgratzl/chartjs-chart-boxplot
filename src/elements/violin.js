@@ -8,7 +8,52 @@ Chart.defaults.global.elements.violin = Object.assign({
   points: 100
 }, defaults);
 
+function transitionViolin(start, view, model, ease) {
+  const keys = Object.keys(model);
+  for (const key of keys) {
+    const target = model[key];
+    const origin = start[key];
+    if (origin === target) {
+      continue;
+    }
+    if (typeof target === 'number') {
+      view[key] = origin + (target - origin) * ease;
+      continue;
+    }
+    if (key === 'coords') {
+      const v = view[key];
+      const common = Math.min(target.length, origin.length);
+      for (let i = 0; i < common; ++i) {
+        v[i].v = origin[i].v + (target[i].v - origin[i].v) * ease;
+        v[i].estimate = origin[i].estimate + (target[i].estimate - origin[i].estimate) * ease;
+      }
+    }
+  }
+}
+
 const Violin = Chart.elements.Violin = ArrayElementBase.extend({
+  transition(ease) {
+    const r = Chart.Element.prototype.transition.call(this, ease);
+    const model = this._model;
+		const start = this._start;
+    const view = this._view;
+
+		// No animation -> No Transition
+		if (!model || ease === 1) {
+      return r;
+    }
+    if (start.violin == null) {
+      return r; // model === view -> not copied
+    }
+
+    // create deep copy to avoid alternation
+    if (model.violin === view.violin) {
+      view.violin = Chart.helpers.clone(view.violin);
+    }
+    transitionViolin(start.violin, view.violin, model.violin, ease);
+
+    return r;
+  },
   draw() {
     const ctx = this._chart.ctx;
     const vm = this._view;
