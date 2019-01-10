@@ -35,11 +35,11 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
   transition(ease) {
     const r = Chart.Element.prototype.transition.call(this, ease);
     const model = this._model;
-		const start = this._start;
+    const start = this._start;
     const view = this._view;
 
-		// No animation -> No Transition
-		if (!model || ease === 1) {
+    // No animation -> No Transition
+    if (!model || ease === 1) {
       return r;
     }
     if (start.violin == null) {
