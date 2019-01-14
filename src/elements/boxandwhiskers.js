@@ -74,13 +74,18 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
 
   },
   _drawBoxPlot(vm, boxplot, ctx, vert) {
-    ctx.beginPath();
     if (vert) {
       const x = vm.x;
       const width = vm.width;
       const x0 = x - width / 2;
-      ctx.fillRect(x0, boxplot.q1, width, boxplot.q3 - boxplot.q1);
-      ctx.strokeRect(x0, boxplot.q1, width, boxplot.q3 - boxplot.q1);
+      if (boxplot.q3 > boxplot.q1) {
+        ctx.fillRect(x0, boxplot.q1, width, boxplot.q3 - boxplot.q1);
+        ctx.strokeRect(x0, boxplot.q1, width, boxplot.q3 - boxplot.q1);
+      } else {
+        ctx.fillRect(x0, boxplot.q3, width, boxplot.q1 - boxplot.q3);
+        ctx.strokeRect(x0, boxplot.q3, width, boxplot.q1 - boxplot.q3);
+      }
+      ctx.beginPath();
       ctx.moveTo(x0, boxplot.whiskerMin);
       ctx.lineTo(x0 + width, boxplot.whiskerMin);
       ctx.moveTo(x, boxplot.whiskerMin);
@@ -91,13 +96,20 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
       ctx.lineTo(x, boxplot.q3);
       ctx.moveTo(x0, boxplot.median);
       ctx.lineTo(x0 + width, boxplot.median);
+      ctx.closePath();
+      ctx.stroke();
     } else {
       const y = vm.y;
       const height = vm.height;
       const y0 = y - height / 2;
-      ctx.fillRect(boxplot.q1, y0, boxplot.q3 - boxplot.q1, height);
-      ctx.strokeRect(boxplot.q1, y0, boxplot.q3 - boxplot.q1, height);
-
+      if (boxplot.q3 > boxplot.q1) {
+        ctx.fillRect(boxplot.q1, y0, boxplot.q3 - boxplot.q1, height);
+        ctx.strokeRect(boxplot.q1, y0, boxplot.q3 - boxplot.q1, height);
+      } else {
+        ctx.fillRect(boxplot.q3, y0, boxplot.q1 - boxplot.q3, height);
+        ctx.strokeRect(boxplot.q3, y0, boxplot.q1 - boxplot.q3, height);
+      }
+      ctx.beginPath();
       ctx.moveTo(boxplot.whiskerMin, y0);
       ctx.lineTo(boxplot.whiskerMin, y0 + height);
       ctx.moveTo(boxplot.whiskerMin, y);
@@ -108,9 +120,10 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
       ctx.lineTo(boxplot.q3, y);
       ctx.moveTo(boxplot.median, y0);
       ctx.lineTo(boxplot.median, y0 + height);
+      ctx.closePath();
+      ctx.stroke();
     }
-    ctx.stroke();
-    ctx.closePath();
+
   },
   _getBounds() {
     const vm = this._view;
