@@ -139,7 +139,7 @@ export function asValueStats(value, minStats, maxStats) {
   if (typeof value[minStats] === 'number' && typeof value[maxStats] === 'number') {
     return value;
   }
-  if (!Array.isArray(value)) {
+  if (!Array.isArray(value) || value.length === 0) {
     return undefined;
   }
   return asBoxPlotStats(value);
