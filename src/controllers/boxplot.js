@@ -24,8 +24,8 @@ const defaults = {
 Chart.defaults.boxplot = Chart.helpers.merge({}, [Chart.defaults.bar, verticalDefaults, defaults]);
 Chart.defaults.horizontalBoxplot = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, horizontalDefaults, defaults]);
 
-const boxplot = Object.assign({}, base, {
-
+const boxplot = {
+  ...base,
   dataElementType: Chart.elements.BoxAndWhiskers,
 
   _elementOptions() {
@@ -60,7 +60,7 @@ const boxplot = Object.assign({}, base, {
     this._calculateCommonModel(r, data, v, scale);
     return r;
   }
-});
+};
 /**
  * This class is based off controller.bar.js from the upstream Chart.js library
  */

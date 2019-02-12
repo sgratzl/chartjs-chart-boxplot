@@ -4,7 +4,7 @@ import * as Chart from 'chart.js';
 import ArrayElementBase, {defaults} from './base';
 
 
-Chart.defaults.global.elements.boxandwhiskers = Object.assign({}, defaults);
+Chart.defaults.global.elements.boxandwhiskers = {...defaults};
 
 function transitionBoxPlot(start, view, model, ease) {
   const keys = Object.keys(model);

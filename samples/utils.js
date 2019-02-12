@@ -87,7 +87,7 @@ window.chartColors = {
     },
 
     randomBoxPlot: function(config) {
-      const base = this.numbers(Object.assign({}, config, {count: 10}));
+      const base = this.numbers({...config, count: 10});
       base.sort(function(a,b) { return a - b; });
       const shift = 3;
       return {
@@ -113,7 +113,7 @@ window.chartColors = {
       const count = (config || {}).count || 8;
       const data = [];
       for(let i = 0; i < count; ++i) {
-        data.push(this.numbers(Object.assign(config, {count: 50})));
+        data.push(this.numbers({...config, count: 50}));
       }
       return data;
     },

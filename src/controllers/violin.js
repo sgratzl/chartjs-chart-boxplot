@@ -9,8 +9,8 @@ const defaults = {};
 Chart.defaults.violin = Chart.helpers.merge({}, [Chart.defaults.bar, verticalDefaults, defaults]);
 Chart.defaults.horizontalViolin = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, horizontalDefaults, defaults]);
 
-const controller = Object.assign({}, base, {
-
+const controller = {
+  ...base,
   dataElementType: Chart.elements.Violin,
 
   _elementOptions() {
@@ -55,7 +55,7 @@ const controller = Object.assign({}, base, {
     this._calculateCommonModel(r, data, violin, scale);
     return r;
   }
-});
+};
 /**
  * This class is based off controller.bar.js from the upstream Chart.js library
  */

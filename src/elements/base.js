@@ -3,7 +3,8 @@
 import * as Chart from 'chart.js';
 import {rnd} from '../data';
 
-export const defaults = Object.assign({}, Chart.defaults.global.elements.rectangle, {
+export const defaults = {
+  ...Chart.defaults.global.elements.rectangle,
   borderWidth: 1,
   outlierRadius: 2,
   outlierColor: Chart.defaults.global.elements.rectangle.backgroundColor,
@@ -12,7 +13,7 @@ export const defaults = Object.assign({}, Chart.defaults.global.elements.rectang
   itemBackgroundColor: Chart.defaults.global.elements.rectangle.backgroundColor,
   itemBorderColor: Chart.defaults.global.elements.rectangle.borderColor,
   hitPadding: 2
-});
+};
 
 const ArrayElementBase = Chart.Element.extend({
   isVertical() {

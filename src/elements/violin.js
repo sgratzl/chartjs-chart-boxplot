@@ -4,9 +4,10 @@ import * as Chart from 'chart.js';
 import ArrayElementBase, {defaults} from './base';
 
 
-Chart.defaults.global.elements.violin = Object.assign({
-  points: 100
-}, defaults);
+Chart.defaults.global.elements.violin = {
+  points: 100,
+  ...defaults
+};
 
 function transitionViolin(start, view, model, ease) {
   const keys = Object.keys(model);
