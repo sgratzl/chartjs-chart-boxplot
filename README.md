@@ -35,6 +35,10 @@ interface IBaseStyling {
    */
   strokeColor: string;
   /**
+     * @default see rectangle
+     */
+  medianColor: string;
+  /**
    * @default 1
    */
   borderWidth: number;
