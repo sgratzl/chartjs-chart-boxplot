@@ -35,7 +35,7 @@ interface IBaseStyling {
    */
   strokeColor: string;
   /**
-     * @default see rectangle
+     * @default null takes the current strokeColor
      */
   medianColor: string;
   /**
