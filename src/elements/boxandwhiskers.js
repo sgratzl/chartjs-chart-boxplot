@@ -103,12 +103,14 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
     ctx.lineTo(x, boxplot.q3);
     ctx.closePath();
     ctx.stroke();
+    ctx.save();
     ctx.strokeStyle = vm.medianColor;
     ctx.beginPath();
     ctx.moveTo(x0, boxplot.median);
     ctx.lineTo(x0 + width, boxplot.median);
     ctx.closePath();
     ctx.stroke();
+    ctx.restore();
   },
   _drawBoxPlotHoriz(vm, boxplot, ctx) {
     const y = vm.y;
