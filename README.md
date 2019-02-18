@@ -30,14 +30,17 @@ interface IBaseStyling {
    * @default see rectangle
    */
   backgroundColor: string;
+
   /**
    * @default see rectangle
    */
-  strokeColor: string;
+  borderColor: string;
+
   /**
-     * @default null takes the current strokeColor
+     * @default null takes the current borderColor
      */
   medianColor: string;
+
   /**
    * @default 1
    */

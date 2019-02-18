@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Box Plot Chart</title>
+  <script src="../node_modules/chart.js/dist/Chart.bundle.js"></script>
+  <script src="../build/Chart.BoxPlot.js" type="text/javascript"></script>
+  <style>
+  canvas {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="container" style="width: 75%;">
+    <canvas id="canvas"></canvas>
+  </div>
+  <script>
+    function randomValues(count, min, max) {
+      const delta = max - min;
+      return Array.from({length: count}).map(() => Math.random() * delta + min);
+    }
+    const boxplotData = {
+      labels: ['A', 'B'],
+      datasets: [{
+        label: 'Dataset 1',
+        borderColor: 'green',
+        medianColor: 'blue',
+        borderWidth: 1,
+        outlierRadius: 3,
+        itemRadius: 3,
+        outlierColor: '#999999',
+        data: [
+          randomValues(100, 1, 9).concat([14, 16, 0]),
+          randomValues(100, 0, 10)
+        ],
+      }]
+    };
+
+    window.onload = function() {
+      var ctx = document.getElementById("canvas").getContext("2d");
+      window.myBar = new Chart(ctx, {
+        type: 'boxplot',
+        data: boxplotData,
+        options: {
+          responsive: true,
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Chart.js Box Plot Chart'
+          },
+          scales: {
+            xAxes: [{
+              // Specific to Bar Controller
+              categoryPercentage: 0.9,
+              barPercentage: 0.8
+            }]
+          }
+        }
+      });
+    };
+  </script>
+</body>
+
+</html>
