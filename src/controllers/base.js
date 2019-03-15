@@ -27,8 +27,19 @@ const array = {
     const options = this._elementOptions();
 
     Chart.controllers.bar.prototype.updateElement.call(this, elem, index, reset);
-    ['outlierRadius', 'itemRadius', 'itemStyle', 'itemBackgroundColor', 'itemBorderColor', 'outlierColor', 'medianColor', 'hitPadding'].forEach((item) => {
-      elem._model[item] = custom[item] !== undefined ? custom[item] : Chart.helpers.valueAtIndexOrDefault(dataset[item], index, options[item]);
+    const resolve = Chart.helpers.options.resolve;
+
+    const keys = ['outlierRadius', 'itemRadius', 'itemStyle', 'itemBackgroundColor', 'itemBorderColor', 'outlierColor', 'medianColor', 'hitPadding'];
+    // Scriptable options
+    const context = {
+      chart: this.chart,
+      dataIndex: index,
+      dataset,
+      datasetIndex: this.index
+    };
+
+    keys.forEach((item) => {
+      elem._model[item] = resolve([custom[item], dataset[item], options[item]], context, index);
     });
   },
   _calculateCommonModel(r, data, container, scale) {
