@@ -34,8 +34,8 @@ const boxplot = {
   /**
    * @private
    */
-  updateElementGeometry(elem, index, reset) {
-    Chart.controllers.bar.prototype.updateElementGeometry.call(this, elem, index, reset);
+  _updateElementGeometry(elem, index, reset) {
+    Chart.controllers.bar.prototype._updateElementGeometry.call(this, elem, index, reset);
     elem._model.boxplot = this._calculateBoxPlotValuesPixels(this.index, index);
   },
 
@@ -44,7 +44,7 @@ const boxplot = {
    */
 
   _calculateBoxPlotValuesPixels(datasetIndex, index) {
-    const scale = this.getValueScale();
+    const scale = this._getValueScale();
     const data = this.chart.data.datasets[datasetIndex].data[index];
     if (!data) {
       return null;
