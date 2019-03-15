@@ -1,13 +1,14 @@
 # Chart.js Box and Violin Plot
 [![datavisyn][datavisyn-image]][datavisyn-url] [![NPM Package][npm-image]][npm-url] [![CircleCI][circleci-image]][circleci-url]
 
-Chart.js module for charting box and violin plots
+Chart.js module for charting box and violin plots. **Works only with Chart.js >= 2.8.0**
 
 ![Box Plot](https://user-images.githubusercontent.com/4129778/42724341-9a6ec554-8770-11e8-99b5-626e34dafdb3.png)
 ![Violin Plot](https://user-images.githubusercontent.com/4129778/42724342-9a8dbb58-8770-11e8-9a30-3e69d07d3b79.png)
 
 
 ## Install
+
 ```bash
 npm install --save chart.js chartjs-chart-box-and-violin-plot
 ```
@@ -28,38 +29,52 @@ The boxplot element is called `boxandwhiskers`. The basic options are from the `
 interface IBaseStyling {
   /**
    * @default see rectangle
+   * @scriptable
+   * @indexable
    */
   backgroundColor: string;
 
   /**
    * @default see rectangle
+   * @scriptable
+   * @indexable
    */
   borderColor: string;
 
   /**
-     * @default null takes the current borderColor
-     */
+   * @default null takes the current borderColor
+   * @scriptable
+   * @indexable
+   */
   medianColor: string;
 
   /**
    * @default 1
+   * @scriptable
+   * @indexable
    */
   borderWidth: number;
 
   /**
    * radius used to render outliers
    * @default 2
+   * @scriptable
+   * @indexable
    */
   outlierRadius: number;
 
   /**
    * @default see rectangle.backgroundColor
+   * @scriptable
+   * @indexable
    */
   outlierColor: string;
 
   /**
    * radius used to render items
    * @default 0 so disabled
+   * @scriptable
+   * @indexable
    */
   itemRadius: number;
 
@@ -69,21 +84,27 @@ interface IBaseStyling {
    */
   itemStyle: 'circle'|'triangle'|'rect'|'rectRounded'|'rectRot'|'cross'|'crossRot'|'star'|'line'|'dash';
 
-  /*
+  /**
    * background color for items
    * @default see rectangle backgroundColor
+   * @scriptable
+   * @indexable
    */
   itemBackgroundColor: string;
 
-  /*
+  /**
    * border color for items
    * @default see rectangle backgroundColor
+   * @scriptable
+   * @indexable
    */
   itemBorderColor: string;
 
   /**
    * padding thst is added around the bounding box when computing a mouse hit
    * @default 1
+   * @scriptable
+   * @indexable
    */
   hitPadding: number;
 }
