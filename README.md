@@ -23,10 +23,10 @@ and [CodePen](https://codepen.io/sgratzl/pen/QxoLoY)
 four new types: `boxplot`, `horizontalBoxplot`, `violin`, and `horizontalViolin`.
 
 ## Config
-Limit decimal digits by an optional config option
+
 ```typescript
 /**
- * optional fixed number of decimals for the value shown in the tooltip
+ * Limit decimal digits by an optional config option
  **/
   tooltipDecimals?: number;
 ```
