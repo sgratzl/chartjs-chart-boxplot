@@ -199,6 +199,13 @@ npm install
 npm run build
 ```
 
+## Angular CLI Usage
+Here is an example project based on Angular CLI with Angular 7 dependencies: https://github.com/sluger/ng-chartjs-boxplot
+
+The incomaptibility with Webpack 4, mjs and Angular CLI can be solved by importing the chartjs boxplot library via the `.js` build artifact:
+```javascript
+import "chartjs-chart-box-and-violin-plot/build/Chart.BoxPlot.js";
+```
 
 ***
 
