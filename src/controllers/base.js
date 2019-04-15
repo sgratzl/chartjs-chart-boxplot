@@ -17,6 +17,14 @@ export const horizontalDefaults = {
   }
 };
 
+export function toFixed(value) {
+  const decimals = this._chart.config.options.tooltipDecimals; // inject number of decimals from config
+  if (!decimals || typeof decimals !== 'number' || decimals < 0) {
+    return value;
+  }
+  return Number.parseFloat(value).toFixed(decimals);
+}
+
 const array = {
   _elementOptions() {
     return {};

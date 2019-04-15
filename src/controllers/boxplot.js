@@ -2,7 +2,7 @@
 
 import {asBoxPlotStats} from '../data';
 import * as Chart from 'chart.js';
-import base, {verticalDefaults, horizontalDefaults} from './base';
+import base, {verticalDefaults, horizontalDefaults, toFixed} from './base';
 
 const defaults = {
   tooltips: {
@@ -13,9 +13,9 @@ const defaults = {
         const b = asBoxPlotStats(value);
         let label = `${datasetLabel} ${typeof item.xLabel === 'string' ? item.xLabel : item.yLabel}`;
         if (!b) {
-          return label + 'NaN';
+          return `${label} (NaN)`;
         }
-        return `${label} (min: ${b.min}, q1: ${b.q1}, median: ${b.median}, q3: ${b.q3}, max: ${b.max})`;
+        return `${label} (min: ${toFixed.call(this, b.min)}, q1: ${toFixed.call(this, b.q1)}, median: ${toFixed.call(this, b.median)}, q3: ${toFixed.call(this, b.q3)}, max: ${toFixed.call(this, b.max)})`;
       }
     }
   }
