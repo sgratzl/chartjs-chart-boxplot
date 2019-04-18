@@ -201,6 +201,8 @@ interface IViolinItem extends IBaseItem {
 }
 ```
 
+**Note**: The statistics will be cached within the array. Thus, if you manipulate the array content without creating a new instance the changes won't be reflected in the stats. See also [CodePen](https://codepen.io/sgratzl/pen/JxQVaZ?editors=0010) for a comparison.
+
 ## Building
 
 ```sh
