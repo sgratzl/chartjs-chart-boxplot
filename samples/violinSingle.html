@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Violin Chart</title>
+  <script src="../node_modules/chart.js/dist/Chart.bundle.js"></script>
+  <script src="../build/Chart.BoxPlot.js" type="text/javascript"></script>
+  <script src="https://unpkg.com/d3-random@latest/dist/d3-random.js"></script>
+  <script src="./utils.js"></script>
+  <style>
+  canvas {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="container" style="width: 75%;">
+    <canvas id="canvas"></canvas>
+  </div>
+  <button id="randomizeData">Randomize Data</button>
+  <button id="addDataset">Add Dataset</button>
+  <button id="removeDataset">Remove Dataset</button>
+  <button id="addData">Add Data</button>
+  <button id="removeData">Remove Data</button>
+  <script>
+
+  function randomValues(count, min, max) {
+    const delta = max - min;
+    return Array.from({length: count}).map(() => Math.random() * delta + min);
+  }
+
+    const samples = this.Samples.utils;
+    var color = Chart.helpers.color;
+    var b = d3.randomNormal();
+    var random = (min, max) => () => (b() * ((max || 1) - (min || 0))) + (min || 0);
+    var boxplotData = {
+      labels: samples.months({count: 2}),
+      datasets: [{
+        label: 'Dataset 1',
+        backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+        borderColor: window.chartColors.red,
+        borderWidth: 1,
+        data: randomValues(1, 0, 100)
+      }]
+    };
+
+    window.onload = function() {
+      var ctx = document.getElementById("canvas").getContext("2d");
+      window.myBar = new Chart(ctx, {
+        type: 'violin',
+        data: boxplotData,
+        options: {
+          responsive: true,
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Chart.js Violin Chart'
+          },
+          tooltipDecimals: 3
+        }
+      });
+
+    };
+
+    document.getElementById('randomizeData').addEventListener('click', function() {
+      boxplotData.datasets.forEach(function(dataset) {
+        dataset.data = samples.boxplots({count: 7});
+
+      });
+      window.myBar.update();
+    });
+
+    var colorNames = Object.keys(window.chartColors);
+    document.getElementById('addDataset').addEventListener('click', function() {
+      var colorName = colorNames[boxplotData.datasets.length % colorNames.length];
+      var dsColor = window.chartColors[colorName];
+      var newDataset = {
+        label: 'Dataset ' + boxplotData.datasets.length,
+        backgroundColor: color(dsColor).alpha(0.5).rgbString(),
+        borderColor: dsColor,
+        borderWidth: 1,
+        data: samples.boxplotsArray({count: boxplotData.labels.length})
+      };
+
+      boxplotData.datasets.push(newDataset);
+      window.myBar.update();
+    });
+
+    document.getElementById('addData').addEventListener('click', function() {
+      if (boxplotData.datasets.length > 0) {
+        var month = samples.nextMonth(boxplotData.labels.length);
+        boxplotData.labels.push(month);
+
+        for (var index = 0; index < boxplotData.datasets.length; ++index) {
+          //window.myBar.addData(randomBoxPlot(), index);
+          boxplotData.datasets[index].data.push(samples.numbers({count: 50}));
+        }
+
+        window.myBar.update();
+      }
+    });
+
+    document.getElementById('removeDataset').addEventListener('click', function() {
+      boxplotData.datasets.splice(0, 1);
+      window.myBar.update();
+    });
+
+    document.getElementById('removeData').addEventListener('click', function() {
+      boxplotData.labels.splice(-1, 1); // remove the label first
+
+      boxplotData.datasets.forEach(function(dataset, datasetIndex) {
+        dataset.data.pop();
+      });
+
+      window.myBar.update();
+    });
+  </script>
+</body>
+
+</html>
