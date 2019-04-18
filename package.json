@@ -7,6 +7,11 @@
     "email": "samuel.gratzl@datavisyn.io",
     "url": "http://datavisyn.io"
   },
+  "contributors": [{
+      "name": "Stefan Luger",
+      "email": "stefan.luger@datavisyn.io",
+      "url": "https://github.com/sluger"
+  }],
   "license": "MIT",
   "repository": {
     "type": "git",
