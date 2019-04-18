@@ -46,10 +46,20 @@ const controller = {
     const data = this.chart.data.datasets[datasetIndex].data[index];
     const violin = asViolinStats(data);
 
+    if ((!Array.isArray(data) && typeof data === 'number' && !Number.isNaN) || violin == null) {
+      return {
+        min: data,
+        max: data,
+        median: data,
+        coords: [{v: data, estimate: Number.NEGATIVE_INFINITY}],
+        maxEstimate: Number.NEGATIVE_INFINITY
+      };
+    }
+
     const range = violin.max - violin.min;
     const samples = [];
     const inc = range / points;
-    for (let v = violin.min; v <= violin.max; v += inc) {
+    for (let v = violin.min; v <= violin.max && inc > 0; v += inc) {
       samples.push(v);
     }
     if (samples[samples.length - 1] !== violin.max) {
