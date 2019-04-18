@@ -22,6 +22,15 @@ and [CodePen](https://codepen.io/sgratzl/pen/QxoLoY)
 
 four new types: `boxplot`, `horizontalBoxplot`, `violin`, and `horizontalViolin`.
 
+## Config
+
+```typescript
+/**
+ * Limit decimal digits by an optional config option
+ **/
+  tooltipDecimals?: number;
+```
+
 ## Styling
 The boxplot element is called `boxandwhiskers`. The basic options are from the `rectangle` element. The violin element is called `violin` also based on the `rectangle` element.
 
@@ -101,7 +110,7 @@ interface IBaseStyling {
   itemBorderColor: string;
 
   /**
-   * padding thst is added around the bounding box when computing a mouse hit
+   * padding that is added around the bounding box when computing a mouse hit
    * @default 1
    * @scriptable
    * @indexable

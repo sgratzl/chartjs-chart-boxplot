@@ -13,7 +13,8 @@ export const defaults = {
   itemStyle: 'circle',
   itemBackgroundColor: Chart.defaults.global.elements.rectangle.backgroundColor,
   itemBorderColor: Chart.defaults.global.elements.rectangle.borderColor,
-  hitPadding: 2
+  hitPadding: 2,
+  tooltipDecimals: 2
 };
 
 const ArrayElementBase = Chart.Element.extend({

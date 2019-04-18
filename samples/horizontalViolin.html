@@ -51,7 +51,7 @@
     window.onload = function() {
       var ctx = document.getElementById("canvas").getContext("2d");
       window.myBar = new Chart(ctx, {
-        type: 'violin',
+        type: 'horizontalViolin',
         data: boxplotData,
         options: {
           responsive: true,
@@ -61,8 +61,7 @@
           title: {
             display: true,
             text: 'Chart.js Violin Chart'
-          },
-          tooltipDecimals: 3
+          }
         }
       });
 

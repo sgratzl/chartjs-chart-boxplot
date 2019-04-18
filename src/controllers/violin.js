@@ -2,9 +2,20 @@
 
 import {asViolinStats} from '../data';
 import * as Chart from 'chart.js';
-import base, {verticalDefaults, horizontalDefaults} from './base';
+import base, {verticalDefaults, horizontalDefaults, toFixed} from './base';
 
-const defaults = {};
+const defaults = {
+  tooltips: {
+    callbacks: {
+      label(item, data) {
+        const datasetLabel = data.datasets[item.datasetIndex].label || '';
+        const value = item.value;
+        const label = `${datasetLabel} ${typeof item.xLabel === 'string' ? item.xLabel : item.yLabel}`;
+        return `${label} (${toFixed.call(this, value)})`;
+      }
+    }
+  }
+};
 
 Chart.defaults.violin = Chart.helpers.merge({}, [Chart.defaults.bar, verticalDefaults, defaults]);
 Chart.defaults.horizontalViolin = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, horizontalDefaults, defaults]);
