@@ -44,3 +44,6 @@ jspm_packages
 
 # Build files
 /build
+
+
+*.tgz
