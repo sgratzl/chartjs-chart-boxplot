@@ -53,7 +53,7 @@ const boxplot = {
 
     const r = {};
     Object.keys(v).forEach((key) => {
-      if (key !== 'outliers') {
+      if (key !== 'outliers' && key !== 'items') {
         r[key] = scale.getPixelForValue(Number(v[key]));
       }
     });
