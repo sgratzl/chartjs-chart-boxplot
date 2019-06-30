@@ -184,20 +184,32 @@ export function commonDataLimits(extraCallback) {
       return;
     }
     d.data.forEach((value, j) => {
-      if (!value || meta.data[j].hidden) {
+      if (value == null || meta.data[j].hidden) {
         return;
       }
+
       const stats = asValueStats(value, minStats, maxStats);
-      if (!stats) {
-        return;
+      let minValue;
+      let maxValue;
+
+      if (stats) {
+        minValue = stats[minStats];
+        maxValue = stats[maxStats];
+      } else {
+        // if stats are not available use the plain value
+        const parsed = +this.getRightValue(value);
+        if (isNaN(parsed)) {
+          return;
+        }
+        minValue = maxValue = parsed;
       }
 
-      if (this.min === null || stats[minStats] < this.min) {
-        this.min = stats[minStats];
+      if (this.min === null || minValue < this.min) {
+        this.min = minValue;
       }
 
-      if (this.max === null || stats[maxStats] > this.max) {
-        this.max = stats[maxStats];
+      if (this.max === null || maxValue > this.max) {
+        this.max = maxValue;
       }
 
       if (extraCallback) {
