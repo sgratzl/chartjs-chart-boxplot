@@ -4,10 +4,10 @@ import kde from '@sgratzl/science/src/stats/kde';
 
 // Uses R's quantile algorithm type=7.
 // https://en.wikipedia.org/wiki/Quantile#Quantiles_of_a_population
-function quantiles(arr) {
-  const n_1 = arr.length - 1;
+export function quantilesType7(arr) {
+  const n1 = arr.length - 1;
   const compute = (q) => {
-    const index = 1 + q * n_1;
+    const index = 1 + q * n1;
     const lo = Math.floor(index);
     const h = index - lo;
     const a = arr[lo - 1];
@@ -20,9 +20,9 @@ function quantiles(arr) {
     q1: compute(0.25),
     median: compute(0.5),
     q3: compute(0.75),
-    max: arr[n_1]
+    max: arr[n1]
   };
-};
+}
 
 /**
  * The hinges equal the quartiles for odd n (where n <- length(x))
@@ -47,7 +47,7 @@ export function fivenum(arr) {
     q3: compute(n + 1 - n4),
     max: arr[n - 1]
   };
-};
+}
 
 
 /**
@@ -95,10 +95,10 @@ const defaultStatsOptions = {
 function determineStatsOptions(options) {
   const coef = options == null || typeof options.coef !== 'number' ? defaultStatsOptions.coef : options.coef;
   const q = options == null ? null : options.quantiles;
-  const qFunc = typeof q === 'function' ? q : (q === 'hinges'  || q === 'fivenum' ? fivenum : quantiles);
+  const quantiles = typeof q === 'function' ? q : (q === 'hinges' || q === 'fivenum' ? fivenum : quantilesType7);
   return {
     coef,
-    quantiles: qFunc
+    quantiles
   };
 }
 

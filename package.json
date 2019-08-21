@@ -49,8 +49,10 @@
   "scripts": {
     "clean": "rimraf build",
     "watch": "rollup -c -w -i src/index.js",
-    "test": "eslint src",
+    "lint": "eslint src",
+    "test": "jest",
     "test:watch": "jest --watch",
+    "posttest": "npm run lint",
     "build:dev": "rollup -c -i src/index.js",
     "build:prod": "npm run build:dev && uglifyjs build/Chart.BoxPlot.js -c -m -o build/Chart.BoxPlot.min.js",
     "prebuild": "npm run clean && npm test",
