@@ -1,17 +1,67 @@
 'use strict';
 
-import quantiles from '@sgratzl/science/src/stats/quantiles';
 import kde from '@sgratzl/science/src/stats/kde';
 
-function extent(arr) {
-  return arr.reduce((acc, v) => [Math.min(acc[0], v), Math.max(acc[1], v)], [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY]);
-}
+// Uses R's quantile algorithm type=7.
+// https://en.wikipedia.org/wiki/Quantile#Quantiles_of_a_population
+function quantiles(arr) {
+  const n_1 = arr.length - 1;
+  const compute = (q) => {
+    const index = 1 + q * n_1;
+    const lo = Math.floor(index);
+    const h = index - lo;
+    const a = arr[lo - 1];
 
-export function whiskers(boxplot, arr) {
+    return h === 0 ? a : a + h * (arr[lo] - a);
+  };
+
+  return {
+    min: arr[0],
+    q1: compute(0.25),
+    median: compute(0.5),
+    q3: compute(0.75),
+    max: arr[n_1]
+  };
+};
+
+/**
+ * The hinges equal the quartiles for odd n (where n <- length(x))
+ * and differ for even n. Whereas the quartiles only equal observations
+ * for n %% 4 == 1 (n = 1 mod 4), the hinges do so additionally
+ * for n %% 4 == 2 (n = 2 mod 4), and are in the middle of
+ * two observations otherwise.
+ * @param {number[]} arr sorted array
+ */
+export function fivenum(arr) {
+  // based on R fivenum
+  const n = arr.length;
+
+  // assuming R 1 index system, so arr[1] is the first element
+  const n4 = Math.floor((n + 3) / 2) / 2;
+  const compute = (d) => 0.5 * (arr[Math.floor(d) - 1] + arr[Math.ceil(d) - 1]);
+
+  return {
+    min: arr[0],
+    q1: compute(n4),
+    median: compute((n + 1) / 2),
+    q3: compute(n + 1 - n4),
+    max: arr[n - 1]
+  };
+};
+
+
+/**
+ * compute the whiskers
+ * @param boxplot
+ * @param {number[]} arr sorted array
+ * @param {number} coef
+ */
+export function whiskers(boxplot, arr, coef = 1.5) {
   const iqr = boxplot.q3 - boxplot.q1;
   // since top left is max
-  let whiskerMin = Math.max(boxplot.min, boxplot.q1 - iqr);
-  let whiskerMax = Math.min(boxplot.max, boxplot.q3 + iqr);
+  const coefValid = typeof coef === 'number' && coef > 0;
+  let whiskerMin = coefValid ? Math.max(boxplot.min, boxplot.q1 - coef * iqr) : boxplot.min;
+  let whiskerMax = coefValid ? Math.min(boxplot.max, boxplot.q3 + coef * iqr) : boxplot.max;
 
   if (Array.isArray(arr)) {
     // compute the closest real element
@@ -37,7 +87,22 @@ export function whiskers(boxplot, arr) {
   };
 }
 
-export function boxplotStats(arr) {
+const defaultStatsOptions = {
+  coef: 1.5,
+  quantiles: 7
+};
+
+function determineStatsOptions(options) {
+  const coef = options == null || typeof options.coef !== 'number' ? defaultStatsOptions.coef : options.coef;
+  const q = options == null ? null : options.quantiles;
+  const qFunc = typeof q === 'function' ? q : (q === 'hinges'  || q === 'fivenum' ? fivenum : quantiles);
+  return {
+    coef,
+    quantiles: qFunc
+  };
+}
+
+export function boxplotStats(arr, options) {
   // console.assert(Array.isArray(arr));
   if (arr.length === 0) {
     return {
@@ -51,31 +116,21 @@ export function boxplotStats(arr) {
       outliers: []
     };
   }
+
   arr = arr.filter((v) => typeof v === 'number' && !isNaN(v));
   arr.sort((a, b) => a - b);
 
-  const [median, q1, q3] = quantiles(arr, [0.5, 0.25, 0.75]);
+  const {quantiles, coef} = determineStatsOptions(options);
 
-  const minmax = extent(arr);
-  const base = {
-    min: minmax[0],
-    max: minmax[1],
-    median,
-    q1,
-    q3,
-    outliers: []
-  };
-  const {
-    whiskerMin,
-    whiskerMax
-  } = whiskers(base, arr);
-  base.outliers = arr.filter((v) => v < whiskerMin || v > whiskerMax);
-  base.whiskerMin = whiskerMin;
-  base.whiskerMax = whiskerMax;
-  return base;
+  const stats = quantiles(arr);
+  const {whiskerMin, whiskerMax} = whiskers(stats, arr, coef);
+  stats.outliers = arr.filter((v) => v < whiskerMin || v > whiskerMax);
+  stats.whiskerMin = whiskerMin;
+  stats.whiskerMax = whiskerMax;
+  return stats;
 }
 
-export function violinStats(arr) {
+export function violinStats(arr, options) {
   // console.assert(Array.isArray(arr));
   if (arr.length === 0) {
     return {
@@ -85,26 +140,22 @@ export function violinStats(arr) {
   arr = arr.filter((v) => typeof v === 'number' && !isNaN(v));
   arr.sort((a, b) => a - b);
 
-  const minmax = extent(arr);
-  return {
-    min: minmax[0],
-    max: minmax[1],
-    median: quantiles(arr, [0.5])[0],
-    kde: kde().sample(arr)
-  };
+  const {quantiles} = determineStatsOptions(options);
+
+  const stats = quantiles(arr);
+  stats.kde = kde().sample(arr);
+  return stats;
 }
 
-export function asBoxPlotStats(value) {
+export function asBoxPlotStats(value, options) {
   if (!value) {
     return null;
   }
   if (typeof value.median === 'number' && typeof value.q1 === 'number' && typeof value.q3 === 'number') {
     // sounds good, check for helper
     if (typeof value.whiskerMin === 'undefined') {
-      const {
-        whiskerMin,
-        whiskerMax
-      } = whiskers(value, Array.isArray(value.items) ? value.items.slice().sort((a, b) => a - b) : null);
+      const {coef} = determineStatsOptions(options);
+      const {whiskerMin, whiskerMax} = whiskers(value, Array.isArray(value.items) ? value.items.slice().sort((a, b) => a - b) : null, coef);
       value.whiskerMin = whiskerMin;
       value.whiskerMax = whiskerMax;
     }
@@ -114,12 +165,12 @@ export function asBoxPlotStats(value) {
     return undefined;
   }
   if (value.__stats === undefined) {
-    value.__stats = boxplotStats(value);
+    value.__stats = boxplotStats(value, options);
   }
   return value.__stats;
 }
 
-export function asViolinStats(value) {
+export function asViolinStats(value, options) {
   if (!value) {
     return null;
   }
@@ -130,45 +181,44 @@ export function asViolinStats(value) {
     return undefined;
   }
   if (value.__kde === undefined) {
-    value.__kde = violinStats(value);
+    value.__kde = violinStats(value, options);
   }
   return value.__kde;
 }
 
-export function asValueStats(value, minStats, maxStats) {
+export function asValueStats(value, minStats, maxStats, options) {
   if (typeof value[minStats] === 'number' && typeof value[maxStats] === 'number') {
     return value;
   }
   if (!Array.isArray(value) || value.length === 0) {
     return undefined;
   }
-  return asBoxPlotStats(value);
+  return asBoxPlotStats(value, options);
 }
 
-export function getRightValue(rawValue) {
+export function getRightValue(rawValue, options) {
   if (!rawValue) {
     return rawValue;
   }
   if (typeof rawValue === 'number' || typeof rawValue === 'string') {
     return Number(rawValue);
   }
-  const b = asBoxPlotStats(rawValue);
+  const b = asBoxPlotStats(rawValue, options);
   return b ? b.median : rawValue;
 }
 
 export const commonScaleOptions = {
   ticks: {
     minStats: 'min',
-    maxStats: 'max'
+    maxStats: 'max',
+    ...defaultStatsOptions
   }
 };
 
 export function commonDataLimits(extraCallback) {
   const chart = this.chart;
   const isHorizontal = this.isHorizontal();
-  const tickOpts = this.options.ticks;
-  const minStats = tickOpts.minStats;
-  const maxStats = tickOpts.maxStats;
+  const {minStats, maxStats} = this.options.ticks;
 
   const matchID = (meta) => isHorizontal ? meta.xAxisID === this.id : meta.yAxisID === this.id;
 
@@ -187,7 +237,7 @@ export function commonDataLimits(extraCallback) {
       if (!value || meta.data[j].hidden) {
         return;
       }
-      const stats = asValueStats(value, minStats, maxStats);
+      const stats = asValueStats(value, minStats, maxStats, this.options.ticks);
       if (!stats) {
         return;
       }
