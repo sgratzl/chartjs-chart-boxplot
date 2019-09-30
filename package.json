@@ -21,7 +21,7 @@
   },
   "main": "build/Chart.BoxPlot.js",
   "unpkg": "build/Chart.BoxPlot.min.js",
-  "module": "build/Chart.BoxPlot.mjs",
+  "module": "build/Chart.BoxPlot.esm.js",
   "files": [
     "build",
     "src/**/*.js"
@@ -31,17 +31,17 @@
     "@sgratzl/science": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/preset-env": "^7.4.5",
+    "@babel/core": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^24.8.0",
-    "eslint": "^6.0.1",
-    "jest": "^24.8.0",
-    "release-it": "^12.3.0",
-    "rimraf": "^2.6.3",
-    "rollup": "^1.16.3",
+    "babel-jest": "^24.9.0",
+    "eslint": "^6.5.0",
+    "jest": "^24.9.0",
+    "release-it": "^12.4.1",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.22.0",
     "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-commonjs": "^10.0.1",
+    "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-watch": "^4.3.1",
     "uglify-es": "^3.3.9"
@@ -49,8 +49,10 @@
   "scripts": {
     "clean": "rimraf build *.tgz",
     "watch": "rollup -c -w -i src/index.js",
-    "test": "eslint src",
+    "lint": "eslint src",
+    "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",
+    "posttest": "npm run lint",
     "build:dev": "rollup -c -i src/index.js",
     "build:prod": "npm run build:dev && uglifyjs build/Chart.BoxPlot.js -c -m -o build/Chart.BoxPlot.min.js",
     "prebuild": "npm run clean && npm test",
