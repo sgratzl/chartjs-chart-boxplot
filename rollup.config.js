@@ -20,7 +20,7 @@ export default [{
   ]
 }, {
   output: {
-    file: 'build/Chart.BoxPlot.mjs',
+    file: 'build/Chart.BoxPlot.ems.js',
     name: 'ChartBoxPlot',
     format: 'esm',
     globals: {

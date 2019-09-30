@@ -21,7 +21,7 @@
   },
   "main": "build/Chart.BoxPlot.js",
   "unpkg": "build/Chart.BoxPlot.min.js",
-  "module": "build/Chart.BoxPlot.mjs",
+  "module": "build/Chart.BoxPlot.esm.js",
   "files": [
     "build",
     "src/**/*.js"
