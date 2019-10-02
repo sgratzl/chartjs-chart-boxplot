@@ -153,7 +153,7 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
     return iqr * vm.height;
   },
   _getOutliers() {
-    return this._view.violin.outliers;
+    return this._view.violin.outliers || [];
   },
 });
 
