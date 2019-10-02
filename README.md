@@ -116,6 +116,14 @@ interface IBaseStyling {
    * @indexable
    */
   hitPadding: number;
+
+  /**
+   * hit radius for hit test of outliers
+   * @default 4
+   * @scriptable
+   * @indexable
+   */
+  outlierHitRadius: number;
 }
 
 interface IBoxPlotStyling extends IBaseStyling {

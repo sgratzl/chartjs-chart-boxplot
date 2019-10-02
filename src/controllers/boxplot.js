@@ -6,6 +6,7 @@ import base, {verticalDefaults, horizontalDefaults, toFixed} from './base';
 
 const defaults = {
   tooltips: {
+    position: 'boxplot',
     callbacks: {
       label(item, data) {
         const datasetLabel = data.datasets[item.datasetIndex].label || '';
@@ -14,6 +15,10 @@ const defaults = {
         let label = `${datasetLabel} ${typeof item.xLabel === 'string' ? item.xLabel : item.yLabel}`;
         if (!b) {
           return `${label} (NaN)`;
+        }
+        if (this._tooltipOutlier != null) {
+          const outlier = b.outliers[this._tooltipOutlier];
+          return `${label} (outlier: ${outlier})`;
         }
         return `${label} (min: ${toFixed.call(this, b.min)}, q1: ${toFixed.call(this, b.q1)}, median: ${toFixed.call(this, b.median)}, q3: ${toFixed.call(this, b.q3)}, max: ${toFixed.call(this, b.max)})`;
       }

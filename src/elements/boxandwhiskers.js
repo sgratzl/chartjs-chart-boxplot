@@ -214,7 +214,10 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
       return iqr * vm.width;
     }
     return iqr * vm.height;
-  }
+  },
+  _getOutliers() {
+    return this._view.boxplot.outliers;
+  },
 });
 
 export default BoxAndWiskers;

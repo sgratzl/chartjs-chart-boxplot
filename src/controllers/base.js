@@ -37,7 +37,7 @@ const array = {
     Chart.controllers.bar.prototype.updateElement.call(this, elem, index, reset);
     const resolve = Chart.helpers.options.resolve;
 
-    const keys = ['outlierRadius', 'itemRadius', 'itemStyle', 'itemBackgroundColor', 'itemBorderColor', 'outlierColor', 'medianColor', 'hitPadding'];
+    const keys = ['outlierRadius', 'itemRadius', 'itemStyle', 'itemBackgroundColor', 'itemBorderColor', 'outlierColor', 'medianColor', 'hitPadding', 'outlierHitRadius'];
     // Scriptable options
     const context = {
       chart: this.chart,
