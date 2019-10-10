@@ -9,7 +9,7 @@ const ArrayLinearScaleOptions = helpers.merge({}, [commonScaleOptions, Chart.sca
 
 const ArrayLinearScale = Chart.scaleService.getScaleConstructor('linear').extend({
   getRightValue(rawValue) {
-    return Chart.LinearScaleBase.prototype.getRightValue.call(this, getRightValue(rawValue));
+    return Chart.LinearScaleBase.prototype.getRightValue.call(this, getRightValue(rawValue, this.options.ticks));
   },
   determineDataLimits() {
     commonDataLimits.call(this);
