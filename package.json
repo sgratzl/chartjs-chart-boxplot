@@ -3,11 +3,16 @@
   "description": "Chart.js module for charting boxplots",
   "version": "2.1.0",
   "author": {
-    "name": "Samuel Gratzl",
-    "email": "samuel.gratzl@datavisyn.io",
-    "url": "http://datavisyn.io"
+    "name": "datavisyn",
+    "email": "contact@datavisyn.io",
+    "url": "https://www.datavisyn.io"
   },
   "contributors": [
+    {
+      "name": "Samuel Gratzl",
+      "email": "sam@sgratzl.com",
+      "url": "https://www.sgratzl.com"
+    },
     {
       "name": "Stefan Luger",
       "email": "stefan.luger@datavisyn.io",
