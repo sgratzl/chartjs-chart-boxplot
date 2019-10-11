@@ -48,7 +48,7 @@ const ArrayElementBase = Chart.Element.extend({
     ctx.restore();
   },
   _drawOutliers(vm, container, ctx, vert) {
-    if (vm.outlierRadius <= 0 || !container.outliers || container.outliers.lenght === 0) {
+    if (vm.outlierRadius <= 0 || !container.outliers || container.outliers.length === 0) {
       return;
     }
     ctx.fillStyle = vm.outlierColor;
