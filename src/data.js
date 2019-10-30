@@ -133,9 +133,7 @@ export function boxplotStats(arr, options) {
 export function violinStats(arr, options) {
   // console.assert(Array.isArray(arr));
   if (arr.length === 0) {
-    return {
-      outliers: []
-    };
+    return {};
   }
   arr = arr.filter((v) => typeof v === 'number' && !isNaN(v));
   arr.sort((a, b) => a - b);

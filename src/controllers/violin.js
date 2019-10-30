@@ -4,15 +4,26 @@ import {asViolinStats} from '../data';
 import * as Chart from 'chart.js';
 import base, {verticalDefaults, horizontalDefaults, toFixed} from './base';
 
+
+function violinTooltip(impl) {
+  return function(item, data, ...args) {
+    const value = data.datasets[item.datasetIndex].data[item.index];
+    const options = this._chart.getDatasetMeta(item.datasetIndex).controller._getValueScale().options.ticks;
+    const v = asViolinStats(value, options);
+
+    return impl.apply(this, [item, data, v, ...args]);
+  };
+}
+
 const defaults = {
   tooltips: {
     callbacks: {
-      label(item, data) {
+      label: violinTooltip(function(item, data) {
         const datasetLabel = data.datasets[item.datasetIndex].label || '';
         const value = item.value;
         const label = `${datasetLabel} ${typeof item.xLabel === 'string' ? item.xLabel : item.yLabel}`;
         return `${label} (${toFixed.call(this, value)})`;
-      }
+      })
     }
   }
 };

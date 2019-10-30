@@ -4,25 +4,35 @@ import {asBoxPlotStats} from '../data';
 import * as Chart from 'chart.js';
 import base, {verticalDefaults, horizontalDefaults, toFixed} from './base';
 
+
+function boxplotTooltip(impl) {
+  return function(item, data, ...args) {
+    const value = data.datasets[item.datasetIndex].data[item.index];
+    const options = this._chart.getDatasetMeta(item.datasetIndex).controller._getValueScale().options.ticks;
+    const b = asBoxPlotStats(value, options);
+
+    const hoveredOutlierIndex = this._tooltipOutlier == null ? -1 : this._tooltipOutlier;
+
+    return impl.apply(this, [item, data, b, hoveredOutlierIndex, ...args]);
+  };
+}
+
 const defaults = {
   tooltips: {
     position: 'boxplot',
     callbacks: {
-      label(item, data) {
+      label: boxplotTooltip(function(item, data, b, hoveredOutlierIndex) {
         const datasetLabel = data.datasets[item.datasetIndex].label || '';
-        const value = data.datasets[item.datasetIndex].data[item.index];
-        const options = this._chart.getDatasetMeta(item.datasetIndex).controller._getValueScale().options.ticks;
-        const b = asBoxPlotStats(value, options);
         let label = `${datasetLabel} ${typeof item.xLabel === 'string' ? item.xLabel : item.yLabel}`;
         if (!b) {
           return `${label} (NaN)`;
         }
-        if (this._tooltipOutlier != null) {
-          const outlier = b.outliers[this._tooltipOutlier];
-          return `${label} (outlier: ${outlier})`;
+        if (hoveredOutlierIndex >= 0) {
+          const outlier = b.outliers[hoveredOutlierIndex];
+          return `${label} (outlier: ${toFixed.call(this, outlier)})`;
         }
         return `${label} (min: ${toFixed.call(this, b.min)}, q1: ${toFixed.call(this, b.q1)}, median: ${toFixed.call(this, b.median)}, q3: ${toFixed.call(this, b.q3)}, max: ${toFixed.call(this, b.max)})`;
-      }
+      })
     }
   }
 };
