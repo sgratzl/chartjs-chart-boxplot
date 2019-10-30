@@ -57,6 +57,8 @@ const array = {
 
     if (Array.isArray(data)) {
       r.items = data.map((d) => scale.getPixelForValue(Number(d)));
+    } else if (container.items) {
+      r.items = container.items.map((d) => scale.getPixelForValue(Number(d)));
     }
   }
 };

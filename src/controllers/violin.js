@@ -44,7 +44,7 @@ const controller = {
   _calculateViolinValuesPixels(datasetIndex, index, points) {
     const scale = this._getValueScale();
     const data = this.chart.data.datasets[datasetIndex].data[index];
-    const violin = asViolinStats(data);
+    const violin = asViolinStats(data, scale.options.ticks);
 
     if ((!Array.isArray(data) && typeof data === 'number' && !Number.isNaN) || violin == null) {
       return {

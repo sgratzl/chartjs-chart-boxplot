@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Box Plot Chart</title>
+  <script src="../node_modules/chart.js/dist/Chart.bundle.js"></script>
+  <script src="../build/Chart.BoxPlot.js" type="text/javascript"></script>
+  <script src="https://unpkg.com/d3-random@latest/dist/d3-random.js"></script>
+  <script src="./utils.js"></script>
+  <style>
+  canvas {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="container" style="width: 75%;">
+    <canvas id="canvas"></canvas>
+  </div>
+  <script>
+
+    const boxplotData = {
+      // define label tree
+      labels: ['array', '{boxplot values}', 'with items', 'as outliers'],
+      datasets: [{
+        label: 'Dataset 1',
+        backgroundColor: 'rgba(255,0,0,0.2)',
+        borderColor: 'red',
+        borderWidth: 1,
+        outlierColor: '#999999',
+        padding: 10,
+        itemRadius: 2,
+        itemStyle: 'circle',
+        itemBackgroundColor: '#000',
+        outlierColor: '#000',
+        data: [
+          [1, 2, 3, 4, 5], {
+            min: 1,
+            q1: 2,
+            median: 3,
+            q3: 4,
+            max: 5
+          }, {
+            min: 1,
+            q1: 2,
+            median: 3,
+            q3: 4,
+            max: 5,
+            items: [1, 2, 3, 4, 5]
+          },
+          {
+            min: 1,
+            q1: 2,
+            median: 3,
+            q3: 4,
+            max: 5,
+            outliers: [1, 2, 3, 4, 5]
+          },
+        ]
+      }]
+    };
+
+    window.onload = function() {
+      var ctx = document.getElementById("canvas").getContext("2d");
+      window.myBar = new Chart(ctx, {
+        type: 'boxplot',
+        data: boxplotData,
+        options: {
+          responsive: true,
+          title: {
+            display: true,
+            text: 'Chart.js Box Plot Chart'
+          }
+        }
+      });
+
+    };
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Box Plot Chart</title>
+  <script src="../node_modules/chart.js/dist/Chart.bundle.js"></script>
+  <script src="../build/Chart.BoxPlot.js" type="text/javascript"></script>
+  <style>
+  canvas {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="container" style="width: 75%;">
+    <canvas id="canvas"></canvas>
+    <canvas id="canvas2"></canvas>
+  </div>
+  <script>
+    var boxplotData = {
+      labels: ['A'],
+      datasets: [{
+        borderColor: 'black',
+        data: [
+          [18882.492, 7712.077, 5830.748, 7206.05]
+        ]
+      }]
+
+    };
+
+    var boxplotData2 = {
+      labels: ['A'],
+      datasets: [{
+        borderColor: 'black',
+        data: [
+          [18882.492, 7712.077, 5830.748, 7206.05]
+        ]
+      }]
+
+    };
+
+    window.onload = function() {
+      new Chart(document.getElementById("canvas").getContext("2d"), {
+        type: 'boxplot',
+        data: boxplotData,
+        options: {
+          responsive: true,
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Quantiles type 7'
+          },
+          scales: {
+            yAxes: [{
+              ticks: {
+                quantiles: 'quantiles'
+              }
+            }]
+          }
+        }
+      });
+
+      new Chart(document.getElementById("canvas2").getContext("2d"), {
+        type: 'boxplot',
+        data: boxplotData2,
+        options: {
+          responsive: true,
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Quantiles Fivenum'
+          },
+          scales: {
+            yAxes: [{
+              ticks: {
+                quantiles: 'fivenum'
+              }
+            }]
+          }
+        }
+      });
+    };
+  </script>
+</body>
+
+</html>

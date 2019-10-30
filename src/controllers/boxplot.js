@@ -10,7 +10,8 @@ const defaults = {
       label(item, data) {
         const datasetLabel = data.datasets[item.datasetIndex].label || '';
         const value = data.datasets[item.datasetIndex].data[item.index];
-        const b = asBoxPlotStats(value);
+        const options = this._chart.getDatasetMeta(item.datasetIndex).controller._getValueScale().options.ticks;
+        const b = asBoxPlotStats(value, options);
         let label = `${datasetLabel} ${typeof item.xLabel === 'string' ? item.xLabel : item.yLabel}`;
         if (!b) {
           return `${label} (NaN)`;
@@ -49,11 +50,11 @@ const boxplot = {
     if (!data) {
       return null;
     }
-    const v = asBoxPlotStats(data);
+    const v = asBoxPlotStats(data, scale.options.ticks);
 
     const r = {};
     Object.keys(v).forEach((key) => {
-      if (key !== 'outliers') {
+      if (key !== 'outliers' && key !== 'items') {
         r[key] = scale.getPixelForValue(Number(v[key]));
       }
     });
