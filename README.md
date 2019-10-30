@@ -226,6 +226,42 @@ interface IViolinItem extends IBaseItem {
 
 **Note**: The statistics will be cached within the array. Thus, if you manipulate the array content without creating a new instance the changes won't be reflected in the stats. See also [CodePen](https://codepen.io/sgratzl/pen/JxQVaZ?editors=0010) for a comparison.
 
+## Tooltips
+
+In order to simplify the customization of the tooltips, two additional tooltip callback methods are available. Internally the `label` callback will call the correspondig callback depending on the type.
+
+```js
+arr = {
+  options: {
+    tooltips: {
+      callbacks: {
+        /**
+         * custom callback for boxplot tooltips
+         * @param item see label callback
+         * @param data see label callback
+         * @param stats {IBoxPlotItem} the stats of the hovered element
+         * @param hoveredOutlierIndex {number} the hovered outlier index or -1 if none
+         * @return {string} see label callback
+         */
+        boxplotLabel: function(item, data, stats, hoveredOutlierIndex) {
+          return 'Custom tooltip';
+        },
+        /**
+         * custom callback for violin tooltips
+         * @param item see label callback
+         * @param data see label callback
+         * @param stats {IViolinItem} the stats of the hovered element
+         * @return {string} see label callback
+         */
+        violinLabel: function(item, data, stats) {
+          return 'Custom tooltip';
+        },
+      }
+    }
+  }
+}
+```
+
 ## Building
 
 ```sh
