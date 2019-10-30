@@ -77,7 +77,7 @@ const array = {
     configKeys.forEach((item, i) => {
       element.$previousStyle[item] = model[item];
       const hoverKey = `hover${item.charAt(0).toUpperCase()}${item.slice(1)}`;
-      const modelValue = configKeyIsColor[i] ? getHoverColor(model[item]) : model[item];
+      const modelValue = configKeyIsColor[i] && model[item] != null ? getHoverColor(model[item]) : model[item];
       element._model[item] = resolve([custom[hoverKey], dataset[hoverKey], modelValue], undefined, index);
     });
   }
