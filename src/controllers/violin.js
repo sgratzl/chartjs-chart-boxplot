@@ -30,8 +30,8 @@ const controller = {
   /**
    * @private
    */
-  _updateElementGeometry(elem, index, reset) {
-    Chart.controllers.bar.prototype._updateElementGeometry.call(this, elem, index, reset);
+  _updateElementGeometry(elem, index, reset, ...args) {
+    Chart.controllers.bar.prototype._updateElementGeometry.call(this, elem, index, reset, ...args);
     const custom = elem.custom || {};
     const options = this._elementOptions();
     elem._model.violin = this._calculateViolinValuesPixels(this.index, index, custom.points !== undefined ? custom.points : options.points);
