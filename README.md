@@ -159,6 +159,21 @@ interface IArrayLinearScale {
      * @default 'max'
      */
     maxStats: 'max'|'q3'|'whiskerMax';
+
+    /**
+     * from the R doc: this determines how far the plot ‘whiskers’ extend out from
+     * the box. If coef is positive, the whiskers extend to the most extreme data
+     * point which is no more than coef times the length of the box away from the
+     * box. A value of zero causes the whiskers to extend to the data extremes
+     * @default 1.5
+     */
+    coef: number;
+
+    /**
+     * the method to compute the quantiles. 7 and 'quantiles' refers to the type-7 method as used by R 'quantiles' method. 'hinges' and 'fivenum' refers to the method used by R 'boxplot.stats' method.
+     * @default 7
+     */
+    quantiles: 7 | 'quantiles' | 'hinges' | 'fivenum' | ((sortedArr: number[]) => {min: number, q1: number, median: number, q3: number, max: number});
   };
 }
 ```

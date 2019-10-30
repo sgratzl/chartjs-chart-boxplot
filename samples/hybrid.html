@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Box Plot Chart</title>
+  <script src="../node_modules/chart.js/dist/Chart.bundle.js"></script>
+  <script src="../build/Chart.BoxPlot.js" type="text/javascript"></script>
+  <script src="./utils.js"></script>
+  <style>
+  canvas {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="container" style="width: 75%;">
+    <canvas id="canvas"></canvas>
+  </div>
+  <script>
+    const samples = this.Samples.utils;
+    var data = {
+      labels: samples.months({count: 7}),
+      datasets: [{
+        label: 'Box',
+        type: 'boxplot',
+        backgroundColor: 'steelblue',
+        data: samples.boxplots({count: 7})
+      }, {
+        label: 'Bar',
+        type: 'bar',
+        backgroundColor: 'red',
+        data: samples.numbers({count: 7, max: 150})
+      }, {
+        label: 'Line',
+        type: 'line',
+        data: samples.numbers({count: 7, max: 150}).map((d) => ({y: d}))
+      }]
+    };
+
+    window.onload = function() {
+      var ctx = document.getElementById("canvas").getContext("2d");
+      window.myBar = new Chart(ctx, {
+        type: 'boxplot',
+        data: data,
+        options: {
+          responsive: true,
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Chart.js Box Plot and Line Chart'
+          },
+          scales: {
+            yAxes: [{
+              type: 'arrayLinear'
+            }]
+          }
+        }
+      });
+    };
+  </script>
+</body>
+
+</html>

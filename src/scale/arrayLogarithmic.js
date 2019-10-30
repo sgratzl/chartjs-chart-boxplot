@@ -10,7 +10,7 @@ const ArrayLogarithmicScaleOptions = helpers.merge({}, [commonScaleOptions, Char
 
 const ArrayLogarithmicScale = Chart.scaleService.getScaleConstructor('logarithmic').extend({
   getRightValue(rawValue) {
-    return Chart.LinearScaleBase.prototype.getRightValue.call(this, getRightValue(rawValue));
+    return Chart.LinearScaleBase.prototype.getRightValue.call(this, getRightValue(rawValue, this.options.ticks));
   },
   determineDataLimits() {
     // Add whitespace around bars. Axis shouldn't go exactly from min to max
