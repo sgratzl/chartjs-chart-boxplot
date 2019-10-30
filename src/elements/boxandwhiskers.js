@@ -216,7 +216,7 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
     return iqr * vm.height;
   },
   _getOutliers() {
-    return this._view.boxplot.outliers || [];
+    return this._view.boxplot ? this._view.boxplot.outliers || [] : [];
   },
 });
 
