@@ -50,8 +50,8 @@ const boxplot = {
   /**
    * @private
    */
-  _updateElementGeometry(elem, index, reset) {
-    Chart.controllers.bar.prototype._updateElementGeometry.call(this, elem, index, reset);
+  _updateElementGeometry(elem, index, reset, ...args) {
+    Chart.controllers.bar.prototype._updateElementGeometry.call(this, elem, index, reset, ...args);
     elem._model.boxplot = this._calculateBoxPlotValuesPixels(this.index, index);
   },
 
