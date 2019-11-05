@@ -40,6 +40,13 @@ const defaults = {
 Chart.defaults.boxplot = Chart.helpers.merge({}, [Chart.defaults.bar, verticalDefaults, defaults]);
 Chart.defaults.horizontalBoxplot = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, horizontalDefaults, defaults]);
 
+if (Chart.defaults.global.datasets && Chart.defaults.global.datasets.bar) {
+  Chart.defaults.global.datasets.boxplot = {...Chart.defaults.global.datasets.bar};
+}
+if (Chart.defaults.global.datasets && Chart.defaults.global.datasets.horizontalBar) {
+  Chart.defaults.global.datasets.horizontalBoxplot = {...Chart.defaults.global.datasets.horizontalBar};
+}
+
 const boxplot = {
   ...base,
   dataElementType: Chart.elements.BoxAndWhiskers,
