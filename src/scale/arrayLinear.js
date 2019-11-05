@@ -11,6 +11,9 @@ const ArrayLinearScale = Chart.scaleService.getScaleConstructor('linear').extend
   getRightValue(rawValue) {
     return Chart.LinearScaleBase.prototype.getRightValue.call(this, getRightValue(rawValue, this.options.ticks));
   },
+  _parseValue(rawValue) {
+    return Chart.LinearScaleBase.prototype._parseValue.call(this, getRightValue(rawValue, this.options.ticks));
+  },
   determineDataLimits() {
     commonDataLimits.call(this);
     // Common base implementation to handle ticks.min, ticks.max, ticks.beginAtZero

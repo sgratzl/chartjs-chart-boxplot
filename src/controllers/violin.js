@@ -20,6 +20,13 @@ const defaults = {
 Chart.defaults.violin = Chart.helpers.merge({}, [Chart.defaults.bar, verticalDefaults, defaults]);
 Chart.defaults.horizontalViolin = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, horizontalDefaults, defaults]);
 
+if (Chart.defaults.global.datasets && Chart.defaults.global.datasets.bar) {
+  Chart.defaults.global.datasets.violin = {...Chart.defaults.global.datasets.bar};
+}
+if (Chart.defaults.global.datasets && Chart.defaults.global.datasets.horizontalBar) {
+  Chart.defaults.global.datasets.horizontalViolin = {...Chart.defaults.global.datasets.horizontalBar};
+}
+
 const controller = {
   ...base,
   dataElementType: Chart.elements.Violin,
