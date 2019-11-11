@@ -151,7 +151,10 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
       return iqr * vm.width;
     }
     return iqr * vm.height;
-  }
+  },
+  _getOutliers() {
+    return this._view.violin.outliers || [];
+  },
 });
 
 export default Violin;

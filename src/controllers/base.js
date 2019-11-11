@@ -25,6 +25,9 @@ export function toFixed(value) {
   return Number.parseFloat(value).toFixed(decimals);
 }
 
+const configKeys = ['outlierRadius', 'itemRadius', 'itemStyle', 'itemBackgroundColor', 'itemBorderColor', 'outlierColor', 'medianColor', 'hitPadding', 'outlierHitRadius'];
+const configKeyIsColor = [false, false, false, true, true, true, true, false, false];
+
 const array = {
   _elementOptions() {
     return {};
@@ -37,7 +40,6 @@ const array = {
     Chart.controllers.bar.prototype.updateElement.call(this, elem, index, reset);
     const resolve = Chart.helpers.options.resolve;
 
-    const keys = ['outlierRadius', 'itemRadius', 'itemStyle', 'itemBackgroundColor', 'itemBorderColor', 'outlierColor', 'medianColor', 'hitPadding'];
     // Scriptable options
     const context = {
       chart: this.chart,
@@ -46,7 +48,7 @@ const array = {
       datasetIndex: this.index
     };
 
-    keys.forEach((item) => {
+    configKeys.forEach((item) => {
       elem._model[item] = resolve([custom[item], dataset[item], options[item]], context, index);
     });
   },
@@ -60,6 +62,24 @@ const array = {
     } else if (container.items) {
       r.items = container.items.map((d) => scale.getPixelForValue(Number(d)));
     }
+  },
+  setHoverStyle(element) {
+    Chart.controllers.bar.prototype.setHoverStyle.call(this, element);
+
+    const dataset = this.chart.data.datasets[element._datasetIndex];
+    const index = element._index;
+    const custom = element.custom || {};
+    const model = element._model;
+    const getHoverColor = Chart.helpers.getHoverColor;
+    const resolve = Chart.helpers.options.resolve;
+
+
+    configKeys.forEach((item, i) => {
+      element.$previousStyle[item] = model[item];
+      const hoverKey = `hover${item.charAt(0).toUpperCase()}${item.slice(1)}`;
+      const modelValue = configKeyIsColor[i] && model[item] != null ? getHoverColor(model[item]) : model[item];
+      element._model[item] = resolve([custom[hoverKey], dataset[hoverKey], modelValue], undefined, index);
+    });
   }
 };
 

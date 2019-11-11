@@ -6,3 +6,4 @@ export * from './controllers/boxplot';
 export * from './controllers/violin';
 export {default as ArrayLinearScale} from './scale/arrayLinear';
 export {default as ArrayLogarithmicScale} from './scale/arrayLogarithmic';
+import './tooltip';

@@ -14,6 +14,7 @@ export const defaults = {
   itemBackgroundColor: Chart.defaults.global.elements.rectangle.backgroundColor,
   itemBorderColor: Chart.defaults.global.elements.rectangle.borderColor,
   hitPadding: 2,
+  outlierHitRadius: 4,
   tooltipDecimals: 2
 };
 
@@ -47,7 +48,7 @@ const ArrayElementBase = Chart.Element.extend({
     ctx.restore();
   },
   _drawOutliers(vm, container, ctx, vert) {
-    if (!container.outliers) {
+    if (vm.outlierRadius <= 0 || !container.outliers || container.outliers.length === 0) {
       return;
     }
     ctx.fillStyle = vm.outlierColor;
@@ -91,8 +92,7 @@ const ArrayElementBase = Chart.Element.extend({
     if (!this._view) {
       return false;
     }
-    const bounds = this._getHitBounds();
-    return mouseX >= bounds.left && mouseX <= bounds.right && mouseY >= bounds.top && mouseY <= bounds.bottom;
+    return this._boxInRange(mouseX, mouseY) || this._outlierIndexInRange(mouseX, mouseY) >= 0;
   },
   inLabelRange(mouseX, mouseY) {
     if (!this._view) {
@@ -112,6 +112,28 @@ const ArrayElementBase = Chart.Element.extend({
     const bounds = this._getHitBounds();
     return mouseY >= bounds.top && mouseY <= bounds.bottom;
   },
+  _outlierIndexInRange(mouseX, mouseY) {
+    const vm = this._view;
+    const hitRadius = vm.outlierHitRadius;
+    const outliers = this._getOutliers();
+    const vertical = this.isVertical();
+
+    // check if along the outlier line
+    if ((vertical && Math.abs(mouseX - vm.x) > hitRadius) || (!vertical && Math.abs(mouseY - vm.y) > hitRadius)) {
+      return -1;
+    }
+    const toCompare = vertical ? mouseY : mouseX;
+    for (let i = 0; i < outliers.length; i++) {
+      if (Math.abs(outliers[i] - toCompare) <= hitRadius) {
+        return i;
+      }
+    }
+    return -1;
+  },
+  _boxInRange(mouseX, mouseY) {
+    const bounds = this._getHitBounds();
+    return mouseX >= bounds.left && mouseX <= bounds.right && mouseY >= bounds.top && mouseY <= bounds.bottom;
+  },
   getCenterPoint() {
     const {x, y} = this._view;
     return {x, y};
@@ -119,8 +141,32 @@ const ArrayElementBase = Chart.Element.extend({
   getArea() {
     return 0; // abstract
   },
-  tooltipPosition_() {
-    return this.getCenterPoint();
+  _getOutliers() {
+    return []; // abstract
+  },
+  tooltipPosition(eventPosition, tooltip) {
+    if (!eventPosition) {
+      // fallback
+      return this.getCenterPoint();
+    }
+    delete tooltip._tooltipOutlier;
+
+    const vm = this._view;
+    const index = this._outlierIndexInRange(eventPosition.x, eventPosition.y);
+    if (index < 0) {
+      return this.getCenterPoint();
+    }
+    tooltip._tooltipOutlier = index;
+    if (this.isVertical()) {
+      return {
+        x: vm.x,
+        y: this._getOutliers()[index]
+      };
+    }
+    return {
+      x: this._getOutliers()[index],
+      y: vm.y,
+    };
   }
 });
 

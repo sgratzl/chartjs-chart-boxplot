@@ -4,10 +4,21 @@ import {asViolinStats} from '../data';
 import * as Chart from 'chart.js';
 import base, {verticalDefaults, horizontalDefaults, toFixed} from './base';
 
+
+function violinTooltip(item, data, ...args) {
+  const value = data.datasets[item.datasetIndex].data[item.index];
+  const options = this._chart.getDatasetMeta(item.datasetIndex).controller._getValueScale().options.ticks;
+  const v = asViolinStats(value, options);
+
+  const label = this._options.callbacks.violinLabel;
+  return label.apply(this, [item, data, v, ...args]);
+}
+
 const defaults = {
   tooltips: {
     callbacks: {
-      label(item, data) {
+      label: violinTooltip,
+      violinLabel(item, data) {
         const datasetLabel = data.datasets[item.datasetIndex].label || '';
         const value = item.value;
         const label = `${datasetLabel} ${typeof item.xLabel === 'string' ? item.xLabel : item.yLabel}`;
@@ -20,6 +31,13 @@ const defaults = {
 Chart.defaults.violin = Chart.helpers.merge({}, [Chart.defaults.bar, verticalDefaults, defaults]);
 Chart.defaults.horizontalViolin = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, horizontalDefaults, defaults]);
 
+if (Chart.defaults.global.datasets && Chart.defaults.global.datasets.bar) {
+  Chart.defaults.global.datasets.violin = {...Chart.defaults.global.datasets.bar};
+}
+if (Chart.defaults.global.datasets && Chart.defaults.global.datasets.horizontalBar) {
+  Chart.defaults.global.datasets.horizontalViolin = {...Chart.defaults.global.datasets.horizontalBar};
+}
+
 const controller = {
   ...base,
   dataElementType: Chart.elements.Violin,
@@ -30,8 +48,8 @@ const controller = {
   /**
    * @private
    */
-  _updateElementGeometry(elem, index, reset) {
-    Chart.controllers.bar.prototype._updateElementGeometry.call(this, elem, index, reset);
+  _updateElementGeometry(elem, index, reset, ...args) {
+    Chart.controllers.bar.prototype._updateElementGeometry.call(this, elem, index, reset, ...args);
     const custom = elem.custom || {};
     const options = this._elementOptions();
     elem._model.violin = this._calculateViolinValuesPixels(this.index, index, custom.points !== undefined ? custom.points : options.points);
