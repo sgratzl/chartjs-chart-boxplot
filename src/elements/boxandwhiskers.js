@@ -1,10 +1,14 @@
 ﻿'use strict';
 
 import * as Chart from 'chart.js';
-import ArrayElementBase, {defaults} from './base';
+import ArrayElementBase, {
+  defaults
+} from './base';
 
 
-Chart.defaults.global.elements.boxandwhiskers = {...defaults};
+Chart.defaults.global.elements.boxandwhiskers = {
+  ...defaults
+};
 
 function transitionBoxPlot(start, view, model, ease) {
   const keys = Object.keys(model);
@@ -58,9 +62,6 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
     const boxplot = vm.boxplot;
     const vert = this.isVertical();
 
-
-    this._drawItems(vm, boxplot, ctx, vert);
-
     ctx.save();
 
     ctx.fillStyle = vm.backgroundColor;
@@ -71,6 +72,8 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
     this._drawOutliers(vm, boxplot, ctx, vert);
 
     ctx.restore();
+
+    this._drawItems(vm, boxplot, ctx, vert);
 
   },
   _drawBoxPlot(vm, boxplot, ctx, vert) {
@@ -185,7 +188,10 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
     }
 
     if (vert) {
-      const {x, width} = vm;
+      const {
+        x,
+        width
+      } = vm;
       const x0 = x - width / 2;
       return {
         left: x0,
@@ -194,7 +200,10 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
         bottom: boxplot.whiskerMin
       };
     }
-    const {y, height} = vm;
+    const {
+      y,
+      height
+    } = vm;
     const y0 = y - height / 2;
     return {
       left: boxplot.whiskerMin,
