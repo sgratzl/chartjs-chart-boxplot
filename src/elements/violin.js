@@ -64,9 +64,6 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
     const violin = vm.violin;
     const vert = this.isVertical();
 
-
-
-
     ctx.save();
 
     ctx.fillStyle = vm.backgroundColor;
