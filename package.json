@@ -1,14 +1,13 @@
 {
   "name": "chartjs-chart-box-and-violin-plot",
   "description": "Chart.js module for charting boxplots",
-  "version": "2.2.0",
+  "version": "2.2.1-SNAPSHOT",
   "author": {
     "name": "datavisyn",
     "email": "contact@datavisyn.io",
     "url": "https://www.datavisyn.io"
   },
-  "contributors": [
-    {
+  "contributors": [{
       "name": "Samuel Gratzl",
       "email": "sam@sgratzl.com",
       "url": "https://www.sgratzl.com"
