@@ -1,7 +1,9 @@
 ﻿'use strict';
 
 import * as Chart from 'chart.js';
-import ArrayElementBase, {defaults} from './base';
+import ArrayElementBase, {
+  defaults
+} from './base';
 
 
 Chart.defaults.global.elements.violin = {
@@ -62,9 +64,6 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
     const violin = vm.violin;
     const vert = this.isVertical();
 
-
-    this._drawItems(vm, violin, ctx, vert);
-
     ctx.save();
 
     ctx.fillStyle = vm.backgroundColor;
@@ -82,12 +81,18 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
       const width = vm.width;
       const factor = (width / 2) / violin.maxEstimate;
       ctx.moveTo(x, violin.min);
-      coords.forEach(({v, estimate}) => {
+      coords.forEach(({
+        v,
+        estimate
+      }) => {
         ctx.lineTo(x - estimate * factor, v);
       });
       ctx.lineTo(x, violin.max);
       ctx.moveTo(x, violin.min);
-      coords.forEach(({v, estimate}) => {
+      coords.forEach(({
+        v,
+        estimate
+      }) => {
         ctx.lineTo(x + estimate * factor, v);
       });
       ctx.lineTo(x, violin.max);
@@ -96,12 +101,18 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
       const height = vm.height;
       const factor = (height / 2) / violin.maxEstimate;
       ctx.moveTo(violin.min, y);
-      coords.forEach(({v, estimate}) => {
+      coords.forEach(({
+        v,
+        estimate
+      }) => {
         ctx.lineTo(v, y - estimate * factor);
       });
       ctx.lineTo(violin.max, y);
       ctx.moveTo(violin.min, y);
-      coords.forEach(({v, estimate}) => {
+      coords.forEach(({
+        v,
+        estimate
+      }) => {
         ctx.lineTo(v, y + estimate * factor);
       });
       ctx.lineTo(violin.max, y);
@@ -114,6 +125,8 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
 
     ctx.restore();
 
+    this._drawItems(vm, violin, ctx, vert);
+
   },
   _getBounds() {
     const vm = this._view;
@@ -122,7 +135,10 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
     const violin = vm.violin;
 
     if (vert) {
-      const {x, width} = vm;
+      const {
+        x,
+        width
+      } = vm;
       const x0 = x - width / 2;
       return {
         left: x0,
@@ -131,7 +147,10 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
         bottom: violin.min
       };
     }
-    const {y, height} = vm;
+    const {
+      y,
+      height
+    } = vm;
     const y0 = y - height / 2;
     return {
       left: violin.min,
