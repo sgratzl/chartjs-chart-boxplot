@@ -1,5 +1,5 @@
 # Chart.js Box and Violin Plot
-[![datavisyn][datavisyn-image]][datavisyn-url] [![NPM Package][npm-image]][npm-url] [![CircleCI][circleci-image]][circleci-url]
+[![datavisyn][datavisyn-image]][datavisyn-url] [![License: MIT][mit-image]][mit-url] [![NPM Package][npm-image]][npm-url] [![Github Actions][github-actions-image]][github-actions-url]
 
 Chart.js module for charting box and violin plots. **Works only with Chart.js >= 2.8.0**
 
@@ -287,8 +287,9 @@ import "chartjs-chart-box-and-violin-plot/build/Chart.BoxPlot.js";
 
 [datavisyn-image]: https://img.shields.io/badge/datavisyn-io-black.svg
 [datavisyn-url]: http://datavisyn.io
+[mit-image]: https://img.shields.io/badge/License-MIT-yellow.svg
+[mit-url]: https://opensource.org/licenses/MIT
 [npm-image]: https://badge.fury.io/js/chartjs-chart-box-and-violin-plot.svg
 [npm-url]: https://npmjs.org/package/chartjs-chart-box-and-violin-plot
-[circleci-image]: https://circleci.com/gh/datavisyn/chartjs-chart-box-and-violin-plot.svg?style=shield
-[circleci-url]: https://circleci.com/gh/datavisyn/chartjs-chart-box-and-violin-plot
-
+[github-actions-image]: https://github.com/datavisyn/chartjs-chart-box-and-violin-plot/workflows/nodeci/badge.svg
+[github-actions-url]: https://github.com/datavisyn/chartjs-chart-box-and-violin-plot/actions
