@@ -10,12 +10,12 @@ import kde from '@sgratzl/science/src/stats/kde';
 function quantilesInterpolate(arr, interpolate) {
   const n1 = arr.length - 1;
   const compute = (q) => {
-    const index = 1 + q * n1;
+    const index = q * n1;
     const lo = Math.floor(index);
     const h = index - lo;
-    const a = arr[lo - 1];
+    const a = arr[lo];
 
-    return h === 0 ? a : interpolate(a, arr[lo], h);
+    return h === 0 ? a : interpolate(a, arr[Math.min(lo + 1, n1)], h);
   };
 
   return {
@@ -61,7 +61,7 @@ export function quantilesHigher(arr) {
  * ‘nearest’: i or j, whichever is nearest
  */
 export function quantilesNearest(arr) {
-  return quantilesInterpolate(arr, (i, j, fraction) => (fraction <= 0.5 ? i : j));
+  return quantilesInterpolate(arr, (i, j, fraction) => (fraction < 0.5 ? i : j));
 }
 
 /**
@@ -153,7 +153,7 @@ function determineQuantiles(q) {
     higher: quantilesHigher,
     nearest: quantilesNearest,
     midpoint: quantilesMidpoint
-  }
+  };
   return lookup[q] || quantilesType7;
 }
 

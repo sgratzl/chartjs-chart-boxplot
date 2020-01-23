@@ -77,7 +77,7 @@ describe('quantiles and fivenum', () => {
 describe('numpy interpolation', () => {
   const arr = [3.375, 3.75, 3.875, 3, 3, 3.5, 3.125, 3, 2.625, 3.375, 3].sort(asc);
   it('linear', () => {
-    expect(quantilesLinear(arr).q3).toBe(3.475);
+    expect(quantilesLinear(arr).q3).toBe(3.4375);
   });
   it('higher', () => {
     expect(quantilesHigher(arr).q3).toBe(3.5);
