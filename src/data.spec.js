@@ -1,4 +1,4 @@
-import {quantilesType7, fivenum} from './data';
+import {quantilesType7, fivenum, quantilesNearest, quantilesHigher, quantilesLinear, quantilesLower, quantilesMidpoint} from './data';
 
 function asc(a, b) {
   return a - b;
@@ -72,6 +72,23 @@ describe('quantiles and fivenum', () => {
       expect(fivenum(arr)).toEqual(asB(5830.748, 6518.398999999999, 7459.0635, 13297.2845, 18882.492));
     });
   });
+});
 
-
+describe('numpy interpolation', () => {
+  const arr = [3.375, 3.75, 3.875, 3, 3, 3.5, 3.125, 3, 2.625, 3.375, 3].sort(asc);
+  it('linear', () => {
+    expect(quantilesLinear(arr).q3).toBe(3.475);
+  });
+  it('higher', () => {
+    expect(quantilesHigher(arr).q3).toBe(3.5);
+  });
+  it('lower', () => {
+    expect(quantilesLower(arr).q3).toBe(3.375);
+  });
+  it('nearest', () => {
+    expect(quantilesNearest(arr).q3).toBe(3.5);
+  });
+  it('midpoint', () => {
+    expect(quantilesMidpoint(arr).q3).toBe(3.4375);
+  });
 });

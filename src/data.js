@@ -2,9 +2,12 @@
 
 import kde from '@sgratzl/science/src/stats/kde';
 
-// Uses R's quantile algorithm type=7.
-// https://en.wikipedia.org/wiki/Quantile#Quantiles_of_a_population
-export function quantilesType7(arr) {
+/**
+ * computes the boxplot stats using the given interpolation function if needed
+ * @param {number[]} arr sorted array of number
+ * @param {(i: number, j: number, fraction: number)} interpolate interpolation function
+ */
+function quantilesInterpolate(arr, interpolate) {
   const n1 = arr.length - 1;
   const compute = (q) => {
     const index = 1 + q * n1;
@@ -12,7 +15,7 @@ export function quantilesType7(arr) {
     const h = index - lo;
     const a = arr[lo - 1];
 
-    return h === 0 ? a : a + h * (arr[lo] - a);
+    return h === 0 ? a : interpolate(a, arr[lo], h);
   };
 
   return {
@@ -22,6 +25,50 @@ export function quantilesType7(arr) {
     q3: compute(0.75),
     max: arr[n1]
   };
+}
+
+/**
+ * Uses R's quantile algorithm type=7.
+ * https://en.wikipedia.org/wiki/Quantile#Quantiles_of_a_population
+ */
+export function quantilesType7(arr) {
+  return quantilesInterpolate(arr, (a, b, alpha) => a + alpha * (b - a));
+}
+
+/**
+ * ‘linear’: i + (j - i) * fraction, where fraction is the fractional part of the index surrounded by i and j.
+ * (same as type 7)
+ */
+export function quantilesLinear(arr) {
+  return quantilesInterpolate(arr, (i, j, fraction) => i + (j - i) * fraction);
+}
+
+/**
+ * ‘lower’: i.
+ */
+export function quantilesLower(arr) {
+  return quantilesInterpolate(arr, (i) => i);
+}
+
+/**
+ * 'higher': j.
+ */
+export function quantilesHigher(arr) {
+  return quantilesInterpolate(arr, (_, j) => j);
+}
+
+/**
+ * ‘nearest’: i or j, whichever is nearest
+ */
+export function quantilesNearest(arr) {
+  return quantilesInterpolate(arr, (i, j, fraction) => (fraction <= 0.5 ? i : j));
+}
+
+/**
+ * ‘midpoint’: (i + j) / 2
+ */
+export function quantilesMidpoint(arr) {
+  return quantilesInterpolate(arr, (i, j) => (i + j) * 0.5);
 }
 
 /**
@@ -92,10 +139,28 @@ const defaultStatsOptions = {
   quantiles: 7
 };
 
+function determineQuantiles(q) {
+  if (typeof q === 'function') {
+    return q;
+  }
+  const lookup = {
+    hinges: fivenum,
+    fivenum: fivenum,
+    7: quantilesType7,
+    quantiles: quantilesType7,
+    linear: quantilesLinear,
+    lower: quantilesLower,
+    higher: quantilesHigher,
+    nearest: quantilesNearest,
+    midpoint: quantilesMidpoint
+  }
+  return lookup[q] || quantilesType7;
+}
+
 function determineStatsOptions(options) {
   const coef = options == null || typeof options.coef !== 'number' ? defaultStatsOptions.coef : options.coef;
   const q = options == null ? null : options.quantiles;
-  const quantiles = typeof q === 'function' ? q : (q === 'hinges' || q === 'fivenum' ? fivenum : quantilesType7);
+  const quantiles = determineQuantiles(q);
   return {
     coef,
     quantiles

@@ -170,10 +170,18 @@ interface IArrayLinearScale {
     coef: number;
 
     /**
-     * the method to compute the quantiles. 7 and 'quantiles' refers to the type-7 method as used by R 'quantiles' method. 'hinges' and 'fivenum' refers to the method used by R 'boxplot.stats' method.
+     * the method to compute the quantiles.
+     *
+     * 7, 'quantiles': the type-7 method as used by R 'quantiles' method.
+     * 'hinges' and 'fivenum': the method used by R 'boxplot.stats' method.
+     * 'linear': the interpolation method 'linear' as used by 'numpy.percentile' function
+     * 'lower': the interpolation method 'lower' as used by 'numpy.percentile' function
+     * 'higher': the interpolation method 'higher' as used by 'numpy.percentile' function
+     * 'nearest': the interpolation method 'nearest' as used by 'numpy.percentile' function
+     * 'midpoint': the interpolation method 'midpoint' as used by 'numpy.percentile' function
      * @default 7
      */
-    quantiles: 7 | 'quantiles' | 'hinges' | 'fivenum' | ((sortedArr: number[]) => {min: number, q1: number, median: number, q3: number, max: number});
+    quantiles: 7 | 'quantiles' | 'hinges' | 'fivenum' | 'linear' | 'lower' | 'higher' | 'nearest' | 'midpoint' | ((sortedArr: number[]) => {min: number, q1: number, median: number, q3: number, max: number});
   };
 }
 ```
