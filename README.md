@@ -80,6 +80,14 @@ interface IBaseStyling {
   outlierColor: string;
 
   /**
+   * to fill color below the median line of the box
+   * @default see rectangle.lowerColor
+   * @scriptable
+   * @indexable
+   */
+  lowerColor: string;
+
+  /**
    * radius used to render items
    * @default 0 so disabled
    * @scriptable

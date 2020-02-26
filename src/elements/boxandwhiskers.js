@@ -104,6 +104,15 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
     ctx.beginPath();
     ctx.moveTo(x0, boxplot.median);
     ctx.lineTo(x0 + width, boxplot.median);
+
+    // fill the part below the median with lowerColor
+    ctx.fillStyle = vm.lowerColor;
+    if (boxplot.q3 > boxplot.q1) {
+      ctx.fillRect(x0, boxplot.median, width, boxplot.q3 - boxplot.median);
+    } else {
+      ctx.fillRect(x0, boxplot.median, width, boxplot.q1 - boxplot.median);
+    }
+
     ctx.closePath();
     ctx.stroke();
     ctx.restore();
