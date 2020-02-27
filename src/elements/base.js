@@ -8,6 +8,7 @@ export const defaults = {
   borderWidth: 1,
   outlierRadius: 2,
   outlierColor: Chart.defaults.global.elements.rectangle.backgroundColor,
+  lowerColor: Chart.defaults.global.elements.rectangle.lowerColor,
   medianColor: null,
   itemRadius: 0,
   itemStyle: 'circle',
