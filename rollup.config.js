@@ -6,8 +6,8 @@ import babel from 'rollup-plugin-babel';
 export default [
   {
     output: {
-      file: 'build/Chart.ErrorBars.js',
-      name: 'ChartErrorBars',
+      file: 'build/Chart.BoxPlot.js',
+      name: 'ChartBoxPlot',
       format: 'umd',
       globals: {
         'chart.js': 'Chart',
@@ -18,8 +18,8 @@ export default [
   },
   {
     output: {
-      file: 'build/Chart.ErrorBars.esm.js',
-      name: 'ChartErrorBars',
+      file: 'build/Chart.BoxPlot.esm.js',
+      name: 'ChartBoxPlot',
       format: 'esm',
       globals: {
         'chart.js': 'Chart',
