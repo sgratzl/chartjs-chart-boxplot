@@ -1,9 +1,6 @@
-﻿'use strict';
-
-import {asBoxPlotStats} from '../data';
+﻿import { asBoxPlotStats } from '../data';
 import * as Chart from 'chart.js';
-import base, {verticalDefaults, horizontalDefaults, toFixed} from './base';
-
+import base, { verticalDefaults, horizontalDefaults, toFixed } from './base';
 
 function boxplotTooltip(item, data, ...args) {
   const value = data.datasets[item.datasetIndex].data[item.index];
@@ -31,20 +28,27 @@ const defaults = {
           const outlier = b.outliers[hoveredOutlierIndex];
           return `${label} (outlier: ${toFixed.call(this, outlier)})`;
         }
-        return `${label} (min: ${toFixed.call(this, b.min)}, q1: ${toFixed.call(this, b.q1)}, median: ${toFixed.call(this, b.median)}, q3: ${toFixed.call(this, b.q3)}, max: ${toFixed.call(this, b.max)})`;
-      }
-    }
-  }
+        return `${label} (min: ${toFixed.call(this, b.min)}, q1: ${toFixed.call(this, b.q1)}, median: ${toFixed.call(
+          this,
+          b.median
+        )}, q3: ${toFixed.call(this, b.q3)}, max: ${toFixed.call(this, b.max)})`;
+      },
+    },
+  },
 };
 
 Chart.defaults.boxplot = Chart.helpers.merge({}, [Chart.defaults.bar, verticalDefaults, defaults]);
-Chart.defaults.horizontalBoxplot = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, horizontalDefaults, defaults]);
+Chart.defaults.horizontalBoxplot = Chart.helpers.merge({}, [
+  Chart.defaults.horizontalBar,
+  horizontalDefaults,
+  defaults,
+]);
 
 if (Chart.defaults.global.datasets && Chart.defaults.global.datasets.bar) {
-  Chart.defaults.global.datasets.boxplot = {...Chart.defaults.global.datasets.bar};
+  Chart.defaults.global.datasets.boxplot = { ...Chart.defaults.global.datasets.bar };
 }
 if (Chart.defaults.global.datasets && Chart.defaults.global.datasets.horizontalBar) {
-  Chart.defaults.global.datasets.horizontalBoxplot = {...Chart.defaults.global.datasets.horizontalBar};
+  Chart.defaults.global.datasets.horizontalBoxplot = { ...Chart.defaults.global.datasets.horizontalBar };
 }
 
 const boxplot = {
@@ -82,10 +86,12 @@ const boxplot = {
     });
     this._calculateCommonModel(r, data, v, scale);
     return r;
-  }
+  },
 };
 /**
  * This class is based off controller.bar.js from the upstream Chart.js library
  */
-export const BoxPlot = Chart.controllers.boxplot = Chart.controllers.bar.extend(boxplot);
-export const HorizontalBoxPlot = Chart.controllers.horizontalBoxplot = Chart.controllers.horizontalBar.extend(boxplot);
+export const BoxPlot = (Chart.controllers.boxplot = Chart.controllers.bar.extend(boxplot));
+export const HorizontalBoxPlot = (Chart.controllers.horizontalBoxplot = Chart.controllers.horizontalBar.extend(
+  boxplot
+));

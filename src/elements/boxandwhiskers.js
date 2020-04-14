@@ -1,13 +1,8 @@
-﻿'use strict';
-
-import * as Chart from 'chart.js';
-import ArrayElementBase, {
-  defaults
-} from './base';
-
+﻿import * as Chart from 'chart.js';
+import ArrayElementBase, { defaults } from './base';
 
 Chart.defaults.global.elements.boxandwhiskers = {
-  ...defaults
+  ...defaults,
 };
 
 function transitionBoxPlot(start, view, model, ease) {
@@ -32,7 +27,7 @@ function transitionBoxPlot(start, view, model, ease) {
   }
 }
 
-const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
+const BoxAndWiskers = (Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
   transition(ease) {
     const r = Chart.Element.prototype.transition.call(this, ease);
     const model = this._model;
@@ -74,7 +69,6 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
     ctx.restore();
 
     this._drawItems(vm, boxplot, ctx, vert);
-
   },
   _drawBoxPlot(vm, boxplot, ctx, vert) {
     if (vert) {
@@ -82,7 +76,6 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
     } else {
       this._drawBoxPlotHoriz(vm, boxplot, ctx);
     }
-
   },
   _drawBoxPlotVert(vm, boxplot, ctx) {
     const x = vm.x;
@@ -194,33 +187,27 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
         left: 0,
         top: 0,
         right: 0,
-        bottom: 0
+        bottom: 0,
       };
     }
 
     if (vert) {
-      const {
-        x,
-        width
-      } = vm;
+      const { x, width } = vm;
       const x0 = x - width / 2;
       return {
         left: x0,
         top: boxplot.whiskerMax,
         right: x0 + width,
-        bottom: boxplot.whiskerMin
+        bottom: boxplot.whiskerMin,
       };
     }
-    const {
-      y,
-      height
-    } = vm;
+    const { y, height } = vm;
     const y0 = y - height / 2;
     return {
       left: boxplot.whiskerMin,
       top: y0,
       right: boxplot.whiskerMax,
-      bottom: y0 + height
+      bottom: y0 + height,
     };
   },
   height() {
@@ -238,6 +225,6 @@ const BoxAndWiskers = Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
   _getOutliers() {
     return this._view.boxplot ? this._view.boxplot.outliers || [] : [];
   },
-});
+}));
 
 export default BoxAndWiskers;

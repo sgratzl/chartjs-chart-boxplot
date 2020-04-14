@@ -1,5 +1,3 @@
-'use strict';
-
 import kde from '@sgratzl/science/src/stats/kde';
 
 /**
@@ -23,7 +21,7 @@ function quantilesInterpolate(arr, interpolate) {
     q1: compute(0.25),
     median: compute(0.5),
     q3: compute(0.75),
-    max: arr[n1]
+    max: arr[n1],
   };
 }
 
@@ -92,10 +90,9 @@ export function fivenum(arr) {
     q1: compute(n4),
     median: compute((n + 1) / 2),
     q3: compute(n + 1 - n4),
-    max: arr[n - 1]
+    max: arr[n - 1],
   };
 }
-
 
 /**
  * compute the whiskers
@@ -130,13 +127,13 @@ export function whiskers(boxplot, arr, coef = 1.5) {
 
   return {
     whiskerMin,
-    whiskerMax
+    whiskerMax,
   };
 }
 
 const defaultStatsOptions = {
   coef: 1.5,
-  quantiles: 7
+  quantiles: 7,
 };
 
 function determineQuantiles(q) {
@@ -152,7 +149,7 @@ function determineQuantiles(q) {
     lower: quantilesLower,
     higher: quantilesHigher,
     nearest: quantilesNearest,
-    midpoint: quantilesMidpoint
+    midpoint: quantilesMidpoint,
   };
   return lookup[q] || quantilesType7;
 }
@@ -163,7 +160,7 @@ function determineStatsOptions(options) {
   const quantiles = determineQuantiles(q);
   return {
     coef,
-    quantiles
+    quantiles,
   };
 }
 
@@ -178,17 +175,17 @@ export function boxplotStats(arr, options) {
       q3: NaN,
       whiskerMin: NaN,
       whiskerMax: NaN,
-      outliers: []
+      outliers: [],
     };
   }
 
   arr = arr.filter((v) => typeof v === 'number' && !isNaN(v));
   arr.sort((a, b) => a - b);
 
-  const {quantiles, coef} = determineStatsOptions(options);
+  const { quantiles, coef } = determineStatsOptions(options);
 
   const stats = quantiles(arr);
-  const {whiskerMin, whiskerMax} = whiskers(stats, arr, coef);
+  const { whiskerMin, whiskerMax } = whiskers(stats, arr, coef);
   stats.outliers = arr.filter((v) => v < whiskerMin || v > whiskerMax);
   stats.whiskerMin = whiskerMin;
   stats.whiskerMax = whiskerMax;
@@ -203,7 +200,7 @@ export function violinStats(arr, options) {
   arr = arr.filter((v) => typeof v === 'number' && !isNaN(v));
   arr.sort((a, b) => a - b);
 
-  const {quantiles} = determineStatsOptions(options);
+  const { quantiles } = determineStatsOptions(options);
 
   const stats = quantiles(arr);
   stats.kde = kde().sample(arr);
@@ -217,8 +214,12 @@ export function asBoxPlotStats(value, options) {
   if (typeof value.median === 'number' && typeof value.q1 === 'number' && typeof value.q3 === 'number') {
     // sounds good, check for helper
     if (typeof value.whiskerMin === 'undefined') {
-      const {coef} = determineStatsOptions(options);
-      const {whiskerMin, whiskerMax} = whiskers(value, Array.isArray(value.items) ? value.items.slice().sort((a, b) => a - b) : null, coef);
+      const { coef } = determineStatsOptions(options);
+      const { whiskerMin, whiskerMax } = whiskers(
+        value,
+        Array.isArray(value.items) ? value.items.slice().sort((a, b) => a - b) : null,
+        coef
+      );
       value.whiskerMin = whiskerMin;
       value.whiskerMax = whiskerMax;
     }
@@ -274,16 +275,16 @@ export const commonScaleOptions = {
   ticks: {
     minStats: 'min',
     maxStats: 'max',
-    ...defaultStatsOptions
-  }
+    ...defaultStatsOptions,
+  },
 };
 
 export function commonDataLimits(extraCallback) {
   const chart = this.chart;
   const isHorizontal = this.isHorizontal();
-  const {minStats, maxStats} = this.options.ticks;
+  const { minStats, maxStats } = this.options.ticks;
 
-  const matchID = (meta) => isHorizontal ? meta.xAxisID === this.id : meta.yAxisID === this.id;
+  const matchID = (meta) => (isHorizontal ? meta.xAxisID === this.id : meta.yAxisID === this.id);
 
   // First Calculate the range
   this.min = null;

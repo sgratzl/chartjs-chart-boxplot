@@ -3,34 +3,29 @@ import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
 
-export default [{
-  output: {
-    file: 'build/Chart.BoxPlot.js',
-    name: 'ChartBoxPlot',
-    format: 'umd',
-    globals: {
-      'chart.js': 'Chart'
-    }
+export default [
+  {
+    output: {
+      file: 'build/Chart.ErrorBars.js',
+      name: 'ChartErrorBars',
+      format: 'umd',
+      globals: {
+        'chart.js': 'Chart',
+      },
+    },
+    external: ['chart.js'],
+    plugins: [resolve(), commonjs(), babel()],
   },
-  external: ['chart.js'],
-  plugins: [
-    resolve(),
-    commonjs(),
-    babel()
-  ]
-}, {
-  output: {
-    file: 'build/Chart.BoxPlot.esm.js',
-    name: 'ChartBoxPlot',
-    format: 'esm',
-    globals: {
-      'chart.js': 'Chart'
-    }
+  {
+    output: {
+      file: 'build/Chart.ErrorBars.esm.js',
+      name: 'ChartErrorBars',
+      format: 'esm',
+      globals: {
+        'chart.js': 'Chart',
+      },
+    },
+    external: ['chart.js'],
+    plugins: [resolve(), commonjs(), babel()],
   },
-  external: ['chart.js'],
-  plugins: [
-    resolve(),
-    commonjs(),
-    babel()
-  ]
-}];
+];

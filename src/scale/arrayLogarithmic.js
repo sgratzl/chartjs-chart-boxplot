@@ -1,12 +1,12 @@
-'use strict';
-
 import * as Chart from 'chart.js';
-import {getRightValue, commonDataLimits, commonScaleOptions} from '../data';
+import { getRightValue, commonDataLimits, commonScaleOptions } from '../data';
 
 const helpers = Chart.helpers;
 
-const ArrayLogarithmicScaleOptions = helpers.merge({}, [commonScaleOptions, Chart.scaleService.getScaleDefaults('logarithmic')]);
-
+const ArrayLogarithmicScaleOptions = helpers.merge({}, [
+  commonScaleOptions,
+  Chart.scaleService.getScaleDefaults('logarithmic'),
+]);
 
 const ArrayLogarithmicScale = Chart.scaleService.getScaleConstructor('logarithmic').extend({
   getRightValue(rawValue) {
@@ -38,7 +38,7 @@ const ArrayLogarithmicScale = Chart.scaleService.getScaleConstructor('logarithmi
         this.max = 10;
       }
     }
-  }
+  },
 });
 Chart.scaleService.registerScaleType('arrayLogarithmic', ArrayLogarithmicScale, ArrayLogarithmicScaleOptions);
 

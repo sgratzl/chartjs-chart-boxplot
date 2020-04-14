@@ -1,7 +1,5 @@
-﻿'use strict';
-
-import * as Chart from 'chart.js';
-import {rnd} from '../data';
+﻿import * as Chart from 'chart.js';
+import { rnd } from '../data';
 
 export const defaults = {
   ...Chart.defaults.global.elements.rectangle,
@@ -16,7 +14,7 @@ export const defaults = {
   itemBorderColor: Chart.defaults.global.elements.rectangle.borderColor,
   hitPadding: 2,
   outlierHitRadius: 4,
-  tooltipDecimals: 2
+  tooltipDecimals: 2,
 };
 
 const ArrayElementBase = Chart.Element.extend({
@@ -73,7 +71,7 @@ const ArrayElementBase = Chart.Element.extend({
       left: 0,
       top: 0,
       right: 0,
-      bottom: 0
+      bottom: 0,
     };
   },
   _getHitBounds() {
@@ -83,7 +81,7 @@ const ArrayElementBase = Chart.Element.extend({
       left: b.left - padding,
       top: b.top - padding,
       right: b.right + padding,
-      bottom: b.bottom + padding
+      bottom: b.bottom + padding,
     };
   },
   height() {
@@ -136,8 +134,8 @@ const ArrayElementBase = Chart.Element.extend({
     return mouseX >= bounds.left && mouseX <= bounds.right && mouseY >= bounds.top && mouseY <= bounds.bottom;
   },
   getCenterPoint() {
-    const {x, y} = this._view;
-    return {x, y};
+    const { x, y } = this._view;
+    return { x, y };
   },
   getArea() {
     return 0; // abstract
@@ -161,14 +159,14 @@ const ArrayElementBase = Chart.Element.extend({
     if (this.isVertical()) {
       return {
         x: vm.x,
-        y: this._getOutliers()[index]
+        y: this._getOutliers()[index],
       };
     }
     return {
       x: this._getOutliers()[index],
       y: vm.y,
     };
-  }
+  },
 });
 
 export default ArrayElementBase;

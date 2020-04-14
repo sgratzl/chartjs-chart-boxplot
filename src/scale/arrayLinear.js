@@ -1,7 +1,5 @@
-'use strict';
-
 import * as Chart from 'chart.js';
-import {getRightValue, commonDataLimits, commonScaleOptions} from '../data';
+import { getRightValue, commonDataLimits, commonScaleOptions } from '../data';
 
 const helpers = Chart.helpers;
 
@@ -18,7 +16,7 @@ const ArrayLinearScale = Chart.scaleService.getScaleConstructor('linear').extend
     commonDataLimits.call(this);
     // Common base implementation to handle ticks.min, ticks.max, ticks.beginAtZero
     this.handleTickRangeOptions();
-  }
+  },
 });
 Chart.scaleService.registerScaleType('arrayLinear', ArrayLinearScale, ArrayLinearScaleOptions);
 

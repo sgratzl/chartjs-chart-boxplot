@@ -1,4 +1,5 @@
 # Chart.js Box and Violin Plot
+
 [![datavisyn][datavisyn-image]][datavisyn-url] [![License: MIT][mit-image]][mit-url] [![NPM Package][npm-image]][npm-url] [![Github Actions][github-actions-image]][github-actions-url]
 
 Chart.js module for charting box and violin plots. **Works only with Chart.js >= 2.8.0**
@@ -6,17 +7,17 @@ Chart.js module for charting box and violin plots. **Works only with Chart.js >=
 ![Box Plot](https://user-images.githubusercontent.com/4129778/42724341-9a6ec554-8770-11e8-99b5-626e34dafdb3.png)
 ![Violin Plot](https://user-images.githubusercontent.com/4129778/42724342-9a8dbb58-8770-11e8-9a30-3e69d07d3b79.png)
 
-
 ## Install
 
 ```bash
-npm install --save chart.js chartjs-chart-box-and-violin-plot
+npm install --save chart.js @sgratzl/chartjs-chart-boxplot
 ```
 
 ## Usage
-see [Samples](https://github.com/datavisyn/chartjs-chart-box-and-violin-plot/tree/master/samples) on Github
 
-and [CodePen](https://codepen.io/sgratzl/pen/QxoLoY)
+see [Samples](https://github.com/sgratzl/chartjs-chart-box-and-violin-plot/tree/master/samples) on Github
+
+and [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/QxoLoY)
 
 ## Chart
 
@@ -32,6 +33,7 @@ four new types: `boxplot`, `horizontalBoxplot`, `violin`, and `horizontalViolin`
 ```
 
 ## Styling
+
 The boxplot element is called `boxandwhiskers`. The basic options are from the `rectangle` element. The violin element is called `violin` also based on the `rectangle` element.
 
 ```typescript
@@ -99,7 +101,17 @@ interface IBaseStyling {
    * item style used to render items
    * @default circle
    */
-  itemStyle: 'circle'|'triangle'|'rect'|'rectRounded'|'rectRot'|'cross'|'crossRot'|'star'|'line'|'dash';
+  itemStyle:
+    | 'circle'
+    | 'triangle'
+    | 'rect'
+    | 'rectRounded'
+    | 'rectRot'
+    | 'cross'
+    | 'crossRot'
+    | 'star'
+    | 'line'
+    | 'dash';
 
   /**
    * background color for items
@@ -140,9 +152,9 @@ interface IBoxPlotStyling extends IBaseStyling {
 
 interface IViolinStyling extends IBaseStyling {
   /**
-  * number of sample points of the underlying KDE for creating the violin plot
-  * @default 100
-  */
+   * number of sample points of the underlying KDE for creating the violin plot
+   * @default 100
+   */
   points: number;
 }
 ```
@@ -160,13 +172,13 @@ interface IArrayLinearScale {
      * statistic measure that should be used for computing the minimal data limit
      * @default 'min'
      */
-    minStats: 'min'|'q1'|'whiskerMin';
+    minStats: 'min' | 'q1' | 'whiskerMin';
 
     /**
      * statistic measure that should be used for computing the maximal data limit
      * @default 'max'
      */
-    maxStats: 'max'|'q3'|'whiskerMax';
+    maxStats: 'max' | 'q3' | 'whiskerMax';
 
     /**
      * from the R doc: this determines how far the plot ‘whiskers’ extend out from
@@ -189,7 +201,17 @@ interface IArrayLinearScale {
      * 'midpoint': the interpolation method 'midpoint' as used by 'numpy.percentile' function
      * @default 7
      */
-    quantiles: 7 | 'quantiles' | 'hinges' | 'fivenum' | 'linear' | 'lower' | 'higher' | 'nearest' | 'midpoint' | ((sortedArr: number[]) => {min: number, q1: number, median: number, q3: number, max: number});
+    quantiles:
+      | 7
+      | 'quantiles'
+      | 'hinges'
+      | 'fivenum'
+      | 'linear'
+      | 'lower'
+      | 'higher'
+      | 'nearest'
+      | 'midpoint'
+      | ((sortedArr: number[]) => { min: number; q1: number; median: number; q3: number; max: number });
   };
 }
 ```
@@ -197,7 +219,6 @@ interface IArrayLinearScale {
 ## Data structure
 
 Both types support that the data is given as an array of numbers `number[]`. The statistics will be automatically computed. In addition, specific summary data structures are supported:
-
 
 ```typescript
 interface IBaseItem {
@@ -240,7 +261,7 @@ interface IViolinItem extends IBaseItem {
 }
 ```
 
-**Note**: The statistics will be cached within the array. Thus, if you manipulate the array content without creating a new instance the changes won't be reflected in the stats. See also [CodePen](https://codepen.io/sgratzl/pen/JxQVaZ?editors=0010) for a comparison.
+**Note**: The statistics will be cached within the array. Thus, if you manipulate the array content without creating a new instance the changes won't be reflected in the stats. See also [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/JxQVaZ?editors=0010) for a comparison.
 
 ## Tooltips
 
@@ -259,7 +280,7 @@ arr = {
          * @param hoveredOutlierIndex {number} the hovered outlier index or -1 if none
          * @return {string} see label callback
          */
-        boxplotLabel: function(item, data, stats, hoveredOutlierIndex) {
+        boxplotLabel: function (item, data, stats, hoveredOutlierIndex) {
           return 'Custom tooltip';
         },
         /**
@@ -269,13 +290,13 @@ arr = {
          * @param stats {IViolinItem} the stats of the hovered element
          * @return {string} see label callback
          */
-        violinLabel: function(item, data, stats) {
+        violinLabel: function (item, data, stats) {
           return 'Custom tooltip';
         },
-      }
-    }
-  }
-}
+      },
+    },
+  },
+};
 ```
 
 ## Building
@@ -285,27 +306,19 @@ npm install
 npm run build
 ```
 
-## Angular CLI Usage
-Here is an example project based on Angular CLI with Angular 7 dependencies: https://github.com/sluger/ng-chartjs-boxplot
-
-The incomaptibility with Webpack 4, mjs and Angular CLI can be solved by importing the chartjs boxplot library via the `.js` build artifact:
-```javascript
-import "chartjs-chart-box-and-violin-plot/build/Chart.BoxPlot.js";
-```
-
-***
+---
 
 <div style="display:flex;align-items:center">
-  <a href="http://datavisyn.io"><img src="https://user-images.githubusercontent.com/1711080/37700685-bcbb18c6-2cec-11e8-9b6f-f49c9ef6c167.png" align="left" width="50px" hspace="10" vspace="6"></a>
-  Developed by &nbsp;<strong><a href="http://datavisyn.io">datavisyn</a></strong>.
+  <a href="https://www.datavisyn.io"><img src="https://user-images.githubusercontent.com/1711080/37700685-bcbb18c6-2cec-11e8-9b6f-f49c9ef6c167.png" align="left" width="50px" hspace="10" vspace="6"></a>
+  Developed by&nbsp;<strong><a href="https://www.datavisyn.io">datavisyn</a></strong>.
 </div>
 
-
 [datavisyn-image]: https://img.shields.io/badge/datavisyn-io-black.svg
-[datavisyn-url]: http://datavisyn.io
+[datavisyn-url]: https://www.datavisyn.io
 [mit-image]: https://img.shields.io/badge/License-MIT-yellow.svg
 [mit-url]: https://opensource.org/licenses/MIT
-[npm-image]: https://badge.fury.io/js/chartjs-chart-box-and-violin-plot.svg
-[npm-url]: https://npmjs.org/package/chartjs-chart-box-and-violin-plot
-[github-actions-image]: https://github.com/datavisyn/chartjs-chart-box-and-violin-plot/workflows/nodeci/badge.svg
-[github-actions-url]: https://github.com/datavisyn/chartjs-chart-box-and-violin-plot/actions
+[npm-image]: https://badge.fury.io/js/@sgratzl/chartjs-chart-boxplot.svg
+[npm-url]: https://npmjs.org/package/@sgratzl/chartjs-chart-boxplot
+[github-actions-image]: https://github.com/sgratzl/chartjs-chart-box-and-violin-plot/workflows/ci/badge.svg
+[github-actions-url]: https://github.com/sgratzl/chartjs-chart-box-and-violin-plot/actions
+[codepen]: https://img.shields.io/badge/CodePen-open-blue?logo=codepen

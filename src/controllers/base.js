@@ -1,20 +1,22 @@
-﻿'use strict';
-
-import * as Chart from 'chart.js';
+﻿import * as Chart from 'chart.js';
 
 export const verticalDefaults = {
   scales: {
-    yAxes: [{
-      type: 'arrayLinear'
-    }]
-  }
+    yAxes: [
+      {
+        type: 'arrayLinear',
+      },
+    ],
+  },
 };
 export const horizontalDefaults = {
   scales: {
-    xAxes: [{
-      type: 'arrayLinear'
-    }],
-  }
+    xAxes: [
+      {
+        type: 'arrayLinear',
+      },
+    ],
+  },
 };
 
 export function toFixed(value) {
@@ -25,7 +27,18 @@ export function toFixed(value) {
   return Number.parseFloat(value).toFixed(decimals);
 }
 
-const configKeys = ['outlierRadius', 'itemRadius', 'itemStyle', 'itemBackgroundColor', 'itemBorderColor', 'outlierColor', 'medianColor', 'hitPadding', 'outlierHitRadius', 'lowerColor'];
+const configKeys = [
+  'outlierRadius',
+  'itemRadius',
+  'itemStyle',
+  'itemBackgroundColor',
+  'itemBorderColor',
+  'outlierColor',
+  'medianColor',
+  'hitPadding',
+  'outlierHitRadius',
+  'lowerColor',
+];
 const configKeyIsColor = [false, false, false, true, true, true, true, false, false, true];
 
 const array = {
@@ -45,7 +58,7 @@ const array = {
       chart: this.chart,
       dataIndex: index,
       dataset,
-      datasetIndex: this.index
+      datasetIndex: this.index,
     };
 
     configKeys.forEach((item) => {
@@ -73,14 +86,13 @@ const array = {
     const getHoverColor = Chart.helpers.getHoverColor;
     const resolve = Chart.helpers.options.resolve;
 
-
     configKeys.forEach((item, i) => {
       element.$previousStyle[item] = model[item];
       const hoverKey = `hover${item.charAt(0).toUpperCase()}${item.slice(1)}`;
       const modelValue = configKeyIsColor[i] && model[item] != null ? getHoverColor(model[item]) : model[item];
       element._model[item] = resolve([custom[hoverKey], dataset[hoverKey], modelValue], undefined, index);
     });
-  }
+  },
 };
 
 export default array;

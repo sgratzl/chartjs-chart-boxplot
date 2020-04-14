@@ -1,14 +1,9 @@
-﻿'use strict';
-
-import * as Chart from 'chart.js';
-import ArrayElementBase, {
-  defaults
-} from './base';
-
+﻿import * as Chart from 'chart.js';
+import ArrayElementBase, { defaults } from './base';
 
 Chart.defaults.global.elements.violin = {
   points: 100,
-  ...defaults
+  ...defaults,
 };
 
 function transitionViolin(start, view, model, ease) {
@@ -34,7 +29,7 @@ function transitionViolin(start, view, model, ease) {
   }
 }
 
-const Violin = Chart.elements.Violin = ArrayElementBase.extend({
+const Violin = (Chart.elements.Violin = ArrayElementBase.extend({
   transition(ease) {
     const r = Chart.Element.prototype.transition.call(this, ease);
     const model = this._model;
@@ -79,40 +74,28 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
     if (vert) {
       const x = vm.x;
       const width = vm.width;
-      const factor = (width / 2) / violin.maxEstimate;
+      const factor = width / 2 / violin.maxEstimate;
       ctx.moveTo(x, violin.min);
-      coords.forEach(({
-        v,
-        estimate
-      }) => {
+      coords.forEach(({ v, estimate }) => {
         ctx.lineTo(x - estimate * factor, v);
       });
       ctx.lineTo(x, violin.max);
       ctx.moveTo(x, violin.min);
-      coords.forEach(({
-        v,
-        estimate
-      }) => {
+      coords.forEach(({ v, estimate }) => {
         ctx.lineTo(x + estimate * factor, v);
       });
       ctx.lineTo(x, violin.max);
     } else {
       const y = vm.y;
       const height = vm.height;
-      const factor = (height / 2) / violin.maxEstimate;
+      const factor = height / 2 / violin.maxEstimate;
       ctx.moveTo(violin.min, y);
-      coords.forEach(({
-        v,
-        estimate
-      }) => {
+      coords.forEach(({ v, estimate }) => {
         ctx.lineTo(v, y - estimate * factor);
       });
       ctx.lineTo(violin.max, y);
       ctx.moveTo(violin.min, y);
-      coords.forEach(({
-        v,
-        estimate
-      }) => {
+      coords.forEach(({ v, estimate }) => {
         ctx.lineTo(v, y + estimate * factor);
       });
       ctx.lineTo(violin.max, y);
@@ -126,7 +109,6 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
     ctx.restore();
 
     this._drawItems(vm, violin, ctx, vert);
-
   },
   _getBounds() {
     const vm = this._view;
@@ -135,28 +117,22 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
     const violin = vm.violin;
 
     if (vert) {
-      const {
-        x,
-        width
-      } = vm;
+      const { x, width } = vm;
       const x0 = x - width / 2;
       return {
         left: x0,
         top: violin.max,
         right: x0 + width,
-        bottom: violin.min
+        bottom: violin.min,
       };
     }
-    const {
-      y,
-      height
-    } = vm;
+    const { y, height } = vm;
     const y0 = y - height / 2;
     return {
       left: violin.min,
       top: y0,
       right: violin.max,
-      bottom: y0 + height
+      bottom: y0 + height,
     };
   },
   height() {
@@ -174,6 +150,6 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
   _getOutliers() {
     return this._view.violin.outliers || [];
   },
-});
+}));
 
 export default Violin;

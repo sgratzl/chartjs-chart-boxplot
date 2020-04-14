@@ -1,5 +1,3 @@
-'use strict';
-
 window.chartColors = {
   red: 'rgb(255, 99, 132)',
   orange: 'rgb(255, 159, 64)',
@@ -7,10 +5,10 @@ window.chartColors = {
   green: 'rgb(75, 192, 192)',
   blue: 'rgb(54, 162, 235)',
   purple: 'rgb(153, 102, 255)',
-  grey: 'rgb(201, 203, 207)'
+  grey: 'rgb(201, 203, 207)',
 };
 
-(function(global) {
+(function (global) {
   var Months = [
     'January',
     'February',
@@ -23,31 +21,21 @@ window.chartColors = {
     'September',
     'October',
     'November',
-    'December'
+    'December',
   ];
 
-  var COLORS = [
-    '#4dc9f6',
-    '#f67019',
-    '#f53794',
-    '#537bc4',
-    '#acc236',
-    '#166a8f',
-    '#00a950',
-    '#58595b',
-    '#8549ba'
-  ];
+  var COLORS = ['#4dc9f6', '#f67019', '#f53794', '#537bc4', '#acc236', '#166a8f', '#00a950', '#58595b', '#8549ba'];
 
   var Samples = global.Samples || (global.Samples = {});
   var Color = global.Color;
 
   Samples.utils = {
     // Adapted from http://indiegamr.com/generate-repeatable-random-numbers-in-js/
-    srand: function(seed) {
+    srand: function (seed) {
       this._seed = seed;
     },
 
-    randF: function(min, max) {
+    randF: function (min, max) {
       min = min === undefined ? 0 : min;
       max = max === undefined ? 1 : max;
       return () => {
@@ -56,11 +44,11 @@ window.chartColors = {
       };
     },
 
-    rand: function(min, max) {
+    rand: function (min, max) {
       return this.randF(min, max)();
     },
 
-    numbers: function(config) {
+    numbers: function (config) {
       var cfg = config || {};
       var min = cfg.min || 0;
       var max = cfg.max || 100;
@@ -86,9 +74,11 @@ window.chartColors = {
       return data;
     },
 
-    randomBoxPlot: function(config) {
-      const base = this.numbers({...config, count: 10});
-      base.sort(function(a,b) { return a - b; });
+    randomBoxPlot: function (config) {
+      const base = this.numbers({ ...config, count: 10 });
+      base.sort(function (a, b) {
+        return a - b;
+      });
       const shift = 3;
       return {
         min: base[shift + 0],
@@ -96,29 +86,29 @@ window.chartColors = {
         median: base[shift + 2],
         q3: base[shift + 3],
         max: base[shift + 4],
-        outliers: base.slice(0, 3).concat(base.slice(shift + 5))
+        outliers: base.slice(0, 3).concat(base.slice(shift + 5)),
       };
     },
 
-    boxplots: function(config) {
+    boxplots: function (config) {
       const count = (config || {}).count || 8;
       const data = [];
-      for(let i = 0; i < count; ++i) {
+      for (let i = 0; i < count; ++i) {
         data.push(this.randomBoxPlot(config));
       }
       return data;
     },
 
-    boxplotsArray: function(config) {
+    boxplotsArray: function (config) {
       const count = (config || {}).count || 8;
       const data = [];
-      for(let i = 0; i < count; ++i) {
-        data.push(this.numbers({...config, count: 50}));
+      for (let i = 0; i < count; ++i) {
+        data.push(this.numbers({ ...config, count: 50 }));
       }
       return data;
     },
 
-    labels: function(config) {
+    labels: function (config) {
       var cfg = config || {};
       var min = cfg.min || 0;
       var max = cfg.max || 100;
@@ -137,7 +127,7 @@ window.chartColors = {
       return values;
     },
 
-    months: function(config) {
+    months: function (config) {
       var cfg = config || {};
       var count = cfg.count || 12;
       var section = cfg.section;
@@ -152,27 +142,26 @@ window.chartColors = {
       return values;
     },
 
-    nextMonth: function(count) {
+    nextMonth: function (count) {
       return Months[Math.ceil(count + 1) % 12];
     },
 
-    color: function(index) {
+    color: function (index) {
       return COLORS[index % COLORS.length];
     },
 
-    transparentize: function(color, opacity) {
+    transparentize: function (color, opacity) {
       var alpha = opacity === undefined ? 0.5 : 1 - opacity;
       return Color(color).alpha(alpha).rgbString();
-    }
+    },
   };
 
   // DEPRECATED
-  window.randomScalingFactor = function() {
+  window.randomScalingFactor = function () {
     return Math.round(Samples.utils.rand(-100, 100));
   };
 
   // INITIALIZATION
 
   Samples.utils.srand(Date.now());
-
-}(this));
+})(this);
