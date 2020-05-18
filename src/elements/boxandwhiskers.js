@@ -1,140 +1,154 @@
-﻿import {defaults} from 'chart.js';
-import { ArrayElementBase, baseDefaults } from './base';
+﻿import { defaults } from 'chart.js';
+import { ArrayElementBase, baseDefaults, baseOptionKeys } from './base';
+
+export const boxOptionsKeys = baseOptionKeys.concat(['medianColor', 'lowerColor']);
 
 export class BoxAndWiskers extends ArrayElementBase {
-  draw() {
-    const ctx = this._chart.ctx;
-    const vm = this._view;
-
-    const boxplot = vm.boxplot;
-    const vert = this.isVertical();
-
+  draw(ctx) {
     ctx.save();
 
-    ctx.fillStyle = vm.backgroundColor;
-    ctx.strokeStyle = vm.borderColor;
-    ctx.lineWidth = vm.borderWidth;
+    ctx.fillStyle = this.options.backgroundColor;
+    ctx.strokeStyle = this.options.borderColor;
+    ctx.lineWidth = this.options.borderWidth;
 
-    this._drawBoxPlot(vm, boxplot, ctx, vert);
-    this._drawOutliers(vm, boxplot, ctx, vert);
+    this._drawBoxPlot(ctx);
+    this._drawOutliers(ctx);
 
     ctx.restore();
 
-    this._drawItems(vm, boxplot, ctx, vert);
-  },
-  _drawBoxPlot(vm, boxplot, ctx, vert) {
-    if (vert) {
-      this._drawBoxPlotVert(vm, boxplot, ctx);
-    } else {
-      this._drawBoxPlotHoriz(vm, boxplot, ctx);
-    }
-  },
-  _drawBoxPlotVert(vm, boxplot, ctx) {
-    const x = vm.x;
-    const width = vm.width;
-    const x0 = x - width / 2;
+    this._drawItems(ctx);
+  }
 
-    // Draw the q1>q3 box
-    if (boxplot.q3 > boxplot.q1) {
-      ctx.fillRect(x0, boxplot.q1, width, boxplot.q3 - boxplot.q1);
+  _drawBoxPlot(ctx) {
+    if (this.isVertical()) {
+      this._drawBoxPlotVertical(ctx);
     } else {
-      ctx.fillRect(x0, boxplot.q3, width, boxplot.q1 - boxplot.q3);
+      this._drawBoxPlotHorizontal(ctx);
+    }
+  }
+
+  _drawBoxPlotVertical(ctx) {
+    const options = this.options;
+    const props = this.getProps(['x', 'width', 'q1', 'q3', 'median', 'whiskerMin', 'whiskerMax']);
+
+    const x = props.x;
+    const width = props.width;
+    const x0 = x - width / 2;
+    // Draw the q1>q3 box
+    if (props.q3 > props.q1) {
+      ctx.fillRect(x0, props.q1, width, props.q3 - props.q1);
+    } else {
+      ctx.fillRect(x0, props.q3, width, props.q1 - props.q3);
     }
 
     // Draw the median line
     ctx.save();
-    if (vm.medianColor) {
-      ctx.strokeStyle = vm.medianColor;
+    if (options.medianColor && options.medianColor !== 'none') {
+      ctx.strokeStyle = options.medianColor;
     }
     ctx.beginPath();
-    ctx.moveTo(x0, boxplot.median);
-    ctx.lineTo(x0 + width, boxplot.median);
-
-    // fill the part below the median with lowerColor
-    if (vm.lowerColor) {
-      ctx.fillStyle = vm.lowerColor;
-      if (boxplot.q3 > boxplot.q1) {
-        ctx.fillRect(x0, boxplot.median, width, boxplot.q3 - boxplot.median);
-      } else {
-        ctx.fillRect(x0, boxplot.median, width, boxplot.q1 - boxplot.median);
-      }
-    }
-
+    ctx.moveTo(x0, props.median);
+    ctx.lineTo(x0 + width, props.median);
     ctx.closePath();
     ctx.stroke();
     ctx.restore();
 
+    ctx.save();
+    // fill the part below the median with lowerColor
+    if (options.lowerColor && options.lowerColor !== 'none') {
+      ctx.fillStyle = options.lowerColor;
+      if (props.q3 > props.q1) {
+        ctx.fillRect(x0, props.median, width, props.q3 - props.median);
+      } else {
+        ctx.fillRect(x0, props.median, width, props.q1 - props.median);
+      }
+    }
+    ctx.restore();
+
     // Draw the border around the main q1>q3 box
-    if (boxplot.q3 > boxplot.q1) {
-      ctx.strokeRect(x0, boxplot.q1, width, boxplot.q3 - boxplot.q1);
+    if (props.q3 > props.q1) {
+      ctx.strokeRect(x0, props.q1, width, props.q3 - props.q1);
     } else {
-      ctx.strokeRect(x0, boxplot.q3, width, boxplot.q1 - boxplot.q3);
+      ctx.strokeRect(x0, props.q3, width, props.q1 - props.q3);
     }
 
     // Draw the whiskers
     ctx.beginPath();
-    ctx.moveTo(x0, boxplot.whiskerMin);
-    ctx.lineTo(x0 + width, boxplot.whiskerMin);
-    ctx.moveTo(x, boxplot.whiskerMin);
-    ctx.lineTo(x, boxplot.q1);
-    ctx.moveTo(x0, boxplot.whiskerMax);
-    ctx.lineTo(x0 + width, boxplot.whiskerMax);
-    ctx.moveTo(x, boxplot.whiskerMax);
-    ctx.lineTo(x, boxplot.q3);
+    ctx.moveTo(x0, props.whiskerMin);
+    ctx.lineTo(x0 + width, props.whiskerMin);
+    ctx.moveTo(x, props.whiskerMin);
+    ctx.lineTo(x, props.q1);
+    ctx.moveTo(x0, props.whiskerMax);
+    ctx.lineTo(x0 + width, props.whiskerMax);
+    ctx.moveTo(x, props.whiskerMax);
+    ctx.lineTo(x, props.q3);
     ctx.closePath();
     ctx.stroke();
-  },
-  _drawBoxPlotHoriz(vm, boxplot, ctx) {
-    const y = vm.y;
-    const height = vm.height;
+  }
+
+  _drawBoxPlotHorizontal(ctx) {
+    const options = this.options;
+    const props = this.getProps(['y', 'height', 'q1', 'q3', 'median', 'whiskerMin', 'whiskerMax']);
+
+    const y = props.y;
+    const height = props.height;
     const y0 = y - height / 2;
 
     // Draw the q1>q3 box
-    if (boxplot.q3 > boxplot.q1) {
-      ctx.fillRect(boxplot.q1, y0, boxplot.q3 - boxplot.q1, height);
+    if (props.q3 > props.q1) {
+      ctx.fillRect(props.q1, y0, props.q3 - props.q1, height);
     } else {
-      ctx.fillRect(boxplot.q3, y0, boxplot.q1 - boxplot.q3, height);
+      ctx.fillRect(props.q3, y0, props.q1 - props.q3, height);
     }
 
     // Draw the median line
     ctx.save();
-    if (vm.medianColor) {
-      ctx.strokeStyle = vm.medianColor;
+    if (options.medianColor && options.medianColor !== 'transparent') {
+      ctx.strokeStyle = options.medianColor;
     }
     ctx.beginPath();
-    ctx.moveTo(boxplot.median, y0);
-    ctx.lineTo(boxplot.median, y0 + height);
+    ctx.moveTo(props.median, y0);
+    ctx.lineTo(props.median, y0 + height);
     ctx.closePath();
     ctx.stroke();
     ctx.restore();
 
+    ctx.save();
+    // fill the part below the median with lowerColor
+    if (options.lowerColor && options.lowerColor !== 'transparent') {
+      ctx.fillStyle = options.lowerColor;
+      if (props.q3 > props.q1) {
+        ctx.fillRect(props.median, y0, props.q3 - props.median, height);
+      } else {
+        ctx.fillRect(props.median, y0, props.q1 - props.median, height);
+      }
+    }
+    ctx.restore();
+
     // Draw the border around the main q1>q3 box
-    if (boxplot.q3 > boxplot.q1) {
-      ctx.strokeRect(boxplot.q1, y0, boxplot.q3 - boxplot.q1, height);
+    if (props.q3 > props.q1) {
+      ctx.strokeRect(props.q1, y0, props.q3 - props.q1, height);
     } else {
-      ctx.strokeRect(boxplot.q3, y0, boxplot.q1 - boxplot.q3, height);
+      ctx.strokeRect(props.q3, y0, props.q1 - props.q3, height);
     }
 
     // Draw the whiskers
     ctx.beginPath();
-    ctx.moveTo(boxplot.whiskerMin, y0);
-    ctx.lineTo(boxplot.whiskerMin, y0 + height);
-    ctx.moveTo(boxplot.whiskerMin, y);
-    ctx.lineTo(boxplot.q1, y);
-    ctx.moveTo(boxplot.whiskerMax, y0);
-    ctx.lineTo(boxplot.whiskerMax, y0 + height);
-    ctx.moveTo(boxplot.whiskerMax, y);
-    ctx.lineTo(boxplot.q3, y);
+    ctx.moveTo(props.whiskerMin, y0);
+    ctx.lineTo(props.whiskerMin, y0 + height);
+    ctx.moveTo(props.whiskerMin, y);
+    ctx.lineTo(props.q1, y);
+    ctx.moveTo(props.whiskerMax, y0);
+    ctx.lineTo(props.whiskerMax, y0 + height);
+    ctx.moveTo(props.whiskerMax, y);
+    ctx.lineTo(props.q3, y);
     ctx.closePath();
     ctx.stroke();
-  },
-  _getBounds() {
-    const vm = this._view;
+  }
 
+  _getBounds(useFinalPosition) {
     const vert = this.isVertical();
-    const boxplot = vm.boxplot;
-
-    if (!boxplot) {
+    if (this.x == null) {
       return {
         left: 0,
         top: 0,
@@ -144,45 +158,53 @@ export class BoxAndWiskers extends ArrayElementBase {
     }
 
     if (vert) {
-      const { x, width } = vm;
+      const { x, width, whiskerMax, whiskerMin } = this.getProps(
+        ['x', 'width', 'whiskerMin', 'whiskerMax'],
+        useFinalPosition
+      );
       const x0 = x - width / 2;
       return {
         left: x0,
-        top: boxplot.whiskerMax,
+        top: whiskerMax,
         right: x0 + width,
-        bottom: boxplot.whiskerMin,
+        bottom: whiskerMin,
       };
     }
-    const { y, height } = vm;
+    const { y, height, whiskerMax, whiskerMin } = this.getProps(
+      ['y', 'height', 'whiskerMin', 'whiskerMax'],
+      useFinalPosition
+    );
     const y0 = y - height / 2;
     return {
-      left: boxplot.whiskerMin,
+      left: whiskerMin,
       top: y0,
-      right: boxplot.whiskerMax,
+      right: whiskerMax,
       bottom: y0 + height,
     };
-  },
-  height() {
-    const vm = this._view;
-    return vm.base - Math.min(vm.boxplot.q1, vm.boxplot.q3);
-  },
-  getArea() {
-    const vm = this._view;
-    const iqr = Math.abs(vm.boxplot.q3 - vm.boxplot.q1);
+  }
+
+  // height(useFinalPosition) {
+  //   const props = this.getProps(['base', 'q1', 'q3'], useFinalPosition);
+  //   return props.base - Math.min(props.q1, props.q3);
+  // }
+
+  getArea(useFinalPosition) {
+    const props = this.getProps(['q3', 'q1', 'width', 'height'], useFinalPosition);
+    const iqr = Math.abs(props.q3 - props.q1);
     if (this.isVertical()) {
-      return iqr * vm.width;
+      return iqr * props.width;
     }
-    return iqr * vm.height;
-  },
-  _getOutliers() {
-    return this._view.boxplot ? this._view.boxplot.outliers || [] : [];
-  },
+    return iqr * props.height;
+  }
 }
 
-BoxAndWiskers._type = 'boxAndWhsikers';
+BoxAndWiskers._type = 'boxAndWhiskers';
 BoxAndWiskers.register = () => {
   defaults.set('elements', {
-    [BoxAndWiskers._type]: baseDefaults
-  })
+    [BoxAndWiskers._type]: Object.assign({}, baseDefaults, {
+      medianColor: 'transparent',
+      lowerColor: 'transparent',
+    }),
+  });
   return BoxAndWiskers;
-}
+};

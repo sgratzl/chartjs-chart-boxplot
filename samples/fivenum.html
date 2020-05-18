@@ -52,7 +52,7 @@
               display: true,
               text: 'Quantiles type 7',
             },
-            boxplot: {
+            datasets: {
               quantiles: 'quantiles',
             },
           },
@@ -70,14 +70,8 @@
               display: true,
               text: 'Quantiles Fivenum',
             },
-            scales: {
-              yAxes: [
-                {
-                  ticks: {
-                    quantiles: 'fivenum',
-                  },
-                },
-              ],
+            datasets: {
+              quantiles: 'fivenum',
             },
           },
         });

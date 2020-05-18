@@ -1,155 +1,115 @@
-﻿import * as Chart from 'chart.js';
-import ArrayElementBase, { defaults } from './base';
+﻿import { helpers, defaults } from 'chart.js';
+import { ArrayElementBase, baseDefaults } from './base';
 
-Chart.defaults.global.elements.violin = {
-  points: 100,
-  ...defaults,
-};
-
-function transitionViolin(start, view, model, ease) {
-  const keys = Object.keys(model);
-  for (const key of keys) {
-    const target = model[key];
-    const origin = start[key];
-    if (origin === target) {
-      continue;
-    }
-    if (typeof target === 'number') {
-      view[key] = origin + (target - origin) * ease;
-      continue;
-    }
-    if (key === 'coords') {
-      const v = view[key];
-      const common = Math.min(target.length, origin.length);
-      for (let i = 0; i < common; ++i) {
-        v[i].v = origin[i].v + (target[i].v - origin[i].v) * ease;
-        v[i].estimate = origin[i].estimate + (target[i].estimate - origin[i].estimate) * ease;
-      }
-    }
-  }
-}
-
-const Violin = (Chart.elements.Violin = ArrayElementBase.extend({
-  transition(ease) {
-    const r = Chart.Element.prototype.transition.call(this, ease);
-    const model = this._model;
-    const start = this._start;
-    const view = this._view;
-
-    // No animation -> No Transition
-    if (!model || ease === 1) {
-      return r;
-    }
-    if (start.violin == null) {
-      return r; // model === view -> not copied
-    }
-
-    // create deep copy to avoid alternation
-    if (model.violin === view.violin) {
-      view.violin = Chart.helpers.clone(view.violin);
-    }
-    transitionViolin(start.violin, view.violin, model.violin, ease);
-
-    return r;
-  },
-  draw() {
-    const ctx = this._chart.ctx;
-    const vm = this._view;
-
-    const violin = vm.violin;
-    const vert = this.isVertical();
-
+export class Violin extends ArrayElementBase {
+  draw(ctx) {
     ctx.save();
 
-    ctx.fillStyle = vm.backgroundColor;
-    ctx.strokeStyle = vm.borderColor;
-    ctx.lineWidth = vm.borderWidth;
+    ctx.fillStyle = this.options.backgroundColor;
+    ctx.strokeStyle = this.options.borderColor;
+    ctx.lineWidth = this.options.borderWidth;
 
-    const coords = violin.coords;
+    const props = this.getProps(['x', 'y', 'width', 'height', 'min', 'max', 'coords', 'minEstimate', 'maxEstimate']);
 
-    Chart.canvasHelpers.drawPoint(ctx, 'rectRot', 5, vm.x, vm.y);
-    ctx.stroke();
+    helpers.canvas.drawPoint(
+      ctx,
+      {
+        pointStyle: 'rectRot',
+        radius: 5,
+        borderWidth: this.options.borderWidth,
+      },
+      props.x,
+      props.y
+    );
 
+    if (props.coords && props.coords.length > 0) {
+      this._drawCoords(ctx, props);
+    }
+    this._drawOutliers(ctx);
+
+    ctx.restore();
+
+    this._drawItems(ctx);
+  }
+
+  _drawCoords(ctx, props) {
     ctx.beginPath();
-    if (vert) {
-      const x = vm.x;
-      const width = vm.width;
-      const factor = width / 2 / violin.maxEstimate;
-      ctx.moveTo(x, violin.min);
-      coords.forEach(({ v, estimate }) => {
+    if (this.isVertical()) {
+      const x = props.x;
+      const width = props.width;
+      const factor = width / 2 / props.maxEstimate;
+      ctx.moveTo(x, props.min);
+      props.coords.forEach(({ v, estimate }) => {
         ctx.lineTo(x - estimate * factor, v);
       });
-      ctx.lineTo(x, violin.max);
-      ctx.moveTo(x, violin.min);
-      coords.forEach(({ v, estimate }) => {
+      ctx.lineTo(x, props.max);
+      ctx.moveTo(x, props.min);
+      props.coords.forEach(({ v, estimate }) => {
         ctx.lineTo(x + estimate * factor, v);
       });
-      ctx.lineTo(x, violin.max);
+      ctx.lineTo(x, props.max);
     } else {
-      const y = vm.y;
-      const height = vm.height;
-      const factor = height / 2 / violin.maxEstimate;
-      ctx.moveTo(violin.min, y);
-      coords.forEach(({ v, estimate }) => {
+      const y = props.y;
+      const height = props.height;
+      const factor = height / 2 / props.maxEstimate;
+      ctx.moveTo(props.min, y);
+      props.coords.forEach(({ v, estimate }) => {
         ctx.lineTo(v, y - estimate * factor);
       });
-      ctx.lineTo(violin.max, y);
-      ctx.moveTo(violin.min, y);
-      coords.forEach(({ v, estimate }) => {
+      ctx.lineTo(props.max, y);
+      ctx.moveTo(props.min, y);
+      props.coords.forEach(({ v, estimate }) => {
         ctx.lineTo(v, y + estimate * factor);
       });
-      ctx.lineTo(violin.max, y);
+      ctx.lineTo(props.max, y);
     }
     ctx.stroke();
     ctx.fill();
     ctx.closePath();
+  }
 
-    this._drawOutliers(vm, violin, ctx, vert);
-
-    ctx.restore();
-
-    this._drawItems(vm, violin, ctx, vert);
-  },
-  _getBounds() {
-    const vm = this._view;
-
-    const vert = this.isVertical();
-    const violin = vm.violin;
-
-    if (vert) {
-      const { x, width } = vm;
+  _getBounds(useFinalPosition) {
+    if (this.isVertical()) {
+      const { x, width, min, max } = this.getProps(['x', 'width', 'min', 'max'], useFinalPosition);
       const x0 = x - width / 2;
       return {
         left: x0,
-        top: violin.max,
+        top: max,
         right: x0 + width,
-        bottom: violin.min,
+        bottom: min,
       };
     }
-    const { y, height } = vm;
+    const { y, height, min, max } = this.getProps(['y', 'height', 'min', 'max'], useFinalPosition);
     const y0 = y - height / 2;
     return {
-      left: violin.min,
+      left: min,
       top: y0,
-      right: violin.max,
+      right: max,
       bottom: y0 + height,
     };
-  },
-  height() {
-    const vm = this._view;
-    return vm.base - Math.min(vm.violin.min, vm.violin.max);
-  },
-  getArea() {
-    const vm = this._view;
-    const iqr = Math.abs(vm.violin.max - vm.violin.min);
-    if (this.isVertical()) {
-      return iqr * vm.width;
-    }
-    return iqr * vm.height;
-  },
-  _getOutliers() {
-    return this._view.violin.outliers || [];
-  },
-}));
+  }
 
-export default Violin;
+  // height() {
+  //   const vm = this._view;
+  //   return vm.base - Math.min(vm.violin.min, vm.violin.max);
+  // },
+
+  getArea() {
+    const props = this.getProps(['min', 'max', 'height', 'width']);
+    const iqr = Math.abs(props.max - props.min);
+    if (this.isVertical()) {
+      return iqr * props.width;
+    }
+    return iqr * props.height;
+  }
+}
+
+Violin._type = 'violin';
+Violin.register = () => {
+  defaults.set('elements', {
+    [Violin._type]: Object.assign({}, baseDefaults, {
+      points: 100,
+    }),
+  });
+  return Violin;
+};

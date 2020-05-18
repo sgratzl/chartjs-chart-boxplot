@@ -228,10 +228,7 @@ export function asBoxPlotStats(value, options) {
   if (!Array.isArray(value)) {
     return undefined;
   }
-  if (value.__stats === undefined) {
-    value.__stats = boxplotStats(value, options);
-  }
-  return value.__stats;
+  return boxplotStats(value, options);
 }
 
 export function asViolinStats(value, options) {

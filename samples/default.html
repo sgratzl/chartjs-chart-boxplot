@@ -39,7 +39,7 @@
             borderWidth: 1,
             data: samples.boxplots({ count: 7, random: random }),
             outlierColor: '#999999',
-            lowerColor: '#461e7d',
+            // lowerColor: '#461e7d',
           },
           {
             label: 'Dataset 2',
@@ -66,13 +66,6 @@
             title: {
               display: true,
               text: 'Chart.js Box Plot Chart',
-            },
-            scales: {
-              x: {
-                // Specific to Bar Controller
-                categoryPercentage: 0.9,
-                barPercentage: 0.8,
-              },
             },
           },
         });

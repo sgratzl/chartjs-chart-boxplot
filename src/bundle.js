@@ -1,3 +1,5 @@
 export * from '.';
 
-// import {} from './controllers';
+import { BoxPlot } from './controllers';
+
+BoxPlot.register();

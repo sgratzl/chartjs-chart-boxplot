@@ -1,31 +1,24 @@
-﻿import * as Chart from 'chart.js';
-
-export const verticalDefaults = {
-  scales: {
-    yAxes: [
-      {
-        type: 'arrayLinear',
-      },
-    ],
-  },
-};
-export const horizontalDefaults = {
-  scales: {
-    xAxes: [
-      {
-        type: 'arrayLinear',
-      },
-    ],
-  },
-};
+﻿import {} from 'chart.js';
+import { interpolateNumberArray } from '../animation';
 
 export function toFixed(value) {
   const decimals = this._chart.config.options.tooltipDecimals; // inject number of decimals from config
   if (decimals == null || typeof decimals !== 'number' || decimals < 0) {
     return value;
   }
-  return Number.parseFloat(value).toFixed(decimals);
+  return value.toFixed(decimals);
 }
+
+export const baseDefaults = {
+  datasets: {
+    animation: {
+      numberArray: {
+        fn: interpolateNumberArray,
+        properties: ['outliers', 'items'],
+      },
+    },
+  },
+};
 
 const configKeys = [
   'outlierRadius',
@@ -39,12 +32,9 @@ const configKeys = [
   'outlierHitRadius',
   'lowerColor',
 ];
-const configKeyIsColor = [false, false, false, true, true, true, true, false, false, true];
+// const configKeyIsColor = [false, false, false, true, true, true, true, false, false, true];
 
 const array = {
-  _elementOptions() {
-    return {};
-  },
   updateElement(elem, index, reset) {
     const dataset = this.getDataset();
     const custom = elem.custom || {};
@@ -76,23 +66,4 @@ const array = {
       r.items = container.items.map((d) => scale.getPixelForValue(Number(d)));
     }
   },
-  setHoverStyle(element) {
-    Chart.controllers.bar.prototype.setHoverStyle.call(this, element);
-
-    const dataset = this.chart.data.datasets[element._datasetIndex];
-    const index = element._index;
-    const custom = element.custom || {};
-    const model = element._model;
-    const getHoverColor = Chart.helpers.getHoverColor;
-    const resolve = Chart.helpers.options.resolve;
-
-    configKeys.forEach((item, i) => {
-      element.$previousStyle[item] = model[item];
-      const hoverKey = `hover${item.charAt(0).toUpperCase()}${item.slice(1)}`;
-      const modelValue = configKeyIsColor[i] && model[item] != null ? getHoverColor(model[item]) : model[item];
-      element._model[item] = resolve([custom[hoverKey], dataset[hoverKey], modelValue], undefined, index);
-    });
-  },
 };
-
-export default array;

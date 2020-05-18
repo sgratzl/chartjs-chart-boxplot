@@ -1,4 +1,4 @@
-import { Tooltip } from 'chart.js';
+import { plugins } from 'chart.js';
 
 export function boxplotPositioner(elements, eventPosition) {
   if (!elements.length) {
@@ -24,6 +24,8 @@ export function boxplotPositioner(elements, eventPosition) {
 
 boxplotPositioner.id = 'boxplot';
 boxplotPositioner.register = () => {
-  Tooltip.positioners.boxplot = boxplotPositioner;
+  // register my position logic
+  const tooltip = plugins.getAll().find((d) => d.id === 'tooltip');
+  tooltip.positioners[boxplotPositioner.id] = boxplotPositioner;
   return boxplotPositioner;
 };
