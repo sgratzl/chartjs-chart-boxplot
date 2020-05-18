@@ -1,7 +1,7 @@
-﻿import { defaults, Element, helpers } from 'chart.js';
+﻿import { defaults, Element, helpers } from '../chart';
 import { rnd } from '../data';
 
-export const baseDefaults = Object.assign({}, defaults.elements.rectangle, {
+export const baseDefaults = {
   borderWidth: 1,
 
   outlierStyle: 'circle',
@@ -18,23 +18,9 @@ export const baseDefaults = Object.assign({}, defaults.elements.rectangle, {
 
   hitPadding: 2,
   outlierHitRadius: 4,
-});
+};
 
-export const baseOptionKeys = [
-  'outlierStyle',
-  'outlierRadius',
-  'outlierBackgroundColor',
-  'outlierBorderColor',
-  'outlierBorderWidth',
-  'outlierHitRadius',
-
-  'itemStyle',
-  'itemRadius',
-  'itemBackgroundColor',
-  'itemBorderColor',
-  'itemBorderWidth',
-  'hitPadding',
-];
+export const baseOptionKeys = Object.keys(baseDefaults);
 
 export class StatsBase extends Element {
   isVertical() {

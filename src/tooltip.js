@@ -1,4 +1,4 @@
-import { plugins } from 'chart.js';
+import { plugins } from './chart';
 
 export function patchInHoveredOutlier(item) {
   const value = item.value;

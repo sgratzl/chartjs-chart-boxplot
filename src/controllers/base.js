@@ -1,6 +1,6 @@
 ﻿import { interpolateNumberArray } from '../animation';
 import { outlierPositioner, patchInHoveredOutlier } from '../tooltip';
-import { controllers } from 'chart.js';
+import { controllers } from '../chart';
 import { defaultStatsOptions } from '../data';
 
 export function baseDefaults(keys) {

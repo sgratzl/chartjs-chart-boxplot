@@ -1,11 +1,12 @@
 ﻿import { asViolinStats } from '../data';
-import { controllers, defaults, helpers } from 'chart.js';
+import { Chart, controllers, defaults, helpers } from '../chart';
 import { StatsBase, baseDefaults } from './base';
 import { baseOptionKeys } from '../elements/base';
 import { ViolinElement } from '../elements';
 import { interpolateKdeCoords } from '../animation';
+import { patchControllerConfig } from './utils';
 
-export class Violin extends StatsBase {
+export class ViolinController extends StatsBase {
   _parseStats(value, config) {
     return asViolinStats(value, config);
   }
@@ -30,13 +31,13 @@ export class Violin extends StatsBase {
   }
 }
 
-Violin.id = 'violin';
-Violin.register = () => {
-  Violin.prototype.dataElementType = ViolinElement.register();
-  Violin.prototype.dataElementOptions = controllers.bar.prototype.dataElementOptions.concat(baseOptionKeys);
+ViolinController.id = 'violin';
+ViolinController.register = () => {
+  ViolinController.prototype.dataElementType = ViolinElement.register();
+  ViolinController.prototype.dataElementOptions = controllers.bar.prototype.dataElementOptions.concat(baseOptionKeys);
 
   defaults.set(
-    Violin.id,
+    ViolinController.id,
     helpers.merge({}, [
       defaults.bar,
       baseDefaults(baseOptionKeys),
@@ -60,11 +61,18 @@ Violin.register = () => {
       },
     ])
   );
-  controllers[Violin.id] = Violin;
-  return Violin;
+  controllers[ViolinController.id] = ViolinController;
+  return ViolinController;
 };
 
-export class HorizontalViolin extends Violin {
+export class ViolinChart extends Chart {
+  constructor(item, config) {
+    super(item, patchControllerConfig(config, ViolinController));
+  }
+}
+ViolinChart.id = ViolinController.id;
+
+export class HorizontalViolinController extends ViolinController {
   getValueScaleId() {
     return this._cachedMeta.xAxisID;
   }
@@ -73,15 +81,15 @@ export class HorizontalViolin extends Violin {
   }
 }
 
-HorizontalViolin.id = 'horizontalViolin';
-HorizontalViolin.register = () => {
-  HorizontalViolin.prototype.dataElementType = ViolinElement.register();
-  HorizontalViolin.prototype.dataElementOptions = controllers.horizontalBar.prototype.dataElementOptions.concat(
+HorizontalViolinController.id = 'horizontalViolin';
+HorizontalViolinController.register = () => {
+  HorizontalViolinController.prototype.dataElementType = ViolinElement.register();
+  HorizontalViolinController.prototype.dataElementOptions = controllers.horizontalBar.prototype.dataElementOptions.concat(
     baseOptionKeys
   );
 
   defaults.set(
-    HorizontalViolin.id,
+    HorizontalViolinController.id,
     helpers.merge({}, [
       defaults.horizontalBar,
       baseDefaults(baseOptionKeys),
@@ -105,6 +113,13 @@ HorizontalViolin.register = () => {
       },
     ])
   );
-  controllers[HorizontalViolin.id] = HorizontalViolin;
-  return HorizontalViolin;
+  controllers[HorizontalViolinController.id] = HorizontalViolinController;
+  return HorizontalViolinController;
 };
+
+export class HorizontalViolinChart extends Chart {
+  constructor(item, config) {
+    super(item, patchControllerConfig(config, HorizontalViolinController));
+  }
+}
+HorizontalViolinChart.id = HorizontalViolinController.id;

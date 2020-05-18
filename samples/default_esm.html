@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Box Plot Chart</title>
+  </head>
+  <body>
+    <div id="container" style="width: 75%;">
+      <canvas id="canvas"></canvas>
+    </div>
+    <script defer src="https://unpkg.com/es-module-shims"></script>
+    <script type="importmap-shim">
+      {
+        "imports": {
+          "chart.js": "https://unpkg.com/chart.js@3.0.0-alpha/dist/Chart.esm.js",
+          "@sgratzl/chartjs-chart-boxplot": "../build/Chart.BoxPlot.esm.js"
+        }
+      }
+    </script>
+    <script type="module-shim">
+      import Chart from 'chart.js';
+      import { BoxPlotChart } from '@sgratzl/chartjs-chart-boxplot';
+
+      const chart = new BoxPlotChart(document.getElementById('canvas'), {
+        data: {
+          labels: ['A'],
+          datasets: [{
+            label: 'Test',
+            data: [
+              Array(100).fill(0).map(() => Math.random())
+            ]
+          }]
+        }
+      })
+    </script>
+  </body>
+</html>

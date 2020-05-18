@@ -1,8 +1,13 @@
 export * from '.';
 
-import { BoxPlot, HorizontalBoxPlot, Violin, HorizontalViolin } from './controllers';
+import {
+  BoxPlotController,
+  HorizontalBoxPlotController,
+  ViolinController,
+  HorizontalViolinController,
+} from './controllers';
 
-BoxPlot.register();
-HorizontalBoxPlot.register();
-Violin.register();
-HorizontalViolin.register();
+BoxPlotController.register();
+HorizontalBoxPlotController.register();
+ViolinController.register();
+HorizontalViolinController.register();

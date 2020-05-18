@@ -1,4 +1,4 @@
-﻿import { helpers, defaults } from 'chart.js';
+﻿import { helpers, defaults } from '../chart';
 import { StatsBase, baseDefaults } from './base';
 
 export class ViolinElement extends StatsBase {
@@ -93,7 +93,7 @@ export class ViolinElement extends StatsBase {
 ViolinElement._type = 'violin';
 ViolinElement.register = () => {
   defaults.set('elements', {
-    [ViolinElement._type]: baseDefaults,
+    [ViolinElement._type]: Object.assign({}, defaults.elements.rectangle, baseDefaults),
   });
   return ViolinElement;
 };

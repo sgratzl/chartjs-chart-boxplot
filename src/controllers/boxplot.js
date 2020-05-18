@@ -1,9 +1,10 @@
 ﻿import { asBoxPlotStats } from '../data';
-import { controllers, helpers, defaults } from 'chart.js';
+import { Chart, controllers, helpers, defaults } from '../chart';
 import { baseDefaults, StatsBase } from './base';
 import { BoxAndWiskers, boxOptionsKeys } from '../elements';
+import { patchControllerConfig } from './utils';
 
-export class BoxPlot extends StatsBase {
+export class BoxPlotController extends StatsBase {
   _parseStats(value, config) {
     return asBoxPlotStats(value, config);
   }
@@ -24,13 +25,13 @@ export class BoxPlot extends StatsBase {
   }
 }
 
-BoxPlot.id = 'boxplot';
-BoxPlot.register = () => {
-  BoxPlot.prototype.dataElementType = BoxAndWiskers.register();
-  BoxPlot.prototype.dataElementOptions = controllers.bar.prototype.dataElementOptions.concat(boxOptionsKeys);
+BoxPlotController.id = 'boxplot';
+BoxPlotController.register = () => {
+  BoxPlotController.prototype.dataElementType = BoxAndWiskers.register();
+  BoxPlotController.prototype.dataElementOptions = controllers.bar.prototype.dataElementOptions.concat(boxOptionsKeys);
 
   defaults.set(
-    BoxPlot.id,
+    BoxPlotController.id,
     helpers.merge({}, [
       defaults.bar,
       baseDefaults(boxOptionsKeys),
@@ -49,11 +50,18 @@ BoxPlot.register = () => {
       },
     ])
   );
-  controllers[BoxPlot.id] = BoxPlot;
-  return BoxPlot;
+  controllers[BoxPlotController.id] = BoxPlotController;
+  return BoxPlotController;
 };
 
-export class HorizontalBoxPlot extends BoxPlot {
+export class BoxPlotChart extends Chart {
+  constructor(item, config) {
+    super(item, patchControllerConfig(config, BoxPlotController));
+  }
+}
+BoxPlotChart.id = BoxPlotController.id;
+
+export class HorizontalBoxPlotController extends BoxPlotController {
   getValueScaleId() {
     return this._cachedMeta.xAxisID;
   }
@@ -62,15 +70,15 @@ export class HorizontalBoxPlot extends BoxPlot {
   }
 }
 
-HorizontalBoxPlot.id = 'horizontalBoxplot';
-HorizontalBoxPlot.register = () => {
-  HorizontalBoxPlot.prototype.dataElementType = BoxAndWiskers.register();
-  HorizontalBoxPlot.prototype.dataElementOptions = controllers.horizontalBar.prototype.dataElementOptions.concat(
+HorizontalBoxPlotController.id = 'horizontalBoxplot';
+HorizontalBoxPlotController.register = () => {
+  HorizontalBoxPlotController.prototype.dataElementType = BoxAndWiskers.register();
+  HorizontalBoxPlotController.prototype.dataElementOptions = controllers.horizontalBar.prototype.dataElementOptions.concat(
     boxOptionsKeys
   );
 
   defaults.set(
-    HorizontalBoxPlot.id,
+    HorizontalBoxPlotController.id,
     helpers.merge({}, [
       defaults.horizontalBar,
       baseDefaults(boxOptionsKeys),
@@ -89,6 +97,13 @@ HorizontalBoxPlot.register = () => {
       },
     ])
   );
-  controllers[HorizontalBoxPlot.id] = HorizontalBoxPlot;
-  return HorizontalBoxPlot;
+  controllers[HorizontalBoxPlotController.id] = HorizontalBoxPlotController;
+  return HorizontalBoxPlotController;
 };
+
+export class HorizontalBoxPlotChart extends Chart {
+  constructor(item, config) {
+    super(item, patchControllerConfig(config, HorizontalBoxPlotController));
+  }
+}
+HorizontalBoxPlotChart.id = HorizontalBoxPlotController.id;

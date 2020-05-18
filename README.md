@@ -333,16 +333,29 @@ interface ITooltipItem {
 
 The ESM build of the library supports tree shaking thus having no side effects. As a consequence the chart.js library won't be automatically manipulated nor new controllers automatically registered. One has to manually import and register them.
 
+Variant A:
+
 ```js
 import Chart from 'chart.js';
-import { BoxPlot } from '@sgratzl/chartjs-chart-boxplot';
+import { BoxPlotController } from '@sgratzl/chartjs-chart-boxplot';
 
 // register controller in chart.js and ensure the defaults are set
-BoxPlot.register();
+BoxPlotController.register();
 ...
 
 new Chart(ctx, {
-  type: BoxPlot.id,
+  type: BoxPlotController.id,
+  data: [...],
+});
+```
+
+Variant B:
+
+```js
+import Chart from 'chart.js';
+import { BoxPlotChart } from '@sgratzl/chartjs-chart-boxplot';
+
+new BoxPlotChart(ctx, {
   data: [...],
 });
 ```
