@@ -8,7 +8,7 @@ export default [
   {
     input: 'src/bundle.js',
     output: {
-      file: 'build/Chart.Geo.js',
+      file: 'build/Chart.BoxPlot.js',
       name: 'ChartGeo',
       format: 'umd',
       globals: {
@@ -21,7 +21,7 @@ export default [
   {
     input: 'src/index.js',
     output: {
-      file: 'build/Chart.Geo.esm.js',
+      file: 'build/Chart.BoxPlot.esm.js',
       name: 'ChartGeo',
       format: 'esm',
       globals: {

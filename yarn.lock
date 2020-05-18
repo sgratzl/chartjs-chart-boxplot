@@ -1512,6 +1512,46 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sgratzl/chartjs-chart-boxplot@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@sgratzl/chartjs-chart-boxplot@workspace:."
+  dependencies:
+    "@babel/core": ^7.9.6
+    "@babel/plugin-transform-runtime": ^7.9.6
+    "@babel/preset-env": ^7.9.6
+    "@babel/runtime": ^7.9.6
+    "@rollup/plugin-babel": ^5.0.0
+    "@rollup/plugin-commonjs": ^11.1.0
+    "@rollup/plugin-node-resolve": ^7.1.3
+    "@sgratzl/science": ^2.0.0
+    "@yarnpkg/pnpify": ^2.0.0-rc.22
+    babel-jest: ^26.0.1
+    chart.js: ^3.0.0-alpha
+    eslint: ^7.0.0
+    eslint-config-prettier: ^6.11.0
+    eslint-plugin-prettier: ^3.1.3
+    jest: ^26.0.1
+    prettier: ^2.0.5
+    release-it: ^13.6.0
+    rimraf: ^3.0.2
+    rollup: ^2.10.2
+    rollup-plugin-pnp-resolve: ^2.0.0
+    uglify-es: ^3.3.9
+  peerDependencies:
+    chart.js: ^3.0.0-alpha
+  dependenciesMeta:
+    chart.js:
+      unplugged: true
+  languageName: unknown
+  linkType: soft
+
+"@sgratzl/science@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@sgratzl/science@npm:2.0.0"
+  checksum: 3/0ed65107c7e3131256a11ef5677beb9184126377235f2a5899adb1e367ff0061e8e9d7830d9e6ebd413e3de1f5f34fd59b6328f7bc9906a64963e22f2d977fed
+  languageName: node
+  linkType: hard
+
 "@sindresorhus/is@npm:^0.14.0":
   version: 0.14.0
   resolution: "@sindresorhus/is@npm:0.14.0"
@@ -2556,41 +2596,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chartjs-chart-geo@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "chartjs-chart-geo@workspace:."
-  dependencies:
-    "@babel/core": ^7.9.6
-    "@babel/plugin-transform-runtime": ^7.9.6
-    "@babel/preset-env": ^7.9.6
-    "@babel/runtime": ^7.9.6
-    "@rollup/plugin-babel": ^5.0.0
-    "@rollup/plugin-commonjs": ^11.1.0
-    "@rollup/plugin-node-resolve": ^7.1.3
-    "@yarnpkg/pnpify": ^2.0.0-rc.22
-    babel-jest: ^26.0.1
-    chart.js: ^3.0.0-alpha
-    d3-geo: ^1.12.0
-    d3-scale-chromatic: ^1.5.0
-    eslint: ^7.0.0
-    eslint-config-prettier: ^6.11.0
-    eslint-plugin-prettier: ^3.1.3
-    jest: ^26.0.1
-    prettier: ^2.0.5
-    release-it: ^13.6.0
-    rimraf: ^3.0.2
-    rollup: ^2.10.2
-    rollup-plugin-pnp-resolve: ^2.0.0
-    topojson-client: ^3.1.0
-    uglify-es: ^3.3.9
-  peerDependencies:
-    chart.js: ^3.0.0-alpha
-  dependenciesMeta:
-    chart.js:
-      unplugged: true
-  languageName: unknown
-  linkType: soft
-
 "chownr@npm:^1.1.1":
   version: 1.1.4
   resolution: "chownr@npm:1.1.4"
@@ -2755,13 +2760,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commander@npm:2":
-  version: 2.20.3
-  resolution: "commander@npm:2.20.3"
-  checksum: 3/b73428e97de7624323f81ba13f8ed9271de487017432d18b4da3f07cfc528ad754bbd199004bd5d14e0ccd67d1fdfe0ec8dbbd4c438b401df3c4cc387bfd1daa
-  languageName: node
-  linkType: hard
-
 "commander@npm:~2.14.1":
   version: 2.14.1
   resolution: "commander@npm:2.14.1"
@@ -2920,48 +2918,6 @@ __metadata:
   dependencies:
     cssom: ~0.3.6
   checksum: 3/a778180d2f5eef44742b7083997a0ad6e59eee016724ceac4d6229e48842d3c5ebbb55dc02c555f793bdc486254f6eef8d2049c1815e8fc74514e3eb827d49ec
-  languageName: node
-  linkType: hard
-
-"d3-array@npm:1":
-  version: 1.2.4
-  resolution: "d3-array@npm:1.2.4"
-  checksum: 3/ab114c72ccdcb3f53807574c003816ad6ac65c2c2db2b17b18e2678f1141881dfa0ddab60af63d73e428c826e4580b6cb9e93cb776c777c79fec9f75057d8fbd
-  languageName: node
-  linkType: hard
-
-"d3-color@npm:1":
-  version: 1.4.1
-  resolution: "d3-color@npm:1.4.1"
-  checksum: 3/a579fdc2f4ec50980e32d0ac5212c3023ee9c6a7555ae698278f05c9f7d06322f83dde01253f672f9f9fd05d8860f0256d25aee999a0d32cf4111d731413f5da
-  languageName: node
-  linkType: hard
-
-"d3-geo@npm:^1.12.0":
-  version: 1.12.0
-  resolution: "d3-geo@npm:1.12.0"
-  dependencies:
-    d3-array: 1
-  checksum: 3/a1d55989325a373ce68ba7ed8b706fa51ec33a44f3d1155d206f7f2117aca53227b4dc4acbbcac9bee0d76b67c30a09577565b1e6a006c62a8a5b9ac8b2392e7
-  languageName: node
-  linkType: hard
-
-"d3-interpolate@npm:1":
-  version: 1.4.0
-  resolution: "d3-interpolate@npm:1.4.0"
-  dependencies:
-    d3-color: 1
-  checksum: 3/beea08fb3a712ccb992082c058a96a108f31692bbcecbf8029539ff378747b666fd0f33798b313835a2cb019e399a30fd1f5b643822f1cc0be3c86b4fe4730c7
-  languageName: node
-  linkType: hard
-
-"d3-scale-chromatic@npm:^1.5.0":
-  version: 1.5.0
-  resolution: "d3-scale-chromatic@npm:1.5.0"
-  dependencies:
-    d3-color: 1
-    d3-interpolate: 1
-  checksum: 3/12f786b1b1d4c5eaa3f56f38b63832989f40f48d5ed0476325a0443af75d46824cab71b5b975e37cdd2f47a048d7db356f09364a7a5eea641cc81e3825ef996e
   languageName: node
   linkType: hard
 
@@ -7810,19 +7766,6 @@ __metadata:
     regex-not: ^1.0.2
     safe-regex: ^1.1.0
   checksum: 3/ed733fdff8970628ef2d425564d1331a812e57cbb6ab7675c970046b2b792cbf2386c8292e45bb201bf85ca71a7708e3e1ffb979f5cd089ad4a82a12df75939b
-  languageName: node
-  linkType: hard
-
-"topojson-client@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "topojson-client@npm:3.1.0"
-  dependencies:
-    commander: 2
-  bin:
-    topo2geo: bin/topo2geo
-    topomerge: bin/topomerge
-    topoquantize: bin/topoquantize
-  checksum: 3/189471a7436a511aae95ad21a078e2b46dbe50f9efd80321935455983bb9859155011b865d61ca4f0f57d34e97db7811a3be943c96c39ab58cd82c76a849f618
   languageName: node
   linkType: hard
 

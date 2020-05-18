@@ -1,7 +1,7 @@
 {
   "name": "@sgratzl/chartjs-chart-boxplot",
   "description": "Chart.js module for charting boxplots and violin charts",
-  "version": "2.3.1",
+  "version": "3.0.0-alpha.0",
   "author": {
     "name": "datavisyn",
     "email": "contact@datavisyn.io",
@@ -22,48 +22,52 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sgratzl/chartjs-chart-box-and-violin-plot.git"
+    "url": "https://github.com/sgratzl/chartjs-chart-boxplot.git"
   },
   "main": "build/Chart.BoxPlot.js",
   "unpkg": "build/Chart.BoxPlot.min.js",
   "module": "build/Chart.BoxPlot.esm.js",
+  "sideEffects": false,
   "files": [
     "build",
     "src/**/*.js"
   ],
+  "peerDependencies": {
+    "chart.js": "^3.0.0-alpha"
+  },
   "dependencies": {
+    "@babel/runtime": "^7.9.6",
     "@sgratzl/science": "^2.0.0"
   },
-  "peerDependencies": {
-    "chart.js": "^2.8.0"
-  },
   "devDependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/preset-env": "^7.9.5",
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^25.3.0",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.10.1",
+    "@babel/core": "^7.9.6",
+    "@babel/plugin-transform-runtime": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "@rollup/plugin-babel": "^5.0.0",
+    "@rollup/plugin-commonjs": "^11.1.0",
+    "@rollup/plugin-node-resolve": "^7.1.3",
+    "@yarnpkg/pnpify": "^2.0.0-rc.22",
+    "babel-jest": "^26.0.1",
+    "chart.js": "^3.0.0-alpha",
+    "eslint": "^7.0.0",
+    "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.3",
-    "jest": "^25.3.0",
-    "prettier": "^2.0.4",
-    "release-it": "^13.5.2",
+    "jest": "^26.0.1",
+    "prettier": "^2.0.5",
+    "release-it": "^13.6.0",
     "rimraf": "^3.0.2",
-    "rollup": "^2.6.1",
-    "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-watch": "^4.3.1",
+    "rollup": "^2.10.2",
+    "rollup-plugin-pnp-resolve": "^2.0.0",
     "uglify-es": "^3.3.9"
   },
   "scripts": {
     "clean": "rimraf build *.tgz",
-    "watch": "rollup -c -w -i src/index.js",
+    "watch": "rollup -c -w",
     "lint": "eslint src",
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",
     "posttest": "npm run lint",
-    "build:dev": "rollup -c -i src/index.js",
+    "build:dev": "rollup -c",
     "build:prod": "npm run build:dev && uglifyjs build/Chart.BoxPlot.js -c -m -o build/Chart.BoxPlot.min.js",
     "prebuild": "npm run clean && npm test",
     "build": "npm run build:prod",
@@ -71,9 +75,12 @@
     "preversion": "npm run test",
     "prepare": "npm run build:dev",
     "prepublishOnly": "npm run build:prod",
-    "release:major": "release-it major",
-    "release:minor": "release-it minor",
-    "release:patch": "release-it patch",
-    "release:pre": "release-it --preRelease=alpha --npm.tag=next"
+    "release": "release-it --disable-metrics --npm.skipChecks",
+    "release:pre": "release-it --disable-metrics --npm.skipChecks --preRelease=alpha --npm.tag=next"
+  },
+  "dependenciesMeta": {
+    "chart.js": {
+      "unplugged": true
+    }
   }
 }

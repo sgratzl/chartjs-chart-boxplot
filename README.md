@@ -2,7 +2,9 @@
 
 [![datavisyn][datavisyn-image]][datavisyn-url] [![License: MIT][mit-image]][mit-url] [![NPM Package][npm-image]][npm-url] [![Github Actions][github-actions-image]][github-actions-url]
 
-Chart.js module for charting box and violin plots. **Works only with Chart.js >= 2.8.0**
+Chart.js module for charting box and violin plots.
+
+**Works only with Chart.js >= 3.0.0**
 
 ![Box Plot](https://user-images.githubusercontent.com/4129778/42724341-9a6ec554-8770-11e8-99b5-626e34dafdb3.png)
 ![Violin Plot](https://user-images.githubusercontent.com/4129778/42724342-9a8dbb58-8770-11e8-9a30-3e69d07d3b79.png)
@@ -10,7 +12,7 @@ Chart.js module for charting box and violin plots. **Works only with Chart.js >=
 ## Install
 
 ```bash
-npm install --save chart.js @sgratzl/chartjs-chart-boxplot
+npm install --save chart.js@next @sgratzl/chartjs-chart-boxplot@next
 ```
 
 ## Usage
@@ -299,26 +301,46 @@ arr = {
 };
 ```
 
-## Building
+### ESM and Tree Shaking
+
+The ESM build of the library supports three shaking but having no side effects. As a consequence the chart.js library won't be automatically manipulated nor new controllers automatically registered. One has to manually import and register them.
+
+```js
+import Chart from 'chart.js';
+import { BoxPlot } from '@sgratzl/chartjs-chart-boxplot';
+
+// register controller in chart.js and ensure the defaults are set
+BoxPlot.register();
+...
+```
+
+## Development Environment
 
 ```sh
-npm install
-npm run build
+npm i -g yarn
+yarn set version 2
+yarn
+yarn pnpify --sdk
+```
+
+### Building
+
+```sh
+yarn install
+yarn build
 ```
 
 ---
 
-<div style="display:flex;align-items:center">
-  <a href="https://www.datavisyn.io"><img src="https://user-images.githubusercontent.com/1711080/37700685-bcbb18c6-2cec-11e8-9b6f-f49c9ef6c167.png" align="left" width="50px" hspace="10" vspace="6"></a>
-  Developed by&nbsp;<strong><a href="https://www.datavisyn.io">datavisyn</a></strong>.
-</div>
+<a href="https://www.datavisyn.io"><img src="https://www.datavisyn.io/img/logos/datavisyn-d-logo.png" align="left" width="25px" hspace="10" vspace="6"></a>
+developed by **[datavisyn][datavisyn-url]**.
 
 [datavisyn-image]: https://img.shields.io/badge/datavisyn-io-black.svg
 [datavisyn-url]: https://www.datavisyn.io
 [mit-image]: https://img.shields.io/badge/License-MIT-yellow.svg
 [mit-url]: https://opensource.org/licenses/MIT
-[npm-image]: https://badge.fury.io/js/@sgratzl/chartjs-chart-boxplot.svg
+[npm-image]: https://badge.fury.io/js/%40sgratzl%2Fchartjs-chart-boxplot.svg
 [npm-url]: https://npmjs.org/package/@sgratzl/chartjs-chart-boxplot
-[github-actions-image]: https://github.com/sgratzl/chartjs-chart-box-and-violin-plot/workflows/ci/badge.svg
-[github-actions-url]: https://github.com/sgratzl/chartjs-chart-box-and-violin-plot/actions
+[github-actions-image]: https://github.com/sgratzl/chartjs-chart-boxplot/workflows/ci/badge.svg
+[github-actions-url]: https://github.com/sgratzl/chartjs-chart-boxplot/actions
 [codepen]: https://img.shields.io/badge/CodePen-open-blue?logo=codepen
