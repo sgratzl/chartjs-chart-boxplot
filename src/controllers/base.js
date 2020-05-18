@@ -2,21 +2,8 @@
 import { outlierPositioner, patchInHoveredOutlier } from '../tooltip';
 import { controllers } from 'chart.js';
 
-export const configKeys = [
-  'outlierRadius',
-  'itemRadius',
-  'itemStyle',
-  'itemBackgroundColor',
-  'itemBorderColor',
-  'outlierColor',
-  'medianColor',
-  'hitPadding',
-  'outlierHitRadius',
-  'lowerColor',
-];
-export const colorStyleKeys = ['borderColor', 'backgroundColor'].concat(configKeys.filter((c) => c.endsWith('Color')));
-
-export function baseDefaults() {
+export function baseDefaults(keys) {
+  const colorKeys = ['borderColor', 'backgroundColor'].concat(keys.filter((c) => c.endsWith('Color')));
   return {
     datasets: {
       animation: {
@@ -26,19 +13,19 @@ export function baseDefaults() {
         },
         colors: {
           type: 'color',
-          properties: colorStyleKeys,
+          properties: colorKeys,
         },
         show: {
           colors: {
             type: 'color',
-            properties: colorStyleKeys,
+            properties: colorKeys,
             from: 'transparent',
           },
         },
         hide: {
           colors: {
             type: 'color',
-            properties: colorStyleKeys,
+            properties: colorKeys,
             to: 'transparent',
           },
         },
@@ -66,8 +53,7 @@ export class StatsBase extends controllers.bar {
     scale.axis = bak;
     return { min, max };
   }
-
-  parseArrayData(meta, data, start, count) {
+  parsePrimitiveData(meta, data, start, count) {
     const vScale = meta.vScale;
     const iScale = meta.iScale;
     const labels = iScale.getLabels();
@@ -76,7 +62,7 @@ export class StatsBase extends controllers.bar {
       const index = i + start;
       const parsed = {};
       parsed[iScale.axis] = iScale.parse(labels[index], index);
-      const stats = this._parseStats(data[index], this._config);
+      const stats = this._parseStats(data == null ? null : data[index], this._config);
       if (stats) {
         Object.assign(parsed, stats);
         parsed[vScale.axis] = stats.median;
@@ -86,20 +72,24 @@ export class StatsBase extends controllers.bar {
     return r;
   }
 
-  _parseStats(_value, _config) {
-    // abstract
-    return {};
+  parseArrayData(meta, data, start, count) {
+    return this.parsePrimitiveData(meta, data, start, count);
   }
 
   parseObjectData(meta, data, start, count) {
-    return this.parseArrayData(meta, data, start, count);
+    return this.parsePrimitiveData(meta, data, start, count);
+  }
+
+  _parseStats(_value, _config) {
+    // abstract
+    return {};
   }
 
   getLabelAndValue(index) {
     const r = super.getLabelAndValue(index);
     const vScale = this._cachedMeta.vScale;
     const parsed = this.getParsed(index);
-    if (!vScale || !parsed) {
+    if (!vScale || !parsed || r.value === 'NaN') {
       return r;
     }
     r.value = {

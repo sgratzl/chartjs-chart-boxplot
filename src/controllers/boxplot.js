@@ -1,6 +1,6 @@
 ﻿import { asBoxPlotStats, defaultStatsOptions } from '../data';
 import { controllers, helpers, defaults } from 'chart.js';
-import { baseDefaults, configKeys, StatsBase } from './base';
+import { baseDefaults, StatsBase } from './base';
 import { BoxAndWiskers, boxOptionsKeys } from '../elements';
 
 export class BoxPlot extends StatsBase {
@@ -33,7 +33,7 @@ BoxPlot.register = () => {
     BoxPlot.id,
     helpers.merge({}, [
       defaults.bar,
-      baseDefaults(),
+      baseDefaults(boxOptionsKeys),
       {
         datasets: Object.assign(
           {
@@ -42,7 +42,7 @@ BoxPlot.register = () => {
                 type: 'number',
                 properties: defaults.bar.datasets.animation.numbers.properties.concat(
                   ['q1', 'q3', 'min', 'max', 'median', 'whiskerMin', 'whiskerMax'],
-                  configKeys.filter((c) => !c.endsWith('Color'))
+                  boxOptionsKeys.filter((c) => !c.endsWith('Color'))
                 ),
               },
             },
@@ -76,7 +76,7 @@ HorizontalBoxPlot.register = () => {
     HorizontalBoxPlot.id,
     helpers.merge({}, [
       defaults.horizontalBar,
-      baseDefaults(),
+      baseDefaults(boxOptionsKeys),
       {
         datasets: Object.assign(
           {
@@ -85,7 +85,7 @@ HorizontalBoxPlot.register = () => {
                 type: 'number',
                 properties: defaults.bar.datasets.animation.numbers.properties.concat(
                   ['q1', 'q3', 'min', 'max', 'median', 'whiskerMin', 'whiskerMax'],
-                  configKeys.filter((c) => !c.endsWith('Color'))
+                  boxOptionsKeys.filter((c) => !c.endsWith('Color'))
                 ),
               },
             },

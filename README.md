@@ -27,6 +27,8 @@ four new types: `boxplot`, `horizontalBoxplot`, `violin`, and `horizontalViolin`
 
 ## Config
 
+// TODO
+
 ```typescript
 interface IChartJSOptions {
   boxplot: {
@@ -127,15 +129,15 @@ interface IBaseStyling {
    * @scriptable
    * @indexable
    */
-  outlierColor: string;
+  outlierBackgroundColor: string;
 
   /**
    * to fill color below the median line of the box
-   * @default see rectangle.lowerColor
+   * @default transparent
    * @scriptable
    * @indexable
    */
-  lowerColor: string;
+  lowerBackgroundColor: string;
 
   /**
    * radius used to render items
@@ -207,19 +209,6 @@ interface IViolinStyling extends IBaseStyling {
 }
 ```
 
-In addition, two new scales were created `arrayLinear` and `arrayLogarithmic`. They were needed to adapt to the required data structure.
-
-## Scale Options
-
-Both `arrayLinear` and `arrayLogarithmic` support the two additional options to their regular counterparts:
-
-```typescript
-interface IArrayLinearScale {
-
-  };
-}
-```
-
 ## Data structure
 
 Both types support that the data is given as an array of numbers `number[]`. The statistics will be automatically computed. In addition, specific summary data structures are supported:
@@ -265,38 +254,17 @@ interface IViolinItem extends IBaseItem {
 }
 ```
 
-**Note**: The statistics will be cached within the array. Thus, if you manipulate the array content without creating a new instance the changes won't be reflected in the stats. See also [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/JxQVaZ?editors=0010) for a comparison.
-
 ## Tooltips
 
-In order to simplify the customization of the tooltips, two additional tooltip callback methods are available. Internally the `label` callback will call the correspondig callback depending on the type.
+In order to simplify the customization of the tooltips,
+// TODO
 
 ```js
 arr = {
   options: {
     tooltips: {
       callbacks: {
-        /**
-         * custom callback for boxplot tooltips
-         * @param item see label callback
-         * @param data see label callback
-         * @param stats {IBoxPlotItem} the stats of the hovered element
-         * @param hoveredOutlierIndex {number} the hovered outlier index or -1 if none
-         * @return {string} see label callback
-         */
-        boxplotLabel: function (item, data, stats, hoveredOutlierIndex) {
-          return 'Custom tooltip';
-        },
-        /**
-         * custom callback for violin tooltips
-         * @param item see label callback
-         * @param data see label callback
-         * @param stats {IViolinItem} the stats of the hovered element
-         * @return {string} see label callback
-         */
-        violinLabel: function (item, data, stats) {
-          return 'Custom tooltip';
-        },
+        // TODO
       },
     },
   },

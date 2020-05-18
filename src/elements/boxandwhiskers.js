@@ -55,8 +55,8 @@ export class BoxAndWiskers extends StatsBase {
 
     ctx.save();
     // fill the part below the median with lowerColor
-    if (options.lowerColor && options.lowerColor !== 'none') {
-      ctx.fillStyle = options.lowerColor;
+    if (options.lowerBackgroundColor && options.lowerBackgroundColor !== 'none') {
+      ctx.fillStyle = options.lowerBackgroundColor;
       if (props.q3 > props.q1) {
         ctx.fillRect(x0, props.median, width, props.q3 - props.median);
       } else {
@@ -115,8 +115,8 @@ export class BoxAndWiskers extends StatsBase {
 
     ctx.save();
     // fill the part below the median with lowerColor
-    if (options.lowerColor && options.lowerColor !== 'transparent') {
-      ctx.fillStyle = options.lowerColor;
+    if (options.lowerBackgroundColor && options.lowerBackgroundColor !== 'transparent') {
+      ctx.fillStyle = options.lowerBackgroundColor;
       if (props.q3 > props.q1) {
         ctx.fillRect(props.median, y0, props.q3 - props.median, height);
       } else {
@@ -203,7 +203,7 @@ BoxAndWiskers.register = () => {
   defaults.set('elements', {
     [BoxAndWiskers._type]: Object.assign({}, baseDefaults, {
       medianColor: 'transparent',
-      lowerColor: 'transparent',
+      lowerBackgroundColor: 'transparent',
     }),
   });
   return BoxAndWiskers;

@@ -2,12 +2,9 @@ import { plugins } from 'chart.js';
 
 export function patchInHoveredOutlier(item) {
   const value = item.value;
-  const hoveredOutlierIndex =
-    this._tooltipOutlier == null || item.datasetIndex !== this._tooltipOutlier.datasetIndex
-      ? -1
-      : this._tooltipOutlier.index;
-  // patch in the hovered outlier index
-  value.hoveredOutlierIndex = hoveredOutlierIndex;
+  if (value && this._tooltipOutlier != null && item.datasetIndex === this._tooltipOutlier.datasetIndex) {
+    value.hoveredOutlierIndex = this._tooltipOutlier.index;
+  }
 }
 
 // based on average positioner but allow access to the tooltip instance
