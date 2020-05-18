@@ -24,9 +24,6 @@ export default [
     output: {
       file: pkg.module,
       format: 'esm',
-      globals: {
-        'chart.js': 'Chart',
-      },
     },
     external: Object.keys(pkg.peerDependencies).concat(Object.keys(pkg.dependencies)),
     plugins: [commonjs(), pnp(), resolve()],

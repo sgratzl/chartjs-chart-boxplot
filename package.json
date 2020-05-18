@@ -2,6 +2,9 @@
   "name": "@sgratzl/chartjs-chart-boxplot",
   "description": "Chart.js module for charting boxplots and violin charts",
   "version": "3.0.0-alpha.1",
+  "publishConfig": {
+    "access": "public"
+  },
   "author": {
     "name": "datavisyn",
     "email": "contact@datavisyn.io",
