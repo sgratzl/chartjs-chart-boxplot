@@ -1,4 +1,4 @@
-﻿import { defaults, Element, helpers } from '../chart';
+﻿import { defaults, Element, drawPoint } from '../chart';
 import { rnd } from '../data';
 
 export const baseDefaults = {
@@ -51,11 +51,11 @@ export class StatsBase extends Element {
 
     if (vert) {
       props.items.forEach((v) => {
-        helpers.canvas.drawPoint(ctx, pointOptions, props.x - props.width / 2 + random() * props.width, v);
+        drawPoint(ctx, pointOptions, props.x - props.width / 2 + random() * props.width, v);
       });
     } else {
       props.items.forEach((v) => {
-        helpers.canvas.drawPoint(ctx, pointOptions, v, props.y - props.height / 2 + random() * props.height);
+        drawPoint(ctx, pointOptions, v, props.y - props.height / 2 + random() * props.height);
       });
     }
     ctx.restore();
@@ -81,11 +81,11 @@ export class StatsBase extends Element {
 
     if (vert) {
       props.outliers.forEach((v) => {
-        helpers.canvas.drawPoint(ctx, pointOptions, props.x, v);
+        drawPoint(ctx, pointOptions, props.x, v);
       });
     } else {
       props.outliers.forEach((v) => {
-        helpers.canvas.drawPoint(ctx, pointOptions, v, props.y);
+        drawPoint(ctx, pointOptions, v, props.y);
       });
     }
 

@@ -1,5 +1,5 @@
 ﻿import { asViolinStats } from '../data';
-import { Chart, controllers, defaults, helpers } from '../chart';
+import { Chart, controllers, defaults, helpers, BarController, HorizontalBarController } from '../chart';
 import { StatsBase, baseDefaults } from './base';
 import { baseOptionKeys } from '../elements/base';
 import { ViolinElement } from '../elements';
@@ -34,7 +34,7 @@ export class ViolinController extends StatsBase {
 ViolinController.id = 'violin';
 ViolinController.register = () => {
   ViolinController.prototype.dataElementType = ViolinElement.register();
-  ViolinController.prototype.dataElementOptions = controllers.bar.prototype.dataElementOptions.concat(baseOptionKeys);
+  ViolinController.prototype.dataElementOptions = BarController.prototype.dataElementOptions.concat(baseOptionKeys);
 
   defaults.set(
     ViolinController.id,
@@ -84,7 +84,7 @@ export class HorizontalViolinController extends ViolinController {
 HorizontalViolinController.id = 'horizontalViolin';
 HorizontalViolinController.register = () => {
   HorizontalViolinController.prototype.dataElementType = ViolinElement.register();
-  HorizontalViolinController.prototype.dataElementOptions = controllers.horizontalBar.prototype.dataElementOptions.concat(
+  HorizontalViolinController.prototype.dataElementOptions = HorizontalViolinController.prototype.dataElementOptions.concat(
     baseOptionKeys
   );
 

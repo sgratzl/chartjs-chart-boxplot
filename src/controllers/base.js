@@ -1,6 +1,6 @@
 ﻿import { interpolateNumberArray } from '../animation';
 import { outlierPositioner, patchInHoveredOutlier } from '../tooltip';
-import { controllers } from '../chart';
+import { BarController } from '../chart';
 import { defaultStatsOptions } from '../data';
 
 export function baseDefaults(keys) {
@@ -46,7 +46,7 @@ export function baseDefaults(keys) {
   };
 }
 
-export class StatsBase extends controllers.bar {
+export class StatsBase extends BarController {
   getMinMax(scale, canStack) {
     const bak = scale.axis;
     const config = this._config;

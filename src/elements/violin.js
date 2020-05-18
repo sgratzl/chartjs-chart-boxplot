@@ -1,4 +1,4 @@
-﻿import { helpers, defaults } from '../chart';
+﻿import { defaults, drawPoint } from '../chart';
 import { StatsBase, baseDefaults } from './base';
 
 export class ViolinElement extends StatsBase {
@@ -11,7 +11,7 @@ export class ViolinElement extends StatsBase {
 
     const props = this.getProps(['x', 'y', 'width', 'height', 'min', 'max', 'coords', 'maxEstimate']);
 
-    helpers.canvas.drawPoint(
+    drawPoint(
       ctx,
       {
         pointStyle: 'rectRot',

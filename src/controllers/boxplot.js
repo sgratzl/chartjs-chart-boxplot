@@ -1,5 +1,5 @@
 ﻿import { asBoxPlotStats } from '../data';
-import { Chart, controllers, helpers, defaults } from '../chart';
+import { Chart, controllers, defaults, BarController, HorizontalBarController, merge } from '../chart';
 import { baseDefaults, StatsBase } from './base';
 import { BoxAndWiskers, boxOptionsKeys } from '../elements';
 import { patchControllerConfig } from './utils';
@@ -28,11 +28,11 @@ export class BoxPlotController extends StatsBase {
 BoxPlotController.id = 'boxplot';
 BoxPlotController.register = () => {
   BoxPlotController.prototype.dataElementType = BoxAndWiskers.register();
-  BoxPlotController.prototype.dataElementOptions = controllers.bar.prototype.dataElementOptions.concat(boxOptionsKeys);
+  BoxPlotController.prototype.dataElementOptions = BarController.prototype.dataElementOptions.concat(boxOptionsKeys);
 
   defaults.set(
     BoxPlotController.id,
-    helpers.merge({}, [
+    merge({}, [
       defaults.bar,
       baseDefaults(boxOptionsKeys),
       {
@@ -73,13 +73,13 @@ export class HorizontalBoxPlotController extends BoxPlotController {
 HorizontalBoxPlotController.id = 'horizontalBoxplot';
 HorizontalBoxPlotController.register = () => {
   HorizontalBoxPlotController.prototype.dataElementType = BoxAndWiskers.register();
-  HorizontalBoxPlotController.prototype.dataElementOptions = controllers.horizontalBar.prototype.dataElementOptions.concat(
+  HorizontalBoxPlotController.prototype.dataElementOptions = HorizontalBarController.prototype.dataElementOptions.concat(
     boxOptionsKeys
   );
 
   defaults.set(
     HorizontalBoxPlotController.id,
-    helpers.merge({}, [
+    merge({}, [
       defaults.horizontalBar,
       baseDefaults(boxOptionsKeys),
       {
