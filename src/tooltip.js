@@ -1,4 +1,4 @@
-import * as Chart from 'chart.js';
+import { Tooltip } from 'chart.js';
 
 export function boxplotPositioner(elements, eventPosition) {
   if (!elements.length) {
@@ -22,4 +22,8 @@ export function boxplotPositioner(elements, eventPosition) {
   };
 }
 
-Chart.Tooltip.positioners.boxplot = boxplotPositioner;
+boxplotPositioner.id = 'boxplot';
+boxplotPositioner.register = () => {
+  Tooltip.positioners.boxplot = boxplotPositioner;
+  return boxplotPositioner;
+};

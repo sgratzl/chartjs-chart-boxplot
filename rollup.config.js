@@ -9,7 +9,7 @@ export default [
     input: 'src/bundle.js',
     output: {
       file: 'build/Chart.BoxPlot.js',
-      name: 'ChartGeo',
+      name: 'ChartBoxPlot',
       format: 'umd',
       globals: {
         'chart.js': 'Chart',
@@ -22,13 +22,13 @@ export default [
     input: 'src/index.js',
     output: {
       file: 'build/Chart.BoxPlot.esm.js',
-      name: 'ChartGeo',
+      name: 'ChartBoxPlot',
       format: 'esm',
       globals: {
         'chart.js': 'Chart',
       },
     },
-    external: ['chart.js', '@babel/runtime', 'd3-geo', 'd3-scale-chromatic', 'topojson-client'],
+    external: ['chart.js', '@babel/runtime', '@sgratzl/science.js'],
     plugins: [commonjs(), pnp(), resolve()],
   },
 ];

@@ -1,55 +1,7 @@
-﻿import * as Chart from 'chart.js';
-import ArrayElementBase, { defaults } from './base';
+﻿import {defaults} from 'chart.js';
+import { ArrayElementBase, baseDefaults } from './base';
 
-Chart.defaults.global.elements.boxandwhiskers = {
-  ...defaults,
-};
-
-function transitionBoxPlot(start, view, model, ease) {
-  const keys = Object.keys(model);
-  for (const key of keys) {
-    const target = model[key];
-    const origin = start[key];
-    if (origin === target) {
-      continue;
-    }
-    if (typeof target === 'number') {
-      view[key] = origin + (target - origin) * ease;
-      continue;
-    }
-    if (Array.isArray(target)) {
-      const v = view[key];
-      const common = Math.min(target.length, origin.length);
-      for (let i = 0; i < common; ++i) {
-        v[i] = origin[i] + (target[i] - origin[i]) * ease;
-      }
-    }
-  }
-}
-
-const BoxAndWiskers = (Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
-  transition(ease) {
-    const r = Chart.Element.prototype.transition.call(this, ease);
-    const model = this._model;
-    const start = this._start;
-    const view = this._view;
-
-    // No animation -> No Transition
-    if (!model || ease === 1) {
-      return r;
-    }
-    if (start.boxplot == null) {
-      return r; // model === view -> not copied
-    }
-
-    // create deep copy to avoid alternation
-    if (model.boxplot === view.boxplot) {
-      view.boxplot = Chart.helpers.clone(view.boxplot);
-    }
-    transitionBoxPlot(start.boxplot, view.boxplot, model.boxplot, ease);
-
-    return r;
-  },
+export class BoxAndWiskers extends ArrayElementBase {
   draw() {
     const ctx = this._chart.ctx;
     const vm = this._view;
@@ -225,6 +177,12 @@ const BoxAndWiskers = (Chart.elements.BoxAndWhiskers = ArrayElementBase.extend({
   _getOutliers() {
     return this._view.boxplot ? this._view.boxplot.outliers || [] : [];
   },
-}));
+}
 
-export default BoxAndWiskers;
+BoxAndWiskers._type = 'boxAndWhsikers';
+BoxAndWiskers.register = () => {
+  defaults.set('elements', {
+    [BoxAndWiskers._type]: baseDefaults
+  })
+  return BoxAndWiskers;
+}
