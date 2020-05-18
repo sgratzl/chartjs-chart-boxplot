@@ -56,9 +56,11 @@
           display: true,
           text: 'Chart.js Box Plot Chart',
         },
-        datasets: {
-          minStats: 'min',
-          maxStats: 'max',
+        boxplot: {
+          datasets: {
+            minStats: 'min',
+            maxStats: 'max',
+          },
         },
       };
 
@@ -71,8 +73,8 @@
         });
 
         document.getElementById('limitMinMax').onclick = function () {
-          options.scales.yAxes[0].ticks.minStats = 'min';
-          options.scales.yAxes[0].ticks.maxStats = 'max';
+          options.boxplot.datasets.minStats = 'min';
+          options.boxplot.datasets.maxStats = 'max';
           window.myBar = new Chart(ctx, {
             type: 'boxplot',
             data: boxplotData,
@@ -80,8 +82,8 @@
           });
         };
         document.getElementById('limitWhiskers').onclick = function () {
-          options.scales.yAxes[0].ticks.minStats = 'whiskerMin';
-          options.scales.yAxes[0].ticks.maxStats = 'whiskerMax';
+          options.boxplot.datasets.minStats = 'whiskerMin';
+          options.boxplot.datasets.maxStats = 'whiskerMax';
           window.myBar = new Chart(ctx, {
             type: 'boxplot',
             data: boxplotData,

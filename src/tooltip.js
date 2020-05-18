@@ -1,31 +1,40 @@
 import { plugins } from 'chart.js';
 
-export function boxplotPositioner(elements, eventPosition) {
-  if (!elements.length) {
+export function patchInHoveredOutlier(item) {
+  const value = item.value;
+  const hoveredOutlierIndex = this._tooltipOutlier == null ? -1 : this._tooltipOutlier;
+  // patch in the hovered outlier index
+  value.hoveredOutlierIndex = hoveredOutlierIndex;
+}
+
+// based on average positioner but allow access to the tooltip instance
+export function outlierPositioner(items, eventPosition) {
+  if (!items.length) {
     return false;
   }
-
-  const [x, y, count] = elements.reduce(
-    ([xi, ci, counti], el) => {
-      if (el && el.hasValue()) {
-        const pos = el.tooltipPosition(eventPosition, this);
-        return [xi + pos.x, ci + pos.y, counti + 1];
-      }
-      return [xi, ci, counti];
-    },
-    [0, 0, 0]
-  );
-
+  var i, len;
+  var x = 0;
+  var y = 0;
+  var count = 0;
+  for (i = 0, len = items.length; i < len; ++i) {
+    var el = items[i].element;
+    if (el && el.hasValue()) {
+      var pos = el.tooltipPosition(eventPosition, this);
+      x += pos.x;
+      y += pos.y;
+      ++count;
+    }
+  }
   return {
     x: x / count,
     y: y / count,
   };
 }
 
-boxplotPositioner.id = 'boxplot';
-boxplotPositioner.register = () => {
+outlierPositioner.id = 'averageInstance';
+outlierPositioner.register = () => {
   // register my position logic
   const tooltip = plugins.getAll().find((d) => d.id === 'tooltip');
-  tooltip.positioners[boxplotPositioner.id] = boxplotPositioner;
-  return boxplotPositioner;
+  tooltip.positioners[outlierPositioner.id] = outlierPositioner;
+  return outlierPositioner;
 };

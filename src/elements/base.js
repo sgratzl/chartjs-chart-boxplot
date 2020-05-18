@@ -196,31 +196,32 @@ export class ArrayElementBase extends Element {
   }
 
   _getOutliers(useFinalPosition) {
-    const outliers = this.getProps(['outliers'], useFinalPosition);
-    return outliers || [];
+    const props = this.getProps(['outliers'], useFinalPosition);
+    return props.outliers || [];
   }
 
-  tooltipPosition(eventPosition, tooltip, useFinalPosition) {
+  tooltipPosition(eventPosition, tooltip) {
     if (!eventPosition) {
       // fallback
-      return this.getCenterPoint(useFinalPosition);
+      return this.getCenterPoint();
     }
     delete tooltip._tooltipOutlier;
 
-    const props = this.getProps(['x', 'y'], useFinalPosition);
+    const props = this.getProps(['x', 'y']);
     const index = this._outlierIndexInRange(eventPosition.x, eventPosition.y);
     if (index < 0) {
-      return this.getCenterPoint(useFinalPosition);
+      return this.getCenterPoint();
     }
+    // hack in the data of the hovered outlier
     tooltip._tooltipOutlier = index;
     if (this.isVertical()) {
       return {
         x: props.x,
-        y: this._getOutliers(useFinalPosition)[index],
+        y: this._getOutliers()[index],
       };
     }
     return {
-      x: this._getOutliers(useFinalPosition)[index],
+      x: this._getOutliers()[index],
       y: props.y,
     };
   }

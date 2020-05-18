@@ -131,7 +131,7 @@ export function whiskers(boxplot, arr, coef = 1.5) {
   };
 }
 
-const defaultStatsOptions = {
+export const defaultStatsOptions = {
   coef: 1.5,
   quantiles: 7,
 };
