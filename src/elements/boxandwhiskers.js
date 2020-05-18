@@ -1,7 +1,7 @@
 ﻿import { defaults } from 'chart.js';
 import { StatsBase, baseDefaults, baseOptionKeys } from './base';
 
-export const boxOptionsKeys = baseOptionKeys.concat(['medianColor', 'lowerColor']);
+export const boxOptionsKeys = baseOptionKeys.concat(['medianColor', 'lowerBackgroundColor']);
 
 export class BoxAndWiskers extends StatsBase {
   draw(ctx) {
@@ -198,7 +198,7 @@ export class BoxAndWiskers extends StatsBase {
   }
 }
 
-BoxAndWiskers._type = 'boxAndWhiskers';
+BoxAndWiskers._type = 'boxandwhiskers';
 BoxAndWiskers.register = () => {
   defaults.set('elements', {
     [BoxAndWiskers._type]: Object.assign({}, baseDefaults, {

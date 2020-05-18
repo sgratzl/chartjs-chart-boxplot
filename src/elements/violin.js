@@ -102,9 +102,7 @@ export class ViolinElement extends StatsBase {
 ViolinElement._type = 'violin';
 ViolinElement.register = () => {
   defaults.set('elements', {
-    [ViolinElement._type]: Object.assign({}, baseDefaults, {
-      points: 100,
-    }),
+    [ViolinElement._type]: baseDefaults,
   });
   return ViolinElement;
 };

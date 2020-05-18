@@ -9,7 +9,6 @@ export const baseDefaults = Object.assign({}, defaults.elements.rectangle, {
   outlierBackgroundColor: defaults.elements.rectangle.backgroundColor,
   outlierBorderColor: defaults.elements.rectangle.borderColor,
   outlierBorderWidth: 1,
-  outlierHitRadius: 4,
 
   itemStyle: 'circle',
   itemRadius: 0,
@@ -18,6 +17,7 @@ export const baseDefaults = Object.assign({}, defaults.elements.rectangle, {
   itemBorderWidth: 0,
 
   hitPadding: 2,
+  outlierHitRadius: 4,
 });
 
 export const baseOptionKeys = [
@@ -55,7 +55,6 @@ export class StatsBase extends Element {
     ctx.lineWith = options.itemBorderWidth;
     // jitter based on random data
     // use the dataset index and index to initialize the random number generator
-    // TODO
     const random = rnd(this._datasetIndex * 1000 + this._index);
 
     const pointOptions = {
