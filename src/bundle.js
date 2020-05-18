@@ -1,5 +1,6 @@
 export * from '.';
 
-import { BoxPlot } from './controllers';
+import { BoxPlot, HorizontalBoxPlot } from './controllers';
 
 BoxPlot.register();
+HorizontalBoxPlot.register();

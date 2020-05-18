@@ -29,56 +29,54 @@ four new types: `boxplot`, `horizontalBoxplot`, `violin`, and `horizontalViolin`
 
 ```typescript
 interface IChartJSOptions {
-/**
- * Limit decimal digits by an optional config option
- **/
-  tooltipDecimals?: number;
-
   boxplot: {
-    /**
-     * statistic measure that should be used for computing the minimal data limit
-     * @default 'min'
-     */
-    minStats: 'min' | 'q1' | 'whiskerMin';
+    datasets: {
+      /**
+       * statistic measure that should be used for computing the minimal data limit
+       * @default 'min'
+       */
+      minStats: 'min' | 'q1' | 'whiskerMin';
 
-    /**
-     * statistic measure that should be used for computing the maximal data limit
-     * @default 'max'
-     */
-    maxStats: 'max' | 'q3' | 'whiskerMax';
+      /**
+       * statistic measure that should be used for computing the maximal data limit
+       * @default 'max'
+       */
+      maxStats: 'max' | 'q3' | 'whiskerMax';
 
-    /**
-     * from the R doc: this determines how far the plot ‘whiskers’ extend out from
-     * the box. If coef is positive, the whiskers extend to the most extreme data
-     * point which is no more than coef times the length of the box away from the
-     * box. A value of zero causes the whiskers to extend to the data extremes
-     * @default 1.5
-     */
-    coef: number;
+      /**
+       * from the R doc: this determines how far the plot ‘whiskers’ extend out from
+       * the box. If coef is positive, the whiskers extend to the most extreme data
+       * point which is no more than coef times the length of the box away from the
+       * box. A value of zero causes the whiskers to extend to the data extremes
+       * @default 1.5
+       */
+      coef: number;
 
-    /**
-     * the method to compute the quantiles.
-     *
-     * 7, 'quantiles': the type-7 method as used by R 'quantiles' method.
-     * 'hinges' and 'fivenum': the method used by R 'boxplot.stats' method.
-     * 'linear': the interpolation method 'linear' as used by 'numpy.percentile' function
-     * 'lower': the interpolation method 'lower' as used by 'numpy.percentile' function
-     * 'higher': the interpolation method 'higher' as used by 'numpy.percentile' function
-     * 'nearest': the interpolation method 'nearest' as used by 'numpy.percentile' function
-     * 'midpoint': the interpolation method 'midpoint' as used by 'numpy.percentile' function
-     * @default 7
-     */
-    quantiles:
-      | 7
-      | 'quantiles'
-      | 'hinges'
-      | 'fivenum'
-      | 'linear'
-      | 'lower'
-      | 'higher'
-      | 'nearest'
-      | 'midpoint'
-      | ((sortedArr: number[]) => { min: number; q1: number; median: number; q3: number; max: number });
+      /**
+       * the method to compute the quantiles.
+       *
+       * 7, 'quantiles': the type-7 method as used by R 'quantiles' method.
+       * 'hinges' and 'fivenum': the method used by R 'boxplot.stats' method.
+       * 'linear': the interpolation method 'linear' as used by 'numpy.percentile' function
+       * 'lower': the interpolation method 'lower' as used by 'numpy.percentile' function
+       * 'higher': the interpolation method 'higher' as used by 'numpy.percentile' function
+       * 'nearest': the interpolation method 'nearest' as used by 'numpy.percentile' function
+       * 'midpoint': the interpolation method 'midpoint' as used by 'numpy.percentile' function
+       * @default 7
+       */
+      quantiles:
+        | 7
+        | 'quantiles'
+        | 'hinges'
+        | 'fivenum'
+        | 'linear'
+        | 'lower'
+        | 'higher'
+        | 'nearest'
+        | 'midpoint'
+        | ((sortedArr: number[]) => { min: number; q1: number; median: number; q3: number; max: number });
+    };
+  };
 }
 ```
 

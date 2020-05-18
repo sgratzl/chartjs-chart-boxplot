@@ -1,7 +1,7 @@
 ﻿import { helpers, defaults } from 'chart.js';
-import { ArrayElementBase, baseDefaults } from './base';
+import { StatsBase, baseDefaults } from './base';
 
-export class Violin extends ArrayElementBase {
+export class Violin extends StatsBase {
   draw(ctx) {
     ctx.save();
 

@@ -1,9 +1,9 @@
 ﻿import { defaults } from 'chart.js';
-import { ArrayElementBase, baseDefaults, baseOptionKeys } from './base';
+import { StatsBase, baseDefaults, baseOptionKeys } from './base';
 
 export const boxOptionsKeys = baseOptionKeys.concat(['medianColor', 'lowerColor']);
 
-export class BoxAndWiskers extends ArrayElementBase {
+export class BoxAndWiskers extends StatsBase {
   draw(ctx) {
     ctx.save();
 

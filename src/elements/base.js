@@ -36,7 +36,7 @@ export const baseOptionKeys = [
   'hitPadding',
 ];
 
-export class ArrayElementBase extends Element {
+export class StatsBase extends Element {
   isVertical() {
     return this.height == null;
   }
@@ -213,7 +213,10 @@ export class ArrayElementBase extends Element {
       return this.getCenterPoint();
     }
     // hack in the data of the hovered outlier
-    tooltip._tooltipOutlier = index;
+    tooltip._tooltipOutlier = {
+      index,
+      datasetIndex: this._datasetIndex,
+    };
     if (this.isVertical()) {
       return {
         x: props.x,
