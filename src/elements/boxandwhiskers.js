@@ -189,7 +189,7 @@ BoxAndWiskers.register = () => {
   defaults.set('elements', {
     [BoxAndWiskers._type]: Object.assign({}, defaults.elements.rectangle, baseDefaults, {
       medianColor: 'transparent',
-      lowerBackgroundColor: 'transparsent',
+      lowerBackgroundColor: 'transparent',
     }),
   });
   return BoxAndWiskers;
