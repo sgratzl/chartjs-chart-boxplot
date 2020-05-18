@@ -127,6 +127,7 @@ export class StatsBase extends controllers.bar {
     const parsed = this.getParsed(index);
     const base = scale.getBasePixel();
     properties._datasetIndex = this.index;
+    properties._index = index;
     this._transformStats(properties, parsed, (v) => (reset ? base : scale.getPixelForValue(v)), mode);
     super.updateElement(rectangle, index, properties, mode);
   }

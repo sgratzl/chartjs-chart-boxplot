@@ -179,7 +179,7 @@ export function boxplotStats(arr, options) {
     };
   }
 
-  arr = arr.filter((v) => typeof v === 'number' && !isNaN(v));
+  arr = arr.filter((v) => typeof v === 'number' && !Number.isNaN(v));
   arr.sort((a, b) => a - b);
 
   const { quantiles, coef } = determineStatsOptions(options);
@@ -189,6 +189,7 @@ export function boxplotStats(arr, options) {
   stats.outliers = arr.filter((v) => v < whiskerMin || v > whiskerMax);
   stats.whiskerMin = whiskerMin;
   stats.whiskerMax = whiskerMax;
+  stats.items = arr;
   return stats;
 }
 
@@ -197,7 +198,7 @@ export function violinStats(arr, options) {
   if (arr.length === 0) {
     return {};
   }
-  arr = arr.filter((v) => typeof v === 'number' && !isNaN(v));
+  arr = arr.filter((v) => typeof v === 'number' && !Number.isNaN(v));
   arr.sort((a, b) => a - b);
 
   const { quantiles } = determineStatsOptions(options);
@@ -214,6 +215,7 @@ export function violinStats(arr, options) {
   if (samples[samples.length - 1] !== stats.max) {
     samples.push(stats.max);
   }
+  stats.items = arr;
   stats.coords = kdeGen(samples).map((v) => ({ v: v[0], estimate: v[1] }));
   stats.maxEstimate = stats.coords.reduce((a, d) => Math.max(a, d.estimate), Number.NEGATIVE_INFINITY);
 
