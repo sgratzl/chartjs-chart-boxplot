@@ -137,17 +137,6 @@ export class StatsBase extends Element {
     );
   }
 
-  inLabelRange(mouseX, mouseY, useFinalPosition) {
-    if (Number.isNaN(this.x) && Number.isNaN(this.y)) {
-      return false;
-    }
-    const bounds = this._getHitBounds(useFinalPosition);
-    if (this.isVertical()) {
-      return mouseX >= bounds.left && mouseX <= bounds.right;
-    }
-    return mouseY >= bounds.top && mouseY <= bounds.bottom;
-  }
-
   inXRange(mouseX, useFinalPosition) {
     const bounds = this._getHitBounds(useFinalPosition);
     return mouseX >= bounds.left && mouseX <= bounds.right;
@@ -188,10 +177,6 @@ export class StatsBase extends Element {
       x: props.x,
       y: props.y,
     };
-  }
-
-  getArea() {
-    return 0; // abstract
   }
 
   _getOutliers(useFinalPosition) {

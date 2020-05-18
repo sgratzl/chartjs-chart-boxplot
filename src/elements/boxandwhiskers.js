@@ -182,20 +182,6 @@ export class BoxAndWiskers extends StatsBase {
       bottom: y0 + height,
     };
   }
-
-  // height(useFinalPosition) {
-  //   const props = this.getProps(['base', 'q1', 'q3'], useFinalPosition);
-  //   return props.base - Math.min(props.q1, props.q3);
-  // }
-
-  getArea(useFinalPosition) {
-    const props = this.getProps(['q3', 'q1', 'width', 'height'], useFinalPosition);
-    const iqr = Math.abs(props.q3 - props.q1);
-    if (this.isVertical()) {
-      return iqr * props.width;
-    }
-    return iqr * props.height;
-  }
 }
 
 BoxAndWiskers._type = 'boxandwhiskers';

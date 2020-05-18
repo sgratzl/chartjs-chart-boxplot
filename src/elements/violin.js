@@ -88,15 +88,6 @@ export class ViolinElement extends StatsBase {
       bottom: y0 + height,
     };
   }
-
-  getArea() {
-    const props = this.getProps(['min', 'max', 'height', 'width']);
-    const iqr = Math.abs(props.max - props.min);
-    if (this.isVertical()) {
-      return iqr * props.width;
-    }
-    return iqr * props.height;
-  }
 }
 
 ViolinElement._type = 'violin';
