@@ -22,7 +22,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sgratzl/chartjs-chart-box-and-violin-plot.git"
+    "url": "https://github.com/sgratzl/chartjs-chart-boxplot.git"
   },
   "main": "build/Chart.BoxPlot.js",
   "unpkg": "build/Chart.BoxPlot.min.js",
