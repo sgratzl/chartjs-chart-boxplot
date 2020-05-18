@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Box Plot Chart</title>
-    <script src="../node_modules/chart.js/dist/Chart.bundle.js"></script>
+    <script src="https://unpkg.com/chart.js@3.0.0-alpha/dist/Chart.js"></script>
     <script src="../build/Chart.BoxPlot.js" type="text/javascript"></script>
     <style>
       canvas {
@@ -52,14 +52,8 @@
               display: true,
               text: 'Quantiles type 7',
             },
-            scales: {
-              yAxes: [
-                {
-                  ticks: {
-                    quantiles: 'quantiles',
-                  },
-                },
-              ],
+            boxplot: {
+              quantiles: 'quantiles',
             },
           },
         });
