@@ -352,7 +352,6 @@ new Chart(ctx, {
 Variant B:
 
 ```js
-import Chart from 'chart.js';
 import { BoxPlotChart } from '@sgratzl/chartjs-chart-boxplot';
 
 new BoxPlotChart(ctx, {
