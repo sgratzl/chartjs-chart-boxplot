@@ -1,2 +1,2 @@
 export * from './boxplot';
-// export * from './violin';
+export * from './violin';

@@ -1,7 +1,7 @@
 ﻿import { helpers, defaults } from 'chart.js';
 import { StatsBase, baseDefaults } from './base';
 
-export class Violin extends StatsBase {
+export class ViolinElement extends StatsBase {
   draw(ctx) {
     ctx.save();
 
@@ -9,7 +9,7 @@ export class Violin extends StatsBase {
     ctx.strokeStyle = this.options.borderColor;
     ctx.lineWidth = this.options.borderWidth;
 
-    const props = this.getProps(['x', 'y', 'width', 'height', 'min', 'max', 'coords', 'minEstimate', 'maxEstimate']);
+    const props = this.getProps(['x', 'y', 'width', 'height', 'min', 'max', 'coords', 'maxEstimate']);
 
     helpers.canvas.drawPoint(
       ctx,
@@ -39,13 +39,13 @@ export class Violin extends StatsBase {
       const width = props.width;
       const factor = width / 2 / props.maxEstimate;
       ctx.moveTo(x, props.min);
-      props.coords.forEach(({ v, estimate }) => {
-        ctx.lineTo(x - estimate * factor, v);
+      props.coords.forEach((c) => {
+        ctx.lineTo(x - c.estimate * factor, c.v);
       });
       ctx.lineTo(x, props.max);
       ctx.moveTo(x, props.min);
-      props.coords.forEach(({ v, estimate }) => {
-        ctx.lineTo(x + estimate * factor, v);
+      props.coords.forEach((c) => {
+        ctx.lineTo(x + c.estimate * factor, c.v);
       });
       ctx.lineTo(x, props.max);
     } else {
@@ -53,19 +53,19 @@ export class Violin extends StatsBase {
       const height = props.height;
       const factor = height / 2 / props.maxEstimate;
       ctx.moveTo(props.min, y);
-      props.coords.forEach(({ v, estimate }) => {
-        ctx.lineTo(v, y - estimate * factor);
+      props.coords.forEach((c) => {
+        ctx.lineTo(c.v, y - c.estimate * factor);
       });
       ctx.lineTo(props.max, y);
       ctx.moveTo(props.min, y);
-      props.coords.forEach(({ v, estimate }) => {
-        ctx.lineTo(v, y + estimate * factor);
+      props.coords.forEach((c) => {
+        ctx.lineTo(c.v, y + c.estimate * factor);
       });
       ctx.lineTo(props.max, y);
     }
+    ctx.closePath();
     ctx.stroke();
     ctx.fill();
-    ctx.closePath();
   }
 
   _getBounds(useFinalPosition) {
@@ -89,11 +89,6 @@ export class Violin extends StatsBase {
     };
   }
 
-  // height() {
-  //   const vm = this._view;
-  //   return vm.base - Math.min(vm.violin.min, vm.violin.max);
-  // },
-
   getArea() {
     const props = this.getProps(['min', 'max', 'height', 'width']);
     const iqr = Math.abs(props.max - props.min);
@@ -104,12 +99,12 @@ export class Violin extends StatsBase {
   }
 }
 
-Violin._type = 'violin';
-Violin.register = () => {
+ViolinElement._type = 'violin';
+ViolinElement.register = () => {
   defaults.set('elements', {
-    [Violin._type]: Object.assign({}, baseDefaults, {
+    [ViolinElement._type]: Object.assign({}, baseDefaults, {
       points: 100,
     }),
   });
-  return Violin;
+  return ViolinElement;
 };

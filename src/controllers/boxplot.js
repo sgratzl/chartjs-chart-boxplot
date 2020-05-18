@@ -1,4 +1,4 @@
-﻿import { asBoxPlotStats, defaultStatsOptions } from '../data';
+﻿import { asBoxPlotStats } from '../data';
 import { controllers, helpers, defaults } from 'chart.js';
 import { baseDefaults, StatsBase } from './base';
 import { BoxAndWiskers, boxOptionsKeys } from '../elements';
@@ -35,20 +35,17 @@ BoxPlot.register = () => {
       defaults.bar,
       baseDefaults(boxOptionsKeys),
       {
-        datasets: Object.assign(
-          {
-            animation: {
-              numbers: {
-                type: 'number',
-                properties: defaults.bar.datasets.animation.numbers.properties.concat(
-                  ['q1', 'q3', 'min', 'max', 'median', 'whiskerMin', 'whiskerMax'],
-                  boxOptionsKeys.filter((c) => !c.endsWith('Color'))
-                ),
-              },
+        datasets: {
+          animation: {
+            numbers: {
+              type: 'number',
+              properties: defaults.bar.datasets.animation.numbers.properties.concat(
+                ['q1', 'q3', 'min', 'max', 'median', 'whiskerMin', 'whiskerMax'],
+                boxOptionsKeys.filter((c) => !c.endsWith('Color'))
+              ),
             },
           },
-          defaultStatsOptions
-        ),
+        },
       },
     ])
   );
@@ -78,20 +75,17 @@ HorizontalBoxPlot.register = () => {
       defaults.horizontalBar,
       baseDefaults(boxOptionsKeys),
       {
-        datasets: Object.assign(
-          {
-            animation: {
-              numbers: {
-                type: 'number',
-                properties: defaults.bar.datasets.animation.numbers.properties.concat(
-                  ['q1', 'q3', 'min', 'max', 'median', 'whiskerMin', 'whiskerMax'],
-                  boxOptionsKeys.filter((c) => !c.endsWith('Color'))
-                ),
-              },
+        datasets: {
+          animation: {
+            numbers: {
+              type: 'number',
+              properties: defaults.bar.datasets.animation.numbers.properties.concat(
+                ['q1', 'q3', 'min', 'max', 'median', 'whiskerMin', 'whiskerMax'],
+                boxOptionsKeys.filter((c) => !c.endsWith('Color'))
+              ),
             },
           },
-          defaultStatsOptions
-        ),
+        },
       },
     ])
   );

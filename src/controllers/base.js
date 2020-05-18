@@ -1,38 +1,42 @@
 ﻿import { interpolateNumberArray } from '../animation';
 import { outlierPositioner, patchInHoveredOutlier } from '../tooltip';
 import { controllers } from 'chart.js';
+import { defaultStatsOptions } from '../data';
 
 export function baseDefaults(keys) {
   const colorKeys = ['borderColor', 'backgroundColor'].concat(keys.filter((c) => c.endsWith('Color')));
   return {
-    datasets: {
-      animation: {
-        numberArray: {
-          fn: interpolateNumberArray,
-          properties: ['outliers', 'items'],
-        },
-        colors: {
-          type: 'color',
-          properties: colorKeys,
-        },
-        show: {
+    datasets: Object.assign(
+      {
+        animation: {
+          numberArray: {
+            fn: interpolateNumberArray,
+            properties: ['outliers', 'items'],
+          },
           colors: {
             type: 'color',
             properties: colorKeys,
-            from: 'transparent',
+          },
+          show: {
+            colors: {
+              type: 'color',
+              properties: colorKeys,
+              from: 'transparent',
+            },
+          },
+          hide: {
+            colors: {
+              type: 'color',
+              properties: colorKeys,
+              to: 'transparent',
+            },
           },
         },
-        hide: {
-          colors: {
-            type: 'color',
-            properties: colorKeys,
-            to: 'transparent',
-          },
-        },
+        minStats: 'min',
+        maxStats: 'max',
       },
-      minStats: 'min',
-      maxStats: 'max',
-    },
+      defaultStatsOptions
+    ),
     tooltips: {
       position: outlierPositioner.register().id,
       callbacks: {
@@ -96,7 +100,7 @@ export class StatsBase extends controllers.bar {
       raw: parsed,
       hoveredOutlierIndex: -1,
     };
-    this._transformStats(r.value, parsed, (v) => vScale.getLabelForValue(v));
+    this._transformStats(r.value, parsed, (v) => vScale.getLabelForValue(v), 'string');
     const s = this._toStringStats(r.value);
     r.value.toString = function () {
       // custom to string function for the 'value'
@@ -113,7 +117,7 @@ export class StatsBase extends controllers.bar {
     return '';
   }
 
-  _transformStats(_target, _source, _mapper) {
+  _transformStats(_target, _source, _mapper, _mode) {
     // abstract
   }
 
@@ -123,7 +127,7 @@ export class StatsBase extends controllers.bar {
     const parsed = this.getParsed(index);
     const base = scale.getBasePixel();
     properties._datasetIndex = this.index;
-    this._transformStats(properties, parsed, (v) => (reset ? base : scale.getPixelForValue(v)));
+    this._transformStats(properties, parsed, (v) => (reset ? base : scale.getPixelForValue(v)), mode);
     super.updateElement(rectangle, index, properties, mode);
   }
 }

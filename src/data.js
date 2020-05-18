@@ -203,7 +203,20 @@ export function violinStats(arr, options) {
   const { quantiles } = determineStatsOptions(options);
 
   const stats = quantiles(arr);
-  stats.kde = kde().sample(arr);
+  const kdeGen = kde().sample(arr);
+  // generate coordinates
+  const range = stats.max - stats.min;
+  const samples = [];
+  const inc = range / options.points;
+  for (let v = stats.min; v <= stats.max && inc > 0; v += inc) {
+    samples.push(v);
+  }
+  if (samples[samples.length - 1] !== stats.max) {
+    samples.push(stats.max);
+  }
+  stats.coords = kdeGen(samples).map((v) => ({ v: v[0], estimate: v[1] }));
+  stats.maxEstimate = stats.coords.reduce((a, d) => Math.max(a, d.estimate), Number.NEGATIVE_INFINITY);
+
   return stats;
 }
 
@@ -235,99 +248,13 @@ export function asViolinStats(value, options) {
   if (!value) {
     return null;
   }
-  if (typeof value.median === 'number' && (typeof value.kde === 'function' || Array.isArray(value.coords))) {
+  if (typeof value.median === 'number' && Array.isArray(value.coords)) {
     return value;
   }
   if (!Array.isArray(value)) {
     return undefined;
   }
-  if (value.__kde === undefined) {
-    value.__kde = violinStats(value, options);
-  }
-  return value.__kde;
-}
-
-export function asValueStats(value, minStats, maxStats, options) {
-  if (typeof value[minStats] === 'number' && typeof value[maxStats] === 'number') {
-    return value;
-  }
-  if (!Array.isArray(value) || value.length === 0) {
-    return undefined;
-  }
-  return asBoxPlotStats(value, options);
-}
-
-export function getRightValue(rawValue, options) {
-  if (!rawValue) {
-    return rawValue;
-  }
-  if (typeof rawValue === 'number' || typeof rawValue === 'string') {
-    return Number(rawValue);
-  }
-  const b = asBoxPlotStats(rawValue, options);
-  return b ? b.median : rawValue;
-}
-
-export const commonScaleOptions = {
-  ticks: {
-    minStats: 'min',
-    maxStats: 'max',
-    ...defaultStatsOptions,
-  },
-};
-
-export function commonDataLimits(extraCallback) {
-  const chart = this.chart;
-  const isHorizontal = this.isHorizontal();
-  const { minStats, maxStats } = this.options.ticks;
-
-  const matchID = (meta) => (isHorizontal ? meta.xAxisID === this.id : meta.yAxisID === this.id);
-
-  // First Calculate the range
-  this.min = null;
-  this.max = null;
-
-  // Regular charts use x, y values
-  // For the boxplot chart we have rawValue.min and rawValue.max for each point
-  chart.data.datasets.forEach((d, i) => {
-    const meta = chart.getDatasetMeta(i);
-    if (!chart.isDatasetVisible(i) || !matchID(meta)) {
-      return;
-    }
-    d.data.forEach((value, j) => {
-      if (value == null || meta.data[j].hidden) {
-        return;
-      }
-
-      const stats = asValueStats(value, minStats, maxStats, this.options.ticks);
-      let minValue;
-      let maxValue;
-
-      if (stats) {
-        minValue = stats[minStats];
-        maxValue = stats[maxStats];
-      } else {
-        // if stats are not available use the plain value
-        const parsed = +this.getRightValue(value);
-        if (isNaN(parsed)) {
-          return;
-        }
-        minValue = maxValue = parsed;
-      }
-
-      if (this.min === null || minValue < this.min) {
-        this.min = minValue;
-      }
-
-      if (this.max === null || maxValue > this.max) {
-        this.max = maxValue;
-      }
-
-      if (extraCallback) {
-        extraCallback(stats);
-      }
-    });
-  });
+  return violinStats(value, options);
 }
 
 export function rnd(seed) {

@@ -1,105 +1,110 @@
 ﻿import { asViolinStats } from '../data';
-import * as Chart from 'chart.js';
-import base, { verticalDefaults, horizontalDefaults, toFixed } from './base';
+import { controllers, defaults, helpers } from 'chart.js';
+import { StatsBase, baseDefaults } from './base';
+import { baseOptionKeys } from '../elements/base';
+import { ViolinElement } from '../elements';
+import { interpolateKdeCoords } from '../animation';
 
-function violinTooltip(item, data, ...args) {
-  const value = data.datasets[item.datasetIndex].data[item.index];
-  const options = this._chart.getDatasetMeta(item.datasetIndex).controller._getValueScale().options.ticks;
-  const v = asViolinStats(value, options);
+export class Violin extends StatsBase {
+  _parseStats(value, config) {
+    return asViolinStats(value, config);
+  }
 
-  const label = this._options.callbacks.violinLabel;
-  return label.apply(this, [item, data, v, ...args]);
+  _toStringStats(v) {
+    return `(min: ${v.min}, 25% quantile: ${v.q1}, median: ${v.median}, 75% quantile: ${v.q3}, max: ${v.max})`;
+  }
+
+  _transformStats(target, source, mapper) {
+    for (const key of ['min', 'max', 'median', 'q3', 'q1']) {
+      target[key] = mapper(source[key]);
+    }
+    target.maxEstimate = source.maxEstimate;
+    for (const key of ['outliers', 'items']) {
+      if (Array.isArray(source[key])) {
+        target[key] = source[key].map(mapper);
+      }
+    }
+    if (Array.isArray(source.coords)) {
+      target.coords = source.coords.map((coord) => Object.assign({}, coord, { v: mapper(coord.v) }));
+    }
+  }
 }
 
-const defaults = {
-  tooltips: {
-    callbacks: {
-      label: violinTooltip,
-      violinLabel(item, data) {
-        const datasetLabel = data.datasets[item.datasetIndex].label || '';
-        const value = item.value;
-        const label = `${datasetLabel} ${typeof item.xLabel === 'string' ? item.xLabel : item.yLabel}`;
-        return `${label} (${toFixed.call(this, value)})`;
+Violin.id = 'violin';
+Violin.register = () => {
+  Violin.prototype.dataElementType = ViolinElement.register();
+  Violin.prototype.dataElementOptions = controllers.bar.prototype.dataElementOptions.concat(baseOptionKeys);
+
+  defaults.set(
+    Violin.id,
+    helpers.merge({}, [
+      defaults.bar,
+      baseDefaults(baseOptionKeys),
+      {
+        datasets: {
+          points: 100,
+          animation: {
+            numbers: {
+              type: 'number',
+              properties: defaults.bar.datasets.animation.numbers.properties.concat(
+                ['q1', 'q3', 'min', 'max', 'median', 'maxEstimate'],
+                baseOptionKeys.filter((c) => !c.endsWith('Color'))
+              ),
+            },
+            kdeCoords: {
+              fn: interpolateKdeCoords,
+              properties: ['coords'],
+            },
+          },
+        },
       },
-    },
-  },
+    ])
+  );
+  controllers[Violin.id] = Violin;
+  return Violin;
 };
 
-Chart.defaults.violin = Chart.helpers.merge({}, [Chart.defaults.bar, verticalDefaults, defaults]);
-Chart.defaults.horizontalViolin = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, horizontalDefaults, defaults]);
-
-if (Chart.defaults.global.datasets && Chart.defaults.global.datasets.bar) {
-  Chart.defaults.global.datasets.violin = { ...Chart.defaults.global.datasets.bar };
+export class HorizontalViolin extends Violin {
+  getValueScaleId() {
+    return this._cachedMeta.xAxisID;
+  }
+  getIndexScaleId() {
+    return this._cachedMeta.yAxisID;
+  }
 }
-if (Chart.defaults.global.datasets && Chart.defaults.global.datasets.horizontalBar) {
-  Chart.defaults.global.datasets.horizontalViolin = { ...Chart.defaults.global.datasets.horizontalBar };
-}
 
-const controller = {
-  ...base,
-  dataElementType: Chart.elements.Violin,
+HorizontalViolin.id = 'horizontalViolin';
+HorizontalViolin.register = () => {
+  HorizontalViolin.prototype.dataElementType = ViolinElement.register();
+  HorizontalViolin.prototype.dataElementOptions = controllers.horizontalBar.prototype.dataElementOptions.concat(
+    baseOptionKeys
+  );
 
-  _elementOptions() {
-    return this.chart.options.elements.violin;
-  },
-  /**
-   * @private
-   */
-  _updateElementGeometry(elem, index, reset, ...args) {
-    Chart.controllers.bar.prototype._updateElementGeometry.call(this, elem, index, reset, ...args);
-    const custom = elem.custom || {};
-    const options = this._elementOptions();
-    elem._model.violin = this._calculateViolinValuesPixels(
-      this.index,
-      index,
-      custom.points !== undefined ? custom.points : options.points
-    );
-  },
-
-  /**
-   * @private
-   */
-
-  _calculateViolinValuesPixels(datasetIndex, index, points) {
-    const scale = this._getValueScale();
-    const data = this.chart.data.datasets[datasetIndex].data[index];
-    const violin = asViolinStats(data, scale.options.ticks);
-
-    if ((!Array.isArray(data) && typeof data === 'number' && !Number.isNaN) || violin == null) {
-      return {
-        min: data,
-        max: data,
-        median: data,
-        coords: [{ v: data, estimate: Number.NEGATIVE_INFINITY }],
-        maxEstimate: Number.NEGATIVE_INFINITY,
-      };
-    }
-
-    const range = violin.max - violin.min;
-    const samples = [];
-    const inc = range / points;
-    for (let v = violin.min; v <= violin.max && inc > 0; v += inc) {
-      samples.push(v);
-    }
-    if (samples[samples.length - 1] !== violin.max) {
-      samples.push(violin.max);
-    }
-    const coords = violin.coords || violin.kde(samples).map((v) => ({ v: v[0], estimate: v[1] }));
-    const r = {
-      min: scale.getPixelForValue(violin.min),
-      max: scale.getPixelForValue(violin.max),
-      median: scale.getPixelForValue(violin.median),
-      coords: coords.map(({ v, estimate }) => ({ v: scale.getPixelForValue(v), estimate })),
-      maxEstimate: coords.reduce((a, d) => Math.max(a, d.estimate), Number.NEGATIVE_INFINITY),
-    };
-    this._calculateCommonModel(r, data, violin, scale);
-    return r;
-  },
+  defaults.set(
+    HorizontalViolin.id,
+    helpers.merge({}, [
+      defaults.horizontalBar,
+      baseDefaults(baseOptionKeys),
+      {
+        datasets: {
+          points: 100,
+          animation: {
+            numbers: {
+              type: 'number',
+              properties: defaults.bar.datasets.animation.numbers.properties.concat(
+                ['q1', 'q3', 'min', 'max', 'median', 'maxEstimate'],
+                baseOptionKeys.filter((c) => !c.endsWith('Color'))
+              ),
+            },
+            kdeCoords: {
+              fn: interpolateKdeCoords,
+              properties: ['coords'],
+            },
+          },
+        },
+      },
+    ])
+  );
+  controllers[HorizontalViolin.id] = HorizontalViolin;
+  return HorizontalViolin;
 };
-/**
- * This class is based off controller.bar.js from the upstream Chart.js library
- */
-export const Violin = (Chart.controllers.violin = Chart.controllers.bar.extend(controller));
-export const HorizontalViolin = (Chart.controllers.horizontalViolin = Chart.controllers.horizontalBar.extend(
-  controller
-));

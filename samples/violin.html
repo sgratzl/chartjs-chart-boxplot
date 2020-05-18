@@ -69,7 +69,7 @@
 
       document.getElementById('randomizeData').addEventListener('click', function () {
         boxplotData.datasets.forEach(function (dataset) {
-          dataset.data = samples.boxplots({ count: 7 });
+          dataset.data = samples.boxplotsArray({ count: 7, random: random });
         });
         window.myBar.update();
       });
