@@ -15,3 +15,5 @@ npm-debug.log*
 
 *.tgz
 /.vscode
+
+/sample_treeshake/build
