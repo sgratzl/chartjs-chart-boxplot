@@ -1,8 +1,15 @@
 ﻿import { asBoxPlotStats } from '../data';
-import { Chart, controllers, defaults, BarController, HorizontalBarController, merge } from '../chart';
+import {
+  Chart,
+  patchControllerConfig,
+  registerController,
+  defaults,
+  BarController,
+  HorizontalBarController,
+  merge,
+} from '../chart';
 import { baseDefaults, StatsBase } from './base';
 import { BoxAndWiskers, boxOptionsKeys } from '../elements';
-import { patchControllerConfig } from './utils';
 
 export class BoxPlotController extends StatsBase {
   _parseStats(value, config) {
@@ -30,28 +37,24 @@ BoxPlotController.register = () => {
   BoxPlotController.prototype.dataElementType = BoxAndWiskers.register();
   BoxPlotController.prototype.dataElementOptions = BarController.prototype.dataElementOptions.concat(boxOptionsKeys);
 
-  defaults.set(
-    BoxPlotController.id,
-    merge({}, [
-      defaults.bar,
-      baseDefaults(boxOptionsKeys),
-      {
-        datasets: {
-          animation: {
-            numbers: {
-              type: 'number',
-              properties: defaults.bar.datasets.animation.numbers.properties.concat(
-                ['q1', 'q3', 'min', 'max', 'median', 'whiskerMin', 'whiskerMax'],
-                boxOptionsKeys.filter((c) => !c.endsWith('Color'))
-              ),
-            },
+  BoxPlotController.defaults = merge({}, [
+    defaults.bar,
+    baseDefaults(boxOptionsKeys),
+    {
+      datasets: {
+        animation: {
+          numbers: {
+            type: 'number',
+            properties: defaults.bar.datasets.animation.numbers.properties.concat(
+              ['q1', 'q3', 'min', 'max', 'median', 'whiskerMin', 'whiskerMax'],
+              boxOptionsKeys.filter((c) => !c.endsWith('Color'))
+            ),
           },
         },
       },
-    ])
-  );
-  controllers[BoxPlotController.id] = BoxPlotController;
-  return BoxPlotController;
+    },
+  ]);
+  return registerController(BoxPlotController);
 };
 
 export class BoxPlotChart extends Chart {
@@ -77,28 +80,24 @@ HorizontalBoxPlotController.register = () => {
     boxOptionsKeys
   );
 
-  defaults.set(
-    HorizontalBoxPlotController.id,
-    merge({}, [
-      defaults.horizontalBar,
-      baseDefaults(boxOptionsKeys),
-      {
-        datasets: {
-          animation: {
-            numbers: {
-              type: 'number',
-              properties: defaults.bar.datasets.animation.numbers.properties.concat(
-                ['q1', 'q3', 'min', 'max', 'median', 'whiskerMin', 'whiskerMax'],
-                boxOptionsKeys.filter((c) => !c.endsWith('Color'))
-              ),
-            },
+  HorizontalBoxPlotController.defaults = merge({}, [
+    defaults.horizontalBar,
+    baseDefaults(boxOptionsKeys),
+    {
+      datasets: {
+        animation: {
+          numbers: {
+            type: 'number',
+            properties: defaults.bar.datasets.animation.numbers.properties.concat(
+              ['q1', 'q3', 'min', 'max', 'median', 'whiskerMin', 'whiskerMax'],
+              boxOptionsKeys.filter((c) => !c.endsWith('Color'))
+            ),
           },
         },
       },
-    ])
-  );
-  controllers[HorizontalBoxPlotController.id] = HorizontalBoxPlotController;
-  return HorizontalBoxPlotController;
+    },
+  ]);
+  return registerController(HorizontalBoxPlotController);
 };
 
 export class HorizontalBoxPlotChart extends Chart {

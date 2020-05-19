@@ -1,10 +1,9 @@
 ﻿import { asViolinStats } from '../data';
-import { Chart, controllers, defaults, helpers, BarController, HorizontalBarController } from '../chart';
+import { Chart, defaults, merge, BarController, registerController, patchControllerConfig } from '../chart';
 import { StatsBase, baseDefaults } from './base';
 import { baseOptionKeys } from '../elements/base';
 import { ViolinElement } from '../elements';
 import { interpolateKdeCoords } from '../animation';
-import { patchControllerConfig } from './utils';
 
 export class ViolinController extends StatsBase {
   _parseStats(value, config) {
@@ -36,33 +35,29 @@ ViolinController.register = () => {
   ViolinController.prototype.dataElementType = ViolinElement.register();
   ViolinController.prototype.dataElementOptions = BarController.prototype.dataElementOptions.concat(baseOptionKeys);
 
-  defaults.set(
-    ViolinController.id,
-    helpers.merge({}, [
-      defaults.bar,
-      baseDefaults(baseOptionKeys),
-      {
-        datasets: {
-          points: 100,
-          animation: {
-            numbers: {
-              type: 'number',
-              properties: defaults.bar.datasets.animation.numbers.properties.concat(
-                ['q1', 'q3', 'min', 'max', 'median', 'maxEstimate'],
-                baseOptionKeys.filter((c) => !c.endsWith('Color'))
-              ),
-            },
-            kdeCoords: {
-              fn: interpolateKdeCoords,
-              properties: ['coords'],
-            },
+  ViolinController.defaults = merge({}, [
+    defaults.bar,
+    baseDefaults(baseOptionKeys),
+    {
+      datasets: {
+        points: 100,
+        animation: {
+          numbers: {
+            type: 'number',
+            properties: defaults.bar.datasets.animation.numbers.properties.concat(
+              ['q1', 'q3', 'min', 'max', 'median', 'maxEstimate'],
+              baseOptionKeys.filter((c) => !c.endsWith('Color'))
+            ),
+          },
+          kdeCoords: {
+            fn: interpolateKdeCoords,
+            properties: ['coords'],
           },
         },
       },
-    ])
-  );
-  controllers[ViolinController.id] = ViolinController;
-  return ViolinController;
+    },
+  ]);
+  return registerController(ViolinController);
 };
 
 export class ViolinChart extends Chart {
@@ -88,33 +83,29 @@ HorizontalViolinController.register = () => {
     baseOptionKeys
   );
 
-  defaults.set(
-    HorizontalViolinController.id,
-    helpers.merge({}, [
-      defaults.horizontalBar,
-      baseDefaults(baseOptionKeys),
-      {
-        datasets: {
-          points: 100,
-          animation: {
-            numbers: {
-              type: 'number',
-              properties: defaults.bar.datasets.animation.numbers.properties.concat(
-                ['q1', 'q3', 'min', 'max', 'median', 'maxEstimate'],
-                baseOptionKeys.filter((c) => !c.endsWith('Color'))
-              ),
-            },
-            kdeCoords: {
-              fn: interpolateKdeCoords,
-              properties: ['coords'],
-            },
+  HorizontalViolinController.defaults = merge({}, [
+    defaults.horizontalBar,
+    baseDefaults(baseOptionKeys),
+    {
+      datasets: {
+        points: 100,
+        animation: {
+          numbers: {
+            type: 'number',
+            properties: defaults.bar.datasets.animation.numbers.properties.concat(
+              ['q1', 'q3', 'min', 'max', 'median', 'maxEstimate'],
+              baseOptionKeys.filter((c) => !c.endsWith('Color'))
+            ),
+          },
+          kdeCoords: {
+            fn: interpolateKdeCoords,
+            properties: ['coords'],
           },
         },
       },
-    ])
-  );
-  controllers[HorizontalViolinController.id] = HorizontalViolinController;
-  return HorizontalViolinController;
+    },
+  ]);
+  return registerController(HorizontalViolinController);
 };
 
 export class HorizontalViolinChart extends Chart {

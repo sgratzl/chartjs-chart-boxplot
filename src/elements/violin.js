@@ -1,4 +1,4 @@
-﻿import { defaults, drawPoint } from '../chart';
+﻿import { defaults, drawPoint, registerElement } from '../chart';
 import { StatsBase, baseDefaults } from './base';
 
 export class ViolinElement extends StatsBase {
@@ -90,10 +90,6 @@ export class ViolinElement extends StatsBase {
   }
 }
 
-ViolinElement._type = 'violin';
-ViolinElement.register = () => {
-  defaults.set('elements', {
-    [ViolinElement._type]: Object.assign({}, defaults.elements.rectangle, baseDefaults),
-  });
-  return ViolinElement;
-};
+ViolinElement.id = ViolinElement._type = 'violin';
+ViolinElement.defaults = Object.assign({}, defaults.elements.rectangle, baseDefaults);
+ViolinElement.register = () => registerElement(ViolinElement);

@@ -1,4 +1,4 @@
-import { plugins } from './chart';
+import { registerTooltipPositioner } from './chart';
 
 export function patchInHoveredOutlier(item) {
   const value = item.value;
@@ -32,9 +32,4 @@ export function outlierPositioner(items, eventPosition) {
 }
 
 outlierPositioner.id = 'averageInstance';
-outlierPositioner.register = () => {
-  // register my position logic
-  const tooltip = plugins.getAll().find((d) => d.id === 'tooltip');
-  tooltip.positioners[outlierPositioner.id] = outlierPositioner;
-  return outlierPositioner;
-};
+outlierPositioner.register = () => registerTooltipPositioner(outlierPositioner);

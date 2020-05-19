@@ -1,4 +1,4 @@
-﻿import { defaults } from '../chart';
+﻿import { defaults, registerElement } from '../chart';
 import { StatsBase, baseDefaults, baseOptionKeys } from './base';
 
 export const boxOptionsKeys = baseOptionKeys.concat(['medianColor', 'lowerBackgroundColor']);
@@ -184,13 +184,9 @@ export class BoxAndWiskers extends StatsBase {
   }
 }
 
-BoxAndWiskers._type = 'boxandwhiskers';
-BoxAndWiskers.register = () => {
-  defaults.set('elements', {
-    [BoxAndWiskers._type]: Object.assign({}, defaults.elements.rectangle, baseDefaults, {
-      medianColor: 'transparent',
-      lowerBackgroundColor: 'transparent',
-    }),
-  });
-  return BoxAndWiskers;
-};
+BoxAndWiskers.id = BoxAndWiskers._type = 'boxandwhiskers';
+BoxAndWiskers.defaults = Object.assign({}, defaults.elements.rectangle, baseDefaults, {
+  medianColor: 'transparent',
+  lowerBackgroundColor: 'transparent',
+});
+BoxAndWiskers.register = () => registerElement(BoxAndWiskers);
