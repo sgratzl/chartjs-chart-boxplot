@@ -1,7 +1,7 @@
 ﻿import { Chart, defaults, merge, registerController, patchControllerConfig } from '../chart';
 import { baseDefaults } from './base';
 import { baseOptionKeys } from '../elements/base';
-import { ViolinElement } from '../elements';
+import { Violin } from '../elements';
 import { interpolateKdeCoords } from '../animation';
 import { ViolinController } from './ViolinController';
 
@@ -38,7 +38,7 @@ HorizontalViolinController.defaults = /*#__PURE__*/ merge({}, [
   },
 ]);
 HorizontalViolinController.register = () => {
-  HorizontalViolinController.prototype.dataElementType = ViolinElement.register();
+  HorizontalViolinController.prototype.dataElementType = Violin.register();
   HorizontalViolinController.prototype.dataElementOptions = HorizontalViolinController.prototype.dataElementOptions.concat(
     baseOptionKeys
   );

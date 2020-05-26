@@ -2,7 +2,7 @@
 import { Chart, defaults, merge, BarController, registerController, patchControllerConfig } from '../chart';
 import { StatsBase, baseDefaults } from './base';
 import { baseOptionKeys } from '../elements/base';
-import { ViolinElement } from '../elements';
+import { Violin } from '../elements';
 import { interpolateKdeCoords } from '../animation';
 
 export class ViolinController extends StatsBase {
@@ -54,7 +54,7 @@ ViolinController.defaults = /*#__PURE__*/ merge({}, [
   },
 ]);
 ViolinController.register = () => {
-  ViolinController.prototype.dataElementType = ViolinElement.register();
+  ViolinController.prototype.dataElementType = Violin.register();
   ViolinController.prototype.dataElementOptions = BarController.prototype.dataElementOptions.concat(baseOptionKeys);
   return registerController(ViolinController);
 };

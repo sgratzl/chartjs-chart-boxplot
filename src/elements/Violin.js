@@ -90,6 +90,6 @@ export class Violin extends StatsBase {
   }
 }
 
-ViolinElement.id = ViolinElement._type = 'violin';
-ViolinElement.defaults = /*#__PURE__*/ Object.assign({}, defaults.elements.rectangle, baseDefaults);
-ViolinElement.register = () => registerElement(ViolinElement);
+Violin.id = Violin._type = 'violin';
+Violin.defaults = Object.assign({}, defaults.elements.rectangle, baseDefaults);
+Violin.register = () => registerElement(Violin);
