@@ -15,7 +15,7 @@ const Months = [
 
 export class Samples {
   // Adapted from http://indiegamr.com/generate-repeatable-random-numbers-in-js/
-  constructor(seed) {
+  constructor(seed = 0) {
     this._seed = seed;
   }
 

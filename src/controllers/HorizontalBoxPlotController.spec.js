@@ -31,17 +31,6 @@ describe('horizontal boxplot', () => {
           },
         ],
       },
-      options: {
-        legend: false,
-        scales: {
-          x: {
-            display: false,
-          },
-          y: {
-            display: false,
-          },
-        },
-      },
     });
   });
 });

@@ -31,6 +31,15 @@ export default async function matchChart(config, width = 300, height = 300) {
       responsive: false,
       animation: false,
       fontFamily: "'Arial', sans-serif",
+      legend: false,
+      scales: {
+        x: {
+          display: false,
+        },
+        y: {
+          display: false,
+        },
+      },
     },
     config.options || {}
   );

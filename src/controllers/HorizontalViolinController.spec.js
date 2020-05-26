@@ -31,17 +31,6 @@ describe('horizontal violin', () => {
           },
         ],
       },
-      options: {
-        legend: false,
-        scales: {
-          x: {
-            display: false,
-          },
-          y: {
-            display: false,
-          },
-        },
-      },
     });
   });
 });
