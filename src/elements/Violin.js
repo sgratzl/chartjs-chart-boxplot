@@ -1,7 +1,7 @@
 ﻿import { defaults, drawPoint, registerElement } from '../chart';
 import { StatsBase, baseDefaults } from './base';
 
-export class ViolinElement extends StatsBase {
+export class Violin extends StatsBase {
   draw(ctx) {
     ctx.save();
 
@@ -91,5 +91,5 @@ export class ViolinElement extends StatsBase {
 }
 
 ViolinElement.id = ViolinElement._type = 'violin';
-ViolinElement.defaults = Object.assign({}, defaults.elements.rectangle, baseDefaults);
+ViolinElement.defaults = /*#__PURE__*/ Object.assign({}, defaults.elements.rectangle, baseDefaults);
 ViolinElement.register = () => registerElement(ViolinElement);

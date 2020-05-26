@@ -185,7 +185,7 @@ export class BoxAndWiskers extends StatsBase {
 }
 
 BoxAndWiskers.id = BoxAndWiskers._type = 'boxandwhiskers';
-BoxAndWiskers.defaults = Object.assign({}, defaults.elements.rectangle, baseDefaults, {
+BoxAndWiskers.defaults = /*#__PURE__*/ Object.assign({}, defaults.elements.rectangle, baseDefaults, {
   medianColor: 'transparent',
   lowerBackgroundColor: 'transparent',
 });

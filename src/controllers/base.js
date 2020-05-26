@@ -3,7 +3,7 @@ import { outlierPositioner, patchInHoveredOutlier } from '../tooltip';
 import { BarController } from '../chart';
 import { defaultStatsOptions } from '../data';
 
-export function baseDefaults(keys) {
+export /*#__PURE__*/ function baseDefaults(keys) {
   const colorKeys = ['borderColor', 'backgroundColor'].concat(keys.filter((c) => c.endsWith('Color')));
   return {
     datasets: Object.assign(

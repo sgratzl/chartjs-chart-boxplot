@@ -20,7 +20,7 @@ export const baseDefaults = {
   outlierHitRadius: 4,
 };
 
-export const baseOptionKeys = Object.keys(baseDefaults);
+export const baseOptionKeys = /*#__PURE__*/ Object.keys(baseDefaults);
 
 export class StatsBase extends Element {
   isVertical() {

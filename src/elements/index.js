@@ -1,2 +1,2 @@
-export * from './boxandwhiskers';
-export * from './violin';
+export * from './BoxAndWiskers';
+export * from './Violin';
