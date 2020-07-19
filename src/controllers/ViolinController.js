@@ -1,5 +1,5 @@
 ﻿import { asViolinStats } from '../data';
-import { Chart, merge, BarController } from '@sgratzl/chartjs-esm-facade';
+import { Chart, merge, BarController, CategoryScale, LinearScale } from '@sgratzl/chartjs-esm-facade';
 import { StatsBase, baseDefaults } from './base';
 import { baseOptionKeys } from '../elements/base';
 import { Violin } from '../elements';
@@ -59,7 +59,7 @@ ViolinController.defaults = /*#__PURE__*/ merge({}, [
 
 export class ViolinChart extends Chart {
   constructor(item, config) {
-    super(item, patchController(config, ViolinController, Violin));
+    super(item, patchController(config, ViolinController, Violin, [CategoryScale, LinearScale]));
   }
 }
 ViolinChart.id = ViolinController.id;

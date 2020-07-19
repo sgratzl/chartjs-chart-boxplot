@@ -1,7 +1,7 @@
 {
   "name": "@sgratzl/chartjs-chart-boxplot",
   "description": "Chart.js module for charting boxplots and violin charts",
-  "version": "3.0.0-alpha.3",
+  "version": "3.0.0-alpha.19",
   "publishConfig": {
     "access": "public"
   },
@@ -36,12 +36,12 @@
     "src/**/*.js"
   ],
   "peerDependencies": {
-    "@sgratzl/chartjs-esm-facade": "^3.0.0-alpha.1",
+    "@sgratzl/chartjs-esm-facade": "^3.0.0-alpha.2",
     "chart.js": "^3.0.0-alpha.2"
   },
   "dependencies": {
     "@babel/runtime": "^7.10.5",
-    "@sgratzl/boxplots": "^1.0.0",
+    "@sgratzl/boxplots": "^1.2.0",
     "@sgratzl/science": "^2.0.0"
   },
   "devDependencies": {
@@ -52,7 +52,7 @@
     "@rollup/plugin-babel": "^5.1.0",
     "@rollup/plugin-commonjs": "^14.0.0",
     "@rollup/plugin-node-resolve": "^8.4.0",
-    "@sgratzl/chartjs-esm-facade": "^3.0.0-alpha.1",
+    "@sgratzl/chartjs-esm-facade": "^3.0.0-alpha.2",
     "@yarnpkg/pnpify": "^2.1.0",
     "babel-jest": "^26.1.0",
     "canvas": "^2.6.1",

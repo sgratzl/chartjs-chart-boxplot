@@ -1,5 +1,24 @@
 import kde from '@sgratzl/science/src/stats/kde';
-import {} from '@sgratzl/boxplots';
+export {
+  quantilesFivenum,
+  quantilesHigher,
+  quantilesHinges,
+  quantilesLinear,
+  quantilesLower,
+  quantilesMidpoint,
+  quantilesNearest,
+  quantilesType7,
+} from '@sgratzl/boxplots';
+import boxplots, {
+  quantilesFivenum,
+  quantilesHigher,
+  quantilesHinges,
+  quantilesLinear,
+  quantilesLower,
+  quantilesMidpoint,
+  quantilesNearest,
+  quantilesType7,
+} from '@sgratzl/boxplots';
 
 /**
  * compute the whiskers
@@ -48,8 +67,8 @@ function determineQuantiles(q) {
     return q;
   }
   const lookup = {
-    hinges: fivenum,
-    fivenum: fivenum,
+    hinges: quantilesHinges,
+    fivenum: quantilesFivenum,
     7: quantilesType7,
     quantiles: quantilesType7,
     linear: quantilesLinear,
@@ -72,32 +91,15 @@ function determineStatsOptions(options) {
 }
 
 export function boxplotStats(arr, options) {
-  // console.assert(Array.isArray(arr));
-  if (arr.length === 0) {
-    return {
-      min: NaN,
-      max: NaN,
-      median: NaN,
-      q1: NaN,
-      q3: NaN,
-      whiskerMin: NaN,
-      whiskerMax: NaN,
-      outliers: [],
-    };
-  }
-
-  arr = arr.filter((v) => typeof v === 'number' && !Number.isNaN(v));
-  arr.sort((a, b) => a - b);
-
-  const { quantiles, coef } = determineStatsOptions(options);
-
-  const stats = quantiles(arr);
-  const { whiskerMin, whiskerMax } = whiskers(stats, arr, coef);
-  stats.outliers = arr.filter((v) => v < whiskerMin || v > whiskerMax);
-  stats.whiskerMin = whiskerMin;
-  stats.whiskerMax = whiskerMax;
-  stats.items = arr;
-  return stats;
+  const r = boxplots(arr, {
+    coef: options.coef,
+    quantiles: determineQuantiles(options.quantiles),
+  });
+  r.whiskerMax = r.whiskerHigh;
+  r.whiskerMin = r.whiskerLow;
+  r.outliers = r.outlier;
+  r.items = Array.from(r.items);
+  return r;
 }
 
 export function violinStats(arr, options) {
@@ -111,6 +113,8 @@ export function violinStats(arr, options) {
   const { quantiles } = determineStatsOptions(options);
 
   const stats = quantiles(arr);
+  stats.min = arr[0];
+  stats.max = arr[arr.length - 1];
   const kdeGen = kde().sample(arr);
   // generate coordinates
   const range = stats.max - stats.min;

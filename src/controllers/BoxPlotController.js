@@ -1,5 +1,5 @@
 ﻿import { asBoxPlotStats } from '../data';
-import { Chart, BarController, merge } from '@sgratzl/chartjs-esm-facade';
+import { Chart, BarController, merge, CategoryScale, LinearScale } from '@sgratzl/chartjs-esm-facade';
 import { baseDefaults, StatsBase } from './base';
 import { BoxAndWiskers, boxOptionsKeys } from '../elements';
 import patchController from './patchController';
@@ -48,7 +48,7 @@ BoxPlotController.defaults = /*#__PURE__*/ merge({}, [
 
 export class BoxPlotChart extends Chart {
   constructor(item, config) {
-    super(item, patchController(config, BoxPlotController, BoxAndWiskers));
+    super(item, patchController(config, BoxPlotController, BoxAndWiskers, [CategoryScale, LinearScale]));
   }
 }
 BoxPlotChart.id = BoxPlotController.id;

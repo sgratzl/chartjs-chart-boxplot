@@ -1,7 +1,7 @@
 import { Tooltip } from '@sgratzl/chartjs-esm-facade';
 
 export function patchInHoveredOutlier(item) {
-  const value = item.value;
+  const value = item.formattedValue;
   if (value && this._tooltipOutlier != null && item.datasetIndex === this._tooltipOutlier.datasetIndex) {
     value.hoveredOutlierIndex = this._tooltipOutlier.index;
   }
