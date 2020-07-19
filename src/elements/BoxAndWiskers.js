@@ -43,7 +43,7 @@ export class BoxAndWiskers extends StatsBase {
 
     // Draw the median line
     ctx.save();
-    if (options.medianColor && options.medianColor !== 'none') {
+    if (options.medianColor && options.medianColor !== 'transparent') {
       ctx.strokeStyle = options.medianColor;
     }
     ctx.beginPath();
@@ -55,7 +55,7 @@ export class BoxAndWiskers extends StatsBase {
 
     ctx.save();
     // fill the part below the median with lowerColor
-    if (options.lowerBackgroundColor && options.lowerBackgroundColor !== 'none') {
+    if (options.lowerBackgroundColor && options.lowerBackgroundColor !== 'transparent') {
       ctx.fillStyle = options.lowerBackgroundColor;
       if (props.q3 > props.q1) {
         ctx.fillRect(x0, props.median, width, props.q3 - props.median);

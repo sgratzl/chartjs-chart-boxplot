@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.10.5",
-    "@sgratzl/boxplots": "^1.2.0",
+    "@sgratzl/boxplots": "^1.2.1",
     "@sgratzl/science": "^2.0.0"
   },
   "devDependencies": {

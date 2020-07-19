@@ -22,7 +22,7 @@ export const baseRoutes = {
   itemBorderColor: 'color',
 };
 
-export const baseOptionKeys = /*#__PURE__*/ Object.keys(baseDefaults);
+export const baseOptionKeys = /*#__PURE__*/ (() => Object.keys(baseDefaults).concat(Object.keys(baseRoutes)))();
 
 export class StatsBase extends Element {
   isVertical() {

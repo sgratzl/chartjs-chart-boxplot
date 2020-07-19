@@ -1,13 +1,13 @@
 import matchChart from '../__tests__/matchChart';
 import { BoxPlotController } from './BoxPlotController';
 import { Samples } from './__tests__/utils';
-import { registry } from '@sgratzl/chartjs-esm-facade';
+import { registry, BarController, LineController, Point, Rectangle, Line } from '@sgratzl/chartjs-esm-facade';
 import { BoxAndWiskers } from '../elements';
 
 describe('boxplot', () => {
   beforeAll(() => {
-    registry.addControllers(BoxPlotController);
-    registry.addElements(BoxAndWiskers);
+    registry.addControllers(BoxPlotController, BarController, LineController);
+    registry.addElements(BoxAndWiskers, Point, Rectangle, Line);
   });
 
   test('default', () => {
@@ -23,15 +23,15 @@ describe('boxplot', () => {
             backgroundColor: 'red',
             borderWidth: 1,
             data: samples.boxplots({ count: 7 }),
-            outlierColor: '#999999',
+            outlierBackgroundColor: '#999999',
           },
           {
             label: 'Dataset 2',
             backgroundColor: 'blue',
             borderWidth: 1,
             data: samples.boxplotsArray({ count: 7 }),
-            outlierColor: '#999999',
-            lowerColor: '#461e7d',
+            outlierBackgroundColor: '#999999',
+            lowerBackgroundColor: '#461e7d',
           },
         ],
       },
@@ -70,7 +70,7 @@ describe('boxplot', () => {
             borderWidth: 1,
             outlierRadius: 3,
             itemRadius: 3,
-            outlierColor: '#999999',
+            outlierBackgroundColor: '#999999',
             data: [
               samples.numbers({ count: 100, min: 1, max: 9 }).concat([14, 16, 0]),
               samples.numbers({ count: 100, min: 0, max: 10 }),
@@ -130,7 +130,7 @@ describe('boxplot', () => {
             borderWidth: 1,
             itemRadius: 2,
             data: samples.boxplots({ count: 7 }),
-            outlierColor: '#999999',
+            outlierBackgroundColor: '#999999',
           },
           {
             label: 'Dataset 2',
@@ -138,8 +138,8 @@ describe('boxplot', () => {
             borderWidth: 1,
             itemRadius: 2,
             data: samples.boxplotsArray({ count: 7 }),
-            outlierColor: '#999999',
-            lowerColor: '#461e7d',
+            outlierBackgroundColor: '#999999',
+            lowerBackgroundColor: '#461e7d',
           },
         ],
       },
@@ -233,14 +233,14 @@ describe('boxplot', () => {
             backgroundColor: 'red',
             borderWidth: 1,
             data: samples.boxplots({ count: 7 }),
-            outlierColor: '#999999',
+            outlierBackgroundColor: '#999999',
           },
           {
             label: 'Dataset 2',
             backgroundColor: 'blue',
             borderWidth: 1,
             data: samples.boxplotsArray({ count: 7 }),
-            outlierColor: '#999999',
+            outlierBackgroundColor: '#999999',
           },
         ],
       },
@@ -266,12 +266,11 @@ describe('boxplot', () => {
             backgroundColor: 'rgba(255,0,0,0.2)',
             borderColor: 'red',
             borderWidth: 1,
-            outlierColor: '#999999',
             padding: 10,
             itemRadius: 2,
             itemStyle: 'circle',
             itemBackgroundColor: '#000',
-            outlierColor: '#000',
+            outlierBackgroundColor: '#000',
             data: [
               [1, 2, 3, 4, 5],
               {
@@ -325,7 +324,7 @@ describe('boxplot', () => {
             borderWidth: 1,
             outlierRadius: 3,
             itemRadius: 3,
-            outlierColor: '#999999',
+            outlierBackgroundColor: '#999999',
             data: [[], samples.numbers({ count: 100, min: 0, max: 10 })],
           },
         ],

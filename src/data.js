@@ -91,10 +91,7 @@ function determineStatsOptions(options) {
 }
 
 export function boxplotStats(arr, options) {
-  const r = boxplots(arr, {
-    coef: options.coef,
-    quantiles: determineQuantiles(options.quantiles),
-  });
+  const r = boxplots(arr, determineStatsOptions(options));
   r.whiskerMax = r.whiskerHigh;
   r.whiskerMin = r.whiskerLow;
   r.outliers = r.outlier;

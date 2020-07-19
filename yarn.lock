@@ -1915,10 +1915,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sgratzl/boxplots@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "@sgratzl/boxplots@npm:1.2.0"
-  checksum: 643f1aae2befbff5d68ff1fb15da5eb0866a8133af10a4dec311efa0533c7d2e2afb243ec5958656ef31c6acec43027a62a2ba53b5eb04ba25d11d5695a7fb9b
+"@sgratzl/boxplots@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@sgratzl/boxplots@npm:1.2.1"
+  checksum: c01aa25f9b23c3f50ed24491d9c37690bd055a9688c3a9e600f310d2b73e27fc0b1d57c3128fe93bf79355e1a4eb2f7e520c1364edb22442b28c971720e4d412
   languageName: node
   linkType: hard
 
@@ -1934,7 +1934,7 @@ __metadata:
     "@rollup/plugin-babel": ^5.1.0
     "@rollup/plugin-commonjs": ^14.0.0
     "@rollup/plugin-node-resolve": ^8.4.0
-    "@sgratzl/boxplots": ^1.2.0
+    "@sgratzl/boxplots": ^1.2.1
     "@sgratzl/chartjs-esm-facade": ^3.0.0-alpha.2
     "@sgratzl/science": ^2.0.0
     "@yarnpkg/pnpify": ^2.1.0
