@@ -1,10 +1,13 @@
 import matchChart from '../__tests__/matchChart';
 import { ViolinController } from './ViolinController';
 import { Samples } from './__tests__/utils';
+import { registry } from '@sgratzl/chartjs-esm-facade';
+import { Violin } from '../elements';
 
 describe('violin', () => {
   beforeAll(() => {
-    ViolinController.register();
+    registry.addControllers(ViolinController);
+    registry.addElements(Violin);
   });
   test('default', () => {
     const samples = new Samples(10);

@@ -1,7 +1,8 @@
 ﻿import { asBoxPlotStats } from '../data';
-import { Chart, patchControllerConfig, registerController, defaults, BarController, merge } from '../chart';
+import { Chart, BarController, merge } from '@sgratzl/chartjs-esm-facade';
 import { baseDefaults, StatsBase } from './base';
 import { BoxAndWiskers, boxOptionsKeys } from '../elements';
+import patchController from './patchController';
 
 export class BoxPlotController extends StatsBase {
   _parseStats(value, config) {
@@ -26,33 +27,28 @@ export class BoxPlotController extends StatsBase {
 
 BoxPlotController.id = 'boxplot';
 BoxPlotController.defaults = /*#__PURE__*/ merge({}, [
-  defaults.bar,
+  BarController.defaults,
   baseDefaults(boxOptionsKeys),
   {
     datasets: {
       animation: {
         numbers: {
           type: 'number',
-          properties: defaults.bar.datasets.animation.numbers.properties.concat(
+          properties: BarController.defaults.datasets.animation.numbers.properties.concat(
             ['q1', 'q3', 'min', 'max', 'median', 'whiskerMin', 'whiskerMax'],
             boxOptionsKeys.filter((c) => !c.endsWith('Color'))
           ),
         },
       },
     },
+    dataElementType: BoxAndWiskers.id,
+    dataElementOptions: BarController.defaults.dataElementOptions.concat(boxOptionsKeys),
   },
 ]);
 
-BoxPlotController.register = () => {
-  BoxPlotController.prototype.dataElementType = BoxAndWiskers.register();
-  BoxPlotController.prototype.dataElementOptions = BarController.prototype.dataElementOptions.concat(boxOptionsKeys);
-
-  return registerController(BoxPlotController);
-};
-
 export class BoxPlotChart extends Chart {
   constructor(item, config) {
-    super(item, patchControllerConfig(config, BoxPlotController));
+    super(item, patchController(config, BoxPlotController, BoxAndWiskers));
   }
 }
 BoxPlotChart.id = BoxPlotController.id;

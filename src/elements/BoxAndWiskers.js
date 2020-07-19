@@ -1,5 +1,5 @@
-﻿import { defaults, registerElement } from '../chart';
-import { StatsBase, baseDefaults, baseOptionKeys } from './base';
+﻿import { Rectangle } from '@sgratzl/chartjs-esm-facade';
+import { StatsBase, baseDefaults, baseOptionKeys, baseRoutes } from './base';
 
 export const boxOptionsKeys = baseOptionKeys.concat(['medianColor', 'lowerBackgroundColor']);
 
@@ -184,9 +184,9 @@ export class BoxAndWiskers extends StatsBase {
   }
 }
 
-BoxAndWiskers.id = BoxAndWiskers._type = 'boxandwhiskers';
-BoxAndWiskers.defaults = /*#__PURE__*/ Object.assign({}, defaults.elements.rectangle, baseDefaults, {
+BoxAndWiskers.id = 'boxandwhiskers';
+BoxAndWiskers.defaults = /*#__PURE__*/ Object.assign({}, Rectangle.defaults, baseDefaults, {
   medianColor: 'transparent',
   lowerBackgroundColor: 'transparent',
 });
-BoxAndWiskers.register = () => registerElement(BoxAndWiskers);
+BoxAndWiskers.defaultRoutes = /*#__PURE__*/ Object.assign({}, Rectangle.defaultRoutes, baseRoutes);

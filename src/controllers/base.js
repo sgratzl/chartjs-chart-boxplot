@@ -1,6 +1,6 @@
 ﻿import { interpolateNumberArray } from '../animation';
 import { outlierPositioner, patchInHoveredOutlier } from '../tooltip';
-import { BarController } from '../chart';
+import { BarController } from '@sgratzl/chartjs-esm-facade';
 import { defaultStatsOptions } from '../data';
 
 export /*#__PURE__*/ function baseDefaults(keys) {

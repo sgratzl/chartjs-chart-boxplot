@@ -363,9 +363,9 @@ new BoxPlotChart(ctx, {
 
 ```sh
 npm i -g yarn
-yarn set version 2
+yarn set version 2.1.0
 yarn
-yarn pnpify --sdk
+yarn pnpify --sdk vscode
 ```
 
 ### Building

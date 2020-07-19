@@ -1,9 +1,10 @@
 ﻿import { asViolinStats } from '../data';
-import { Chart, defaults, merge, BarController, registerController, patchControllerConfig } from '../chart';
+import { Chart, merge, BarController } from '@sgratzl/chartjs-esm-facade';
 import { StatsBase, baseDefaults } from './base';
 import { baseOptionKeys } from '../elements/base';
 import { Violin } from '../elements';
 import { interpolateKdeCoords } from '../animation';
+import patchController from './patchController';
 
 export class ViolinController extends StatsBase {
   _parseStats(value, config) {
@@ -32,7 +33,7 @@ export class ViolinController extends StatsBase {
 
 ViolinController.id = 'violin';
 ViolinController.defaults = /*#__PURE__*/ merge({}, [
-  defaults.bar,
+  BarController.defaults,
   baseDefaults(baseOptionKeys),
   {
     datasets: {
@@ -40,7 +41,7 @@ ViolinController.defaults = /*#__PURE__*/ merge({}, [
       animation: {
         numbers: {
           type: 'number',
-          properties: defaults.bar.datasets.animation.numbers.properties.concat(
+          properties: BarController.defaults.datasets.animation.numbers.properties.concat(
             ['q1', 'q3', 'min', 'max', 'median', 'maxEstimate'],
             baseOptionKeys.filter((c) => !c.endsWith('Color'))
           ),
@@ -51,26 +52,14 @@ ViolinController.defaults = /*#__PURE__*/ merge({}, [
         },
       },
     },
+    dataElementType: Violin.id,
+    dataElementOptions: BarController.defaults.dataElementOptions.concat(baseOptionKeys),
   },
 ]);
-ViolinController.register = () => {
-  ViolinController.prototype.dataElementType = Violin.register();
-  ViolinController.prototype.dataElementOptions = BarController.prototype.dataElementOptions.concat(baseOptionKeys);
-  return registerController(ViolinController);
-};
 
 export class ViolinChart extends Chart {
   constructor(item, config) {
-    super(item, patchControllerConfig(config, ViolinController));
+    super(item, patchController(config, ViolinController, Violin));
   }
 }
 ViolinChart.id = ViolinController.id;
-
-export class HorizontalViolinController extends ViolinController {
-  getValueScaleId() {
-    return this._cachedMeta.xAxisID;
-  }
-  getIndexScaleId() {
-    return this._cachedMeta.yAxisID;
-  }
-}

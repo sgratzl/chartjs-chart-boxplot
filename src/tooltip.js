@@ -1,4 +1,4 @@
-import { registerTooltipPositioner } from './chart';
+import { Tooltip } from '@sgratzl/chartjs-esm-facade';
 
 export function patchInHoveredOutlier(item) {
   const value = item.value;
@@ -32,4 +32,7 @@ export function outlierPositioner(items, eventPosition) {
 }
 
 outlierPositioner.id = 'averageInstance';
-outlierPositioner.register = () => registerTooltipPositioner(outlierPositioner);
+outlierPositioner.register = () => {
+  Tooltip.positioners.averageInstance = outlierPositioner;
+  return outlierPositioner;
+};

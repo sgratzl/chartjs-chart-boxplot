@@ -1,4 +1,4 @@
-﻿import { defaults, Element, drawPoint } from '../chart';
+﻿import { Element, drawPoint } from '@sgratzl/chartjs-esm-facade';
 import { rnd } from '../data';
 
 export const baseDefaults = {
@@ -6,18 +6,20 @@ export const baseDefaults = {
 
   outlierStyle: 'circle',
   outlierRadius: 2,
-  outlierBackgroundColor: defaults.elements.rectangle.backgroundColor,
-  outlierBorderColor: defaults.elements.rectangle.borderColor,
   outlierBorderWidth: 1,
 
   itemStyle: 'circle',
   itemRadius: 0,
-  itemBackgroundColor: defaults.elements.rectangle.backgroundColor,
-  itemBorderColor: defaults.elements.rectangle.borderColor,
   itemBorderWidth: 0,
 
   hitPadding: 2,
   outlierHitRadius: 4,
+};
+export const baseRoutes = {
+  outlierBackgroundColor: 'color',
+  outlierBorderColor: 'color',
+  itemBackgroundColor: 'color',
+  itemBorderColor: 'color',
 };
 
 export const baseOptionKeys = /*#__PURE__*/ Object.keys(baseDefaults);

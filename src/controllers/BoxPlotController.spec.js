@@ -1,10 +1,13 @@
 import matchChart from '../__tests__/matchChart';
 import { BoxPlotController } from './BoxPlotController';
 import { Samples } from './__tests__/utils';
+import { registry } from '@sgratzl/chartjs-esm-facade';
+import { BoxAndWiskers } from '../elements';
 
 describe('boxplot', () => {
   beforeAll(() => {
-    BoxPlotController.register();
+    registry.addControllers(BoxPlotController);
+    registry.addElements(BoxAndWiskers);
   });
 
   test('default', () => {

@@ -1,5 +1,5 @@
-﻿import { defaults, drawPoint, registerElement } from '../chart';
-import { StatsBase, baseDefaults } from './base';
+﻿import { drawPoint, Rectangle } from '@sgratzl/chartjs-esm-facade';
+import { StatsBase, baseDefaults, baseRoutes } from './base';
 
 export class Violin extends StatsBase {
   draw(ctx) {
@@ -90,6 +90,6 @@ export class Violin extends StatsBase {
   }
 }
 
-Violin.id = Violin._type = 'violin';
-Violin.defaults = Object.assign({}, defaults.elements.rectangle, baseDefaults);
-Violin.register = () => registerElement(Violin);
+Violin.id = 'violin';
+Violin.defaults = /*#__PURE__*/ Object.assign({}, Rectangle.defaults, baseDefaults);
+Violin.defaultRoutes = /*#__PURE__*/ Object.assign({}, Rectangle.defaultRoutes, baseRoutes);
