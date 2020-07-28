@@ -6,15 +6,15 @@
     "access": "public"
   },
   "author": {
-    "name": "datavisyn",
-    "email": "contact@datavisyn.io",
-    "url": "https://www.datavisyn.io"
+    "name": "Samuel Gratzl",
+    "email": "sam@sgratzl.com",
+    "url": "https://www.sgratzl.com"
   },
   "contributors": [
     {
-      "name": "Samuel Gratzl",
-      "email": "sam@sgratzl.com",
-      "url": "https://www.sgratzl.com"
+      "name": "datavisyn",
+      "email": "contact@datavisyn.io",
+      "url": "https://www.datavisyn.io"
     },
     {
       "name": "Stefan Luger",

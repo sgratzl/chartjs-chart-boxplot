@@ -375,13 +375,10 @@ yarn install
 yarn build
 ```
 
----
+## Credits
 
-<a href="https://www.datavisyn.io"><img src="https://www.datavisyn.io/img/logos/datavisyn-d-logo.png" align="left" width="25px" hspace="10" vspace="6"></a>
-developed by **[datavisyn][datavisyn-url]**.
+Originally credits belong to [@datavisyn](https://www.datavisyn.io).
 
-[datavisyn-image]: https://img.shields.io/badge/datavisyn-io-black.svg
-[datavisyn-url]: https://www.datavisyn.io
 [mit-image]: https://img.shields.io/badge/License-MIT-yellow.svg
 [mit-url]: https://opensource.org/licenses/MIT
 [npm-image]: https://badge.fury.io/js/%40sgratzl%2Fchartjs-chart-boxplot.svg
