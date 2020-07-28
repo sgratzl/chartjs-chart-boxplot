@@ -1,8 +1,8 @@
 # Chart.js Box and Violin Plot
 
-[![datavisyn][datavisyn-image]][datavisyn-url] [![License: MIT][mit-image]][mit-url] [![NPM Package][npm-image]][npm-url] [![Github Actions][github-actions-image]][github-actions-url]
+[![License: MIT][mit-image]][mit-url] [![NPM Package][npm-image]][npm-url] [![Github Actions][github-actions-image]][github-actions-url]
 
-Chart.js module for charting box and violin plots.
+Chart.js module for charting box and violin plots. This is a maintained fork of [@datavisyn/chartjs-chart-box-and-violin-plot](https://github.com/datavisyn/chartjs-chart-box-and-violin-plot), which I originally developed during my time at datavisyn.
 
 **Works only with Chart.js >= 3.0.0**
 
