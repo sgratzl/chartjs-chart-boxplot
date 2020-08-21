@@ -1,5 +1,7 @@
+import { IKDEPoint } from './elements';
+
 const interpolators = {
-  number(from, to, factor) {
+  number(from: number | undefined | null, to: number | undefined | null, factor: number) {
     if (from === to) {
       return to;
     }
@@ -13,7 +15,7 @@ const interpolators = {
   },
 };
 
-export function interpolateNumberArray(from, to, factor) {
+export function interpolateNumberArray(from: number | number[], to: number | number[], factor: number) {
   if (typeof from === 'number' && typeof to === 'number') {
     return interpolators.number(from, to, factor);
   }
@@ -23,7 +25,7 @@ export function interpolateNumberArray(from, to, factor) {
   return to;
 }
 
-export function interpolateKdeCoords(from, to, factor) {
+export function interpolateKdeCoords(from: IKDEPoint[], to: IKDEPoint[], factor: number) {
   if (Array.isArray(from) && Array.isArray(to)) {
     return to.map((t, i) => ({
       v: interpolators.number(from[i] ? from[i].v : null, t.v, factor),

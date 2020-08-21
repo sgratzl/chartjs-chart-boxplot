@@ -1,9 +1,17 @@
 ﻿import { interpolateNumberArray } from '../animation';
 import { outlierPositioner, patchInHoveredOutlier } from '../tooltip';
-import { BarController } from '@sgratzl/chartjs-esm-facade';
-import { defaultStatsOptions } from '../data';
+import {
+  BarController,
+  Element,
+  IChartMeta,
+  IScaleOptions,
+  LinearScale,
+  Scale,
+  UpdateMode,
+} from '@sgratzl/chartjs-esm-facade';
+import { defaultStatsOptions, IBaseOptions } from '../data';
 
-export /*#__PURE__*/ function baseDefaults(keys) {
+export /*#__PURE__*/ function baseDefaults(keys: string[]) {
   const colorKeys = ['borderColor', 'backgroundColor'].concat(keys.filter((c) => c.endsWith('Color')));
   return {
     datasets: Object.assign(
@@ -46,8 +54,10 @@ export /*#__PURE__*/ function baseDefaults(keys) {
   };
 }
 
-export class StatsBase extends BarController {
-  getMinMax(scale, canStack) {
+export abstract class StatsBase<S extends { median: number }, C extends Required<IBaseOptions>> extends BarController {
+  declare _config: C;
+
+  getMinMax(scale: Scale<IScaleOptions>, canStack?: boolean | undefined) {
     const bak = scale.axis;
     const config = this._config;
     scale.axis = config.minStats;
@@ -57,14 +67,15 @@ export class StatsBase extends BarController {
     scale.axis = bak;
     return { min, max };
   }
-  parsePrimitiveData(meta, data, start, count) {
-    const vScale = meta.vScale;
-    const iScale = meta.iScale;
+
+  parsePrimitiveData(meta: IChartMeta, data: any[], start: number, count: number) {
+    const vScale = meta.vScale!;
+    const iScale = meta.iScale!;
     const labels = iScale.getLabels();
     const r = [];
     for (let i = 0; i < count; i++) {
       const index = i + start;
-      const parsed = {};
+      const parsed: any = {};
       parsed[iScale.axis] = iScale.parse(labels[index], index);
       const stats = this._parseStats(data == null ? null : data[index], this._config);
       if (stats) {
@@ -76,21 +87,18 @@ export class StatsBase extends BarController {
     return r;
   }
 
-  parseArrayData(meta, data, start, count) {
+  parseArrayData(meta: IChartMeta, data: any[], start: number, count: number) {
     return this.parsePrimitiveData(meta, data, start, count);
   }
 
-  parseObjectData(meta, data, start, count) {
+  parseObjectData(meta: IChartMeta, data: any[], start: number, count: number) {
     return this.parsePrimitiveData(meta, data, start, count);
   }
 
-  _parseStats(_value, _config) {
-    // abstract
-    return {};
-  }
+  protected abstract _parseStats(value: any, config: C): S;
 
-  getLabelAndValue(index) {
-    const r = super.getLabelAndValue(index);
+  getLabelAndValue(index: number) {
+    const r = super.getLabelAndValue(index) as any;
     const vScale = this._cachedMeta.vScale;
     const parsed = this.getParsed(index);
     if (!vScale || !parsed || r.value === 'NaN') {
@@ -112,23 +120,23 @@ export class StatsBase extends BarController {
     return r;
   }
 
-  _toStringStats(_b) {
-    // abstract
-    return '';
-  }
+  protected abstract _toStringStats(b: S): string;
 
-  _transformStats(_target, _source, _mapper, _mode) {
-    // abstract
-  }
+  protected abstract _transformStats<T>(
+    target: Record<keyof S, T | T[]>,
+    source: S,
+    mapper: (v: number) => T,
+    mode: UpdateMode | 'string'
+  ): void;
 
-  updateElement(rectangle, index, properties, mode) {
+  updateElement(rectangle: Element, index: number, properties: any, mode: UpdateMode) {
     const reset = mode === 'reset';
-    const scale = this._cachedMeta.vScale;
+    const scale = this._cachedMeta.vScale as LinearScale;
     const parsed = this.getParsed(index);
     const base = scale.getBasePixel();
     properties._datasetIndex = this.index;
     properties._index = index;
-    this._transformStats(properties, parsed, (v) => (reset ? base : scale.getPixelForValue(v)), mode);
+    this._transformStats(properties, parsed, (v) => (reset ? base : scale.getPixelForValue(v, index)), mode);
     super.updateElement(rectangle, index, properties, mode);
   }
 }

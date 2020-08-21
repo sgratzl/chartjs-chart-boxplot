@@ -13,29 +13,37 @@ const Months = [
   'December',
 ];
 
+export interface INumberOptions {
+  decimals?: number;
+  min?: number;
+  max?: number;
+  continuity?: number;
+  from?: number[];
+  count?: number;
+  random?(min: number, max: number): () => number;
+  random01?(): () => number;
+}
+
 export class Samples {
+  _seed;
+
   // Adapted from http://indiegamr.com/generate-repeatable-random-numbers-in-js/
   constructor(seed = 0) {
     this._seed = seed;
   }
 
-  randF(min, max) {
-    min = min === undefined ? 0 : min;
-    max = max === undefined ? 1 : max;
+  randF(min = 0, max = 1) {
     return () => {
       this._seed = (this._seed * 9301 + 49297) % 233280;
       return min + (this._seed / 233280) * (max - min);
     };
   }
 
-  rand(min, max) {
+  rand(min?: number, max?: number) {
     return this.randF(min, max)();
   }
 
-  months(config) {
-    const cfg = config || {};
-    const count = cfg.count || 12;
-    const section = cfg.section;
+  months({ count = 12, section }: { count?: number; section?: number }) {
     const values = [];
 
     for (let i = 0; i < count; ++i) {
@@ -46,77 +54,73 @@ export class Samples {
     return values;
   }
 
-  numbers(config) {
-    const cfg = config || {};
-    const min = cfg.min || 0;
-    const max = cfg.max || 100;
-    const from = cfg.from || [];
-    const count = cfg.count || 8;
-    const decimals = cfg.decimals || 8;
-    const continuity = cfg.continuity || 1;
+  numbers({
+    count = 8,
+    min = 0,
+    max = 100,
+    decimals = 8,
+    from = [],
+    continuity = 1,
+    random,
+    random01,
+  }: INumberOptions = {}): number[] {
     const dfactor = Math.pow(10, decimals) || 0;
-    const data = [];
-    const rand = cfg.random ? cfg.random(min, max) : this.randF(min, max);
-    const rand01 = cfg.random01 ? cfg.random01() : this.randF();
-
+    const data: number[] = [];
+    const rand = random ? random(min, max) : this.randF(min, max);
+    const rand01 = random01 ? random01() : this.randF();
     for (let i = 0; i < count; ++i) {
       const value = (from[i] || 0) + rand();
       if (rand01() <= continuity) {
         data.push(Math.round(dfactor * value) / dfactor);
       } else {
-        data.push(null);
+        data.push(Number.NaN);
       }
     }
 
     return data;
   }
 
-  randomBoxPlot(config) {
-    const base = this.numbers({ ...config, count: 10 });
-    base.sort((a, b) => a - b);
+  randomBoxPlot(config: INumberOptions = {}) {
+    const base = this.numbers({ ...config, count: 10 }) as number[];
+    base.sort((a, b) => (a === b ? 0 : a! < b! ? -1 : 1));
     const shift = 3;
     return {
-      min: base[shift + 0],
-      q1: base[shift + 1],
-      median: base[shift + 2],
-      q3: base[shift + 3],
-      max: base[shift + 4],
+      min: base[shift + 0]!,
+      q1: base[shift + 1]!,
+      median: base[shift + 2]!,
+      q3: base[shift + 3]!,
+      max: base[shift + 4]!,
       outliers: base.slice(0, 3).concat(base.slice(shift + 5)),
     };
   }
 
-  boxplots(config) {
-    const count = (config || {}).count || 8;
-    const data = [];
-    for (let i = 0; i < count; ++i) {
-      data.push(this.randomBoxPlot(config));
-    }
-    return data;
+  boxplots(config: INumberOptions = {}) {
+    const count = config.count || 8;
+    return Array(count)
+      .fill(0)
+      .map(() => this.randomBoxPlot(config));
   }
 
-  boxplotsArray(config) {
-    const count = (config || {}).count || 8;
-    const data = [];
-    for (let i = 0; i < count; ++i) {
-      data.push(this.numbers({ ...config, count: 50 }));
-    }
-    return data;
+  boxplotsArray(config: INumberOptions = {}) {
+    const count = config.count || 8;
+    return Array(count)
+      .fill(0)
+      .map(() => this.numbers({ ...config, count: 50 }) as number[]);
   }
 
-  labels(config) {
-    const cfg = config || {};
-    const min = cfg.min || 0;
-    const max = cfg.max || 100;
-    const count = cfg.count || 8;
+  labels({
+    min = 0,
+    max = 100,
+    count = 8,
+    decimals = 8,
+    prefix = '',
+  }: { min?: number; max?: number; count?: number; decimals?: number; prefix?: string } = {}) {
     const step = (max - min) / count;
-    const decimals = cfg.decimals || 8;
     const dfactor = Math.pow(10, decimals) || 0;
-    const prefix = cfg.prefix || '';
-    const values = [];
+    const values: string[] = [];
     for (let i = min; i < max; i += step) {
       values.push(prefix + Math.round(dfactor * i) / dfactor);
     }
-
     return values;
   }
 }

@@ -1,2 +1,3 @@
-export * from './BoxAndWiskers';
-export * from './Violin';
+export { IStatsBaseOptions, IStatsBaseProps, StatsBase } from './base';
+export { BoxAndWiskers, IBoxAndWhiskerProps, IBoxAndWhiskersOptions } from './BoxAndWiskers';
+export { IKDEPoint, IViolinElementOptions, IViolinElementProps, Violin } from './Violin';

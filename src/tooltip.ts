@@ -1,14 +1,26 @@
-import { Tooltip } from '@sgratzl/chartjs-esm-facade';
+import { InteractionItem, ITooltipItem, Tooltip, TooltipModel } from '@sgratzl/chartjs-esm-facade';
 
-export function patchInHoveredOutlier(item) {
-  const value = item.formattedValue;
-  if (value && this._tooltipOutlier != null && item.datasetIndex === this._tooltipOutlier.datasetIndex) {
-    value.hoveredOutlierIndex = this._tooltipOutlier.index;
+export interface IExtendedTooltip extends TooltipModel {
+  _tooltipOutlier?: {
+    index: number;
+    datasetIndex: number;
+  };
+}
+
+export function patchInHoveredOutlier(this: TooltipModel, item: ITooltipItem) {
+  const value = item.formattedValue as any;
+  const that = this as IExtendedTooltip;
+  if (value && that._tooltipOutlier != null && item.datasetIndex === that._tooltipOutlier.datasetIndex) {
+    value.hoveredOutlierIndex = that._tooltipOutlier.index;
   }
 }
 
 // based on average positioner but allow access to the tooltip instance
-export function outlierPositioner(items, eventPosition) {
+export function outlierPositioner(
+  this: TooltipModel,
+  items: readonly InteractionItem[],
+  eventPosition: { x: number; y: number }
+) {
   if (!items.length) {
     return false;
   }
@@ -19,7 +31,7 @@ export function outlierPositioner(items, eventPosition) {
   for (i = 0, len = items.length; i < len; ++i) {
     var el = items[i].element;
     if (el && el.hasValue()) {
-      var pos = el.tooltipPosition(eventPosition, this);
+      var pos = (el as any).tooltipPosition(eventPosition, this);
       x += pos.x;
       y += pos.y;
       ++count;
@@ -33,6 +45,6 @@ export function outlierPositioner(items, eventPosition) {
 
 outlierPositioner.id = 'averageInstance';
 outlierPositioner.register = () => {
-  Tooltip.positioners.averageInstance = outlierPositioner;
+  Tooltip.positioners.averageInstance = outlierPositioner as any;
   return outlierPositioner;
 };

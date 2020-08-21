@@ -1,5 +1,137 @@
 ﻿import { Element, drawPoint } from '@sgratzl/chartjs-esm-facade';
 import { rnd } from '../data';
+import { IExtendedTooltip } from '../tooltip';
+
+export interface IStatsBaseOptions {
+  /**
+   * @default see rectangle
+   * @scriptable
+   * @indexable
+   */
+  backgroundColor: string;
+
+  /**
+   * @default see rectangle
+   * @scriptable
+   * @indexable
+   */
+  borderColor: string;
+
+  /**
+   * @default 1
+   * @scriptable
+   * @indexable
+   */
+  borderWidth: number;
+
+  /**
+   * item style used to render outliers
+   * @default circle
+   */
+  outlierStyle:
+    | 'circle'
+    | 'triangle'
+    | 'rect'
+    | 'rectRounded'
+    | 'rectRot'
+    | 'cross'
+    | 'crossRot'
+    | 'star'
+    | 'line'
+    | 'dash';
+
+  /**
+   * radius used to render outliers
+   * @default 2
+   * @scriptable
+   * @indexable
+   */
+  outlierRadius: number;
+
+  /**
+   * @default see rectangle.backgroundColor
+   * @scriptable
+   * @indexable
+   */
+  outlierBackgroundColor: string;
+
+  /**
+   * @default see rectangle.borderColor
+   * @scriptable
+   * @indexable
+   */
+  outlierBorderColor: string;
+  /**
+   * @default 1
+   * @scriptable
+   * @indexable
+   */
+  outlierBorderWidth: number;
+
+  /**
+   * item style used to render items
+   * @default circle
+   */
+  itemStyle:
+    | 'circle'
+    | 'triangle'
+    | 'rect'
+    | 'rectRounded'
+    | 'rectRot'
+    | 'cross'
+    | 'crossRot'
+    | 'star'
+    | 'line'
+    | 'dash';
+
+  /**
+   * radius used to render items
+   * @default 0 so disabled
+   * @scriptable
+   * @indexable
+   */
+  itemRadius: number;
+
+  /**
+   * background color for items
+   * @default see rectangle.backgroundColor
+   * @scriptable
+   * @indexable
+   */
+  itemBackgroundColor: string;
+
+  /**
+   * border color for items
+   * @default see rectangle.borderColor
+   * @scriptable
+   * @indexable
+   */
+  itemBorderColor: string;
+
+  /**
+   * border width for items
+   * @default 0
+   * @scriptable
+   * @indexable
+   */
+  itemBorderWidth: number;
+
+  /**
+   * padding that is added around the bounding box when computing a mouse hit
+   * @default 2
+   * @scriptable
+   * @indexable
+   */
+  hitPadding: number;
+
+  /**
+   * hit radius for hit test of outliers
+   * @default 4
+   * @scriptable
+   * @indexable
+   */
+  outlierHitRadius: number;
+}
 
 export const baseDefaults = {
   borderWidth: 1,
@@ -15,6 +147,7 @@ export const baseDefaults = {
   hitPadding: 2,
   outlierHitRadius: 4,
 };
+
 export const baseRoutes = {
   outlierBackgroundColor: 'color',
   outlierBorderColor: 'color',
@@ -24,12 +157,24 @@ export const baseRoutes = {
 
 export const baseOptionKeys = /*#__PURE__*/ (() => Object.keys(baseDefaults).concat(Object.keys(baseRoutes)))();
 
-export class StatsBase extends Element {
+export interface IStatsBaseProps {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  items: number[];
+  outliers: number[];
+}
+
+export class StatsBase<T extends IStatsBaseProps, O extends IStatsBaseOptions> extends Element<T, O> {
+  declare _datasetIndex: number;
+  declare _index: number;
+
   isVertical() {
-    return this.height == null;
+    return this.getProps(['height']).height == null;
   }
 
-  _drawItems(ctx) {
+  _drawItems(ctx: CanvasRenderingContext2D) {
     const vert = this.isVertical();
     const props = this.getProps(['x', 'y', 'items', 'width', 'height']);
     const options = this.options;
@@ -40,7 +185,7 @@ export class StatsBase extends Element {
     ctx.save();
     ctx.strokeStyle = options.itemBorderColor;
     ctx.fillStyle = options.itemBackgroundColor;
-    ctx.lineWith = options.itemBorderWidth;
+    ctx.lineWidth = options.itemBorderWidth;
     // jitter based on random data
     // use the dataset index and index to initialize the random number generator
     const random = rnd(this._datasetIndex * 1000 + this._index);
@@ -63,7 +208,7 @@ export class StatsBase extends Element {
     ctx.restore();
   }
 
-  _drawOutliers(ctx) {
+  _drawOutliers(ctx: CanvasRenderingContext2D) {
     const vert = this.isVertical();
     const props = this.getProps(['x', 'y', 'outliers']);
     const options = this.options;
@@ -94,7 +239,7 @@ export class StatsBase extends Element {
     ctx.restore();
   }
 
-  _getBounds(_useFinalPosition) {
+  _getBounds(_useFinalPosition?: boolean) {
     // abstract
     return {
       left: 0,
@@ -104,7 +249,7 @@ export class StatsBase extends Element {
     };
   }
 
-  _getHitBounds(useFinalPosition) {
+  _getHitBounds(useFinalPosition?: boolean) {
     const padding = this.options.hitPadding;
     const b = this._getBounds(useFinalPosition);
     return {
@@ -115,7 +260,7 @@ export class StatsBase extends Element {
     };
   }
 
-  inRange(mouseX, mouseY, useFinalPosition) {
+  inRange(mouseX: number, mouseY: number, useFinalPosition?: boolean) {
     if (Number.isNaN(this.x) && Number.isNaN(this.y)) {
       return false;
     }
@@ -125,17 +270,17 @@ export class StatsBase extends Element {
     );
   }
 
-  inXRange(mouseX, useFinalPosition) {
+  inXRange(mouseX: number, useFinalPosition?: boolean) {
     const bounds = this._getHitBounds(useFinalPosition);
     return mouseX >= bounds.left && mouseX <= bounds.right;
   }
 
-  inYRange(mouseY, useFinalPosition) {
+  inYRange(mouseY: number, useFinalPosition?: boolean) {
     const bounds = this._getHitBounds(useFinalPosition);
     return mouseY >= bounds.top && mouseY <= bounds.bottom;
   }
 
-  _outlierIndexInRange(mouseX, mouseY, useFinalPosition) {
+  _outlierIndexInRange(mouseX: number, mouseY: number, useFinalPosition?: boolean) {
     const props = this.getProps(['x', 'y'], useFinalPosition);
     const hitRadius = this.options.outlierHitRadius;
     const outliers = this._getOutliers(useFinalPosition);
@@ -154,12 +299,12 @@ export class StatsBase extends Element {
     return -1;
   }
 
-  _boxInRange(mouseX, mouseY, useFinalPosition) {
+  _boxInRange(mouseX: number, mouseY: number, useFinalPosition?: boolean) {
     const bounds = this._getHitBounds(useFinalPosition);
     return mouseX >= bounds.left && mouseX <= bounds.right && mouseY >= bounds.top && mouseY <= bounds.bottom;
   }
 
-  getCenterPoint(useFinalPosition) {
+  getCenterPoint(useFinalPosition?: boolean) {
     const props = this.getProps(['x', 'y'], useFinalPosition);
     return {
       x: props.x,
@@ -167,21 +312,23 @@ export class StatsBase extends Element {
     };
   }
 
-  _getOutliers(useFinalPosition) {
+  _getOutliers(useFinalPosition?: boolean) {
     const props = this.getProps(['outliers'], useFinalPosition);
     return props.outliers || [];
   }
 
-  tooltipPosition(eventPosition, tooltip) {
-    if (!eventPosition) {
+  tooltipPosition(eventPosition?: { x: number; y: number } | boolean, tooltip?: IExtendedTooltip) {
+    if (!eventPosition || typeof eventPosition === 'boolean') {
       // fallback
       return this.getCenterPoint();
     }
-    delete tooltip._tooltipOutlier;
+    if (tooltip) {
+      delete tooltip._tooltipOutlier;
+    }
 
     const props = this.getProps(['x', 'y']);
     const index = this._outlierIndexInRange(eventPosition.x, eventPosition.y);
-    if (index < 0) {
+    if (index < 0 || !tooltip) {
       return this.getCenterPoint();
     }
     // hack in the data of the hovered outlier
@@ -191,13 +338,13 @@ export class StatsBase extends Element {
     };
     if (this.isVertical()) {
       return {
-        x: props.x,
+        x: props.x as number,
         y: this._getOutliers()[index],
       };
     }
     return {
       x: this._getOutliers()[index],
-      y: props.y,
+      y: props.y as number,
     };
   }
 }

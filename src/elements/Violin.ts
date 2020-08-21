@@ -1,8 +1,24 @@
 ﻿import { drawPoint, Rectangle } from '@sgratzl/chartjs-esm-facade';
-import { StatsBase, baseDefaults, baseRoutes } from './base';
+import { StatsBase, baseDefaults, baseRoutes, IStatsBaseOptions, IStatsBaseProps } from './base';
 
-export class Violin extends StatsBase {
-  draw(ctx) {
+export interface IKDEPoint {
+  v: number;
+  estimate: number;
+}
+
+export interface IViolinElementOptions extends IStatsBaseOptions {
+  // no extras
+}
+
+export interface IViolinElementProps extends IStatsBaseProps {
+  min: number;
+  max: number;
+  coords: IKDEPoint[];
+  maxEstimate: number;
+}
+
+export class Violin extends StatsBase<IViolinElementProps, IViolinElementOptions> {
+  draw(ctx: CanvasRenderingContext2D) {
     ctx.save();
 
     ctx.fillStyle = this.options.backgroundColor;
@@ -32,7 +48,7 @@ export class Violin extends StatsBase {
     this._drawItems(ctx);
   }
 
-  _drawCoords(ctx, props) {
+  _drawCoords(ctx: CanvasRenderingContext2D, props: IViolinElementProps) {
     ctx.beginPath();
     if (this.isVertical()) {
       const x = props.x;
@@ -68,7 +84,7 @@ export class Violin extends StatsBase {
     ctx.fill();
   }
 
-  _getBounds(useFinalPosition) {
+  _getBounds(useFinalPosition?: boolean) {
     if (this.isVertical()) {
       const { x, width, min, max } = this.getProps(['x', 'width', 'min', 'max'], useFinalPosition);
       const x0 = x - width / 2;
@@ -88,8 +104,8 @@ export class Violin extends StatsBase {
       bottom: y0 + height,
     };
   }
-}
 
-Violin.id = 'violin';
-Violin.defaults = /*#__PURE__*/ Object.assign({}, Rectangle.defaults, baseDefaults);
-Violin.defaultRoutes = /*#__PURE__*/ Object.assign({}, Rectangle.defaultRoutes, baseRoutes);
+  static id = 'violin';
+  static defaults = /*#__PURE__*/ Object.assign({}, Rectangle.defaults, baseDefaults);
+  static defaultRoutes = /*#__PURE__*/ Object.assign({}, Rectangle.defaultRoutes, baseRoutes);
+}
