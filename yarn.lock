@@ -1988,7 +1988,6 @@ __metadata:
     "@rollup/plugin-commonjs": ^15.0.0
     "@sgratzl/boxplots": ^1.2.1
     "@sgratzl/chartjs-esm-facade": ^3.0.0-alpha.20
-    "@sgratzl/science": ^2.0.0
     "@types/d3-selection": ^1.4.2
     "@types/jest": ^26.0.10
     "@types/jest-image-snapshot": ^3.1.0
@@ -2035,13 +2034,6 @@ __metadata:
     chart.js:
       unplugged: true
   checksum: 402815b1b7daaa20940b62e0fa97071661b52e38525c70f1edbc09c71869f833ac340a902a7fce69cf3556dafd632f5e9a98cd164493fa28e8cfc3f480971455
-  languageName: node
-  linkType: hard
-
-"@sgratzl/science@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@sgratzl/science@npm:2.0.0"
-  checksum: 0ed65107c7e3131256a11ef5677beb9184126377235f2a5899adb1e367ff0061e8e9d7830d9e6ebd413e3de1f5f34fd59b6328f7bc9906a64963e22f2d977fed
   languageName: node
   linkType: hard
 

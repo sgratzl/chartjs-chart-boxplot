@@ -13,6 +13,19 @@ import {
 } from '@sgratzl/chartjs-esm-facade';
 import { BoxAndWiskers } from '../elements';
 
+const options = {
+  options: {
+    scales: {
+      x: {
+        display: false,
+      },
+      y: {
+        display: false,
+      },
+    },
+  },
+};
+
 describe('boxplot', () => {
   beforeAll(() => {
     registry.addControllers(BoxPlotController, BarController, LineController);
@@ -44,6 +57,7 @@ describe('boxplot', () => {
           },
         ],
       },
+      ...options,
     });
 
     return chart.toMatchImageSnapshot();
@@ -64,6 +78,7 @@ describe('boxplot', () => {
           },
         ],
       },
+      ...options,
     });
 
     return chart.toMatchImageSnapshot();
@@ -91,6 +106,7 @@ describe('boxplot', () => {
           },
         ],
       },
+      ...options,
     });
 
     return chart.toMatchImageSnapshot();
@@ -160,6 +176,7 @@ describe('boxplot', () => {
           },
         ],
       },
+      ...options,
     });
 
     return chart.toMatchImageSnapshot();
@@ -191,6 +208,7 @@ describe('boxplot', () => {
           } as ILineControllerDataset & { type: 'line' }) as any,
         ],
       },
+      ...options,
     });
 
     return chart.toMatchImageSnapshot();
@@ -209,6 +227,7 @@ describe('boxplot', () => {
           },
         ],
       },
+      ...options,
     });
 
     return chart.toMatchImageSnapshot();
@@ -221,6 +240,7 @@ describe('boxplot', () => {
         labels: ['A'],
         datasets: [{ quantiles: 'fivenum', borderColor: 'black', data: [[18882.492, 7712.077, 5830.748, 7206.05]] }],
       },
+      ...options,
     });
 
     return chart.toMatchImageSnapshot();
@@ -254,6 +274,7 @@ describe('boxplot', () => {
           },
         ],
       },
+      ...options,
     });
 
     return chart.toMatchImageSnapshot();
@@ -305,6 +326,7 @@ describe('boxplot', () => {
           },
         ],
       },
+      ...options,
     });
 
     return chart.toMatchImageSnapshot();
@@ -330,6 +352,7 @@ describe('boxplot', () => {
           },
         ],
       },
+      ...options,
     });
 
     return chart.toMatchImageSnapshot();
