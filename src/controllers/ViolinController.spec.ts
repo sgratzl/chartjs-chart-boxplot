@@ -32,6 +32,16 @@ describe('violin', () => {
           },
         ],
       },
+      options: {
+        scales: {
+          x: {
+            display: false,
+          },
+          y: {
+            display: false,
+          },
+        },
+      },
     });
     return chart.toMatchImageSnapshot();
   });

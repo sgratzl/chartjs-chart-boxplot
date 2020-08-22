@@ -1,4 +1,3 @@
-import kde from '@sgratzl/science/src/stats/kde';
 import boxplots, {
   quantilesFivenum,
   quantilesHigher,
@@ -9,6 +8,7 @@ import boxplots, {
   quantilesNearest,
   quantilesType7,
 } from '@sgratzl/boxplots';
+import { kde } from './kde';
 import { IKDEPoint } from './elements';
 export {
   quantilesFivenum,
@@ -200,7 +200,7 @@ export function violinStats(arr: readonly number[], options: IViolinOptions): IV
   const stats = quantiles(items);
   const min = items[0];
   const max = items[items.length - 1];
-  const kdeGen = kde().sample(items);
+
   // generate coordinates
   const range = max - min;
   const samples = [];
@@ -211,7 +211,7 @@ export function violinStats(arr: readonly number[], options: IViolinOptions): IV
   if (samples[samples.length - 1] !== max) {
     samples.push(max);
   }
-  const coords = kdeGen(samples).map((v) => ({ v: v[0], estimate: v[1] }));
+  const coords = kde(items, samples, quantiles);
   const maxEstimate = coords.reduce((a, d) => Math.max(a, d.estimate), Number.NEGATIVE_INFINITY);
 
   return {
