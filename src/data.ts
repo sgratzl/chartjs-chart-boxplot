@@ -40,6 +40,7 @@ export interface IViolin extends IBaseStats {
   items: readonly number[];
   maxEstimate: number;
   coords: IKDEPoint[];
+  outliers: readonly number[];
 }
 
 /**
@@ -220,6 +221,7 @@ export function violinStats(arr: readonly number[], options: IViolinOptions): IV
     items,
     max,
     coords,
+    outliers: [], // items.filter((d) => d < stats.q1 || d > stats.q3),
     maxEstimate,
   };
 }

@@ -30,9 +30,9 @@ export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions
       target[key] = mapper(source[key as 'min' | 'max' | 'median' | 'q3' | 'q1']);
     }
     target.maxEstimate = source.maxEstimate;
-    for (const key of ['items']) {
+    for (const key of ['items', 'outliers']) {
       if (Array.isArray(source[key as keyof IViolin])) {
-        target[key] = source[key as 'items'].map(mapper);
+        target[key] = source[key as 'items' | 'outliers'].map(mapper);
       }
     }
     if (Array.isArray(source.coords)) {
