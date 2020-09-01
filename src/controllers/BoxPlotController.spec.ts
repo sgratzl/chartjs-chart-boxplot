@@ -1,8 +1,30 @@
-import matchChart from '../__tests__/matchChart';
-import { BoxPlotController } from './BoxPlotController';
+import createChart from '../__tests__/createChart';
+import { BoxPlotController, IBoxPlotControllerConfiguration, IBoxPlotDataPoint } from './BoxPlotController';
 import { Samples } from './__tests__/utils';
-import { registry, BarController, LineController, Point, Rectangle, Line } from '@sgratzl/chartjs-esm-facade';
+import {
+  registry,
+  BarController,
+  LineController,
+  Point,
+  Rectangle,
+  Line,
+  IBarControllerDataset,
+  ILineControllerDataset,
+} from '@sgratzl/chartjs-esm-facade';
 import { BoxAndWiskers } from '../elements';
+
+const options = {
+  options: {
+    scales: {
+      x: {
+        display: false,
+      },
+      y: {
+        display: false,
+      },
+    },
+  },
+};
 
 describe('boxplot', () => {
   beforeAll(() => {
@@ -13,7 +35,7 @@ describe('boxplot', () => {
   test('default', () => {
     const samples = new Samples(10);
 
-    return matchChart({
+    const chart = createChart<IBoxPlotDataPoint, string, IBoxPlotControllerConfiguration>({
       type: BoxPlotController.id,
       data: {
         labels: samples.months({ count: 7 }),
@@ -35,11 +57,14 @@ describe('boxplot', () => {
           },
         ],
       },
+      ...options,
     });
+
+    return chart.toMatchImageSnapshot();
   });
 
   test('minmax', () => {
-    return matchChart({
+    const chart = createChart<IBoxPlotDataPoint, string, IBoxPlotControllerConfiguration>({
       type: BoxPlotController.id,
       data: {
         labels: ['A', 'B'],
@@ -53,12 +78,15 @@ describe('boxplot', () => {
           },
         ],
       },
+      ...options,
     });
+
+    return chart.toMatchImageSnapshot();
   });
 
   test('mediancolor', () => {
     const samples = new Samples(10);
-    return matchChart({
+    const chart = createChart<IBoxPlotDataPoint, string, IBoxPlotControllerConfiguration>({
       type: BoxPlotController.id,
       data: {
         labels: ['A', 'B'],
@@ -78,12 +106,15 @@ describe('boxplot', () => {
           },
         ],
       },
+      ...options,
     });
+
+    return chart.toMatchImageSnapshot();
   });
 
   test('logarithmic', () => {
     const samples = new Samples(10);
-    return matchChart({
+    const chart = createChart<IBoxPlotDataPoint, string, IBoxPlotControllerConfiguration>({
       type: BoxPlotController.id,
       data: {
         labels: samples.months({ count: 7 }),
@@ -114,12 +145,14 @@ describe('boxplot', () => {
         },
       },
     });
+
+    return chart.toMatchImageSnapshot();
   });
 
   test('items', () => {
     const samples = new Samples(10);
 
-    return matchChart({
+    const chart = createChart<IBoxPlotDataPoint, string, IBoxPlotControllerConfiguration>({
       type: BoxPlotController.id,
       data: {
         labels: samples.months({ count: 7 }),
@@ -143,93 +176,88 @@ describe('boxplot', () => {
           },
         ],
       },
+      ...options,
     });
+
+    return chart.toMatchImageSnapshot();
   });
 
   test('hybrid', () => {
     const samples = new Samples(10);
 
-    return matchChart({
+    const chart = createChart<IBoxPlotDataPoint, string, IBoxPlotControllerConfiguration>({
       type: BoxPlotController.id,
       data: {
         labels: samples.months({ count: 7 }),
         datasets: [
           {
             label: 'Box',
-            type: 'boxplot',
             backgroundColor: 'steelblue',
             data: samples.boxplots({ count: 7 }),
           },
-          {
+          ({
             label: 'Bar',
             type: 'bar',
             backgroundColor: 'red',
             data: samples.numbers({ count: 7, max: 150 }),
-          },
-          {
+          } as IBarControllerDataset & { type: 'bar' }) as any,
+          ({
             label: 'Line',
             type: 'line',
             data: samples.numbers({ count: 7, max: 150 }).map((d) => ({ y: d })),
-          },
+          } as ILineControllerDataset & { type: 'line' }) as any,
         ],
       },
+      ...options,
     });
+
+    return chart.toMatchImageSnapshot();
   });
 
   test('quantiles types 7', () => {
-    return matchChart({
+    const chart = createChart<IBoxPlotDataPoint, string, IBoxPlotControllerConfiguration>({
       type: BoxPlotController.id,
       data: {
         labels: ['A'],
         datasets: [
           {
+            quantiles: 'quantiles',
             borderColor: 'black',
             data: [[18882.492, 7712.077, 5830.748, 7206.05]],
           },
         ],
       },
-      options: {
-        boxplot: {
-          datasets: {
-            quantiles: 'quantiles',
-          },
-        },
-      },
+      ...options,
     });
+
+    return chart.toMatchImageSnapshot();
   });
 
   test('quantiles fivenum', () => {
-    return matchChart({
+    const chart = createChart<IBoxPlotDataPoint, string, IBoxPlotControllerConfiguration>({
       type: BoxPlotController.id,
       data: {
         labels: ['A'],
-        datasets: [
-          {
-            borderColor: 'black',
-            data: [[18882.492, 7712.077, 5830.748, 7206.05]],
-          },
-        ],
+        datasets: [{ quantiles: 'fivenum', borderColor: 'black', data: [[18882.492, 7712.077, 5830.748, 7206.05]] }],
       },
-      options: {
-        boxplot: {
-          datasets: {
-            quantiles: 'fivenum',
-          },
-        },
-      },
+      ...options,
     });
+
+    return chart.toMatchImageSnapshot();
   });
 
   test('datalimits', () => {
     const samples = new Samples(10);
 
-    return matchChart({
+    const chart = createChart<IBoxPlotDataPoint, string, IBoxPlotControllerConfiguration>({
       type: BoxPlotController.id,
       data: {
         labels: samples.months({ count: 7 }),
         datasets: [
           {
             label: 'Dataset 1',
+            minStats: 'min',
+            maxStats: 'max',
             backgroundColor: 'red',
             borderWidth: 1,
             data: samples.boxplots({ count: 7 }),
@@ -237,6 +265,8 @@ describe('boxplot', () => {
           },
           {
             label: 'Dataset 2',
+            minStats: 'min',
+            maxStats: 'max',
             backgroundColor: 'blue',
             borderWidth: 1,
             data: samples.boxplotsArray({ count: 7 }),
@@ -244,29 +274,25 @@ describe('boxplot', () => {
           },
         ],
       },
-      options: {
-        boxplot: {
-          datasets: {
-            minStats: 'min',
-            maxStats: 'max',
-          },
-        },
-      },
+      ...options,
     });
+
+    return chart.toMatchImageSnapshot();
   });
 
   test('datastructures', () => {
-    return matchChart({
+    const chart = createChart<IBoxPlotDataPoint, string, IBoxPlotControllerConfiguration>({
       type: BoxPlotController.id,
       data: {
         labels: ['array', '{boxplot values}', 'with items', 'as outliers'],
         datasets: [
           {
             label: 'Dataset 1',
+            minStats: 'min',
+            maxStats: 'max',
             backgroundColor: 'rgba(255,0,0,0.2)',
             borderColor: 'red',
             borderWidth: 1,
-            padding: 10,
             itemRadius: 2,
             itemStyle: 'circle',
             itemBackgroundColor: '#000',
@@ -300,26 +326,23 @@ describe('boxplot', () => {
           },
         ],
       },
-      options: {
-        boxplot: {
-          datasets: {
-            minStats: 'min',
-            maxStats: 'max',
-          },
-        },
-      },
+      ...options,
     });
+
+    return chart.toMatchImageSnapshot();
   });
 
   test('empty', () => {
     const samples = new Samples(10);
-    return matchChart({
+    const chart = createChart<IBoxPlotDataPoint, string, IBoxPlotControllerConfiguration>({
       type: BoxPlotController.id,
       data: {
         labels: ['A', 'B'],
         datasets: [
           {
             label: 'Dataset 1',
+            minStats: 'min',
+            maxStats: 'max',
             borderColor: 'red',
             borderWidth: 1,
             outlierRadius: 3,
@@ -329,14 +352,9 @@ describe('boxplot', () => {
           },
         ],
       },
-      options: {
-        boxplot: {
-          datasets: {
-            minStats: 'min',
-            maxStats: 'max',
-          },
-        },
-      },
+      ...options,
     });
+
+    return chart.toMatchImageSnapshot();
   });
 });

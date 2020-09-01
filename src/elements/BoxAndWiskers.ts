@@ -1,10 +1,36 @@
 ﻿import { Rectangle } from '@sgratzl/chartjs-esm-facade';
-import { StatsBase, baseDefaults, baseOptionKeys, baseRoutes } from './base';
+import { StatsBase, baseDefaults, baseOptionKeys, baseRoutes, IStatsBaseOptions, IStatsBaseProps } from './base';
 
 export const boxOptionsKeys = baseOptionKeys.concat(['medianColor', 'lowerBackgroundColor']);
 
-export class BoxAndWiskers extends StatsBase {
-  draw(ctx) {
+export interface IBoxAndWhiskersOptions extends IStatsBaseOptions {
+  /**
+   * separate color for the median line
+   * @default 'transparent' takes the current borderColor
+   * @scriptable
+   * @indexable
+   */
+  medianColor: string;
+
+  /**
+   * color the lower half (median-q3) of the box in a different color
+   * @default 'transparent' takes the current borderColor
+   * @scriptable
+   * @indexable
+   */
+  lowerBackgroundColor: string;
+}
+
+export interface IBoxAndWhiskerProps extends IStatsBaseProps {
+  q1: number;
+  q3: number;
+  median: number;
+  whiskerMin: number;
+  whiskerMax: number;
+}
+
+export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhiskersOptions> {
+  draw(ctx: CanvasRenderingContext2D) {
     ctx.save();
 
     ctx.fillStyle = this.options.backgroundColor;
@@ -19,7 +45,7 @@ export class BoxAndWiskers extends StatsBase {
     this._drawItems(ctx);
   }
 
-  _drawBoxPlot(ctx) {
+  _drawBoxPlot(ctx: CanvasRenderingContext2D) {
     if (this.isVertical()) {
       this._drawBoxPlotVertical(ctx);
     } else {
@@ -27,7 +53,7 @@ export class BoxAndWiskers extends StatsBase {
     }
   }
 
-  _drawBoxPlotVertical(ctx) {
+  _drawBoxPlotVertical(ctx: CanvasRenderingContext2D) {
     const options = this.options;
     const props = this.getProps(['x', 'width', 'q1', 'q3', 'median', 'whiskerMin', 'whiskerMax']);
 
@@ -86,7 +112,7 @@ export class BoxAndWiskers extends StatsBase {
     ctx.stroke();
   }
 
-  _drawBoxPlotHorizontal(ctx) {
+  _drawBoxPlotHorizontal(ctx: CanvasRenderingContext2D) {
     const options = this.options;
     const props = this.getProps(['y', 'height', 'q1', 'q3', 'median', 'whiskerMin', 'whiskerMax']);
 
@@ -146,7 +172,7 @@ export class BoxAndWiskers extends StatsBase {
     ctx.stroke();
   }
 
-  _getBounds(useFinalPosition) {
+  _getBounds(useFinalPosition?: boolean) {
     const vert = this.isVertical();
     if (this.x == null) {
       return {
@@ -182,11 +208,11 @@ export class BoxAndWiskers extends StatsBase {
       bottom: y0 + height,
     };
   }
-}
 
-BoxAndWiskers.id = 'boxandwhiskers';
-BoxAndWiskers.defaults = /*#__PURE__*/ Object.assign({}, Rectangle.defaults, baseDefaults, {
-  medianColor: 'transparent',
-  lowerBackgroundColor: 'transparent',
-});
-BoxAndWiskers.defaultRoutes = /*#__PURE__*/ Object.assign({}, Rectangle.defaultRoutes, baseRoutes);
+  static id = 'boxandwhiskers';
+  static defaults = /*#__PURE__*/ Object.assign({}, Rectangle.defaults, baseDefaults, {
+    medianColor: 'transparent',
+    lowerBackgroundColor: 'transparent',
+  });
+  static defaultRoutes = /*#__PURE__*/ Object.assign({}, Rectangle.defaultRoutes, baseRoutes);
+}

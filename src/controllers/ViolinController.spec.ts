@@ -1,5 +1,5 @@
-import matchChart from '../__tests__/matchChart';
-import { ViolinController } from './ViolinController';
+import createChart from '../__tests__/createChart';
+import { IViolinControllerConfiguration, IViolinDataPoint, ViolinController } from './ViolinController';
 import { Samples } from './__tests__/utils';
 import { registry } from '@sgratzl/chartjs-esm-facade';
 import { Violin } from '../elements';
@@ -11,7 +11,7 @@ describe('violin', () => {
   });
   test('default', () => {
     const samples = new Samples(10);
-    return matchChart({
+    const chart = createChart<IViolinDataPoint, string, IViolinControllerConfiguration>({
       type: ViolinController.id,
       data: {
         labels: samples.months({ count: 7 }),
@@ -29,10 +29,20 @@ describe('violin', () => {
             borderWidth: 1,
             data: samples.boxplotsArray({ count: 7 }),
             outlierBackgroundColor: '#999999',
-            lowerBackgroundColor: '#461e7d',
           },
         ],
       },
+      options: {
+        scales: {
+          x: {
+            display: false,
+          },
+          y: {
+            display: false,
+          },
+        },
+      },
     });
+    return chart.toMatchImageSnapshot();
   });
 });
