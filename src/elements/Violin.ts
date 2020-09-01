@@ -1,10 +1,6 @@
 ﻿import { drawPoint, Rectangle } from '@sgratzl/chartjs-esm-facade';
+import { IKDEPoint } from '../data';
 import { StatsBase, baseDefaults, baseRoutes, IStatsBaseOptions, IStatsBaseProps } from './base';
-
-export interface IKDEPoint {
-  v: number;
-  estimate: number;
-}
 
 export interface IViolinElementOptions extends IStatsBaseOptions {
   // no extras

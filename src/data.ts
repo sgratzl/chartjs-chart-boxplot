@@ -36,6 +36,11 @@ export interface IBoxPlot extends IBaseStats {
   whiskerMin: number;
 }
 
+export interface IKDEPoint {
+  v: number;
+  estimate: number;
+}
+
 export interface IViolin extends IBaseStats {
   items: readonly number[];
   maxEstimate: number;

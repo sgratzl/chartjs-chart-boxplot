@@ -12,7 +12,7 @@ Chart.js module for charting box and violin plots. This is a maintained fork of 
 ## Install
 
 ```bash
-npm install --save chart.js@next @sgratzl/chartjs-chart-boxplot@next
+npm install --save chart.js@next chartjs-esm-facade@next @sgratzl/chartjs-chart-boxplot@next
 ```
 
 ## Usage
@@ -23,14 +23,13 @@ and [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/QxoLoY)
 
 ## Chart
 
-four new types: `boxplot`, `horizontalBoxplot`, `violin`, and `horizontalViolin`.
+four new types: `boxplot` and `violin`.
 
 ## Config
 
 The config can be done on a per dataset `.data.datasets[0].minStats` or for all datasets under the controllers name. e.g., `.options.boxplot.datasets.minStats`.
 
-```ts
-```
+see https://github.com/sgratzl/chartjs-chart-boxplot/blob/develop/src/data.ts#L95-L134
 
 ## Data structure
 
