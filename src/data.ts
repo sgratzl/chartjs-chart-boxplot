@@ -9,7 +9,6 @@ import boxplots, {
   quantilesType7,
 } from '@sgratzl/boxplots';
 import { kde } from './kde';
-import { IKDEPoint } from './elements';
 export {
   quantilesFivenum,
   quantilesHigher,
