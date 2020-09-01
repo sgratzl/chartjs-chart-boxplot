@@ -29,52 +29,13 @@ four new types: `boxplot` and `violin`.
 
 The config can be done on a per dataset `.data.datasets[0].minStats` or for all datasets under the controllers name. e.g., `.options.boxplot.datasets.minStats`.
 
-see https://github.com/sgratzl/chartjs-chart-boxplot/blob/develop/src/data.ts#L95-L134
+see https://github.com/sgratzl/chartjs-chart-boxplot/blob/develop/src/data.ts#L100-L147
 
 ## Data structure
 
 Both types support that the data is given as an array of numbers `number[]`. The statistics will be automatically computed. In addition, specific summary data structures are supported:
 
-```ts
-interface IBaseItem {
-  min: number;
-  median: number;
-  max: number;
-  /**
-   * values of the raw items used for rendering jittered background points
-   */
-  items?: number[];
-}
-
-interface IBoxPlotItem extends IBaseItem {
-  q1: number;
-  q3: number;
-  whiskerMin?: number;
-  whiskerMax?: number;
-  /**
-   * list of box plot outlier values
-   */
-  outliers?: number[];
-}
-
-interface IKDESamplePoint {
-  /**
-   * sample value
-   */
-  v: number;
-  /**
-   * sample estimation
-   */
-  estimate: number;
-}
-
-interface IViolinItem extends IBaseItem {
-  /**
-   * samples of the underlying KDE
-   */
-  coords: IKDESamplePoint[];
-}
-```
+see https://github.com/sgratzl/chartjs-chart-boxplot/blob/develop/src/data.ts#L24-L49
 
 ## Tooltips
 
@@ -139,16 +100,23 @@ new BoxPlotChart(ctx, {
 
 ```sh
 npm i -g yarn
-yarn set version 2.1.0
+yarn set version 2
+cat .yarnrc_patch.yml >> .yarnrc.yml
 yarn
-yarn pnpify --sdk vscode
+yarn pnpify --sdk
 ```
 
-### Building
+### Common commands
 
 ```sh
-yarn install
+yarn compile
+yarn test
+yarn lint
+yarn fix
 yarn build
+yarn docs
+yarn release
+yarn release:pre
 ```
 
 ## Credits
