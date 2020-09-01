@@ -121,7 +121,7 @@ yarn release:pre
 
 ## Credits
 
-Originally credits belong to [@datavisyn](https://www.datavisyn.io).
+Original credits belong to [@datavisyn](https://www.datavisyn.io).
 
 [mit-image]: https://img.shields.io/badge/License-MIT-yellow.svg
 [mit-url]: https://opensource.org/licenses/MIT
