@@ -1988,7 +1988,6 @@ __metadata:
     "@rollup/plugin-commonjs": ^15.0.0
     "@sgratzl/boxplots": ^1.2.1
     "@sgratzl/chartjs-esm-facade": ^3.0.0-alpha.20
-    "@types/d3-selection": ^1.4.2
     "@types/jest": ^26.0.10
     "@types/jest-image-snapshot": ^3.1.0
     "@types/node": ^14.6.0
@@ -2135,13 +2134,6 @@ __metadata:
   version: 1.1.1
   resolution: "@types/color-name@npm:1.1.1"
   checksum: 8311db94a9c4ecd247763b81e783ee49d87678b4ce6a7ee502e2bd5cea242b7357804a04855db009f713174bc654cc0c01c7303d40d757e5d710f5ac0368500f
-  languageName: node
-  linkType: hard
-
-"@types/d3-selection@npm:^1.4.2":
-  version: 1.4.2
-  resolution: "@types/d3-selection@npm:1.4.2"
-  checksum: 6a8c573c39fecaed58b77bd43ad8c00e890a686f2079883c7929dea1b5f2629ef40b26fd63fa35fe43a5280e702f21995ec4aa9139ffb766a81bdf0c19af332f
   languageName: node
   linkType: hard
 

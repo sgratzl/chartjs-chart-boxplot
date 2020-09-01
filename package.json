@@ -61,7 +61,6 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^15.0.0",
     "@sgratzl/chartjs-esm-facade": "^3.0.0-alpha.20",
-    "@types/d3-selection": "^1.4.2",
     "@types/jest": "^26.0.10",
     "@types/jest-image-snapshot": "^3.1.0",
     "@types/node": "^14.6.0",
