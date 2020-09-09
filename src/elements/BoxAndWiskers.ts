@@ -69,7 +69,8 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
 
     // Draw the median line
     ctx.save();
-    if (options.medianColor && options.medianColor !== 'transparent') {
+    console.log('median', options.medianColor);
+    if (options.medianColor && options.medianColor !== 'transparent' && options.medianColor !== '#0000') {
       ctx.strokeStyle = options.medianColor;
     }
     ctx.beginPath();
@@ -81,7 +82,11 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
 
     ctx.save();
     // fill the part below the median with lowerColor
-    if (options.lowerBackgroundColor && options.lowerBackgroundColor !== 'transparent') {
+    if (
+      options.lowerBackgroundColor &&
+      options.lowerBackgroundColor !== 'transparent' &&
+      options.lowerBackgroundColor !== '#0000'
+    ) {
       ctx.fillStyle = options.lowerBackgroundColor;
       if (props.q3 > props.q1) {
         ctx.fillRect(x0, props.median, width, props.q3 - props.median);
