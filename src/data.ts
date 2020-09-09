@@ -133,9 +133,7 @@ export interface IBaseOptions {
   quantiles?: QuantileMethod;
 }
 
-export interface IBoxplotOptions extends IBaseOptions {
-  // no extra options
-}
+export type IBoxplotOptions = IBaseOptions;
 
 export interface IViolinOptions extends IBaseOptions {
   /**

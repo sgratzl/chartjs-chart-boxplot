@@ -24,14 +24,13 @@ export function outlierPositioner(
   if (!items.length) {
     return false;
   }
-  var i, len;
-  var x = 0;
-  var y = 0;
-  var count = 0;
-  for (i = 0, len = items.length; i < len; ++i) {
-    var el = items[i].element;
+  let x = 0;
+  let y = 0;
+  let count = 0;
+  for (let i = 0; i < items.length; ++i) {
+    const el = items[i].element;
     if (el && el.hasValue()) {
-      var pos = (el as any).tooltipPosition(eventPosition, this);
+      const pos = (el as any).tooltipPosition(eventPosition, this);
       x += pos.x;
       y += pos.y;
       ++count;
