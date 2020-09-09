@@ -1,14 +1,6 @@
 ﻿import { interpolateNumberArray } from '../animation';
 import { outlierPositioner, patchInHoveredOutlier } from '../tooltip';
-import {
-  BarController,
-  Element,
-  IChartMeta,
-  IScaleOptions,
-  LinearScale,
-  Scale,
-  UpdateMode,
-} from '@sgratzl/chartjs-esm-facade';
+import { BarController, Element, IChartMeta, IScaleOptions, LinearScale, Scale, UpdateMode } from 'chart.js';
 import { defaultStatsOptions, IBaseOptions } from '../data';
 
 export /*#__PURE__*/ function baseDefaults(keys: string[]) {

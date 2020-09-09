@@ -12,7 +12,7 @@ Chart.js module for charting box and violin plots. This is a maintained fork of 
 ## Install
 
 ```bash
-npm install --save chart.js@next chartjs-esm-facade@next @sgratzl/chartjs-chart-boxplot@next
+npm install --save chart.js@next @sgratzl/chartjs-chart-boxplot@next
 ```
 
 ## Usage

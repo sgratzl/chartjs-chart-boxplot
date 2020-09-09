@@ -1,7 +1,6 @@
 ﻿import { asViolinStats, IBaseStats, IViolin, IViolinOptions } from '../data';
 import {
   Chart,
-  merge,
   BarController,
   ChartItem,
   IControllerDatasetOptions,
@@ -9,7 +8,10 @@ import {
   ICommonHoverOptions,
   IChartDataset,
   IChartConfiguration,
-} from '@sgratzl/chartjs-esm-facade';
+  LinearScale,
+  CategoryScale,
+} from 'chart.js';
+import { merge } from '../../chartjs-helpers/core';
 import { StatsBase, baseDefaults } from './base';
 import { baseOptionKeys } from '../elements/base';
 import { IViolinElementOptions, Violin } from '../elements';
@@ -77,6 +79,7 @@ export type IViolinDataPoint = number[] | (Partial<IViolin> & IBaseStats);
 
 export type IViolinControllerDataset<T = IViolinDataPoint> = IChartDataset<T, IViolinControllerDatasetOptions>;
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IViolinChartOptions {}
 
 export type IViolinControllerConfiguration<T = IViolinDataPoint, L = string> = IChartConfiguration<
@@ -91,6 +94,6 @@ export class ViolinChart<T = IViolinDataPoint, L = string> extends Chart<T, L, I
   static id = ViolinController.id;
 
   constructor(item: ChartItem, config: Omit<IViolinControllerConfiguration<T, L>, 'type'>) {
-    super(item, patchController('violin', config, ViolinController, Violin, []));
+    super(item, patchController('violin', config, ViolinController, Violin, [LinearScale, CategoryScale]));
   }
 }

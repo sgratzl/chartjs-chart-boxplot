@@ -4,16 +4,18 @@
     <title>Box Plot Chart</title>
   </head>
   <body>
-    <div id="container" style="width: 75%;">
+    <div id="container" style="width: 75%">
       <canvas id="canvas"></canvas>
     </div>
     <script defer src="https://unpkg.com/es-module-shims"></script>
     <script type="importmap-shim">
       {
         "imports": {
-          "@sgratzl/chartjs-esm-facade": "https://unpkg.com/@sgratzl/chartjs-esm-facade@3.0.0-alpha.2?module",
+          "chart.js": "https://unpkg.com/chart.js@3.0.0-beta?module",
+          "chart.js/helpers/core": "https://unpkg.com/chart.js@3.0.0-beta/helpers/core.js?module",
+          "chart.js/helpers/canvas": "https://unpkg.com/chart.js@3.0.0-beta/helpers/canvas.js?module",
           "@sgratzl/boxplots": "https://unpkg.com/@sgratzl/boxplots?module",
-          "@sgratzl/chartjs-chart-boxplot": "../dist/chartboxplot.esm.js"
+          "@sgratzl/chartjs-chart-boxplot": "../build/index.esm.js"
         }
       }
     </script>

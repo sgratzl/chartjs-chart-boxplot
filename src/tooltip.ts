@@ -1,4 +1,4 @@
-import { InteractionItem, ITooltipItem, Tooltip, TooltipModel } from '@sgratzl/chartjs-esm-facade';
+import { InteractionItem, ITooltipItem, Tooltip, TooltipModel } from 'chart.js';
 
 export interface IExtendedTooltip extends TooltipModel {
   _tooltipOutlier?: {

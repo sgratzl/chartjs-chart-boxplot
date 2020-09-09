@@ -1,4 +1,4 @@
-import { registry } from '@sgratzl/chartjs-esm-facade';
+import { registry } from 'chart.js';
 import { BoxPlotController, ViolinController } from './controllers';
 import { BoxAndWiskers, Violin } from './elements';
 

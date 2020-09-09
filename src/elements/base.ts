@@ -1,4 +1,5 @@
-﻿import { Element, drawPoint } from '@sgratzl/chartjs-esm-facade';
+﻿import { Element } from 'chart.js';
+import { drawPoint } from '../../chartjs-helpers/canvas';
 import { rnd } from '../data';
 import { IExtendedTooltip } from '../tooltip';
 

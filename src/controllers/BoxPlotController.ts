@@ -2,14 +2,16 @@
 import {
   Chart,
   BarController,
-  merge,
   IControllerDatasetOptions,
   ScriptableAndArrayOptions,
   ICommonHoverOptions,
   IChartDataset,
   ChartItem,
   IChartConfiguration,
-} from '@sgratzl/chartjs-esm-facade';
+  LinearScale,
+  CategoryScale,
+} from 'chart.js';
+import { merge } from '../../chartjs-helpers/core';
 import { baseDefaults, StatsBase } from './base';
 import { BoxAndWiskers, IBoxAndWhiskersOptions } from '../elements';
 import patchController from './patchController';
@@ -67,6 +69,7 @@ export type IBoxPlotDataPoint = number[] | (Partial<IBoxPlot> & IBaseStats);
 
 export type IBoxPlotControllerDataset<T = IBoxPlotDataPoint> = IChartDataset<T, IBoxPlotControllerDatasetOptions>;
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IBoxPlotChartOptions {}
 
 export type IBoxPlotControllerConfiguration<T = IBoxPlotDataPoint, L = string> = IChartConfiguration<
@@ -85,6 +88,6 @@ export class BoxPlotChart<T = IBoxPlotDataPoint, L = string> extends Chart<
   static id = BoxPlotController.id;
 
   constructor(item: ChartItem, config: Omit<IBoxPlotControllerConfiguration<T, L>, 'type'>) {
-    super(item, patchController('boxplot', config, BoxPlotController, BoxAndWiskers, []));
+    super(item, patchController('boxplot', config, BoxPlotController, BoxAndWiskers, [LinearScale, CategoryScale]));
   }
 }

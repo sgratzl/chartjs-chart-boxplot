@@ -1,4 +1,4 @@
-﻿import { Rectangle } from '@sgratzl/chartjs-esm-facade';
+﻿import { Rectangle } from 'chart.js';
 import { StatsBase, baseDefaults, baseOptionKeys, baseRoutes, IStatsBaseOptions, IStatsBaseProps } from './base';
 
 export const boxOptionsKeys = baseOptionKeys.concat(['medianColor', 'lowerBackgroundColor']);

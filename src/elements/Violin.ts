@@ -1,10 +1,9 @@
-﻿import { drawPoint, Rectangle } from '@sgratzl/chartjs-esm-facade';
+﻿import { Rectangle } from 'chart.js';
+import { drawPoint } from '../../chartjs-helpers/canvas';
 import { IKDEPoint } from '../data';
 import { StatsBase, baseDefaults, baseRoutes, IStatsBaseOptions, IStatsBaseProps } from './base';
 
-export interface IViolinElementOptions extends IStatsBaseOptions {
-  // no extras
-}
+export type IViolinElementOptions = IStatsBaseOptions;
 
 export interface IViolinElementProps extends IStatsBaseProps {
   min: number;

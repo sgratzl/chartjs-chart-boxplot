@@ -10,7 +10,7 @@ import {
   Line,
   IBarControllerDataset,
   ILineControllerDataset,
-} from '@sgratzl/chartjs-esm-facade';
+} from 'chart.js';
 import { BoxAndWiskers } from '../elements';
 
 const options = {
