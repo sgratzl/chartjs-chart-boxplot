@@ -1,16 +1,7 @@
 import createChart from '../__tests__/createChart';
-import { BoxPlotController, IBoxPlotControllerConfiguration, IBoxPlotDataPoint } from './BoxPlotController';
+import { BoxPlotController, IBoxPlotDataPoint } from './BoxPlotController';
 import { Samples } from './__tests__/utils';
-import {
-  registry,
-  BarController,
-  LineController,
-  Point,
-  Rectangle,
-  Line,
-  IBarControllerDataset,
-  ILineControllerDataset,
-} from 'chart.js';
+import { registry, BarController, LineController, Point, Rectangle, Line } from 'chart.js';
 import { BoxAndWiskers } from '../elements';
 
 const options = {
@@ -35,7 +26,7 @@ describe('boxplot', () => {
   test('default', () => {
     const samples = new Samples(10);
 
-    const chart = createChart<IBoxPlotDataPoint, string, IBoxPlotControllerConfiguration>({
+    const chart = createChart<'boxplot', IBoxPlotDataPoint[]>({
       type: BoxPlotController.id,
       data: {
         labels: samples.months({ count: 7 }),
@@ -64,7 +55,7 @@ describe('boxplot', () => {
   });
 
   test('minmax', () => {
-    const chart = createChart<IBoxPlotDataPoint, string, IBoxPlotControllerConfiguration>({
+    const chart = createChart({
       type: BoxPlotController.id,
       data: {
         labels: ['A', 'B'],
@@ -86,7 +77,7 @@ describe('boxplot', () => {
 
   test('mediancolor', () => {
     const samples = new Samples(10);
-    const chart = createChart<IBoxPlotDataPoint, string, IBoxPlotControllerConfiguration>({
+    const chart = createChart({
       type: BoxPlotController.id,
       data: {
         labels: ['A', 'B'],
@@ -114,7 +105,7 @@ describe('boxplot', () => {
 
   test('logarithmic', () => {
     const samples = new Samples(10);
-    const chart = createChart<IBoxPlotDataPoint, string, IBoxPlotControllerConfiguration>({
+    const chart = createChart({
       type: BoxPlotController.id,
       data: {
         labels: samples.months({ count: 7 }),
@@ -152,7 +143,7 @@ describe('boxplot', () => {
   test('items', () => {
     const samples = new Samples(10);
 
-    const chart = createChart<IBoxPlotDataPoint, string, IBoxPlotControllerConfiguration>({
+    const chart = createChart<'boxplot', IBoxPlotDataPoint[]>({
       type: BoxPlotController.id,
       data: {
         labels: samples.months({ count: 7 }),
@@ -185,7 +176,7 @@ describe('boxplot', () => {
   test('hybrid', () => {
     const samples = new Samples(10);
 
-    const chart = createChart<IBoxPlotDataPoint, string, IBoxPlotControllerConfiguration>({
+    const chart = createChart({
       type: BoxPlotController.id,
       data: {
         labels: samples.months({ count: 7 }),
@@ -195,17 +186,17 @@ describe('boxplot', () => {
             backgroundColor: 'steelblue',
             data: samples.boxplots({ count: 7 }),
           },
-          ({
+          {
             label: 'Bar',
             type: 'bar',
             backgroundColor: 'red',
-            data: samples.numbers({ count: 7, max: 150 }),
-          } as IBarControllerDataset & { type: 'bar' }) as any,
-          ({
+            data: samples.numbers({ count: 7, max: 150 }) as any,
+          },
+          {
             label: 'Line',
             type: 'line',
             data: samples.numbers({ count: 7, max: 150 }).map((d) => ({ y: d })),
-          } as ILineControllerDataset & { type: 'line' }) as any,
+          },
         ],
       },
       ...options,
@@ -215,7 +206,7 @@ describe('boxplot', () => {
   });
 
   test('quantiles types 7', () => {
-    const chart = createChart<IBoxPlotDataPoint, string, IBoxPlotControllerConfiguration>({
+    const chart = createChart({
       type: BoxPlotController.id,
       data: {
         labels: ['A'],
@@ -234,7 +225,7 @@ describe('boxplot', () => {
   });
 
   test('quantiles fivenum', () => {
-    const chart = createChart<IBoxPlotDataPoint, string, IBoxPlotControllerConfiguration>({
+    const chart = createChart({
       type: BoxPlotController.id,
       data: {
         labels: ['A'],
@@ -249,7 +240,7 @@ describe('boxplot', () => {
   test('datalimits', () => {
     const samples = new Samples(10);
 
-    const chart = createChart<IBoxPlotDataPoint, string, IBoxPlotControllerConfiguration>({
+    const chart = createChart<'boxplot', IBoxPlotDataPoint[]>({
       type: BoxPlotController.id,
       data: {
         labels: samples.months({ count: 7 }),
@@ -281,7 +272,7 @@ describe('boxplot', () => {
   });
 
   test('datastructures', () => {
-    const chart = createChart<IBoxPlotDataPoint, string, IBoxPlotControllerConfiguration>({
+    const chart = createChart({
       type: BoxPlotController.id,
       data: {
         labels: ['array', '{boxplot values}', 'with items', 'as outliers'],
@@ -334,7 +325,7 @@ describe('boxplot', () => {
 
   test('empty', () => {
     const samples = new Samples(10);
-    const chart = createChart<IBoxPlotDataPoint, string, IBoxPlotControllerConfiguration>({
+    const chart = createChart({
       type: BoxPlotController.id,
       data: {
         labels: ['A', 'B'],

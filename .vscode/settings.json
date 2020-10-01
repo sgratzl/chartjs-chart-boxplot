@@ -22,5 +22,9 @@
   "typescript.tsdk": ".yarn/sdks/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "editor.detectIndentation": false,
-  "editor.tabSize": 2
+  "editor.tabSize": 2,
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  }
 }

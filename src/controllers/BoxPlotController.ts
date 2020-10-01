@@ -5,13 +5,13 @@ import {
   IControllerDatasetOptions,
   ScriptableAndArrayOptions,
   ICommonHoverOptions,
-  IChartDataset,
   ChartItem,
   IChartConfiguration,
   LinearScale,
   CategoryScale,
+  ICartesianScaleTypeRegistry,
 } from 'chart.js';
-import { merge } from '../../chartjs-helpers/core';
+import { merge } from 'chart.js/helpers';
 import { baseDefaults, StatsBase } from './base';
 import { BoxAndWiskers, IBoxAndWhiskersOptions } from '../elements';
 import patchController from './patchController';
@@ -67,27 +67,32 @@ export interface IBoxPlotControllerDatasetOptions
 
 export type IBoxPlotDataPoint = number[] | (Partial<IBoxPlot> & IBaseStats);
 
-export type IBoxPlotControllerDataset<T = IBoxPlotDataPoint> = IChartDataset<T, IBoxPlotControllerDatasetOptions>;
-
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IBoxPlotChartOptions {}
 
-export type IBoxPlotControllerConfiguration<T = IBoxPlotDataPoint, L = string> = IChartConfiguration<
-  'boxplot',
-  T,
-  L,
-  IBoxPlotControllerDataset<T>,
-  IBoxPlotChartOptions
->;
+declare module 'chart.js' {
+  export enum ChartTypeEnum {
+    boxplot = 'boxplot',
+  }
 
-export class BoxPlotChart<T = IBoxPlotDataPoint, L = string> extends Chart<
-  T,
-  L,
-  IBoxPlotControllerConfiguration<T, L>
+  export interface IChartTypeRegistry {
+    boxplot: {
+      chartOptions: IBoxPlotChartOptions;
+      datasetOptions: IBoxPlotControllerDatasetOptions;
+      defaultDataPoint: IBoxPlotDataPoint[];
+      scales: keyof ICartesianScaleTypeRegistry;
+    };
+  }
+}
+
+export class BoxPlotChart<DATA extends unknown[] = IBoxPlotDataPoint[], LABEL = string> extends Chart<
+  'boxplot',
+  DATA,
+  LABEL
 > {
   static id = BoxPlotController.id;
 
-  constructor(item: ChartItem, config: Omit<IBoxPlotControllerConfiguration<T, L>, 'type'>) {
+  constructor(item: ChartItem, config: Omit<IChartConfiguration<'boxplot', DATA, LABEL>, 'type'>) {
     super(item, patchController('boxplot', config, BoxPlotController, BoxAndWiskers, [LinearScale, CategoryScale]));
   }
 }

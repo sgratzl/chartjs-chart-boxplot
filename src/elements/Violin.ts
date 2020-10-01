@@ -1,5 +1,5 @@
 ﻿import { Rectangle } from 'chart.js';
-import { drawPoint } from '../../chartjs-helpers/canvas';
+import { drawPoint } from 'chart.js/helpers';
 import { IKDEPoint } from '../data';
 import { StatsBase, baseDefaults, baseRoutes, IStatsBaseOptions, IStatsBaseProps } from './base';
 

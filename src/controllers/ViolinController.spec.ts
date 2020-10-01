@@ -1,5 +1,5 @@
 import createChart from '../__tests__/createChart';
-import { IViolinControllerConfiguration, IViolinDataPoint, ViolinController } from './ViolinController';
+import { ViolinController } from './ViolinController';
 import { Samples } from './__tests__/utils';
 import { registry } from 'chart.js';
 import { Violin } from '../elements';
@@ -11,7 +11,7 @@ describe('violin', () => {
   });
   test('default', () => {
     const samples = new Samples(10);
-    const chart = createChart<IViolinDataPoint, string, IViolinControllerConfiguration>({
+    const chart = createChart({
       type: ViolinController.id,
       data: {
         labels: samples.months({ count: 7 }),

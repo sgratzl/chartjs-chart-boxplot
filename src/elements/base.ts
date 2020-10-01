@@ -1,5 +1,5 @@
 ﻿import { Element } from 'chart.js';
-import { drawPoint } from '../../chartjs-helpers/canvas';
+import { drawPoint } from 'chart.js/helpers';
 import { rnd } from '../data';
 import { IExtendedTooltip } from '../tooltip';
 
@@ -240,6 +240,7 @@ export class StatsBase<T extends IStatsBaseProps, O extends IStatsBaseOptions> e
     ctx.restore();
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _getBounds(_useFinalPosition?: boolean) {
     // abstract
     return {

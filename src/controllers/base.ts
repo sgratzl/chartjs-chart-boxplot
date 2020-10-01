@@ -1,6 +1,6 @@
 ﻿import { interpolateNumberArray } from '../animation';
 import { outlierPositioner, patchInHoveredOutlier } from '../tooltip';
-import { BarController, Element, IChartMeta, IScaleOptions, LinearScale, Scale, UpdateMode } from 'chart.js';
+import { BarController, Element, IChartMeta, LinearScale, Scale, UpdateMode } from 'chart.js';
 import { defaultStatsOptions, IBaseOptions } from '../data';
 
 export /*#__PURE__*/ function baseDefaults(keys: string[]) {
@@ -49,7 +49,7 @@ export /*#__PURE__*/ function baseDefaults(keys: string[]) {
 export abstract class StatsBase<S extends { median: number }, C extends Required<IBaseOptions>> extends BarController {
   declare _config: C;
 
-  getMinMax(scale: Scale<IScaleOptions>, canStack?: boolean | undefined) {
+  getMinMax(scale: Scale, canStack?: boolean | undefined) {
     const bak = scale.axis;
     const config = this._config;
     scale.axis = config.minStats;

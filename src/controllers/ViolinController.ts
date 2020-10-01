@@ -6,12 +6,12 @@ import {
   IControllerDatasetOptions,
   ScriptableAndArrayOptions,
   ICommonHoverOptions,
-  IChartDataset,
   IChartConfiguration,
   LinearScale,
   CategoryScale,
+  ICartesianScaleTypeRegistry,
 } from 'chart.js';
-import { merge } from '../../chartjs-helpers/core';
+import { merge } from 'chart.js/helpers';
 import { StatsBase, baseDefaults } from './base';
 import { baseOptionKeys } from '../elements/base';
 import { IViolinElementOptions, Violin } from '../elements';
@@ -77,23 +77,32 @@ export interface IViolinControllerDatasetOptions
 
 export type IViolinDataPoint = number[] | (Partial<IViolin> & IBaseStats);
 
-export type IViolinControllerDataset<T = IViolinDataPoint> = IChartDataset<T, IViolinControllerDatasetOptions>;
-
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IViolinChartOptions {}
 
-export type IViolinControllerConfiguration<T = IViolinDataPoint, L = string> = IChartConfiguration<
-  'violin',
-  T,
-  L,
-  IViolinControllerDataset<T>,
-  IViolinChartOptions
->;
+declare module 'chart.js' {
+  export enum ChartTypeEnum {
+    violin = 'violin',
+  }
 
-export class ViolinChart<T = IViolinDataPoint, L = string> extends Chart<T, L, IViolinControllerConfiguration<T, L>> {
+  export interface IChartTypeRegistry {
+    violin: {
+      chartOptions: IViolinChartOptions;
+      datasetOptions: IViolinControllerDatasetOptions;
+      defaultDataPoint: IViolinDataPoint[];
+      scales: keyof ICartesianScaleTypeRegistry;
+    };
+  }
+}
+
+export class ViolinChart<DATA extends unknown[] = IViolinDataPoint[], LABEL = string> extends Chart<
+  'violin',
+  DATA,
+  LABEL
+> {
   static id = ViolinController.id;
 
-  constructor(item: ChartItem, config: Omit<IViolinControllerConfiguration<T, L>, 'type'>) {
+  constructor(item: ChartItem, config: Omit<IChartConfiguration<'violin', DATA, LABEL>, 'type'>) {
     super(item, patchController('violin', config, ViolinController, Violin, [LinearScale, CategoryScale]));
   }
 }
