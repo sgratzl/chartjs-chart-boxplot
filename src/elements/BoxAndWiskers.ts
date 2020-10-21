@@ -69,7 +69,6 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
 
     // Draw the median line
     ctx.save();
-    console.log('median', options.medianColor);
     if (options.medianColor && options.medianColor !== 'transparent' && options.medianColor !== '#0000') {
       ctx.strokeStyle = options.medianColor;
     }
