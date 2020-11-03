@@ -1,4 +1,4 @@
-﻿import { Rectangle } from 'chart.js';
+﻿import { BarElement } from 'chart.js';
 import { StatsBase, baseDefaults, baseOptionKeys, baseRoutes, IStatsBaseOptions, IStatsBaseProps } from './base';
 
 export const boxOptionsKeys = baseOptionKeys.concat(['medianColor', 'lowerBackgroundColor']);
@@ -214,9 +214,9 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
   }
 
   static id = 'boxandwhiskers';
-  static defaults = /*#__PURE__*/ Object.assign({}, Rectangle.defaults, baseDefaults, {
+  static defaults = /*#__PURE__*/ Object.assign({}, BarElement.defaults, baseDefaults, {
     medianColor: 'transparent',
     lowerBackgroundColor: 'transparent',
   });
-  static defaultRoutes = /*#__PURE__*/ Object.assign({}, Rectangle.defaultRoutes, baseRoutes);
+  static defaultRoutes = /*#__PURE__*/ Object.assign({}, BarElement.defaultRoutes, baseRoutes);
 }

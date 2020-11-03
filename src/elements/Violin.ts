@@ -1,4 +1,4 @@
-﻿import { Rectangle } from 'chart.js';
+﻿import { BarElement } from 'chart.js';
 import { drawPoint } from 'chart.js/helpers';
 import { IKDEPoint } from '../data';
 import { StatsBase, baseDefaults, baseRoutes, IStatsBaseOptions, IStatsBaseProps } from './base';
@@ -101,6 +101,6 @@ export class Violin extends StatsBase<IViolinElementProps, IViolinElementOptions
   }
 
   static id = 'violin';
-  static defaults = /*#__PURE__*/ Object.assign({}, Rectangle.defaults, baseDefaults);
-  static defaultRoutes = /*#__PURE__*/ Object.assign({}, Rectangle.defaultRoutes, baseRoutes);
+  static defaults = /*#__PURE__*/ Object.assign({}, BarElement.defaults, baseDefaults);
+  static defaultRoutes = /*#__PURE__*/ Object.assign({}, BarElement.defaultRoutes, baseRoutes);
 }

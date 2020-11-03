@@ -71,10 +71,6 @@ export type IBoxPlotDataPoint = number[] | (Partial<IBoxPlot> & IBaseStats);
 export interface IBoxPlotChartOptions {}
 
 declare module 'chart.js' {
-  export enum ChartTypeEnum {
-    boxplot = 'boxplot',
-  }
-
   export interface IChartTypeRegistry {
     boxplot: {
       chartOptions: IBoxPlotChartOptions;

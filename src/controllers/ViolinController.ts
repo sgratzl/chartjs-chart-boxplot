@@ -81,10 +81,6 @@ export type IViolinDataPoint = number[] | (Partial<IViolin> & IBaseStats);
 export interface IViolinChartOptions {}
 
 declare module 'chart.js' {
-  export enum ChartTypeEnum {
-    violin = 'violin',
-  }
-
   export interface IChartTypeRegistry {
     violin: {
       chartOptions: IViolinChartOptions;

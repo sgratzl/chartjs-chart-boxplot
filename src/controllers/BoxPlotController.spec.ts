@@ -1,7 +1,7 @@
 import createChart from '../__tests__/createChart';
 import { BoxPlotController, IBoxPlotDataPoint } from './BoxPlotController';
 import { Samples } from './__tests__/utils';
-import { registry, BarController, LineController, Point, Rectangle, Line } from 'chart.js';
+import { registry, BarController, LineController, PointElement, BarElement, LineElement } from 'chart.js';
 import { BoxAndWiskers } from '../elements';
 
 const options = {
@@ -20,7 +20,7 @@ const options = {
 describe('boxplot', () => {
   beforeAll(() => {
     registry.addControllers(BoxPlotController, BarController, LineController);
-    registry.addElements(BoxAndWiskers, Point, Rectangle, Line);
+    registry.addElements(BoxAndWiskers, PointElement, BarElement, LineElement);
   });
 
   test('default', () => {
