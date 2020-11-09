@@ -1,6 +1,6 @@
 ﻿import { interpolateNumberArray } from '../animation';
 import { outlierPositioner, patchInHoveredOutlier } from '../tooltip';
-import { BarController, Element, IChartMeta, LinearScale, Scale, UpdateMode } from 'chart.js';
+import { BarController, Element, ChartMeta, LinearScale, Scale, UpdateMode } from 'chart.js';
 import { defaultStatsOptions, IBaseOptions } from '../data';
 
 export /*#__PURE__*/ function baseDefaults(keys: string[]) {
@@ -60,7 +60,7 @@ export abstract class StatsBase<S extends { median: number }, C extends Required
     return { min, max };
   }
 
-  parsePrimitiveData(meta: IChartMeta, data: any[], start: number, count: number) {
+  parsePrimitiveData(meta: ChartMeta, data: any[], start: number, count: number) {
     const vScale = meta.vScale!;
     const iScale = meta.iScale!;
     const labels = iScale.getLabels();
@@ -79,11 +79,11 @@ export abstract class StatsBase<S extends { median: number }, C extends Required
     return r;
   }
 
-  parseArrayData(meta: IChartMeta, data: any[], start: number, count: number) {
+  parseArrayData(meta: ChartMeta, data: any[], start: number, count: number) {
     return this.parsePrimitiveData(meta, data, start, count);
   }
 
-  parseObjectData(meta: IChartMeta, data: any[], start: number, count: number) {
+  parseObjectData(meta: ChartMeta, data: any[], start: number, count: number) {
     return this.parsePrimitiveData(meta, data, start, count);
   }
 

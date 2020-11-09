@@ -2,14 +2,14 @@
 import {
   Chart,
   BarController,
-  IControllerDatasetOptions,
+  ControllerDatasetOptions,
   ScriptableAndArrayOptions,
-  ICommonHoverOptions,
+  CommonHoverOptions,
   ChartItem,
-  IChartConfiguration,
+  ChartConfiguration,
   LinearScale,
   CategoryScale,
-  ICartesianScaleTypeRegistry,
+  CartesianScaleTypeRegistry,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { baseDefaults, StatsBase } from './base';
@@ -59,36 +59,36 @@ export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOpti
   ]);
 }
 
-export interface IBoxPlotControllerDatasetOptions
-  extends IControllerDatasetOptions,
+export interface BoxPlotControllerDatasetOptions
+  extends ControllerDatasetOptions,
     IBoxplotOptions,
     ScriptableAndArrayOptions<IBoxAndWhiskersOptions>,
-    ScriptableAndArrayOptions<ICommonHoverOptions> {}
+    ScriptableAndArrayOptions<CommonHoverOptions> {}
 
-export type IBoxPlotDataPoint = number[] | (Partial<IBoxPlot> & IBaseStats);
+export type BoxPlotDataPoint = number[] | (Partial<IBoxPlot> & IBaseStats);
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IBoxPlotChartOptions {}
 
 declare module 'chart.js' {
-  export interface IChartTypeRegistry {
+  export interface ChartTypeRegistry {
     boxplot: {
       chartOptions: IBoxPlotChartOptions;
-      datasetOptions: IBoxPlotControllerDatasetOptions;
-      defaultDataPoint: IBoxPlotDataPoint[];
-      scales: keyof ICartesianScaleTypeRegistry;
+      datasetOptions: BoxPlotControllerDatasetOptions;
+      defaultDataPoint: BoxPlotDataPoint[];
+      scales: keyof CartesianScaleTypeRegistry;
     };
   }
 }
 
-export class BoxPlotChart<DATA extends unknown[] = IBoxPlotDataPoint[], LABEL = string> extends Chart<
+export class BoxPlotChart<DATA extends unknown[] = BoxPlotDataPoint[], LABEL = string> extends Chart<
   'boxplot',
   DATA,
   LABEL
 > {
   static id = BoxPlotController.id;
 
-  constructor(item: ChartItem, config: Omit<IChartConfiguration<'boxplot', DATA, LABEL>, 'type'>) {
+  constructor(item: ChartItem, config: Omit<ChartConfiguration<'boxplot', DATA, LABEL>, 'type'>) {
     super(item, patchController('boxplot', config, BoxPlotController, BoxAndWiskers, [LinearScale, CategoryScale]));
   }
 }

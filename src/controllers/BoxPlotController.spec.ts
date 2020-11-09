@@ -1,5 +1,5 @@
 import createChart from '../__tests__/createChart';
-import { BoxPlotController, IBoxPlotDataPoint } from './BoxPlotController';
+import { BoxPlotController, BoxPlotDataPoint } from './BoxPlotController';
 import { Samples } from './__tests__/utils';
 import { registry, BarController, LineController, PointElement, BarElement, LineElement } from 'chart.js';
 import { BoxAndWiskers } from '../elements';
@@ -26,7 +26,7 @@ describe('boxplot', () => {
   test('default', () => {
     const samples = new Samples(10);
 
-    const chart = createChart<'boxplot', IBoxPlotDataPoint[]>({
+    const chart = createChart<'boxplot', BoxPlotDataPoint[]>({
       type: BoxPlotController.id,
       data: {
         labels: samples.months({ count: 7 }),
@@ -143,7 +143,7 @@ describe('boxplot', () => {
   test('items', () => {
     const samples = new Samples(10);
 
-    const chart = createChart<'boxplot', IBoxPlotDataPoint[]>({
+    const chart = createChart<'boxplot', BoxPlotDataPoint[]>({
       type: BoxPlotController.id,
       data: {
         labels: samples.months({ count: 7 }),
@@ -240,7 +240,7 @@ describe('boxplot', () => {
   test('datalimits', () => {
     const samples = new Samples(10);
 
-    const chart = createChart<'boxplot', IBoxPlotDataPoint[]>({
+    const chart = createChart<'boxplot', BoxPlotDataPoint[]>({
       type: BoxPlotController.id,
       data: {
         labels: samples.months({ count: 7 }),

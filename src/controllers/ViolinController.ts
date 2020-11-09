@@ -3,13 +3,13 @@ import {
   Chart,
   BarController,
   ChartItem,
-  IControllerDatasetOptions,
+  ControllerDatasetOptions,
   ScriptableAndArrayOptions,
-  ICommonHoverOptions,
-  IChartConfiguration,
+  CommonHoverOptions,
+  ChartConfiguration,
   LinearScale,
   CategoryScale,
-  ICartesianScaleTypeRegistry,
+  CartesianScaleTypeRegistry,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { StatsBase, baseDefaults } from './base';
@@ -69,36 +69,36 @@ export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions
   ]);
 }
 
-export interface IViolinControllerDatasetOptions
-  extends IControllerDatasetOptions,
+export interface ViolinControllerDatasetOptions
+  extends ControllerDatasetOptions,
     IViolinOptions,
     ScriptableAndArrayOptions<IViolinElementOptions>,
-    ScriptableAndArrayOptions<ICommonHoverOptions> {}
+    ScriptableAndArrayOptions<CommonHoverOptions> {}
 
-export type IViolinDataPoint = number[] | (Partial<IViolin> & IBaseStats);
+export type ViolinDataPoint = number[] | (Partial<IViolin> & IBaseStats);
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IViolinChartOptions {}
 
 declare module 'chart.js' {
-  export interface IChartTypeRegistry {
+  export interface ChartTypeRegistry {
     violin: {
       chartOptions: IViolinChartOptions;
-      datasetOptions: IViolinControllerDatasetOptions;
-      defaultDataPoint: IViolinDataPoint[];
-      scales: keyof ICartesianScaleTypeRegistry;
+      datasetOptions: ViolinControllerDatasetOptions;
+      defaultDataPoint: ViolinDataPoint[];
+      scales: keyof CartesianScaleTypeRegistry;
     };
   }
 }
 
-export class ViolinChart<DATA extends unknown[] = IViolinDataPoint[], LABEL = string> extends Chart<
+export class ViolinChart<DATA extends unknown[] = ViolinDataPoint[], LABEL = string> extends Chart<
   'violin',
   DATA,
   LABEL
 > {
   static id = ViolinController.id;
 
-  constructor(item: ChartItem, config: Omit<IChartConfiguration<'violin', DATA, LABEL>, 'type'>) {
+  constructor(item: ChartItem, config: Omit<ChartConfiguration<'violin', DATA, LABEL>, 'type'>) {
     super(item, patchController('violin', config, ViolinController, Violin, [LinearScale, CategoryScale]));
   }
 }

@@ -1,7 +1,7 @@
 ﻿import { Element } from 'chart.js';
 import { drawPoint } from 'chart.js/helpers';
 import { rnd } from '../data';
-import { IExtendedTooltip } from '../tooltip';
+import { ExtendedTooltip } from '../tooltip';
 
 export interface IStatsBaseOptions {
   /**
@@ -319,7 +319,7 @@ export class StatsBase<T extends IStatsBaseProps, O extends IStatsBaseOptions> e
     return props.outliers || [];
   }
 
-  tooltipPosition(eventPosition?: { x: number; y: number } | boolean, tooltip?: IExtendedTooltip) {
+  tooltipPosition(eventPosition?: { x: number; y: number } | boolean, tooltip?: ExtendedTooltip) {
     if (!eventPosition || typeof eventPosition === 'boolean') {
       // fallback
       return this.getCenterPoint();

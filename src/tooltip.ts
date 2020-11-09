@@ -1,15 +1,15 @@
-import { InteractionItem, ITooltipItem, Tooltip, TooltipModel } from 'chart.js';
+import { InteractionItem, TooltipItem, Tooltip, TooltipModel } from 'chart.js';
 
-export interface IExtendedTooltip extends TooltipModel {
+export interface ExtendedTooltip extends TooltipModel {
   _tooltipOutlier?: {
     index: number;
     datasetIndex: number;
   };
 }
 
-export function patchInHoveredOutlier(this: TooltipModel, item: ITooltipItem) {
+export function patchInHoveredOutlier(this: TooltipModel, item: TooltipItem) {
   const value = item.formattedValue as any;
-  const that = this as IExtendedTooltip;
+  const that = this as ExtendedTooltip;
   if (value && that._tooltipOutlier != null && item.datasetIndex === that._tooltipOutlier.datasetIndex) {
     value.hoveredOutlierIndex = that._tooltipOutlier.index;
   }
