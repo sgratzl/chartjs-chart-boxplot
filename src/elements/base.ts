@@ -150,10 +150,10 @@ export const baseDefaults = {
 };
 
 export const baseRoutes = {
-  outlierBackgroundColor: 'color',
-  outlierBorderColor: 'color',
-  itemBackgroundColor: 'color',
-  itemBorderColor: 'color',
+  outlierBackgroundColor: 'backgroundColor',
+  outlierBorderColor: 'borderColor',
+  itemBackgroundColor: 'backgroundColor',
+  itemBorderColor: 'borderColor',
 };
 
 export const baseOptionKeys = /*#__PURE__*/ (() => Object.keys(baseDefaults).concat(Object.keys(baseRoutes)))();

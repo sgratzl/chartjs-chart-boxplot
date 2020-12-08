@@ -195,6 +195,7 @@ describe('boxplot', () => {
           {
             label: 'Line',
             type: 'line',
+            fill: 1,
             data: samples.numbers({ count: 7, max: 150 }).map((d) => ({ y: d })),
           },
         ],
