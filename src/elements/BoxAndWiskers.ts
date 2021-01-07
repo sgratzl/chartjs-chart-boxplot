@@ -27,6 +27,7 @@ export interface IBoxAndWhiskerProps extends IStatsBaseProps {
   median: number;
   whiskerMin: number;
   whiskerMax: number;
+  mean: number;
 }
 
 export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhiskersOptions> {

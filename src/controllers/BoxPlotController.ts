@@ -27,8 +27,10 @@ export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOpti
   }
 
   _transformStats<T>(target: any, source: IBoxPlot, mapper: (v: number) => T) {
-    for (const key of ['min', 'max', 'median', 'q3', 'q1', 'whiskerMin', 'whiskerMax']) {
-      target[key] = mapper(source[key as 'min' | 'max' | 'median' | 'q3' | 'q1' | 'whiskerMin' | 'whiskerMax']);
+    for (const key of ['min', 'max', 'median', 'q3', 'q1', 'whiskerMin', 'whiskerMax', 'mean']) {
+      target[key] = mapper(
+        source[key as 'min' | 'max' | 'median' | 'q3' | 'q1' | 'whiskerMin' | 'whiskerMax' | 'mean']
+      );
     }
     for (const key of ['outliers', 'items']) {
       if (Array.isArray(source[key as keyof IBoxPlot])) {
@@ -47,7 +49,7 @@ export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOpti
           numbers: {
             type: 'number',
             properties: BarController.defaults.datasets.animation.numbers.properties.concat(
-              ['q1', 'q3', 'min', 'max', 'median', 'whiskerMin', 'whiskerMax'],
+              ['q1', 'q3', 'min', 'max', 'median', 'whiskerMin', 'whiskerMax', 'mean'],
               boxOptionsKeys.filter((c) => !c.endsWith('Color'))
             ),
           },

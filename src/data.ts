@@ -33,6 +33,7 @@ export interface IBoxPlot extends IBaseStats {
   outliers: readonly number[];
   whiskerMax: number;
   whiskerMin: number;
+  mean: number;
 }
 
 export interface IKDEPoint {
@@ -185,6 +186,7 @@ export function boxplotStats(arr: readonly number[] | Float32Array | Float64Arra
     whiskerMin: r.whiskerLow,
     max: r.max,
     median: r.median,
+    mean: r.mean,
     min: r.min,
     q1: r.q1,
     q3: r.q3,
