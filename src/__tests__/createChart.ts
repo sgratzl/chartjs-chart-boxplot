@@ -3,6 +3,7 @@
 
 import { Chart, ChartConfiguration, defaults, ChartType, DefaultDataPoint } from 'chart.js';
 import { toMatchImageSnapshot, MatchImageSnapshotOptions } from 'jest-image-snapshot';
+import 'canvas-5-polyfill';
 
 expect.extend({ toMatchImageSnapshot });
 

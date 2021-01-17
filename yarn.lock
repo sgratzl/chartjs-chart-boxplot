@@ -985,6 +985,7 @@ __metadata:
     "@typescript-eslint/parser": ^4.13.0
     "@yarnpkg/pnpify": ^2.4.0
     canvas: ^2.6.1
+    canvas-5-polyfill: ^0.1.5
     chart.js: ^3.0.0-beta.9
     eslint: ^7.18.0
     eslint-config-prettier: ^7.1.0
@@ -2335,6 +2336,13 @@ __metadata:
   version: 6.0.0
   resolution: "camelcase@npm:6.0.0"
   checksum: d92305180bc2041141cc0c889ee54d14f90b16365dc7c01eabe6d54e913eb8011313f98dde3025ae11f0003b601ba320f56ee56db476c64060cf2305bf7f6f2a
+  languageName: node
+  linkType: hard
+
+"canvas-5-polyfill@npm:^0.1.5":
+  version: 0.1.5
+  resolution: "canvas-5-polyfill@npm:0.1.5"
+  checksum: d9be86b8e363ea063a596c030fc97d7f2ac4b38ec34b0515c200e96e128c387758ef062b0ea9c46973701e1e230a69b4aa7d85d6bb2db010a975d8d5c1ab258b
   languageName: node
   linkType: hard
 

@@ -70,6 +70,7 @@
     "@typescript-eslint/parser": "^4.13.0",
     "@yarnpkg/pnpify": "^2.4.0",
     "canvas": "^2.6.1",
+    "canvas-5-polyfill": "^0.1.5",
     "chart.js": "^3.0.0-beta.9",
     "eslint": "^7.18.0",
     "eslint-config-prettier": "^7.1.0",
