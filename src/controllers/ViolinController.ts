@@ -10,6 +10,7 @@ import {
   LinearScale,
   CategoryScale,
   CartesianScaleTypeRegistry,
+  ScriptableContext,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { StatsBase, baseDefaults } from './base';
@@ -72,8 +73,8 @@ export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions
 export interface ViolinControllerDatasetOptions
   extends ControllerDatasetOptions,
     IViolinOptions,
-    ScriptableAndArrayOptions<IViolinElementOptions>,
-    ScriptableAndArrayOptions<CommonHoverOptions> {}
+    ScriptableAndArrayOptions<IViolinElementOptions, ScriptableContext>,
+    ScriptableAndArrayOptions<CommonHoverOptions, ScriptableContext> {}
 
 export type ViolinDataPoint = number[] | (Partial<IViolin> & IBaseStats);
 

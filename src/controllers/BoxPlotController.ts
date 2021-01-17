@@ -10,6 +10,7 @@ import {
   LinearScale,
   CategoryScale,
   CartesianScaleTypeRegistry,
+  ScriptableContext,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { baseDefaults, StatsBase } from './base';
@@ -64,8 +65,8 @@ export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOpti
 export interface BoxPlotControllerDatasetOptions
   extends ControllerDatasetOptions,
     IBoxplotOptions,
-    ScriptableAndArrayOptions<IBoxAndWhiskersOptions>,
-    ScriptableAndArrayOptions<CommonHoverOptions> {}
+    ScriptableAndArrayOptions<IBoxAndWhiskersOptions, ScriptableContext>,
+    ScriptableAndArrayOptions<CommonHoverOptions, ScriptableContext> {}
 
 export type BoxPlotDataPoint = number[] | (Partial<IBoxPlot> & IBaseStats);
 
