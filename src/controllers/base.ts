@@ -1,7 +1,7 @@
 ﻿import { interpolateNumberArray } from '../animation';
 import { outlierPositioner, patchInHoveredOutlier } from '../tooltip';
 import { BarController, Element, ChartMeta, LinearScale, Scale, UpdateMode } from 'chart.js';
-import { defaultStatsOptions, IBaseOptions } from '../data';
+import { defaultStatsOptions, IBaseOptions, IBaseStats } from '../data';
 
 export /*#__PURE__*/ function baseDefaults(keys: string[]) {
   const colorKeys = ['borderColor', 'backgroundColor'].concat(keys.filter((c) => c.endsWith('Color')));
@@ -46,8 +46,22 @@ export /*#__PURE__*/ function baseDefaults(keys: string[]) {
   };
 }
 
-export abstract class StatsBase<S extends { median: number }, C extends Required<IBaseOptions>> extends BarController {
+export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOptions>> extends BarController {
   declare _config: C;
+
+  protected _transformStats<T>(target: any, source: S, mapper: (v: number) => T): void {
+    for (const key of ['min', 'max', 'median', 'q3', 'q1', 'mean'] as const) {
+      const v = source[key];
+      if (typeof v === 'number') {
+        target[key] = mapper(v);
+      }
+    }
+    for (const key of ['outliers', 'items'] as const) {
+      if (Array.isArray(source[key])) {
+        target[key] = source[key].map(mapper);
+      }
+    }
+  }
 
   getMinMax(scale: Scale, canStack?: boolean | undefined) {
     const bak = scale.axis;
@@ -100,7 +114,7 @@ export abstract class StatsBase<S extends { median: number }, C extends Required
       raw: parsed,
       hoveredOutlierIndex: -1,
     };
-    this._transformStats(r.value, parsed, (v) => vScale.getLabelForValue(v), 'string');
+    this._transformStats(r.value, parsed, (v) => vScale.getLabelForValue(v));
     const s = this._toStringStats(r.value);
     r.value.toString = function () {
       // custom to string function for the 'value'
@@ -112,14 +126,12 @@ export abstract class StatsBase<S extends { median: number }, C extends Required
     return r;
   }
 
-  protected abstract _toStringStats(b: S): string;
-
-  protected abstract _transformStats<T>(
-    target: Record<keyof S, T | T[]>,
-    source: S,
-    mapper: (v: number) => T,
-    mode: UpdateMode | 'string'
-  ): void;
+  protected _toStringStats(b: S) {
+    const f = (v: number) => (v == null ? 'NaN' : v.toLocaleString());
+    return `(min: ${f(b.min)}, 25% quantile: ${f(b.q1)}, median: ${f(b.median)}, mean: ${f(b.mean)}, 75% quantile: ${f(
+      b.q3
+    )}, max: ${f(b.max)})`;
+  }
 
   updateElement(rectangle: Element, index: number, properties: any, mode: UpdateMode) {
     const reset = mode === 'reset';
@@ -128,7 +140,7 @@ export abstract class StatsBase<S extends { median: number }, C extends Required
     const base = scale.getBasePixel();
     properties._datasetIndex = this.index;
     properties._index = index;
-    this._transformStats(properties, parsed, (v) => (reset ? base : scale.getPixelForValue(v, index)), mode);
+    this._transformStats(properties, parsed, (v) => (reset ? base : scale.getPixelForValue(v, index)));
     super.updateElement(rectangle, index, properties, mode);
   }
 }

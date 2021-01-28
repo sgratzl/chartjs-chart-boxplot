@@ -132,6 +132,54 @@ export interface IStatsBaseOptions {
    * @indexable
    */
   outlierHitRadius: number;
+
+  /**
+   * item style used to render mean dot
+   * @default circle
+   */
+  meanStyle:
+    | 'circle'
+    | 'triangle'
+    | 'rect'
+    | 'rectRounded'
+    | 'rectRot'
+    | 'cross'
+    | 'crossRot'
+    | 'star'
+    | 'line'
+    | 'dash';
+
+  /**
+   * radius used to mean dots
+   * @default 3
+   * @scriptable
+   * @indexable
+   */
+  meanRadius: number;
+
+  /**
+   * background color for mean dot
+   * @default see rectangle.backgroundColor
+   * @scriptable
+   * @indexable
+   */
+  meanBackgroundColor: string;
+
+  /**
+   * border color for mean dot
+   * @default see rectangle.borderColor
+   * @scriptable
+   * @indexable
+   */
+  meanBorderColor: string;
+
+  /**
+   * border width for mean dot
+   * @default 0
+   * @scriptable
+   * @indexable
+   */
+  meanBorderWidth: number;
 }
 
 export const baseDefaults = {
@@ -145,6 +193,10 @@ export const baseDefaults = {
   itemRadius: 0,
   itemBorderWidth: 0,
 
+  meanStyle: 'circle',
+  meanRadius: 3,
+  meanBorderWidth: 1,
+
   hitPadding: 2,
   outlierHitRadius: 4,
 };
@@ -154,6 +206,8 @@ export const baseRoutes = {
   outlierBorderColor: 'borderColor',
   itemBackgroundColor: 'backgroundColor',
   itemBorderColor: 'borderColor',
+  meanBackgroundColor: 'backgroundColor',
+  meanBorderColor: 'borderColor',
 };
 
 export const baseOptionKeys = /*#__PURE__*/ (() => Object.keys(baseDefaults).concat(Object.keys(baseRoutes)))();
@@ -165,6 +219,7 @@ export interface IStatsBaseProps {
   height: number;
   items: number[];
   outliers: number[];
+  mean: number;
 }
 
 export class StatsBase<T extends IStatsBaseProps, O extends IStatsBaseOptions> extends Element<T, O> {
@@ -175,7 +230,7 @@ export class StatsBase<T extends IStatsBaseProps, O extends IStatsBaseOptions> e
     return this.getProps(['height']).height == null;
   }
 
-  _drawItems(ctx: CanvasRenderingContext2D) {
+  protected _drawItems(ctx: CanvasRenderingContext2D) {
     const vert = this.isVertical();
     const props = this.getProps(['x', 'y', 'items', 'width', 'height']);
     const options = this.options;
@@ -209,7 +264,7 @@ export class StatsBase<T extends IStatsBaseProps, O extends IStatsBaseOptions> e
     ctx.restore();
   }
 
-  _drawOutliers(ctx: CanvasRenderingContext2D) {
+  protected _drawOutliers(ctx: CanvasRenderingContext2D) {
     const vert = this.isVertical();
     const props = this.getProps(['x', 'y', 'outliers']);
     const options = this.options;
@@ -235,6 +290,33 @@ export class StatsBase<T extends IStatsBaseProps, O extends IStatsBaseOptions> e
       props.outliers.forEach((v) => {
         drawPoint(ctx, pointOptions, v, props.y);
       });
+    }
+
+    ctx.restore();
+  }
+
+  protected _drawMeanDot(ctx: CanvasRenderingContext2D) {
+    const vert = this.isVertical();
+    const props = this.getProps(['x', 'y', 'mean']);
+    const options = this.options;
+    if (options.meanRadius <= 0 || props.mean == null || Number.isNaN(props.mean)) {
+      return;
+    }
+    ctx.save();
+    ctx.fillStyle = options.meanBackgroundColor;
+    ctx.strokeStyle = options.meanBorderColor;
+    ctx.lineWidth = options.meanBorderWidth;
+
+    const pointOptions = {
+      pointStyle: options.meanStyle,
+      radius: options.meanRadius,
+      borderWidth: options.meanBorderWidth,
+    };
+
+    if (vert) {
+      drawPoint(ctx, pointOptions, props.x, props.mean);
+    } else {
+      drawPoint(ctx, pointOptions, props.mean, props.y);
     }
 
     ctx.restore();
@@ -282,7 +364,7 @@ export class StatsBase<T extends IStatsBaseProps, O extends IStatsBaseOptions> e
     return mouseY >= bounds.top && mouseY <= bounds.bottom;
   }
 
-  _outlierIndexInRange(mouseX: number, mouseY: number, useFinalPosition?: boolean) {
+  protected _outlierIndexInRange(mouseX: number, mouseY: number, useFinalPosition?: boolean) {
     const props = this.getProps(['x', 'y'], useFinalPosition);
     const hitRadius = this.options.outlierHitRadius;
     const outliers = this._getOutliers(useFinalPosition);
@@ -301,7 +383,7 @@ export class StatsBase<T extends IStatsBaseProps, O extends IStatsBaseOptions> e
     return -1;
   }
 
-  _boxInRange(mouseX: number, mouseY: number, useFinalPosition?: boolean) {
+  protected _boxInRange(mouseX: number, mouseY: number, useFinalPosition?: boolean) {
     const bounds = this._getHitBounds(useFinalPosition);
     return mouseX >= bounds.left && mouseX <= bounds.right && mouseY >= bounds.top && mouseY <= bounds.bottom;
   }
@@ -314,7 +396,7 @@ export class StatsBase<T extends IStatsBaseProps, O extends IStatsBaseOptions> e
     };
   }
 
-  _getOutliers(useFinalPosition?: boolean) {
+  protected _getOutliers(useFinalPosition?: boolean) {
     const props = this.getProps(['outliers'], useFinalPosition);
     return props.outliers || [];
   }

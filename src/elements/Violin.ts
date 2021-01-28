@@ -37,13 +37,14 @@ export class Violin extends StatsBase<IViolinElementProps, IViolinElementOptions
       this._drawCoords(ctx, props);
     }
     this._drawOutliers(ctx);
+    this._drawMeanDot(ctx);
 
     ctx.restore();
 
     this._drawItems(ctx);
   }
 
-  _drawCoords(ctx: CanvasRenderingContext2D, props: IViolinElementProps) {
+  protected _drawCoords(ctx: CanvasRenderingContext2D, props: IViolinElementProps) {
     ctx.beginPath();
     if (this.isVertical()) {
       const x = props.x;

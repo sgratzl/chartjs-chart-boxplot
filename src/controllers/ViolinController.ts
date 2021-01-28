@@ -20,26 +20,15 @@ import { interpolateKdeCoords } from '../animation';
 import patchController from './patchController';
 
 export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions>> {
-  _parseStats(value: any, config: IViolinOptions) {
+  protected _parseStats(value: any, config: IViolinOptions) {
     return asViolinStats(value, config);
   }
 
-  _toStringStats(v: IViolin) {
-    return `(min: ${v.min}, 25% quantile: ${v.q1}, median: ${v.median}, 75% quantile: ${v.q3}, max: ${v.max})`;
-  }
-
-  _transformStats<T>(target: any, source: IViolin, mapper: (v: number) => T) {
-    for (const key of ['min', 'max', 'median', 'q3', 'q1']) {
-      target[key] = mapper(source[key as 'min' | 'max' | 'median' | 'q3' | 'q1']);
-    }
+  protected _transformStats<T>(target: any, source: IViolin, mapper: (v: number) => T) {
+    super._transformStats(target, source, mapper);
     target.maxEstimate = source.maxEstimate;
-    for (const key of ['items', 'outliers']) {
-      if (Array.isArray(source[key as keyof IViolin])) {
-        target[key] = source[key as 'items' | 'outliers'].map(mapper);
-      }
-    }
     if (Array.isArray(source.coords)) {
-      target.coords = source.coords.map((coord) => Object.assign({}, coord, { v: mapper(coord.v) }));
+      target.coords = source.coords.map((c) => Object.assign({}, c, { v: mapper(c.v) }));
     }
   }
 

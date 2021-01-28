@@ -90,6 +90,8 @@ export class Samples {
       median: base[shift + 2]!,
       q3: base[shift + 3]!,
       max: base[shift + 4]!,
+      items: base,
+      mean: base.reduce((acc, v) => acc + v, 0) / base.length,
       outliers: base.slice(0, 3).concat(base.slice(shift + 5)),
     };
   }

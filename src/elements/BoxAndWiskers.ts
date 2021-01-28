@@ -40,13 +40,14 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
 
     this._drawBoxPlot(ctx);
     this._drawOutliers(ctx);
+    this._drawMeanDot(ctx);
 
     ctx.restore();
 
     this._drawItems(ctx);
   }
 
-  _drawBoxPlot(ctx: CanvasRenderingContext2D) {
+  protected _drawBoxPlot(ctx: CanvasRenderingContext2D) {
     if (this.isVertical()) {
       this._drawBoxPlotVertical(ctx);
     } else {
@@ -54,7 +55,7 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
     }
   }
 
-  _drawBoxPlotVertical(ctx: CanvasRenderingContext2D) {
+  protected _drawBoxPlotVertical(ctx: CanvasRenderingContext2D) {
     const options = this.options;
     const props = this.getProps(['x', 'width', 'q1', 'q3', 'median', 'whiskerMin', 'whiskerMax']);
 
@@ -117,7 +118,7 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
     ctx.stroke();
   }
 
-  _drawBoxPlotHorizontal(ctx: CanvasRenderingContext2D) {
+  protected _drawBoxPlotHorizontal(ctx: CanvasRenderingContext2D) {
     const options = this.options;
     const props = this.getProps(['y', 'height', 'q1', 'q3', 'median', 'whiskerMin', 'whiskerMax']);
 

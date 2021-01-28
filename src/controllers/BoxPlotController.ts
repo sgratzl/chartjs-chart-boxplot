@@ -19,24 +19,14 @@ import patchController from './patchController';
 import { boxOptionsKeys } from '../elements/BoxAndWiskers';
 
 export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOptions>> {
-  _parseStats(value: any, config: IBoxplotOptions) {
+  protected _parseStats(value: any, config: IBoxplotOptions) {
     return asBoxPlotStats(value, config);
   }
 
-  _toStringStats(b: IBoxPlot) {
-    return `(min: ${b.min}, 25% quantile: ${b.q1}, median: ${b.median}, 75% quantile: ${b.q3}, max: ${b.max})`;
-  }
-
-  _transformStats<T>(target: any, source: IBoxPlot, mapper: (v: number) => T) {
-    for (const key of ['min', 'max', 'median', 'q3', 'q1', 'whiskerMin', 'whiskerMax', 'mean']) {
-      target[key] = mapper(
-        source[key as 'min' | 'max' | 'median' | 'q3' | 'q1' | 'whiskerMin' | 'whiskerMax' | 'mean']
-      );
-    }
-    for (const key of ['outliers', 'items']) {
-      if (Array.isArray(source[key as keyof IBoxPlot])) {
-        target[key] = source[key as 'outliers' | 'items'].map(mapper);
-      }
+  protected _transformStats<T>(target: any, source: IBoxPlot, mapper: (v: number) => T) {
+    super._transformStats(target, source, mapper);
+    for (const key of ['whiskerMin', 'whiskerMax']) {
+      target[key] = mapper(source[key as 'whiskerMin' | 'whiskerMax']);
     }
   }
 

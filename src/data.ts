@@ -26,14 +26,14 @@ export interface IBaseStats {
   q1: number;
   q3: number;
   median: number;
+  mean: number;
+  items: readonly number[];
+  outliers: readonly number[];
 }
 
 export interface IBoxPlot extends IBaseStats {
-  items: readonly number[];
-  outliers: readonly number[];
   whiskerMax: number;
   whiskerMin: number;
-  mean: number;
 }
 
 export interface IKDEPoint {
@@ -42,10 +42,8 @@ export interface IKDEPoint {
 }
 
 export interface IViolin extends IBaseStats {
-  items: readonly number[];
   maxEstimate: number;
   coords: IKDEPoint[];
-  outliers: readonly number[];
 }
 
 /**
@@ -200,6 +198,8 @@ export function violinStats(arr: readonly number[], options: IViolinOptions): IV
   }
   const items = arr.filter((v) => typeof v === 'number' && !Number.isNaN(v)).sort((a, b) => a - b);
 
+  const mean = items.reduce((acc, v) => acc + v, 0) / items.length;
+
   const { quantiles } = determineStatsOptions(options);
 
   const stats = quantiles(items);
@@ -223,6 +223,7 @@ export function violinStats(arr: readonly number[], options: IViolinOptions): IV
     ...stats,
     min,
     items,
+    mean,
     max,
     coords,
     outliers: [], // items.filter((d) => d < stats.q1 || d > stats.q3),
