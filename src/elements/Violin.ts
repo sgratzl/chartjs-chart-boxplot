@@ -1,6 +1,6 @@
 ﻿import { BarElement } from 'chart.js';
 import { drawPoint } from 'chart.js/helpers';
-import { IKDEPoint } from '../data';
+import type { IKDEPoint } from '../data';
 import { StatsBase, baseDefaults, baseRoutes, IStatsBaseOptions, IStatsBaseProps } from './base';
 
 export type IViolinElementOptions = IStatsBaseOptions;

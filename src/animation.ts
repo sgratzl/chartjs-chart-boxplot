@@ -1,4 +1,4 @@
-import { IKDEPoint } from './data';
+import type { IKDEPoint } from './data';
 
 const interpolators = {
   number(from: number | undefined | null, to: number | undefined | null, factor: number) {
