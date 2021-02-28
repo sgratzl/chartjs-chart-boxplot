@@ -106,7 +106,7 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
   getLabelAndValue(index: number) {
     const r = super.getLabelAndValue(index) as any;
     const vScale = this._cachedMeta.vScale;
-    const parsed = this.getParsed(index);
+    const parsed = (this.getParsed(index) as unknown) as S;
     if (!vScale || !parsed || r.value === 'NaN') {
       return r;
     }
@@ -136,7 +136,7 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
   updateElement(rectangle: Element, index: number, properties: any, mode: UpdateMode) {
     const reset = mode === 'reset';
     const scale = this._cachedMeta.vScale as LinearScale;
-    const parsed = this.getParsed(index);
+    const parsed = (this.getParsed(index) as unknown) as S;
     const base = scale.getBasePixel();
     properties._datasetIndex = this.index;
     properties._index = index;

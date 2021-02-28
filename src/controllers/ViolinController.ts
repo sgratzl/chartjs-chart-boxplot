@@ -10,7 +10,6 @@ import {
   LinearScale,
   CategoryScale,
   CartesianScaleTypeRegistry,
-  ScriptableContext,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { StatsBase, baseDefaults } from './base';
@@ -42,7 +41,7 @@ export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions
         animation: {
           numbers: {
             type: 'number',
-            properties: BarController.defaults.datasets.animation.numbers.properties.concat(
+            properties: (BarController.defaults as any).datasets.animation.numbers.properties.concat(
               ['q1', 'q3', 'min', 'max', 'median', 'maxEstimate'],
               baseOptionKeys.filter((c) => !c.endsWith('Color'))
             ),
@@ -54,18 +53,17 @@ export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions
         },
       },
       dataElementType: Violin.id,
-      dataElementOptions: BarController.defaults.dataElementOptions.concat(baseOptionKeys),
+      dataElementOptions: (BarController.defaults as any).dataElementOptions.concat(baseOptionKeys),
     },
   ]);
 }
+export type ViolinDataPoint = number[] | (Partial<IViolin> & IBaseStats);
 
 export interface ViolinControllerDatasetOptions
   extends ControllerDatasetOptions,
     IViolinOptions,
-    ScriptableAndArrayOptions<IViolinElementOptions, ScriptableContext>,
-    ScriptableAndArrayOptions<CommonHoverOptions, ScriptableContext> {}
-
-export type ViolinDataPoint = number[] | (Partial<IViolin> & IBaseStats);
+    ScriptableAndArrayOptions<IViolinElementOptions, 'violin'>,
+    ScriptableAndArrayOptions<CommonHoverOptions, 'violin'> {}
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IViolinChartOptions {}
@@ -75,8 +73,9 @@ declare module 'chart.js' {
     violin: {
       chartOptions: IViolinChartOptions;
       datasetOptions: ViolinControllerDatasetOptions;
-      defaultDataPoint: ViolinDataPoint[];
+      defaultDataPoint: ViolinDataPoint;
       scales: keyof CartesianScaleTypeRegistry;
+      parsedDataType: IViolin & ChartTypeRegistry['bar']['parsedDataType'];
     };
   }
 }

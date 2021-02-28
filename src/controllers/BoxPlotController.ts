@@ -10,7 +10,6 @@ import {
   LinearScale,
   CategoryScale,
   CartesianScaleTypeRegistry,
-  ScriptableContext,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { baseDefaults, StatsBase } from './base';
@@ -39,7 +38,7 @@ export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOpti
         animation: {
           numbers: {
             type: 'number',
-            properties: BarController.defaults.datasets.animation.numbers.properties.concat(
+            properties: (BarController.defaults as any).datasets.animation.numbers.properties.concat(
               ['q1', 'q3', 'min', 'max', 'median', 'whiskerMin', 'whiskerMax', 'mean'],
               boxOptionsKeys.filter((c) => !c.endsWith('Color'))
             ),
@@ -47,7 +46,7 @@ export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOpti
         },
       },
       dataElementType: BoxAndWiskers.id,
-      dataElementOptions: BarController.defaults.dataElementOptions.concat(boxOptionsKeys),
+      dataElementOptions: (BarController.defaults as any).dataElementOptions.concat(boxOptionsKeys),
     },
   ]);
 }
@@ -55,8 +54,8 @@ export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOpti
 export interface BoxPlotControllerDatasetOptions
   extends ControllerDatasetOptions,
     IBoxplotOptions,
-    ScriptableAndArrayOptions<IBoxAndWhiskersOptions, ScriptableContext>,
-    ScriptableAndArrayOptions<CommonHoverOptions, ScriptableContext> {}
+    ScriptableAndArrayOptions<IBoxAndWhiskersOptions, 'boxplot'>,
+    ScriptableAndArrayOptions<CommonHoverOptions, 'boxplot'> {}
 
 export type BoxPlotDataPoint = number[] | (Partial<IBoxPlot> & IBaseStats);
 
@@ -68,8 +67,9 @@ declare module 'chart.js' {
     boxplot: {
       chartOptions: IBoxPlotChartOptions;
       datasetOptions: BoxPlotControllerDatasetOptions;
-      defaultDataPoint: BoxPlotDataPoint[];
+      defaultDataPoint: BoxPlotDataPoint;
       scales: keyof CartesianScaleTypeRegistry;
+      parsedDataType: IBoxPlot & ChartTypeRegistry['bar']['parsedDataType'];
     };
   }
 }

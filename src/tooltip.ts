@@ -1,13 +1,16 @@
 import { InteractionItem, TooltipItem, Tooltip, TooltipModel } from 'chart.js';
 
-export interface ExtendedTooltip extends TooltipModel {
+export interface ExtendedTooltip extends TooltipModel<'boxplot' | 'violin'> {
   _tooltipOutlier?: {
     index: number;
     datasetIndex: number;
   };
 }
 
-export function patchInHoveredOutlier(this: TooltipModel, item: TooltipItem) {
+export function patchInHoveredOutlier(
+  this: TooltipModel<'boxplot' | 'violin'>,
+  item: TooltipItem<'boxplot' | 'violin'>
+) {
   const value = item.formattedValue as any;
   const that = this as ExtendedTooltip;
   if (value && that._tooltipOutlier != null && item.datasetIndex === that._tooltipOutlier.datasetIndex) {
@@ -17,7 +20,7 @@ export function patchInHoveredOutlier(this: TooltipModel, item: TooltipItem) {
 
 // based on average positioner but allow access to the tooltip instance
 export function outlierPositioner(
-  this: TooltipModel,
+  this: TooltipModel<'boxplot' | 'violin'>,
   items: readonly InteractionItem[],
   eventPosition: { x: number; y: number }
 ) {
