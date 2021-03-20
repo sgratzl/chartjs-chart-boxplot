@@ -6,13 +6,6 @@
     <script src="../build/index.umd.js"></script>
     <script src="https://unpkg.com/d3-random@latest/dist/d3-random.min.js"></script>
     <script src="./utils.js"></script>
-    <style>
-      canvas {
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-      }
-    </style>
   </head>
 
   <body>
@@ -23,10 +16,10 @@
     <button id="limitWhiskers">Limit to whiskers</button>
     <script>
       const samples = this.Samples.utils;
-      var color = Chart.helpers.color;
-      var b = d3.randomNormal();
-      var random = (min, max) => () => b() * ((max || 1) - (min || 0)) + (min || 0);
-      var boxplotData = {
+      const color = Chart.helpers.color;
+      const b = d3.randomNormal();
+      const random = (min, max) => () => b() * ((max || 1) - (min || 0)) + (min || 0);
+      const boxplotData = {
         labels: samples.months({ count: 7 }),
         datasets: [
           {
@@ -56,37 +49,33 @@
           display: true,
           text: 'Chart.js Box Plot Chart',
         },
-        boxplot: {
-          datasets: {
-            minStats: 'min',
-            maxStats: 'max',
-          },
-        },
+        minStats: 'min',
+        maxStats: 'max',
       };
 
-      window.onload = function () {
-        var ctx = document.getElementById('canvas').getContext('2d');
-        window.myBar = new Chart(ctx, {
+      window.onload = () => {
+        const ctx = document.getElementById('canvas').getContext('2d');
+        let myBar = new Chart(ctx, {
           type: 'boxplot',
           data: boxplotData,
           options: options,
         });
 
-        document.getElementById('limitMinMax').onclick = function () {
+        document.getElementById('limitMinMax').onclick = () => {
           options.boxplot.datasets.minStats = 'min';
           options.boxplot.datasets.maxStats = 'max';
-          window.myBar.destroy();
-          window.myBar = new Chart(ctx, {
+          myBar.destroy();
+          myBar = new Chart(ctx, {
             type: 'boxplot',
             data: boxplotData,
             options: options,
           });
         };
-        document.getElementById('limitWhiskers').onclick = function () {
+        document.getElementById('limitWhiskers').onclick = () => {
           options.boxplot.datasets.minStats = 'whiskerMin';
           options.boxplot.datasets.maxStats = 'whiskerMax';
-          window.myBar.destroy();
-          window.myBar = new Chart(ctx, {
+          myBar.destroy();
+          myBar = new Chart(ctx, {
             type: 'boxplot',
             data: boxplotData,
             options: options,

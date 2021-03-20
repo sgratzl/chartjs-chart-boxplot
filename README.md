@@ -102,8 +102,8 @@ new BoxPlotChart(ctx, {
 npm i -g yarn
 yarn set version 2
 cat .yarnrc_patch.yml >> .yarnrc.yml
-yarn
-yarn pnpify --sdk
+yarn install
+yarn pnpify --sdk vscode
 ```
 
 ### Common commands

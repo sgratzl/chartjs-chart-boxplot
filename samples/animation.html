@@ -4,13 +4,6 @@
     <title>Box Plot Chart</title>
     <script src="https://unpkg.com/chart.js@3.0.0-rc/dist/chart.js"></script>
     <script src="../build/index.umd.js"></script>
-    <style>
-      canvas {
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-      }
-    </style>
   </head>
 
   <body>
@@ -37,9 +30,9 @@
         ],
       };
 
-      window.onload = function () {
-        var ctx = document.getElementById('canvas').getContext('2d');
-        window.myBar = new Chart(ctx, {
+      window.onload = () => {
+        const ctx = document.getElementById('canvas').getContext('2d');
+        const myBar = new Chart(ctx, {
           type: 'boxplot',
           data: boxplotData,
           options: {
@@ -53,13 +46,12 @@
             },
           },
         });
+        setTimeout(() => {
+          const vs = boxplotData.datasets[0].data[0];
+          boxplotData.datasets[0].data[0] = randomValues(100, 4, 19);
+          myBar.update();
+        }, 2000);
       };
-
-      setTimeout(function () {
-        const vs = boxplotData.datasets[0].data[0];
-        boxplotData.datasets[0].data[0] = randomValues(100, 4, 19);
-        window.myBar.update();
-      }, 2000);
     </script>
   </body>
 </html>

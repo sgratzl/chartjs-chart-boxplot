@@ -1,22 +1,22 @@
 ﻿import { asViolinStats, IBaseStats, IViolin, IViolinOptions } from '../data';
 import {
-  // Chart,
+  Chart,
   BarController,
-  // ChartItem,
+  ChartItem,
   ControllerDatasetOptions,
   ScriptableAndArrayOptions,
   CommonHoverOptions,
-  // ChartConfiguration,
-  // LinearScale,
-  // CategoryScale,
+  ChartConfiguration,
+  LinearScale,
+  CategoryScale,
   CartesianScaleTypeRegistry,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
-import { StatsBase, baseDefaults } from './base';
+import { StatsBase, baseDefaults, defaultOverrides } from './base';
 import { baseOptionKeys } from '../elements/base';
 import { IViolinElementOptions, Violin } from '../elements';
 import { interpolateKdeCoords } from '../animation';
-// import patchController from './patchController';
+import patchController from './patchController';
 
 export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions>> {
   protected _parseStats(value: any, config: IViolinOptions) {
@@ -36,26 +36,24 @@ export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions
     BarController.defaults,
     baseDefaults(baseOptionKeys),
     {
-      datasets: {
-        points: 100,
-        animation: {
-          numbers: {
-            type: 'number',
-            properties: (BarController.defaults as any).datasets.animation.numbers.properties.concat(
-              ['q1', 'q3', 'min', 'max', 'median', 'maxEstimate'],
-              baseOptionKeys.filter((c) => !c.endsWith('Color'))
-            ),
-          },
-          kdeCoords: {
-            fn: interpolateKdeCoords,
-            properties: ['coords'],
-          },
+      points: 100,
+      animations: {
+        numbers: {
+          type: 'number',
+          properties: (BarController.defaults as any).animations.numbers.properties.concat(
+            ['q1', 'q3', 'min', 'max', 'median', 'maxEstimate'],
+            baseOptionKeys.filter((c) => !c.endsWith('Color'))
+          ),
+        },
+        kdeCoords: {
+          fn: interpolateKdeCoords,
+          properties: ['coords'],
         },
       },
       dataElementType: Violin.id,
-      dataElementOptions: (BarController.defaults as any).dataElementOptions.concat(baseOptionKeys),
     },
   ]);
+  static readonly overrides: any = /*#__PURE__*/ merge({}, [(BarController as any).overrides, defaultOverrides()]);
 }
 export type ViolinDataPoint = number[] | (Partial<IViolin> & IBaseStats);
 
@@ -80,14 +78,14 @@ declare module 'chart.js' {
   }
 }
 
-// export class ViolinChart<DATA extends unknown[] = ViolinDataPoint[], LABEL = string> extends Chart<
-//   'violin',
-//   DATA,
-//   LABEL
-// > {
-//   static id = ViolinController.id;
+export class ViolinChart<DATA extends unknown[] = ViolinDataPoint[], LABEL = string> extends Chart<
+  'violin',
+  DATA,
+  LABEL
+> {
+  static id = ViolinController.id;
 
-//   constructor(item: ChartItem, config: Omit<ChartConfiguration<'violin', DATA, LABEL>, 'type'>) {
-//     super(item, patchController('violin', config, ViolinController, Violin, [LinearScale, CategoryScale]));
-//   }
-// }
+  constructor(item: ChartItem, config: Omit<ChartConfiguration<'violin', DATA, LABEL>, 'type'>) {
+    super(item, patchController('violin', config, ViolinController, Violin, [LinearScale, CategoryScale]));
+  }
+}

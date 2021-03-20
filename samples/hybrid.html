@@ -5,13 +5,6 @@
     <script src="https://unpkg.com/chart.js@3.0.0-rc/dist/chart.js"></script>
     <script src="../build/index.umd.js"></script>
     <script src="./utils.js"></script>
-    <style>
-      canvas {
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-      }
-    </style>
   </head>
 
   <body>
@@ -20,7 +13,7 @@
     </div>
     <script>
       const samples = this.Samples.utils;
-      var data = {
+      const data = {
         labels: samples.months({ count: 7 }),
         datasets: [
           {
@@ -43,9 +36,9 @@
         ],
       };
 
-      window.onload = function () {
-        var ctx = document.getElementById('canvas').getContext('2d');
-        window.myBar = new Chart(ctx, {
+      window.onload = () => {
+        const ctx = document.getElementById('canvas').getContext('2d');
+        const myBar = new Chart(ctx, {
           type: 'boxplot',
           data: data,
           options: {
