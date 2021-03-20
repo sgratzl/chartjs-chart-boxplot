@@ -5,12 +5,7 @@ const pkg = require('./package.json');
 
 module.exports = {
   plugins: ['@typescript-eslint', 'prettier'],
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
-    'prettier',
-  ],
+  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended', 'prettier'],
   settings: {
     react: {
       version: pkg.devDependencies.react ? 'detect' : '99.99.99',
