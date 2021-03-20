@@ -100,9 +100,10 @@
   "scripts": {
     "clean": "rimraf build docs node_modules \"*.tgz\" \"*.tsbuildinfo\"",
     "compile": "tsc -b tsconfig.c.json",
+    "compile:types": "tsc -p tsconfig.c.json --emitDeclarationOnly",
     "start": "yarn run watch",
     "watch": "rollup -c -w",
-    "build": "rollup -c",
+    "build": "rollup -c && yarn run compile:types",
     "test": "jest --passWithNoTests",
     "test:watch": "jest --passWithNoTests --watch",
     "test:coverage": "jest --passWithNoTests --coverage",
