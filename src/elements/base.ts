@@ -251,7 +251,7 @@ export class StatsBase<T extends IStatsBaseProps, O extends IStatsBaseOptions> e
       radius: options.itemRadius,
       borderWidth: options.itemBorderWidth,
     };
-    const outliers = new Set(props.outliers ?? []);
+    const outliers = new Set(props.outliers || []);
 
     if (vert) {
       props.items.forEach((v) => {
