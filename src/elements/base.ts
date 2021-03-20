@@ -232,7 +232,7 @@ export class StatsBase<T extends IStatsBaseProps, O extends IStatsBaseOptions> e
 
   protected _drawItems(ctx: CanvasRenderingContext2D) {
     const vert = this.isVertical();
-    const props = this.getProps(['x', 'y', 'items', 'width', 'height']);
+    const props = this.getProps(['x', 'y', 'items', 'width', 'height', 'outliers']);
     const options = this.options;
 
     if (options.itemRadius <= 0 || !props.items || props.items.length <= 0) {
@@ -251,14 +251,19 @@ export class StatsBase<T extends IStatsBaseProps, O extends IStatsBaseOptions> e
       radius: options.itemRadius,
       borderWidth: options.itemBorderWidth,
     };
+    const outliers = new Set(props.outliers ?? []);
 
     if (vert) {
       props.items.forEach((v) => {
-        drawPoint(ctx, pointOptions, props.x - props.width / 2 + random() * props.width, v);
+        if (!outliers.has(v)) {
+          drawPoint(ctx, pointOptions, props.x - props.width / 2 + random() * props.width, v);
+        }
       });
     } else {
       props.items.forEach((v) => {
-        drawPoint(ctx, pointOptions, v, props.y - props.height / 2 + random() * props.height);
+        if (!outliers.has(v)) {
+          drawPoint(ctx, pointOptions, v, props.y - props.height / 2 + random() * props.height);
+        }
       });
     }
     ctx.restore();
