@@ -17,7 +17,7 @@ function toBuffer(canvas: HTMLCanvasElement) {
   });
 }
 
-export async function expectMatchSnapshot(canvas: HTMLCanvasElement) {
+export async function expectMatchSnapshot(canvas: HTMLCanvasElement): Promise<void> {
   const image = await toBuffer(canvas);
   expect(image).toMatchImageSnapshot();
 }
@@ -32,21 +32,19 @@ export default function createChart<
   canvas.height = height;
   defaults.font.family = 'Courier New';
   defaults.color = 'transparent';
-  config.options = Object.assign(
-    {
-      responsive: false,
-      animation: false,
-      plugins: {
-        legend: {
-          display: false,
-        },
-        title: {
-          display: false,
-        },
+  config.options = {
+    responsive: false,
+    animation: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      title: {
+        display: false,
       },
     },
-    config.options || {}
-  ) as any;
+    ...(config.options || {}),
+  } as any;
   const ctx = canvas.getContext('2d')!;
 
   const t = new Chart<TYPE, DATA, LABEL>(ctx, config);

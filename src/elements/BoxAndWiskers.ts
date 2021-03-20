@@ -31,7 +31,7 @@ export interface IBoxAndWhiskerProps extends IStatsBaseProps {
 }
 
 export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhiskersOptions> {
-  draw(ctx: CanvasRenderingContext2D) {
+  draw(ctx: CanvasRenderingContext2D): void {
     ctx.save();
 
     ctx.fillStyle = this.options.backgroundColor;
@@ -47,7 +47,7 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
     this._drawItems(ctx);
   }
 
-  protected _drawBoxPlot(ctx: CanvasRenderingContext2D) {
+  protected _drawBoxPlot(ctx: CanvasRenderingContext2D): void {
     if (this.isVertical()) {
       this._drawBoxPlotVertical(ctx);
     } else {
@@ -55,12 +55,12 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
     }
   }
 
-  protected _drawBoxPlotVertical(ctx: CanvasRenderingContext2D) {
-    const options = this.options;
+  protected _drawBoxPlotVertical(ctx: CanvasRenderingContext2D): void {
+    const { options } = this;
     const props = this.getProps(['x', 'width', 'q1', 'q3', 'median', 'whiskerMin', 'whiskerMax']);
 
-    const x = props.x;
-    const width = props.width;
+    const { x } = props;
+    const { width } = props;
     const x0 = x - width / 2;
     // Draw the q1>q3 box
     if (props.q3 > props.q1) {
@@ -118,12 +118,12 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
     ctx.stroke();
   }
 
-  protected _drawBoxPlotHorizontal(ctx: CanvasRenderingContext2D) {
-    const options = this.options;
+  protected _drawBoxPlotHorizontal(ctx: CanvasRenderingContext2D): void {
+    const { options } = this;
     const props = this.getProps(['y', 'height', 'q1', 'q3', 'median', 'whiskerMin', 'whiskerMax']);
 
-    const y = props.y;
-    const height = props.height;
+    const { y } = props;
+    const { height } = props;
     const y0 = y - height / 2;
 
     // Draw the q1>q3 box
@@ -178,7 +178,7 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
     ctx.stroke();
   }
 
-  _getBounds(useFinalPosition?: boolean) {
+  _getBounds(useFinalPosition?: boolean): { left: number; top: number; right: number; bottom: number } {
     const vert = this.isVertical();
     if (this.x == null) {
       return {
@@ -216,9 +216,13 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
   }
 
   static id = 'boxandwhiskers';
-  static defaults = /*#__PURE__*/ Object.assign({}, BarElement.defaults, baseDefaults, {
+
+  static defaults = /* #__PURE__ */ {
+    ...BarElement.defaults,
+    ...baseDefaults,
     medianColor: 'transparent',
     lowerBackgroundColor: 'transparent',
-  });
-  static defaultRoutes = /*#__PURE__*/ Object.assign({}, BarElement.defaultRoutes, baseRoutes);
+  };
+
+  static defaultRoutes = /* #__PURE__ */ { ...BarElement.defaultRoutes, ...baseRoutes };
 }

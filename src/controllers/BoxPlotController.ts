@@ -1,5 +1,4 @@
-﻿import { asBoxPlotStats, IBaseStats, IBoxPlot, IBoxplotOptions } from '../data';
-import {
+﻿import {
   Chart,
   BarController,
   ControllerDatasetOptions,
@@ -12,17 +11,18 @@ import {
   CartesianScaleTypeRegistry,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
+import { asBoxPlotStats, IBaseStats, IBoxPlot, IBoxplotOptions } from '../data';
 import { baseDefaults, StatsBase, defaultOverrides } from './base';
 import { BoxAndWiskers, IBoxAndWhiskersOptions } from '../elements';
 import patchController from './patchController';
 import { boxOptionsKeys } from '../elements/BoxAndWiskers';
 
 export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOptions>> {
-  protected _parseStats(value: any, config: IBoxplotOptions) {
+  protected _parseStats(value: unknown, config: IBoxplotOptions): IBoxPlot | undefined {
     return asBoxPlotStats(value, config);
   }
 
-  protected _transformStats<T>(target: any, source: IBoxPlot, mapper: (v: number) => T) {
+  protected _transformStats<T>(target: any, source: IBoxPlot, mapper: (v: number) => T): void {
     super._transformStats(target, source, mapper);
     for (const key of ['whiskerMin', 'whiskerMax']) {
       target[key] = mapper(source[key as 'whiskerMin' | 'whiskerMax']);
@@ -30,7 +30,8 @@ export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOpti
   }
 
   static readonly id = 'boxplot';
-  static readonly defaults: any = /*#__PURE__*/ merge({}, [
+
+  static readonly defaults: any = /* #__PURE__ */ merge({}, [
     BarController.defaults,
     baseDefaults(boxOptionsKeys),
     {
@@ -46,7 +47,8 @@ export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOpti
       dataElementType: BoxAndWiskers.id,
     },
   ]);
-  static readonly overrides: any = /*#__PURE__*/ merge({}, [(BarController as any).overrides, defaultOverrides()]);
+
+  static readonly overrides: any = /* #__PURE__ */ merge({}, [(BarController as any).overrides, defaultOverrides()]);
 }
 
 export interface BoxPlotControllerDatasetOptions

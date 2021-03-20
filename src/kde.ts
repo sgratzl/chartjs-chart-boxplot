@@ -22,7 +22,7 @@ function variance(x: readonly number[]) {
     return 0;
   }
   const m = mean(x);
-  return x.reduce((acc, x) => acc + (x - m) * (x - m), 0) / (x.length - 1);
+  return x.reduce((acc, xi) => acc + (xi - m) * (xi - m), 0) / (x.length - 1);
 }
 
 function nrd(sample: number[], quantiles: (x: number[]) => { q1: number; q3: number }) {
@@ -31,7 +31,11 @@ function nrd(sample: number[], quantiles: (x: number[]) => { q1: number; q3: num
   return 1.06 * Math.min(Math.sqrt(variance(sample)), h) * Math.pow(sample.length, -1 / 5);
 }
 
-export function kde(points: number[], sample: number[], quantiles: (x: number[]) => { q1: number; q3: number }) {
+export default function kde(
+  points: number[],
+  sample: number[],
+  quantiles: (x: number[]) => { q1: number; q3: number }
+): { v: number; estimate: number }[] {
   const bw = nrd(sample, quantiles);
 
   return points.map((v) => {

@@ -1,47 +1,45 @@
-﻿import { interpolateNumberArray } from '../animation';
+﻿import { BarController, Element, ChartMeta, LinearScale, Scale, UpdateMode } from 'chart.js';
+import { interpolateNumberArray } from '../animation';
 import { outlierPositioner, patchInHoveredOutlier } from '../tooltip';
-import { BarController, Element, ChartMeta, LinearScale, Scale, UpdateMode } from 'chart.js';
 import { defaultStatsOptions, IBaseOptions, IBaseStats } from '../data';
 
-export /*#__PURE__*/ function baseDefaults(keys: string[]) {
+export /* #__PURE__ */ function baseDefaults(keys: string[]) {
   const colorKeys = ['borderColor', 'backgroundColor'].concat(keys.filter((c) => c.endsWith('Color')));
-  return Object.assign(
-    {
-      animations: {
-        numberArray: {
-          fn: interpolateNumberArray,
-          properties: ['outliers', 'items'],
-        },
-        colors: {
-          type: 'color',
-          properties: colorKeys,
-        },
+  return {
+    animations: {
+      numberArray: {
+        fn: interpolateNumberArray,
+        properties: ['outliers', 'items'],
       },
-      transitions: {
-        show: {
-          animations: {
-            colors: {
-              type: 'color',
-              properties: colorKeys,
-              from: 'transparent',
-            },
-          },
-        },
-        hide: {
-          animations: {
-            colors: {
-              type: 'color',
-              properties: colorKeys,
-              to: 'transparent',
-            },
-          },
-        },
+      colors: {
+        type: 'color',
+        properties: colorKeys,
       },
-      minStats: 'min',
-      maxStats: 'max',
     },
-    defaultStatsOptions
-  );
+    transitions: {
+      show: {
+        animations: {
+          colors: {
+            type: 'color',
+            properties: colorKeys,
+            from: 'transparent',
+          },
+        },
+      },
+      hide: {
+        animations: {
+          colors: {
+            type: 'color',
+            properties: colorKeys,
+            to: 'transparent',
+          },
+        },
+      },
+    },
+    minStats: 'min',
+    maxStats: 'max',
+    ...defaultStatsOptions,
+  };
 }
 
 export function defaultOverrides() {
@@ -74,13 +72,13 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
     }
   }
 
-  getMinMax(scale: Scale, canStack?: boolean | undefined) {
+  getMinMax(scale: Scale, canStack?: boolean | undefined): { min: number; max: number } {
     const bak = scale.axis;
     const config = this.options;
     scale.axis = config.minStats;
-    const min = super.getMinMax(scale, canStack).min;
+    const { min } = super.getMinMax(scale, canStack);
     scale.axis = config.maxStats;
-    const max = super.getMinMax(scale, canStack).max;
+    const { max } = super.getMinMax(scale, canStack);
     scale.axis = bak;
     return { min, max };
   }
@@ -112,11 +110,11 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
     return this.parsePrimitiveData(meta, data, start, count);
   }
 
-  protected abstract _parseStats(value: any, options: C): S;
+  protected abstract _parseStats(value: any, options: C): S | undefined;
 
   getLabelAndValue(index: number) {
     const r = super.getLabelAndValue(index) as any;
-    const vScale = this._cachedMeta.vScale;
+    const { vScale } = this._cachedMeta;
     const parsed = (this.getParsed(index) as unknown) as S;
     if (!vScale || !parsed || r.value === 'NaN') {
       return r;
@@ -146,7 +144,7 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
     )}, max: ${f(b.max)})`;
   }
 
-  updateElement(rectangle: Element, index: number, properties: any, mode: UpdateMode) {
+  updateElement(rectangle: Element, index: number, properties: any, mode: UpdateMode): void {
     const reset = mode === 'reset';
     const scale = this._cachedMeta.vScale as LinearScale;
     const parsed = (this.getParsed(index) as unknown) as S;

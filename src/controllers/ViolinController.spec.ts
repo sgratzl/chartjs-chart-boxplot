@@ -1,7 +1,7 @@
+import { registry } from 'chart.js';
 import createChart from '../__tests__/createChart';
 import { ViolinController } from './ViolinController';
 import { Samples } from './__tests__/utils';
-import { registry } from 'chart.js';
 import { Violin } from '../elements';
 
 describe('violin', () => {

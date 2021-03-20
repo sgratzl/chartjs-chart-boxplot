@@ -1,5 +1,4 @@
-﻿import { asViolinStats, IBaseStats, IViolin, IViolinOptions } from '../data';
-import {
+﻿import {
   Chart,
   BarController,
   ChartItem,
@@ -12,6 +11,7 @@ import {
   CartesianScaleTypeRegistry,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
+import { asViolinStats, IBaseStats, IViolin, IViolinOptions } from '../data';
 import { StatsBase, baseDefaults, defaultOverrides } from './base';
 import { baseOptionKeys } from '../elements/base';
 import { IViolinElementOptions, Violin } from '../elements';
@@ -27,12 +27,13 @@ export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions
     super._transformStats(target, source, mapper);
     target.maxEstimate = source.maxEstimate;
     if (Array.isArray(source.coords)) {
-      target.coords = source.coords.map((c) => Object.assign({}, c, { v: mapper(c.v) }));
+      target.coords = source.coords.map((c) => ({ ...c, v: mapper(c.v) }));
     }
   }
 
   static readonly id = 'violin';
-  static readonly defaults: any = /*#__PURE__*/ merge({}, [
+
+  static readonly defaults: any = /* #__PURE__ */ merge({}, [
     BarController.defaults,
     baseDefaults(baseOptionKeys),
     {
@@ -53,7 +54,8 @@ export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions
       dataElementType: Violin.id,
     },
   ]);
-  static readonly overrides: any = /*#__PURE__*/ merge({}, [(BarController as any).overrides, defaultOverrides()]);
+
+  static readonly overrides: any = /* #__PURE__ */ merge({}, [(BarController as any).overrides, defaultOverrides()]);
 }
 export type ViolinDataPoint = number[] | (Partial<IViolin> & IBaseStats);
 

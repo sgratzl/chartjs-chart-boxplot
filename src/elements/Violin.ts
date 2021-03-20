@@ -13,7 +13,7 @@ export interface IViolinElementProps extends IStatsBaseProps {
 }
 
 export class Violin extends StatsBase<IViolinElementProps, IViolinElementOptions> {
-  draw(ctx: CanvasRenderingContext2D) {
+  draw(ctx: CanvasRenderingContext2D): void {
     ctx.save();
 
     ctx.fillStyle = this.options.backgroundColor;
@@ -44,11 +44,11 @@ export class Violin extends StatsBase<IViolinElementProps, IViolinElementOptions
     this._drawItems(ctx);
   }
 
-  protected _drawCoords(ctx: CanvasRenderingContext2D, props: IViolinElementProps) {
+  protected _drawCoords(ctx: CanvasRenderingContext2D, props: IViolinElementProps): void {
     ctx.beginPath();
     if (this.isVertical()) {
-      const x = props.x;
-      const width = props.width;
+      const { x } = props;
+      const { width } = props;
       const factor = width / 2 / props.maxEstimate;
       ctx.moveTo(x, props.min);
       props.coords.forEach((c) => {
@@ -61,8 +61,8 @@ export class Violin extends StatsBase<IViolinElementProps, IViolinElementOptions
       });
       ctx.lineTo(x, props.max);
     } else {
-      const y = props.y;
-      const height = props.height;
+      const { y } = props;
+      const { height } = props;
       const factor = height / 2 / props.maxEstimate;
       ctx.moveTo(props.min, y);
       props.coords.forEach((c) => {
@@ -80,7 +80,7 @@ export class Violin extends StatsBase<IViolinElementProps, IViolinElementOptions
     ctx.fill();
   }
 
-  _getBounds(useFinalPosition?: boolean) {
+  _getBounds(useFinalPosition?: boolean): { left: number; top: number; right: number; bottom: number } {
     if (this.isVertical()) {
       const { x, width, min, max } = this.getProps(['x', 'width', 'min', 'max'], useFinalPosition);
       const x0 = x - width / 2;
@@ -102,6 +102,8 @@ export class Violin extends StatsBase<IViolinElementProps, IViolinElementOptions
   }
 
   static id = 'violin';
-  static defaults = /*#__PURE__*/ Object.assign({}, BarElement.defaults, baseDefaults);
-  static defaultRoutes = /*#__PURE__*/ Object.assign({}, BarElement.defaultRoutes, baseRoutes);
+
+  static defaults = /* #__PURE__ */ { ...BarElement.defaults, ...baseDefaults };
+
+  static defaultRoutes = /* #__PURE__ */ { ...BarElement.defaultRoutes, ...baseRoutes };
 }

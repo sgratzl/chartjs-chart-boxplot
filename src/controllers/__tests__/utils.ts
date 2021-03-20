@@ -1,3 +1,6 @@
+import type { IBoxPlot } from '@sgratzl/boxplots';
+import type { BoxPlotDataPoint } from '../BoxPlotController';
+
 const Months = [
   'January',
   'February',
@@ -32,21 +35,21 @@ export class Samples {
     this._seed = seed;
   }
 
-  randF(min = 0, max = 1) {
+  randF(min = 0, max = 1): () => number {
     return () => {
       this._seed = (this._seed * 9301 + 49297) % 233280;
       return min + (this._seed / 233280) * (max - min);
     };
   }
 
-  rand(min?: number, max?: number) {
+  rand(min?: number, max?: number): number {
     return this.randF(min, max)();
   }
 
-  months({ count = 12, section }: { count?: number; section?: number }) {
-    const values = [];
+  months({ count = 12, section }: { count?: number; section?: number }): string[] {
+    const values: string[] = [];
 
-    for (let i = 0; i < count; ++i) {
+    for (let i = 0; i < count; i += 1) {
       const value = Months[Math.ceil(i) % 12];
       values.push(value.substring(0, section));
     }
@@ -68,7 +71,7 @@ export class Samples {
     const data: number[] = [];
     const rand = random ? random(min, max) : this.randF(min, max);
     const rand01 = random01 ? random01() : this.randF();
-    for (let i = 0; i < count; ++i) {
+    for (let i = 0; i < count; i += 1) {
       const value = (from[i] || 0) + rand();
       if (rand01() <= continuity) {
         data.push(Math.round(dfactor * value) / dfactor);
@@ -80,9 +83,14 @@ export class Samples {
     return data;
   }
 
-  randomBoxPlot(config: INumberOptions = {}) {
+  randomBoxPlot(config: INumberOptions = {}): BoxPlotDataPoint {
     const base = this.numbers({ ...config, count: 10 }) as number[];
-    base.sort((a, b) => (a === b ? 0 : a! < b! ? -1 : 1));
+    base.sort((a, b) => {
+      if (a === b) {
+        return 0;
+      }
+      return a! < b! ? -1 : 1;
+    });
     const shift = 3;
     return {
       min: base[shift + 0]!,
@@ -96,14 +104,14 @@ export class Samples {
     };
   }
 
-  boxplots(config: INumberOptions = {}) {
+  boxplots(config: INumberOptions = {}): BoxPlotDataPoint[] {
     const count = config.count || 8;
     return Array(count)
       .fill(0)
       .map(() => this.randomBoxPlot(config));
   }
 
-  boxplotsArray(config: INumberOptions = {}) {
+  boxplotsArray(config: INumberOptions = {}): number[][] {
     const count = config.count || 8;
     return Array(count)
       .fill(0)
@@ -116,7 +124,7 @@ export class Samples {
     count = 8,
     decimals = 8,
     prefix = '',
-  }: { min?: number; max?: number; count?: number; decimals?: number; prefix?: string } = {}) {
+  }: { min?: number; max?: number; count?: number; decimals?: number; prefix?: string } = {}): string[] {
     const step = (max - min) / count;
     const dfactor = Math.pow(10, decimals) || 0;
     const values: string[] = [];

@@ -8,7 +8,8 @@ import boxplots, {
   quantilesNearest,
   quantilesType7,
 } from '@sgratzl/boxplots';
-import { kde } from './kde';
+import kde from './kde';
+
 export {
   quantilesFivenum,
   quantilesHigher,
@@ -52,7 +53,11 @@ export interface IViolin extends IBaseStats {
  * @param {number[]} arr sorted array
  * @param {number} coef
  */
-export function whiskers(boxplot: IBoxPlot, arr: number[] | null, coef = 1.5) {
+export function whiskers(
+  boxplot: IBoxPlot,
+  arr: number[] | null,
+  coef = 1.5
+): { whiskerMin: number; whiskerMax: number } {
   const iqr = boxplot.q3 - boxplot.q1;
   // since top left is max
   const coefValid = typeof coef === 'number' && coef > 0;
@@ -61,14 +66,14 @@ export function whiskers(boxplot: IBoxPlot, arr: number[] | null, coef = 1.5) {
 
   if (Array.isArray(arr)) {
     // compute the closest real element
-    for (let i = 0; i < arr.length; i++) {
+    for (let i = 0; i < arr.length; i += 1) {
       const v = arr[i];
       if (v >= whiskerMin) {
         whiskerMin = v;
         break;
       }
     }
-    for (let i = arr.length - 1; i >= 0; i--) {
+    for (let i = arr.length - 1; i >= 0; i -= 1) {
       const v = arr[i];
       if (v <= whiskerMax) {
         whiskerMax = v;
@@ -231,7 +236,7 @@ export function violinStats(arr: readonly number[], options: IViolinOptions): IV
   };
 }
 
-export function asBoxPlotStats(value: any, options: IBoxplotOptions) {
+export function asBoxPlotStats(value: any, options: IBoxplotOptions): IBoxPlot | undefined {
   if (!value) {
     return undefined;
   }
@@ -255,7 +260,7 @@ export function asBoxPlotStats(value: any, options: IBoxplotOptions) {
   return boxplotStats(value, options);
 }
 
-export function asViolinStats(value: any, options: IViolinOptions) {
+export function asViolinStats(value: any, options: IViolinOptions): IViolin | undefined {
   if (!value) {
     return undefined;
   }
