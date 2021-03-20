@@ -1,20 +1,20 @@
 ﻿import { asBoxPlotStats, IBaseStats, IBoxPlot, IBoxplotOptions } from '../data';
 import {
-  Chart,
+  // Chart,
   BarController,
   ControllerDatasetOptions,
   ScriptableAndArrayOptions,
   CommonHoverOptions,
-  ChartItem,
-  ChartConfiguration,
-  LinearScale,
-  CategoryScale,
+  // ChartItem,
+  // ChartConfiguration,
+  // LinearScale,
+  // CategoryScale,
   CartesianScaleTypeRegistry,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { baseDefaults, StatsBase } from './base';
 import { BoxAndWiskers, IBoxAndWhiskersOptions } from '../elements';
-import patchController from './patchController';
+// import patchController from './patchController';
 import { boxOptionsKeys } from '../elements/BoxAndWiskers';
 
 export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOptions>> {
@@ -74,14 +74,14 @@ declare module 'chart.js' {
   }
 }
 
-export class BoxPlotChart<DATA extends unknown[] = BoxPlotDataPoint[], LABEL = string> extends Chart<
-  'boxplot',
-  DATA,
-  LABEL
-> {
-  static id = BoxPlotController.id;
+// export class BoxPlotChart<DATA extends unknown[] = BoxPlotDataPoint[], LABEL = string> extends Chart<
+//   'boxplot',
+//   DATA,
+//   LABEL
+// > {
+//   static id = BoxPlotController.id;
 
-  constructor(item: ChartItem, config: Omit<ChartConfiguration<'boxplot', DATA, LABEL>, 'type'>) {
-    super(item, patchController('boxplot', config, BoxPlotController, BoxAndWiskers, [LinearScale, CategoryScale]));
-  }
-}
+//   constructor(item: ChartItem, config: Omit<ChartConfiguration<'boxplot', DATA, LABEL>, 'type'>) {
+//     super(item, patchController('boxplot', config, BoxPlotController, BoxAndWiskers, [LinearScale, CategoryScale]));
+//   }
+// }

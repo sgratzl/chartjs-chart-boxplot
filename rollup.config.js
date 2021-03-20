@@ -112,6 +112,10 @@ export default (options) => {
       plugins: [
         dts({
           respectExternal: true,
+          compilerOptions: {
+            skipLibCheck: true,
+            skipDefaultLibCheck: true,
+          },
         }),
       ],
     },
