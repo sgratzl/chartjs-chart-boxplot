@@ -236,6 +236,7 @@ export function violinStats(arr: readonly number[], options: IViolinOptions): IV
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function asBoxPlotStats(value: any, options: IBoxplotOptions): IBoxPlot | undefined {
   if (!value) {
     return undefined;
@@ -249,7 +250,9 @@ export function asBoxPlotStats(value: any, options: IBoxplotOptions): IBoxPlot |
         Array.isArray(value.items) ? (value.items as number[]).slice().sort((a, b) => a - b) : null,
         coef
       );
+      // eslint-disable-next-line no-param-reassign
       value.whiskerMin = whiskerMin;
+      // eslint-disable-next-line no-param-reassign
       value.whiskerMax = whiskerMax;
     }
     return value;
@@ -260,6 +263,7 @@ export function asBoxPlotStats(value: any, options: IBoxplotOptions): IBoxPlot |
   return boxplotStats(value, options);
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function asViolinStats(value: any, options: IViolinOptions): IViolin | undefined {
   if (!value) {
     return undefined;
@@ -273,7 +277,7 @@ export function asViolinStats(value: any, options: IViolinOptions): IViolin | un
   return violinStats(value, options);
 }
 
-export function rnd(seed = Date.now()) {
+export function rnd(seed = Date.now()): () => number {
   // Adapted from http://indiegamr.com/generate-repeatable-random-numbers-in-js/
   let s = seed;
   return () => {

@@ -23,8 +23,8 @@ module.exports = {
   rules: {
     // '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    'no-underscore-dangle': 'off',
-    'max-classes-per-file': 'off',
     // '@typescript-eslint/no-non-null-assertion': 'off',
+    'max-classes-per-file': 'off',
+    'no-underscore-dangle': 'off',
   },
 };

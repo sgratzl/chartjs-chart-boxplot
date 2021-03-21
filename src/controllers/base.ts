@@ -3,7 +3,7 @@ import { interpolateNumberArray } from '../animation';
 import { outlierPositioner, patchInHoveredOutlier } from '../tooltip';
 import { defaultStatsOptions, IBaseOptions, IBaseStats } from '../data';
 
-export /* #__PURE__ */ function baseDefaults(keys: string[]) {
+export /* #__PURE__ */ function baseDefaults(keys: string[]): Record<string, unknown> {
   const colorKeys = ['borderColor', 'backgroundColor'].concat(keys.filter((c) => c.endsWith('Color')));
   return {
     animations: {
@@ -42,7 +42,7 @@ export /* #__PURE__ */ function baseDefaults(keys: string[]) {
   };
 }
 
-export function defaultOverrides() {
+export function defaultOverrides(): Record<string, unknown> {
   return {
     plugins: {
       tooltips: {
@@ -58,15 +58,18 @@ export function defaultOverrides() {
 export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOptions>> extends BarController {
   declare options: C;
 
+  // eslint-disable-next-line class-methods-use-this,@typescript-eslint/explicit-module-boundary-types
   protected _transformStats<T>(target: any, source: S, mapper: (v: number) => T): void {
     for (const key of ['min', 'max', 'median', 'q3', 'q1', 'mean'] as const) {
       const v = source[key];
       if (typeof v === 'number') {
+        // eslint-disable-next-line no-param-reassign
         target[key] = mapper(v);
       }
     }
     for (const key of ['outliers', 'items'] as const) {
       if (Array.isArray(source[key])) {
+        // eslint-disable-next-line no-param-reassign
         target[key] = source[key].map(mapper);
       }
     }
@@ -75,20 +78,25 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
   getMinMax(scale: Scale, canStack?: boolean | undefined): { min: number; max: number } {
     const bak = scale.axis;
     const config = this.options;
+    // eslint-disable-next-line no-param-reassign
     scale.axis = config.minStats;
     const { min } = super.getMinMax(scale, canStack);
+    // eslint-disable-next-line no-param-reassign
     scale.axis = config.maxStats;
     const { max } = super.getMinMax(scale, canStack);
+    // eslint-disable-next-line no-param-reassign
     scale.axis = bak;
     return { min, max };
   }
 
-  parsePrimitiveData(meta: ChartMeta, data: any[], start: number, count: number) {
+  parsePrimitiveData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const vScale = meta.vScale!;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const iScale = meta.iScale!;
     const labels = iScale.getLabels();
     const r = [];
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < count; i += 1) {
       const index = i + start;
       const parsed: any = {};
       parsed[iScale.axis] = iScale.parse(labels[index], index);
@@ -102,17 +110,18 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
     return r;
   }
 
-  parseArrayData(meta: ChartMeta, data: any[], start: number, count: number) {
+  parseArrayData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
     return this.parsePrimitiveData(meta, data, start, count);
   }
 
-  parseObjectData(meta: ChartMeta, data: any[], start: number, count: number) {
+  parseObjectData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
     return this.parsePrimitiveData(meta, data, start, count);
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   protected abstract _parseStats(value: any, options: C): S | undefined;
 
-  getLabelAndValue(index: number) {
+  getLabelAndValue(index: number): { label: string; value: string & { raw: S; hoveredOutlierIndex: number } & S } {
     const r = super.getLabelAndValue(index) as any;
     const { vScale } = this._cachedMeta;
     const parsed = (this.getParsed(index) as unknown) as S;
@@ -125,7 +134,7 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
     };
     this._transformStats(r.value, parsed, (v) => vScale.getLabelForValue(v));
     const s = this._toStringStats(r.value);
-    r.value.toString = function () {
+    r.value.toString = function toString() {
       // custom to string function for the 'value'
       if (this.hoveredOutlierIndex >= 0) {
         // TODO formatter
@@ -136,7 +145,8 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
     return r;
   }
 
-  protected _toStringStats(b: S) {
+  // eslint-disable-next-line class-methods-use-this
+  protected _toStringStats(b: S): string {
     // TODO formatter
     const f = (v: number) => (v == null ? 'NaN' : v.toLocaleString());
     return `(min: ${f(b.min)}, 25% quantile: ${f(b.q1)}, median: ${f(b.median)}, mean: ${f(b.mean)}, 75% quantile: ${f(
@@ -144,12 +154,15 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
     )}, max: ${f(b.max)})`;
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   updateElement(rectangle: Element, index: number, properties: any, mode: UpdateMode): void {
     const reset = mode === 'reset';
     const scale = this._cachedMeta.vScale as LinearScale;
     const parsed = (this.getParsed(index) as unknown) as S;
     const base = scale.getBasePixel();
+    // eslint-disable-next-line no-param-reassign
     properties._datasetIndex = this.index;
+    // eslint-disable-next-line no-param-reassign
     properties._index = index;
     this._transformStats(properties, parsed, (v) => (reset ? base : scale.getPixelForValue(v, index)));
     super.updateElement(rectangle, index, properties, mode);

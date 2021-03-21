@@ -416,7 +416,7 @@ export class StatsBase<T extends IStatsBaseProps, O extends IStatsBaseOptions> e
       return this.getCenterPoint();
     }
     if (tooltip) {
-      // eslint-disable-next-line np-param-reassign
+      // eslint-disable-next-line no-param-reassign
       delete tooltip._tooltipOutlier;
     }
 
@@ -426,7 +426,7 @@ export class StatsBase<T extends IStatsBaseProps, O extends IStatsBaseOptions> e
       return this.getCenterPoint();
     }
     // hack in the data of the hovered outlier
-    // eslint-disable-next-line np-param-reassign
+    // eslint-disable-next-line no-param-reassign
     tooltip._tooltipOutlier = {
       index,
       datasetIndex: this._datasetIndex,

@@ -272,7 +272,7 @@ describe('boxplot', () => {
     return chart.toMatchImageSnapshot();
   });
 
-  test('datastructures', () => {
+  test('data structures', () => {
     const chart = createChart({
       type: BoxPlotController.id,
       data: {

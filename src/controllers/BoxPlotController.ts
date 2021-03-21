@@ -18,13 +18,16 @@ import patchController from './patchController';
 import { boxOptionsKeys } from '../elements/BoxAndWiskers';
 
 export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOptions>> {
+  // eslint-disable-next-line class-methods-use-this
   protected _parseStats(value: unknown, config: IBoxplotOptions): IBoxPlot | undefined {
     return asBoxPlotStats(value, config);
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   protected _transformStats<T>(target: any, source: IBoxPlot, mapper: (v: number) => T): void {
     super._transformStats(target, source, mapper);
     for (const key of ['whiskerMin', 'whiskerMax']) {
+      // eslint-disable-next-line no-param-reassign
       target[key] = mapper(source[key as 'whiskerMin' | 'whiskerMax']);
     }
   }
