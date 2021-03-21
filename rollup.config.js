@@ -1,7 +1,7 @@
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import cleanup from 'rollup-plugin-cleanup';
-// import dts from 'rollup-plugin-dts';
+import dts from 'rollup-plugin-dts';
 import typescript from '@rollup/plugin-typescript';
 import { terser } from 'rollup-plugin-terser';
 import replace from '@rollup/plugin-replace';
@@ -23,10 +23,10 @@ const banner = `/**
  */
 const watchOnly = ['umd'];
 
-const isDependency = (v) => Object.keys(pkg.dependencies || {}).some((e) => e === v || v.startsWith(e + '/'));
-const isPeerDependency = (v) => Object.keys(pkg.peerDependencies || {}).some((e) => e === v || v.startsWith(e + '/'));
+const isDependency = (v) => Object.keys(pkg.dependencies || {}).some((e) => e === v || v.startsWith(`${e}/`));
+const isPeerDependency = (v) => Object.keys(pkg.peerDependencies || {}).some((e) => e === v || v.startsWith(`${e}/`));
 
-export default (options) => {
+export default function Config(options) {
   const buildFormat = (format) => {
     return !options.watch || watchOnly.includes(format);
   };
@@ -102,22 +102,22 @@ export default (options) => {
       ].filter(Boolean),
       external: (v) => isPeerDependency(v),
     },
-    // buildFormat('types') && {
-    //   ...base,
-    //   output: {
-    //     ...commonOutput,
-    //     file: pkg.types,
-    //     format: 'es',
-    //   },
-    //   plugins: [
-    //     dts({
-    //       respectExternal: true,
-    //       compilerOptions: {
-    //         skipLibCheck: true,
-    //         skipDefaultLibCheck: true,
-    //       },
-    //     }),
-    //   ],
-    // },
+    buildFormat('types') && {
+      ...base,
+      output: {
+        ...commonOutput,
+        file: pkg.types,
+        format: 'es',
+      },
+      plugins: [
+        dts({
+          respectExternal: true,
+          compilerOptions: {
+            skipLibCheck: true,
+            skipDefaultLibCheck: true,
+          },
+        }),
+      ],
+    },
   ].filter(Boolean);
-};
+}

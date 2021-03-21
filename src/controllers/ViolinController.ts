@@ -12,7 +12,7 @@
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { asViolinStats, IBaseStats, IViolin, IViolinOptions } from '../data';
-import { StatsBase, baseDefaults, defaultOverrides } from './base';
+import { StatsBase, baseDefaults, defaultOverrides } from './StatsBase';
 import { baseOptionKeys } from '../elements/base';
 import { IViolinElementOptions, Violin } from '../elements';
 import { interpolateKdeCoords } from '../animation';

@@ -50,7 +50,7 @@
     "src/**/*.tsx"
   ],
   "peerDependencies": {
-    "chart.js": "^3.0.0-rc"
+    "chart.js": "^3.0.0-rc.2"
   },
   "browserslist": [
     "Firefox ESR",
@@ -73,7 +73,7 @@
     "@yarnpkg/pnpify": "^2.4.0",
     "canvas": "^2.7.0",
     "canvas-5-polyfill": "^0.1.5",
-    "chart.js": "^3.0.0-rc",
+    "chart.js": "^3.0.0-rc.2",
     "eslint": "^7.22.0",
     "eslint-config-airbnb-typescript": "^12.3.1",
     "eslint-config-prettier": "^8.1.0",
@@ -87,7 +87,7 @@
     "jest": "^26.6.3",
     "jest-image-snapshot": "^4.4.0",
     "prettier": "^2.2.1",
-    "release-it": "^14.4.1",
+    "release-it": "^14.5.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.42.1",
     "rollup-plugin-cleanup": "^3.2.1",
@@ -101,10 +101,9 @@
   "scripts": {
     "clean": "rimraf build docs node_modules \"*.tgz\" \"*.tsbuildinfo\"",
     "compile": "tsc -b tsconfig.c.json",
-    "compile:types": "tsc -p tsconfig.c.json --emitDeclarationOnly",
     "start": "yarn run watch",
     "watch": "rollup -c -w",
-    "build": "rollup -c && yarn run compile:types",
+    "build": "rollup -c",
     "test": "jest --passWithNoTests",
     "test:watch": "jest --passWithNoTests --watch",
     "test:coverage": "jest --passWithNoTests --coverage",

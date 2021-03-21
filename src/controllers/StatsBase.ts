@@ -1,4 +1,5 @@
 ﻿import { BarController, Element, ChartMeta, LinearScale, Scale, UpdateMode } from 'chart.js';
+import { formatNumber } from 'chart.js/helpers';
 import { interpolateNumberArray } from '../animation';
 import { outlierPositioner, patchInHoveredOutlier } from '../tooltip';
 import { defaultStatsOptions, IBaseOptions, IBaseStats } from '../data';
@@ -147,8 +148,8 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
 
   // eslint-disable-next-line class-methods-use-this
   protected _toStringStats(b: S): string {
-    // TODO formatter
-    const f = (v: number) => (v == null ? 'NaN' : v.toLocaleString());
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const f = (v: number) => (v == null ? 'NaN' : formatNumber(v, this.chart.options.locale!, {}));
     return `(min: ${f(b.min)}, 25% quantile: ${f(b.q1)}, median: ${f(b.median)}, mean: ${f(b.mean)}, 75% quantile: ${f(
       b.q3
     )}, max: ${f(b.max)})`;

@@ -12,7 +12,7 @@
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { asBoxPlotStats, IBaseStats, IBoxPlot, IBoxplotOptions } from '../data';
-import { baseDefaults, StatsBase, defaultOverrides } from './base';
+import { baseDefaults, StatsBase, defaultOverrides } from './StatsBase';
 import { BoxAndWiskers, IBoxAndWhiskersOptions } from '../elements';
 import patchController from './patchController';
 import { boxOptionsKeys } from '../elements/BoxAndWiskers';
