@@ -8,7 +8,6 @@
   ChartConfiguration,
   LinearScale,
   CategoryScale,
-  CartesianScaleTypeRegistry,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { asViolinStats, IBaseStats, IViolin, IViolinOptions } from '../data';
