@@ -61,17 +61,17 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
 
   // eslint-disable-next-line class-methods-use-this,@typescript-eslint/explicit-module-boundary-types
   protected _transformStats<T>(target: any, source: S, mapper: (v: number) => T): void {
-    for (const key of ['min', 'max', 'median', 'q3', 'q1', 'mean'] as const) {
-      const v = source[key];
+    for (const key of ['min', 'max', 'median', 'q3', 'q1', 'mean']) {
+      const v = source[key as keyof IBaseStats];
       if (typeof v === 'number') {
         // eslint-disable-next-line no-param-reassign
         target[key] = mapper(v);
       }
     }
-    for (const key of ['outliers', 'items'] as const) {
-      if (Array.isArray(source[key])) {
+    for (const key of ['outliers', 'items']) {
+      if (Array.isArray(source[key as keyof IBaseStats])) {
         // eslint-disable-next-line no-param-reassign
-        target[key] = source[key].map(mapper);
+        target[key] = source[key as 'outliers' | 'items'].map(mapper);
       }
     }
   }
