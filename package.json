@@ -119,7 +119,7 @@
     "release:pre": "release-it --disable-metrics --npm.skipChecks --preRelease=alpha --npm.tag=next"
   },
   "dependenciesMeta": {
-    "chart.js@3.0.0": {
+    "chart.js@3.3.2": {
       "unplugged": true
     }
   }
