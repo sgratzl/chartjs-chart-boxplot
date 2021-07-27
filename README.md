@@ -83,11 +83,11 @@ The ESM build of the library supports tree shaking thus having no side effects. 
 Variant A:
 
 ```js
-import Chart from 'chart.js';
+import Chart from 'chart.js/auto';
 import { BoxPlotController } from '@sgratzl/chartjs-chart-boxplot';
 
 // register controller in chart.js and ensure the defaults are set
-BoxPlotController.register();
+Chart.register(BoxPlotController);
 ...
 
 new Chart(ctx, {
