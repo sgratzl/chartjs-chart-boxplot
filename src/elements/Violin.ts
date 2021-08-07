@@ -44,11 +44,13 @@ export class Violin extends StatsBase<IViolinElementProps, IViolinElementOptions
     this._drawItems(ctx);
   }
 
-  protected _drawCoords(ctx: CanvasRenderingContext2D, props: IViolinElementProps): void {
+  protected _drawCoords(
+    ctx: CanvasRenderingContext2D,
+    props: Pick<IViolinElementProps, 'x' | 'coords' | 'y' | 'maxEstimate' | 'width' | 'height' | 'min' | 'max'>
+  ): void {
     ctx.beginPath();
     if (this.isVertical()) {
-      const { x } = props;
-      const { width } = props;
+      const { x, width } = props;
       const factor = width / 2 / props.maxEstimate;
       ctx.moveTo(x, props.min);
       props.coords.forEach((c) => {
@@ -61,8 +63,7 @@ export class Violin extends StatsBase<IViolinElementProps, IViolinElementOptions
       });
       ctx.lineTo(x, props.max);
     } else {
-      const { y } = props;
-      const { height } = props;
+      const { y, height } = props;
       const factor = height / 2 / props.maxEstimate;
       ctx.moveTo(props.min, y);
       props.coords.forEach((c) => {

@@ -78,6 +78,7 @@ declare module 'chart.js' {
       datasetOptions: ViolinControllerDatasetOptions;
       defaultDataPoint: ViolinDataPoint;
       scales: keyof CartesianScaleTypeRegistry;
+      metaExtensions: Record<string, never>;
       parsedDataType: IViolin & ChartTypeRegistry['bar']['parsedDataType'];
     };
   }

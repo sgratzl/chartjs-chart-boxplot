@@ -71,6 +71,7 @@ declare module 'chart.js' {
       datasetOptions: BoxPlotControllerDatasetOptions;
       defaultDataPoint: BoxPlotDataPoint;
       scales: keyof CartesianScaleTypeRegistry;
+      metaExtensions: Record<string, never>;
       parsedDataType: IBoxPlot & ChartTypeRegistry['bar']['parsedDataType'];
     };
   }
