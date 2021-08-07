@@ -134,7 +134,7 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
       hoveredOutlierIndex: -1,
     };
     this._transformStats(r.value, parsed, (v) => vScale.getLabelForValue(v));
-    const s = this._toStringStats(r.value);
+    const s = this._toStringStats(r.raw);
     r.value.toString = function toString() {
       // custom to string function for the 'value'
       if (this.hoveredOutlierIndex >= 0) {

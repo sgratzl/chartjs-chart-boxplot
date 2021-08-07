@@ -87,7 +87,7 @@ import Chart from 'chart.js';
 import { BoxPlotController } from '@sgratzl/chartjs-chart-boxplot';
 
 // register controller in chart.js and ensure the defaults are set
-BoxPlotController.register();
+Chart.register(BoxPlotController);
 ...
 
 new Chart(ctx, {
