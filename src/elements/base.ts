@@ -225,10 +225,12 @@ export interface IStatsBaseProps {
 export class StatsBase<T extends IStatsBaseProps, O extends IStatsBaseOptions> extends Element<T, O> {
   declare _datasetIndex: number;
 
+  declare horizontal: boolean;
+
   declare _index: number;
 
   isVertical(): boolean {
-    return this.getProps(['height']).height == null;
+    return !this.horizontal;
   }
 
   protected _drawItems(ctx: CanvasRenderingContext2D): void {
