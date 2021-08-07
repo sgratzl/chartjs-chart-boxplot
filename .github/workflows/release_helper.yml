@@ -95,7 +95,6 @@ jobs:
           base: dev
           title: 'chore: sync main->dev'
           labels: chore
-          reviewers: sgratzl
           assignees: sgratzl
           body: |
             Syncing Main->Dev.
