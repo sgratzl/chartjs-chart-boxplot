@@ -85,16 +85,5 @@ jobs:
       - name: Reset dev branch
         run: |
           git fetch origin main:main
-          git reset --hard main
-      - name: Create pull request into dev
-        uses: peter-evans/create-pull-request@v3
-        with:
-          token: ${{ secrets.PRIVATE_PAT }}
-          branch: bot/sync-main-dev
-          commit-message: 'chore: sync main-dev'
-          base: dev
-          title: 'chore: sync main->dev'
-          labels: chore
-          assignees: sgratzl
-          body: |
-            Syncing Main->Dev.
+          git merge main
+          git push
