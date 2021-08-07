@@ -125,8 +125,6 @@ yarn lint
 yarn fix
 yarn build
 yarn docs
-yarn release
-yarn release:pre
 ```
 
 ## Credits
