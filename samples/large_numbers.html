@@ -21,7 +21,7 @@
       const samples = this.Samples.utils;
       const color = Chart.helpers.color;
       const b = d3.randomNormal();
-      const random = (min, max) => () => b() * ((max * 1000 || 1) - (min  * 100 || 0)) + (min * 1000 || 0);
+      const random = (min, max) => () => b() * ((max * 1000 || 1) - (min * 100 || 0)) + (min * 1000 || 0);
       const boxplotData = {
         labels: samples.months({ count: 7 }),
         datasets: [
