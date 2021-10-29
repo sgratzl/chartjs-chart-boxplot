@@ -50,7 +50,7 @@
     "src/**/*.tsx"
   ],
   "peerDependencies": {
-    "chart.js": "^3.5.1"
+    "chart.js": "^3.6.0"
   },
   "browserslist": [
     "Firefox ESR",
@@ -61,42 +61,41 @@
     "@sgratzl/boxplots": "^1.2.2"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^21.0.0",
-    "@rollup/plugin-node-resolve": "^13.0.5",
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-node-resolve": "^13.0.6",
     "@rollup/plugin-replace": "^3.0.0",
-    "@rollup/plugin-typescript": "^8.2.5",
+    "@rollup/plugin-typescript": "^8.3.0",
     "@types/jest": "^27.0.2",
     "@types/jest-image-snapshot": "^4.3.1",
-    "@types/node": "^16.10.3",
-    "@types/offscreencanvas": "^2019.6.4",
-    "@typescript-eslint/eslint-plugin": "^4.33.0",
-    "@typescript-eslint/parser": "^4.33.0",
-    "@yarnpkg/sdks": "^2.4.2-rc.8",
+    "@types/node": "^16.11.6",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "@typescript-eslint/parser": "^5.2.0",
+    "@yarnpkg/sdks": "^2.5.0",
     "canvas": "^2.8.0",
     "canvas-5-polyfill": "^0.1.5",
-    "chart.js": "^3.5.1",
-    "eslint": "^7.32.0",
+    "chart.js": "^3.6.0",
+    "eslint": "^8.1.0",
     "eslint-config-airbnb-typescript": "^14.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-react-app": "^6.0.0",
-    "eslint-plugin-flowtype": "^6.1.0",
-    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-flowtype": "^8.0.3",
+    "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "jest": "^27.2.5",
+    "jest": "^27.3.1",
     "jest-image-snapshot": "^4.5.1",
     "prettier": "^2.4.1",
     "rimraf": "^3.0.2",
-    "rollup": "^2.58.0",
+    "rollup": "^2.58.3",
     "rollup-plugin-cleanup": "^3.2.1",
     "rollup-plugin-dts": "^4.0.0",
     "rollup-plugin-terser": "^7.0.2",
-    "ts-jest": "^27.0.5",
+    "ts-jest": "^27.0.7",
     "tslib": "^2.3.1",
-    "typedoc": "^0.22.5",
-    "typescript": "^4.4.3"
+    "typedoc": "^0.22.7",
+    "typescript": "^4.4.4"
   },
   "scripts": {
     "clean": "rimraf build docs node_modules \"*.tgz\" \"*.tsbuildinfo\"",
@@ -117,9 +116,9 @@
     "prepare": "yarn run build"
   },
   "dependenciesMeta": {
-    "chart.js@3.5.1": {
+    "chart.js@3.6.0": {
       "unplugged": true
     }
   },
-  "packageManager": "yarn@3.0.2"
+  "packageManager": "yarn@3.1.0"
 }
