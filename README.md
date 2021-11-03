@@ -110,10 +110,8 @@ new BoxPlotChart(ctx, {
 
 ```sh
 npm i -g yarn
-yarn set version 2
-cat .yarnrc_patch.yml >> .yarnrc.yml
 yarn install
-yarn pnpify --sdk vscode
+yarn sdks vscode
 ```
 
 ### Common commands
@@ -125,8 +123,6 @@ yarn lint
 yarn fix
 yarn build
 yarn docs
-yarn release
-yarn release:pre
 ```
 
 ## Credits

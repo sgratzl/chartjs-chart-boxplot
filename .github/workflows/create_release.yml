@@ -32,7 +32,6 @@ jobs:
           base: main
           title: Release ${{ steps.version.outputs.next_tag }}
           labels: chore
-          reviewers: sgratzl
           assignees: sgratzl
           body: |
             Releasing ${{ steps.version.outputs.next_tag }}.
