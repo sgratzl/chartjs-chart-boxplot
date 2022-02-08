@@ -1976,7 +1976,7 @@ __metadata:
   peerDependencies:
     chart.js: ^3.7.0
   dependenciesMeta:
-    chart.js@3.6.0:
+    chart.js@3.7.0:
       unplugged: true
   languageName: unknown
   linkType: soft
