@@ -8,7 +8,6 @@ import boxplots, {
   quantilesNearest,
   quantilesType7,
 } from '@sgratzl/boxplots';
-import kde from './kde';
 
 export {
   quantilesFivenum,
@@ -196,40 +195,40 @@ export function boxplotStats(arr: readonly number[] | Float32Array | Float64Arra
   };
 }
 
-export function violinStats(arr: readonly number[], options: IViolinOptions): IViolin | undefined {
-  // console.assert(Array.isArray(arr));
-  if (arr.length === 0) {
-    return undefined;
-  }
-  const items = arr.filter((v) => typeof v === 'number' && !Number.isNaN(v)).sort((a, b) => a - b);
-
-  const mean = items.reduce((acc, v) => acc + v, 0) / items.length;
-
-  const { quantiles } = determineStatsOptions(options);
-
-  const stats = quantiles(items);
-  const min = items[0];
-  const max = items[items.length - 1];
-
+function computeSamples(min: number, max: number, points: number) {
   // generate coordinates
   const range = max - min;
-  const samples = [];
-  const inc = range / options.points;
+  const samples: number[] = [];
+  const inc = range / points;
   for (let v = min; v <= max && inc > 0; v += inc) {
     samples.push(v);
   }
   if (samples[samples.length - 1] !== max) {
     samples.push(max);
   }
-  const coords = kde(items, samples, quantiles);
+  return samples;
+}
+
+export function violinStats(arr: readonly number[], options: IViolinOptions): IViolin | undefined {
+  // console.assert(Array.isArray(arr));
+  if (arr.length === 0) {
+    return undefined;
+  }
+  const stats = boxplots(arr, determineStatsOptions(options));
+
+  // generate coordinates
+  const samples = computeSamples(stats.min, stats.max, options.points);
+  const coords = samples.map((v) => ({ v, estimate: stats.kde(v) }));
   const maxEstimate = coords.reduce((a, d) => Math.max(a, d.estimate), Number.NEGATIVE_INFINITY);
 
   return {
-    ...stats,
-    min,
-    items,
-    mean,
-    max,
+    max: stats.max,
+    min: stats.min,
+    mean: stats.mean,
+    median: stats.median,
+    q1: stats.q1,
+    q3: stats.q3,
+    items: Array.from(stats.items),
     coords,
     outliers: [], // items.filter((d) => d < stats.q1 || d > stats.q3),
     maxEstimate,

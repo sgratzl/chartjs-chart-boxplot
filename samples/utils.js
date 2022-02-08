@@ -104,7 +104,7 @@ window.chartColors = {
       const count = (config || {}).count || 8;
       const data = [];
       for (let i = 0; i < count; ++i) {
-        data.push(this.numbers({ ...config, count: 50 }));
+        data.push(this.numbers({ ...config, count: config.points || 50 }));
       }
       return data;
     },

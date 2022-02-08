@@ -45,8 +45,8 @@ export function outlierPositioner(
   };
 }
 
-outlierPositioner.id = 'averageInstance';
+outlierPositioner.id = 'average';
 outlierPositioner.register = () => {
-  Tooltip.positioners.averageInstance = outlierPositioner as any;
+  Tooltip.positioners.average = outlierPositioner as any;
   return outlierPositioner;
 };
