@@ -2,7 +2,7 @@ import { Chart, LinearScale, CategoryScale } from 'chart.js';
 import { BoxPlotController, BoxAndWiskers, Violin, ViolinController } from '../build';
 
 // register controller in chart.js and ensure the defaults are set
-Chart.register(BoxPlotController, BoxAndWiskers, LinearScale, CategoryScale);
+Chart.register(BoxPlotController, BoxAndWiskers, Violin, ViolinController, LinearScale, CategoryScale);
 
 const ctx = document.querySelector('canvas').getContext('2d');
 
