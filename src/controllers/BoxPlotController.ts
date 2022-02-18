@@ -8,6 +8,7 @@
   ChartConfiguration,
   LinearScale,
   CategoryScale,
+  AnimationOptions,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { asBoxPlotStats, IBaseStats, IBoxPlot, IBoxplotOptions } from '../data';
@@ -57,7 +58,8 @@ export interface BoxPlotControllerDatasetOptions
   extends ControllerDatasetOptions,
     IBoxplotOptions,
     ScriptableAndArrayOptions<IBoxAndWhiskersOptions, 'boxplot'>,
-    ScriptableAndArrayOptions<CommonHoverOptions, 'boxplot'> {}
+    ScriptableAndArrayOptions<CommonHoverOptions, 'boxplot'>,
+    AnimationOptions<'boxplot'> {}
 
 export type BoxPlotDataPoint = number[] | (Partial<IBoxPlot> & IBaseStats);
 
