@@ -46,7 +46,7 @@ export /* #__PURE__ */ function baseDefaults(keys: string[]): Record<string, unk
 export function defaultOverrides(): Record<string, unknown> {
   return {
     plugins: {
-      tooltips: {
+      tooltip: {
         position: outlierPositioner.register().id,
         callbacks: {
           beforeLabel: patchInHoveredOutlier,
