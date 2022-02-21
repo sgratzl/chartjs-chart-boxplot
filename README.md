@@ -83,7 +83,7 @@ The ESM build of the library supports tree shaking thus having no side effects. 
 Variant A:
 
 ```js
-import Chart, { LinearScale, CategoryScale } from 'chart.js';
+import { Chart, LinearScale, CategoryScale } from 'chart.js';
 import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot';
 
 // register controller in chart.js and ensure the defaults are set
@@ -91,7 +91,7 @@ Chart.register(BoxPlotController, BoxAndWiskers, LinearScale, CategoryScale);
 ...
 
 new Chart(ctx, {
-  type: BoxPlotController.id,
+  type: 'boxplot',
   data: [...],
 });
 ```

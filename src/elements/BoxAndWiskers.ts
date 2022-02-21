@@ -226,3 +226,9 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
 
   static defaultRoutes = /* #__PURE__ */ { ...BarElement.defaultRoutes, ...baseRoutes };
 }
+
+declare module 'chart.js' {
+  export interface ElementOptionsByType<TType extends ChartType> {
+    boxplot: ScriptableAndArrayOptions<IBoxAndWhiskersOptions & CommonHoverOptions, ScriptableContext<TType>>;
+  }
+}
