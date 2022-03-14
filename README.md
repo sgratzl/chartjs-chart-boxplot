@@ -39,13 +39,13 @@ four new types: `boxplot` and `violin`.
 
 The config can be done on a per dataset `.data.datasets[0].minStats` or for all datasets under the controllers name. e.g., `.options.boxplot.datasets.minStats`.
 
-see https://github.com/sgratzl/chartjs-chart-boxplot/blog/dev/src/data.ts#L100-L147
+see https://github.com/sgratzl/chartjs-chart-boxplot/blob/dev/src/data.ts#L100-L147
 
 ## Data structure
 
 Both types support that the data is given as an array of numbers `number[]`. The statistics will be automatically computed. In addition, specific summary data structures are supported:
 
-see https://github.com/sgratzl/chartjs-chart-boxplot/blog/dev/src/data.ts#L24-L49
+see https://github.com/sgratzl/chartjs-chart-boxplot/blob/dev/src/data.ts#L24-L49
 
 ## Tooltips
 
