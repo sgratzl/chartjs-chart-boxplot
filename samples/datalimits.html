@@ -62,8 +62,8 @@
         });
 
         document.getElementById('limitMinMax').onclick = () => {
-          options.boxplot.datasets.minStats = 'min';
-          options.boxplot.datasets.maxStats = 'max';
+          options.minStats = 'min';
+          options.maxStats = 'max';
           myBar.destroy();
           myBar = new Chart(ctx, {
             type: 'boxplot',
@@ -72,8 +72,8 @@
           });
         };
         document.getElementById('limitWhiskers').onclick = () => {
-          options.boxplot.datasets.minStats = 'whiskerMin';
-          options.boxplot.datasets.maxStats = 'whiskerMax';
+          options.minStats = 'whiskerMin';
+          options.maxStats = 'whiskerMax';
           myBar.destroy();
           myBar = new Chart(ctx, {
             type: 'boxplot',
