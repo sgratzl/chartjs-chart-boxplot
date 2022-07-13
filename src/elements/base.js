@@ -29,7 +29,7 @@ const ArrayElementBase = Chart.Element.extend({
       return;
     }
     ctx.save();
-    ctx.strokeStle = vm.itemBorderColor;
+    ctx.strokeStyle = vm.itemBorderColor;
     ctx.fillStyle = vm.itemBackgroundColor;
     // jitter based on random data
     // use the datesetindex and index to initialize the random number generator
