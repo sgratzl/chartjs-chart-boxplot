@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Box Plot Chart</title>
+    <script src="https://unpkg.com/chart.js@3.9.1/dist/chart.js"></script>
+    <script src="../build/index.umd.js"></script>
+  </head>
+
+  <body>
+    <div id="container" style="width: 75%">
+      <canvas id="canvas"></canvas>
+    </div>
+    <script>
+      const boxplotData = {
+        labels: ['toto'],
+        datasets: [
+          {
+            type: 'violin',
+            data: [
+              {
+                median: 50,
+                maxEstimate: 10,
+                coords: [
+                  { v: 0, estimate: 0 },
+                  { v: 25, estimate: 10 },
+                  { v: 50, estimate: 3 },
+                  { v: 75, estimate: 7 },
+                  { v: 100, estimate: 0 },
+                ],
+              },
+            ],
+          },
+          {
+            type: 'boxplot',
+            data: [
+              {
+                min: 0,
+                max: 100,
+                q1: 25,
+                q3: 75,
+                median: 50,
+                mean: 50,
+                items: [],
+                outliers: [],
+              },
+            ],
+          },
+        ],
+      };
+      window.onload = () => {
+        const ctx = document.getElementById('canvas').getContext('2d');
+        window.myBar = new Chart(ctx, {
+          data: boxplotData,
+        });
+      };
+    </script>
+  </body>
+</html>

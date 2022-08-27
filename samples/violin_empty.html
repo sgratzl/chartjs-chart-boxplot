@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Violin Chart</title>
+    <script src="https://unpkg.com/chart.js@3.9.1/dist/chart.js"></script>
+    <script src="../build/index.umd.js"></script>
+    <script src="https://unpkg.com/d3-random@latest/dist/d3-random.min.js"></script>
+    <script src="./utils.js"></script>
+  </head>
+
+  <body>
+    <div id="container" style="width: 75%">
+      <canvas id="canvas"></canvas>
+    </div>
+    <script>
+      const samples = this.Samples.utils;
+      const color = Chart.helpers.color;
+      const b = d3.randomNormal();
+      const random = (min, max) => () => b() * ((max || 1) - (min || 0)) + (min || 0);
+      const boxplotData = {
+        labels: samples.months({ count: 8 }),
+        datasets: [
+          {
+            label: 'Dataset 1',
+            backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+            borderColor: window.chartColors.red,
+            borderWidth: 1,
+            data: [[null], samples.boxplotsArray({ count: 7, random: random, points: 200 })].flat(),
+          },
+        ],
+      };
+
+      window.onload = function () {
+        const ctx = document.getElementById('canvas').getContext('2d');
+        const myBar = new Chart(ctx, {
+          type: 'violin',
+          data: boxplotData,
+          options: {
+            responsive: true,
+            legend: {
+              position: 'top',
+            },
+            title: {
+              display: true,
+              text: 'Chart.js Violin Chart',
+            },
+          },
+        });
+      };
+    </script>
+  </body>
+</html>
