@@ -219,10 +219,12 @@ export interface IStatsBaseProps {
   height: number;
   items: number[];
   outliers: number[];
-  mean: number;
 }
 
-export class StatsBase<T extends IStatsBaseProps, O extends IStatsBaseOptions> extends Element<T, O> {
+export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends IStatsBaseOptions> extends Element<
+  T,
+  O
+> {
   declare _datasetIndex: number;
 
   declare horizontal: boolean;
