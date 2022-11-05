@@ -2098,9 +2098,6 @@ __metadata:
     typescript: ^4.8.4
   peerDependencies:
     chart.js: ^3.9.1
-  dependenciesMeta:
-    chart.js@3.9.1:
-      unplugged: true
   languageName: unknown
   linkType: soft
 
