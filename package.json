@@ -115,7 +115,7 @@
     "start": "yarn run watch",
     "watch": "rollup -c -w",
     "build": "rollup -c",
-    "test": "yarn node --experimental-vm-modules $(yarn bin jest) --passWithNoTests --detectOpenHandles --forceExit",
+    "test": "jest --passWithNoTests --detectOpenHandles --forceExit",
     "test:watch": "yarn run test --watch",
     "test:coverage": "yarn run test --coverage",
     "samples": "yarn tsc samples/type_test.ts",

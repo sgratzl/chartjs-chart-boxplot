@@ -92,6 +92,7 @@ export default function Config(options) {
         file: pkg.require,
         format: 'cjs',
       },
+      external: (v) => (isDependency(v) || isPeerDependency(v)) && ['d3-'].every((di) => !v.includes(di)),
     },
     (buildFormat('umd') || buildFormat('umd-min')) && {
       ...base,
