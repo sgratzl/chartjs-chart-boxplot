@@ -1,8 +1,6 @@
-/* eslint-env node */
-
-module.exports = {
+/** @type {import('ts-jest').JestConfigWithTsJest} */
+export default {
+  preset: 'ts-jest',
   testEnvironment: 'jsdom',
-  preset: 'ts-jest/presets/js-with-ts-esm',
-  rootDir: './src',
   testRegex: '((\\.|/)(test|spec))\\.tsx?$',
 };
