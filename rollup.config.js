@@ -13,7 +13,7 @@ const pkg = JSON.parse(fs.readFileSync('./package.json'));
 function resolveYear() {
   // Extract copyrights from the LICENSE.
   const license = fs.readFileSync('./LICENSE', 'utf-8').toString();
-  const matches = Array.from(license.matchAll(/\(c\) (\d+)/gm));
+  const matches = Array.from(license.matchAll(/\(c\) (\d+-\d+)/gm));
   if (!matches || matches.length === 0) {
     return 2021;
   }
@@ -89,9 +89,10 @@ export default function Config(options) {
       ...base,
       output: {
         ...commonOutput,
-        file: pkg.main,
+        file: pkg.require,
         format: 'cjs',
       },
+      external: (v) => (isDependency(v) || isPeerDependency(v)) && ['d3-'].every((di) => !v.includes(di)),
     },
     (buildFormat('umd') || buildFormat('umd-min')) && {
       ...base,
@@ -99,7 +100,7 @@ export default function Config(options) {
       output: [
         buildFormat('umd') && {
           ...commonOutput,
-          file: pkg.unpkg.replace('.min', ''),
+          file: pkg.umd,
           format: 'umd',
           name: pkg.global,
         },
