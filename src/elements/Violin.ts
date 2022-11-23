@@ -1,4 +1,4 @@
-﻿import { BarElement } from 'chart.js';
+﻿import { BarElement, ChartType, CommonHoverOptions, ScriptableAndArrayOptions, ScriptableContext } from 'chart.js';
 import { drawPoint } from 'chart.js/helpers';
 import type { IKDEPoint } from '../data';
 import { StatsBase, baseDefaults, baseRoutes, IStatsBaseOptions, IStatsBaseProps } from './base';

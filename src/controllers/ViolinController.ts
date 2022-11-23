@@ -9,6 +9,8 @@
   LinearScale,
   CategoryScale,
   AnimationOptions,
+  ScriptableContext,
+  CartesianScaleTypeRegistry,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { asViolinStats, IBaseStats, IViolin, IViolinOptions } from '../data';
@@ -66,8 +68,8 @@ export type ViolinDataPoint = number[] | (Partial<IViolin> & IBaseStats);
 export interface ViolinControllerDatasetOptions
   extends ControllerDatasetOptions,
     IViolinOptions,
-    ScriptableAndArrayOptions<IViolinElementOptions, 'violin'>,
-    ScriptableAndArrayOptions<CommonHoverOptions, 'violin'>,
+    ScriptableAndArrayOptions<IViolinElementOptions, ScriptableContext<'violin'>>,
+    ScriptableAndArrayOptions<CommonHoverOptions, ScriptableContext<'violin'>>,
     AnimationOptions<'violin'> {}
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -80,7 +82,7 @@ declare module 'chart.js' {
       datasetOptions: ViolinControllerDatasetOptions;
       defaultDataPoint: ViolinDataPoint;
       scales: keyof CartesianScaleTypeRegistry;
-      metaExtensions: Record<string, never>;
+      metaExtensions: {};
       parsedDataType: IViolin & ChartTypeRegistry['bar']['parsedDataType'];
     };
   }
