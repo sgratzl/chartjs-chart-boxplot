@@ -1,4 +1,4 @@
-import { registry } from 'chart.js';
+import { CategoryScale, LinearScale, registry } from 'chart.js';
 import createChart from '../__tests__/createChart';
 import { ViolinController } from './ViolinController';
 import { Samples } from './__tests__/utils';
@@ -8,6 +8,7 @@ describe('violin', () => {
   beforeAll(() => {
     registry.addControllers(ViolinController);
     registry.addElements(Violin);
+    registry.addScales(CategoryScale, LinearScale);
   });
   test('default', () => {
     const samples = new Samples(10);

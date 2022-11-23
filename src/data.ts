@@ -1,4 +1,5 @@
-import boxplots, {
+import {
+  boxplot as boxplots,
   quantilesFivenum,
   quantilesHigher,
   quantilesHinges,
