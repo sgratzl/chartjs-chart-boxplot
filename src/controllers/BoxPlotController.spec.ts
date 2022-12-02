@@ -1,4 +1,14 @@
-import { registry, BarController, LineController, PointElement, BarElement, LineElement } from 'chart.js';
+import {
+  registry,
+  BarController,
+  LineController,
+  PointElement,
+  BarElement,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  LogarithmicScale,
+} from 'chart.js';
 import createChart from '../__tests__/createChart';
 import { BoxPlotController, BoxPlotDataPoint } from './BoxPlotController';
 import { Samples } from './__tests__/utils';
@@ -21,6 +31,7 @@ describe('boxplot', () => {
   beforeAll(() => {
     registry.addControllers(BoxPlotController, BarController, LineController);
     registry.addElements(BoxAndWiskers, PointElement, BarElement, LineElement);
+    registry.addScales(CategoryScale, LinearScale, LogarithmicScale);
   });
 
   test('default', () => {
