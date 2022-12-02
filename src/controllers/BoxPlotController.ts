@@ -9,6 +9,8 @@
   LinearScale,
   CategoryScale,
   AnimationOptions,
+  ScriptableContext,
+  CartesianScaleTypeRegistry,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { asBoxPlotStats, IBaseStats, IBoxPlot, IBoxplotOptions } from '../data';
@@ -57,8 +59,8 @@ export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOpti
 export interface BoxPlotControllerDatasetOptions
   extends ControllerDatasetOptions,
     IBoxplotOptions,
-    ScriptableAndArrayOptions<IBoxAndWhiskersOptions, 'boxplot'>,
-    ScriptableAndArrayOptions<CommonHoverOptions, 'boxplot'>,
+    ScriptableAndArrayOptions<IBoxAndWhiskersOptions, ScriptableContext<'boxplot'>>,
+    ScriptableAndArrayOptions<CommonHoverOptions, ScriptableContext<'boxplot'>>,
     AnimationOptions<'boxplot'> {}
 
 export type BoxPlotDataPoint = number[] | (Partial<IBoxPlot> & IBaseStats);
@@ -73,7 +75,7 @@ declare module 'chart.js' {
       datasetOptions: BoxPlotControllerDatasetOptions;
       defaultDataPoint: BoxPlotDataPoint;
       scales: keyof CartesianScaleTypeRegistry;
-      metaExtensions: Record<string, never>;
+      metaExtensions: {};
       parsedDataType: IBoxPlot & ChartTypeRegistry['bar']['parsedDataType'];
     };
   }
