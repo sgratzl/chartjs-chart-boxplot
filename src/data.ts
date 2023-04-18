@@ -181,7 +181,11 @@ function determineStatsOptions(options?: IBaseOptions) {
 }
 
 export function boxplotStats(arr: readonly number[] | Float32Array | Float64Array, options: IBaseOptions): IBoxPlot {
-  const r = boxplots(arr, determineStatsOptions(options));
+  const vs =
+    window.Float64Array != null && !(arr instanceof Float32Array || arr instanceof Float64Array)
+      ? Float64Array.from(arr)
+      : arr;
+  const r = boxplots(vs, determineStatsOptions(options));
   return {
     items: Array.from(r.items),
     outliers: r.outlier,
@@ -215,7 +219,11 @@ export function violinStats(arr: readonly number[], options: IViolinOptions): IV
   if (arr.length === 0) {
     return undefined;
   }
-  const stats = boxplots(arr, determineStatsOptions(options));
+  const vs =
+    window.Float64Array != null && !(arr instanceof Float32Array || arr instanceof Float64Array)
+      ? Float64Array.from(arr)
+      : arr;
+  const stats = boxplots(vs, determineStatsOptions(options));
 
   // generate coordinates
   const samples = computeSamples(stats.min, stats.max, options.points);
