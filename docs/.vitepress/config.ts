@@ -1,14 +1,18 @@
-import { defineConfig } from 'vitepress'
+import { defineConfig } from 'vitepress';
+import {name, description, repository } from '../../package.json';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "test",
-  description: "test test",
+  title: name,
+  description,
+  base: `/${name}/`,
+  lang: 'en',
+  useWebFonts: false,
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: 'Examples', link: '/markdown-examples' },
     ],
 
     sidebar: [
@@ -16,13 +20,13 @@ export default defineConfig({
         text: 'Examples',
         items: [
           { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
-        ]
-      }
+          { text: 'Runtime API Examples', link: '/api-examples' },
+        ],
+      },
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
-    ]
-  }
-})
+      { icon: 'github', link: repository.url.replace('.git', '') }
+    ],
+  },
+});

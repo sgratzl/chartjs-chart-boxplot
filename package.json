@@ -108,7 +108,8 @@
     "tslib": "^2.5.0",
     "typedoc": "^0.24.6",
     "typescript": "^5.0.4",
-    "vitepress": "^1.0.0-beta.3"
+    "vitepress": "^1.0.0-beta.3",
+    "vue": "^3.3.4"
   },
   "scripts": {
     "clean": "rimraf --glob build docs node_modules \"*.tgz\" \"*.tsbuildinfo\"",
