@@ -107,7 +107,8 @@
     "ts-jest": "^29.1.0",
     "tslib": "^2.5.0",
     "typedoc": "^0.24.6",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "vitepress": "^1.0.0-beta.3"
   },
   "scripts": {
     "clean": "rimraf --glob build docs node_modules \"*.tgz\" \"*.tsbuildinfo\"",
@@ -126,7 +127,10 @@
     "eslint": "eslint src --ext .ts,.tsx --cache",
     "eslint:fix": "yarn run eslint --fix",
     "docs": "typedoc src/index.ts",
-    "prepare": "yarn run build"
+    "prepare": "yarn run build",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "packageManager": "yarn@3.5.0",
   "dependenciesMeta": {
