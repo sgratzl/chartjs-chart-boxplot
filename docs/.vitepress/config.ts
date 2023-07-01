@@ -1,12 +1,11 @@
 import { defineConfig } from 'vitepress';
-import {name, description, repository } from '../../package.json';
+import {name, description, repository, license, author } from '../../package.json';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: name,
   description,
-  base: `/${name}/`,
-  lang: 'en',
+  base: `/${name.replace('@sgratzl/', '')}/`,
   useWebFonts: false,
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
@@ -28,5 +27,18 @@ export default defineConfig({
     socialLinks: [
       { icon: 'github', link: repository.url.replace('.git', '') }
     ],
+
+    footer: {
+      message: `Released under the <a href="${repository.url.replace('.git', '')}/tree/main/LICENSE">${license} license</a>.`,
+      copyright: `Copyright © 2019-present <a href="${author.url}">${author.name}</a>`
+    },
+
+    editLink: {
+      pattern: `${repository.url.replace('.git', '')}/edit/main/docs/:path`
+    },
+
+    search: {
+      provider: 'local'
+    }
   },
 });
