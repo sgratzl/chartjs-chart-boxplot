@@ -3,23 +3,21 @@
 layout: home
 
 hero:
-  name: "test"
-  text: "test test"
-  tagline: My great project tagline
+  name: "chartjs-chart-boxplot"
+  text: "chart.js plugin"
+  tagline: Chart.js module for charting boxplots and violin charts
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: Examples
+      link: /examples/
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: API
+      link: /api/
+    - theme: alt
+      text: Related Plugins
+      link: /related/
 
-features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+# features:
+#   - title: Feature A
+#     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ---
-

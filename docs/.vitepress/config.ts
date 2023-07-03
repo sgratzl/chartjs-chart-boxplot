@@ -2,30 +2,34 @@ import { defineConfig } from 'vitepress';
 import {name, description, repository, license, author } from '../../package.json';
 import typedocSidebar from '../api/typedoc-sidebar.json';
 
+const cleanName = name.replace('@sgratzl/', '');
+
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: name,
+  title: cleanName,
   description,
-  base: `/${name.replace('@sgratzl/', '')}/`,
+  base: `/${cleanName}/`,
   useWebFonts: false,
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' },
+      { text: 'Examples', link: '/examples/' },
       { text: 'API', link: '/api/' },
+      { text: 'Related Plugins', link: '/related' },
     ],
 
     sidebar: [
       {
         text: 'Examples',
         items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' },
+          { text: 'BoxPlot', link: '/examples/boxplot' },
+          { text: 'Violin Plot', link: '/examples/violin' },
         ],
       },
       {
         text: 'API',
+        collapsed: true,
         items: typedocSidebar,
       },
     ],

@@ -1,0 +1,7 @@
+---
+title: Examples
+---
+
+BoxPlot
+
+Violin
