@@ -107,7 +107,7 @@
     "ts-jest": "^29.1.0",
     "tslib": "^2.5.0",
     "typedoc": "^0.24.8",
-    "typedoc-plugin-markdown": "next",
+    "typedoc-plugin-markdown": "^4.0.0-next.16",
     "typedoc-vitepress-theme": "^1.0.0-next.2",
     "typescript": "^5.0.4",
     "vitepress": "^1.0.0-beta.3",
