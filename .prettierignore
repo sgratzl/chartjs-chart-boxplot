@@ -2,7 +2,9 @@
 /.yarnrc.yml
 /.yarn
 /build
-/docs
+/docs/.vitepress/cache
+/docs/.vitepress/dist
+/docs/.vitepress/config.ts.timestamp*
 /coverage
 /.gitattributes
 /.gitignore

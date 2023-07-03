@@ -2504,7 +2504,9 @@ __metadata:
     rollup-plugin-dts: ^5.3.0
     ts-jest: ^29.1.0
     tslib: ^2.5.0
-    typedoc: ^0.24.6
+    typedoc: ^0.24.8
+    typedoc-plugin-markdown: next
+    typedoc-vitepress-theme: ^1.0.0-next.2
     typescript: ^5.0.4
     vitepress: ^1.0.0-beta.3
     vue: ^3.3.4
@@ -9204,19 +9206,38 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.24.6":
-  version: 0.24.6
-  resolution: "typedoc@npm:0.24.6"
+"typedoc-plugin-markdown@npm:next":
+  version: 4.0.0-next.16
+  resolution: "typedoc-plugin-markdown@npm:4.0.0-next.16"
+  peerDependencies:
+    prettier: ">=1.8.0"
+    typedoc: ">=0.24.0"
+  checksum: 890c64084e8d9f959c8c17b7bd1a795a4c7145561fd76731daef3c238fe5e357cfd59cd7e21a479e5bbf572ffedd68d486df7010b76408c446c9b57d75319e14
+  languageName: node
+  linkType: hard
+
+"typedoc-vitepress-theme@npm:^1.0.0-next.2":
+  version: 1.0.0-next.2
+  resolution: "typedoc-vitepress-theme@npm:1.0.0-next.2"
+  peerDependencies:
+    typedoc-plugin-markdown: ">=4.0.0-next.13"
+  checksum: 23c6a1a0ac8ec4b9f4875fc22ca80f277509654b64c26caef9190ccfc53415d29f7f63da3587b088bf942dc0ed73e9f9819e171ae1ac73b1db4530d864693027
+  languageName: node
+  linkType: hard
+
+"typedoc@npm:^0.24.8":
+  version: 0.24.8
+  resolution: "typedoc@npm:0.24.8"
   dependencies:
     lunr: ^2.3.9
     marked: ^4.3.0
     minimatch: ^9.0.0
     shiki: ^0.14.1
   peerDependencies:
-    typescript: 4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x
+    typescript: 4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x || 5.1.x
   bin:
     typedoc: bin/typedoc
-  checksum: 3911ef6a7736ce6655a4b22fabc5be6df8812412e209d730fd168bfa7797847897f05fed797bc16558f11ce647b20746453748ff8afe85b1375c3efe2d7b57df
+  checksum: a46a14497f789fb3594e6c3af2e45276934ac46df40b7ed15a504ee51dc7a8013a2ffb3a54fd73abca6a2b71f97d3ec9ad356fa9aa81d29743e4645a965a2ae0
   languageName: node
   linkType: hard
 

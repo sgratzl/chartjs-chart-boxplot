@@ -26,3 +26,5 @@ __diff_output__
 /samples/type_test.js
 docs/.vitepress/dist
 docs/.vitepress/cache
+docs/.vitepress/config.ts.timestamp*
+docs/api/

@@ -106,7 +106,9 @@
     "rollup-plugin-dts": "^5.3.0",
     "ts-jest": "^29.1.0",
     "tslib": "^2.5.0",
-    "typedoc": "^0.24.6",
+    "typedoc": "^0.24.8",
+    "typedoc-plugin-markdown": "next",
+    "typedoc-vitepress-theme": "^1.0.0-next.2",
     "typescript": "^5.0.4",
     "vitepress": "^1.0.0-beta.3",
     "vue": "^3.3.4"
@@ -129,8 +131,9 @@
     "eslint:fix": "yarn run eslint --fix",
     "docs": "typedoc src/index.ts",
     "prepare": "yarn run build",
+    "docs:api": "typedoc --config typedoc.json",
     "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
+    "docs:build": "yarn run docs:api && vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },
   "packageManager": "yarn@3.5.0",

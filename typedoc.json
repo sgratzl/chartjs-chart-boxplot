@@ -1,0 +1,12 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./src"],
+  "plugin": ["typedoc-plugin-markdown", "typedoc-vitepress-theme"],
+  "name": "chartjs-chart-boxplot",
+  "out": "./docs/api",
+  "theme": "default",
+  "excludeExternals": true,
+  "excludePrivate": true,
+  "includeVersion": true,
+  "hideGenerator": true
+}
