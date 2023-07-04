@@ -123,7 +123,6 @@
     "test": "yarn node --experimental-vm-modules $(yarn bin jest) --passWithNoTests --detectOpenHandles --forceExit",
     "test:watch": "yarn run test --watch",
     "test:coverage": "yarn run test --coverage",
-    "samples": "yarn tsc samples/type_test.ts",
     "lint": "yarn run eslint && yarn run prettier",
     "fix": "yarn run eslint:fix && yarn run prettier:write",
     "prettier:write": "prettier \"*\" \"*/**\" --write",
@@ -139,9 +138,6 @@
   },
   "packageManager": "yarn@3.5.0",
   "dependenciesMeta": {
-    "chart.js@4.0.1": {
-      "unplugged": true
-    },
     "chart.js@4.1.2": {
       "unplugged": true
     }

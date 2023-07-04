@@ -1,6 +1,19 @@
 import Theme from 'vitepress/theme';
 import { createTypedChart } from 'vue-chartjs';
-import { LinearScale, CategoryScale, LogarithmicScale, Tooltip, Title, Legend, Colors } from 'chart.js';
+import {
+  LinearScale,
+  CategoryScale,
+  LogarithmicScale,
+  Tooltip,
+  Title,
+  Legend,
+  Colors,
+  BarElement,
+  LineElement,
+  PointElement,
+  BarController,
+  LineController,
+} from 'chart.js';
 import { BoxAndWiskers, BoxPlotController, Violin, ViolinController } from '../../../';
 
 export default {
@@ -18,6 +31,11 @@ export default {
         Legend,
         Colors,
         Title,
+        BarElement,
+        LineElement,
+        PointElement,
+        BarController,
+        LineController,
       ])
     );
     app.component(

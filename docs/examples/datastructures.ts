@@ -14,7 +14,7 @@ const data: ChartConfiguration<'boxplot'>['data'] = {
       itemBackgroundColor: '#000',
       outlierBackgroundColor: '#000',
       data: [
-        [1, 2, 3, 4, 5],
+        [1, 2, 3, 4, 5, 11],
         {
           min: 1,
           q1: 2,
@@ -36,7 +36,7 @@ const data: ChartConfiguration<'boxplot'>['data'] = {
           median: 3,
           q3: 4,
           max: 5,
-          outliers: [1, 2, 3, 4, 5],
+          outliers: [11],
         },
       ],
     },

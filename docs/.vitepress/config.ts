@@ -27,6 +27,13 @@ export default defineConfig({
           { text: 'Basic', link: '/examples/' },
           { text: 'Data Limits', link: '/examples/datalimits' },
           { text: 'Data Structures', link: '/examples/datastructures' },
+          { text: 'Quantile Computation', link: '/examples/fivenum' },
+          { text: 'Horizontal Plots', link: '/examples/horizontal' },
+          { text: 'Large Numbers', link: '/examples/large_number' },
+          { text: 'Logarithmic Scale', link: '/examples/logarithm' },
+          { text: 'Hybrid Chart', link: '/examples/hybrid' },
+          { text: 'Data Points', link: '/examples/items' },
+          { text: 'Coloring', link: '/examples/coloring' },
         ],
       },
       {
