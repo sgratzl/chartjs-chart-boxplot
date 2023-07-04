@@ -20,11 +20,17 @@ import patchController from './patchController';
 import { boxOptionsKeys } from '../elements/BoxAndWiskers';
 
 export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOptions>> {
+  /**
+   * @internal
+   */
   // eslint-disable-next-line class-methods-use-this
   protected _parseStats(value: unknown, config: IBoxplotOptions): IBoxPlot | undefined {
     return asBoxPlotStats(value, config);
   }
 
+  /**
+   * @internal
+   */
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   protected _transformStats<T>(target: any, source: IBoxPlot, mapper: (v: number) => T): void {
     super._transformStats(target, source, mapper);
@@ -34,8 +40,14 @@ export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOpti
     }
   }
 
+  /**
+   * @internal
+   */
   static readonly id = 'boxplot';
 
+  /**
+   * @internal
+   */
   static readonly defaults: any = /* #__PURE__ */ merge({}, [
     BarController.defaults,
     baseDefaults(boxOptionsKeys),
@@ -53,6 +65,9 @@ export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOpti
     },
   ]);
 
+  /**
+   * @internal
+   */
   static readonly overrides: any = /* #__PURE__ */ merge({}, [(BarController as any).overrides, defaultOverrides()]);
 }
 
@@ -81,11 +96,10 @@ declare module 'chart.js' {
   }
 }
 
-export class BoxPlotChart<DATA extends unknown[] = BoxPlotDataPoint[], LABEL = string> extends Chart<
-  'boxplot',
-  DATA,
-  LABEL
-> {
+export class BoxPlotChart<DATA extends unknown[] = BoxPlotDataPoint[], LABEL = string> extends Chart<'boxplot', DATA, LABEL> {
+  /**
+   * @internal
+   */
   static id = BoxPlotController.id;
 
   constructor(item: ChartItem, config: Omit<ChartConfiguration<'boxplot', DATA, LABEL>, 'type'>) {

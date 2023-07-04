@@ -21,11 +21,17 @@ import { interpolateKdeCoords } from '../animation';
 import patchController from './patchController';
 
 export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions>> {
+  /**
+   * @internal
+   */
   // eslint-disable-next-line class-methods-use-this,@typescript-eslint/explicit-module-boundary-types
   protected _parseStats(value: any, config: IViolinOptions): IViolin | undefined {
     return asViolinStats(value, config);
   }
 
+  /**
+   * @internal
+   */
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   protected _transformStats<T>(target: any, source: IViolin, mapper: (v: number) => T): void {
     super._transformStats(target, source, mapper);
@@ -37,8 +43,14 @@ export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions
     }
   }
 
+  /**
+   * @internal
+   */
   static readonly id = 'violin';
 
+  /**
+   * @internal
+   */
   static readonly defaults: any = /* #__PURE__ */ merge({}, [
     BarController.defaults,
     baseDefaults(baseOptionKeys),
@@ -61,6 +73,9 @@ export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions
     },
   ]);
 
+  /**
+   * @internal
+   */
   static readonly overrides: any = /* #__PURE__ */ merge({}, [(BarController as any).overrides, defaultOverrides()]);
 }
 export type ViolinDataPoint = number[] | (Partial<IViolin> & IBaseStats);

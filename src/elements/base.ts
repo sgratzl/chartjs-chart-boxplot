@@ -182,6 +182,9 @@ export interface IStatsBaseOptions {
   meanBorderWidth: number;
 }
 
+/**
+ * @internal
+ */
 export const baseDefaults = {
   borderWidth: 1,
 
@@ -201,6 +204,9 @@ export const baseDefaults = {
   outlierHitRadius: 4,
 };
 
+/**
+ * @internal
+ */
 export const baseRoutes = {
   outlierBackgroundColor: 'backgroundColor',
   outlierBorderColor: 'borderColor',
@@ -210,6 +216,9 @@ export const baseRoutes = {
   meanBorderColor: 'borderColor',
 };
 
+/**
+ * @internal
+ */
 export const baseOptionKeys = /* #__PURE__ */ (() => Object.keys(baseDefaults).concat(Object.keys(baseRoutes)))();
 
 export interface IStatsBaseProps {
