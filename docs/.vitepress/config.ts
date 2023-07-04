@@ -14,6 +14,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
+      { text: 'Config', link: '/config' },
       { text: 'Examples', link: '/examples/' },
       { text: 'API', link: '/api/' },
       { text: 'Related Plugins', link: '/related' },

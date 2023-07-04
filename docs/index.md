@@ -8,14 +8,11 @@ hero:
   tagline: Chart.js module for charting boxplots and violin charts
   actions:
     - theme: brand
+      text: Getting Started
+      link: /about
+    - theme: alt
       text: Examples
       link: /examples/
-    - theme: alt
-      text: API
-      link: /api/
-    - theme: alt
-      text: Related Plugins
-      link: /related/
 
 # features:
 #   - title: Feature A

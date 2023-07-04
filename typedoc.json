@@ -6,7 +6,10 @@
   "out": "./docs/api",
   "theme": "default",
   "excludeExternals": true,
+  "excludeInternal": true,
   "excludePrivate": true,
   "includeVersion": true,
+  "categorizeByGroup": true,
+  "cleanOutputDir": true,
   "hideGenerator": true
 }

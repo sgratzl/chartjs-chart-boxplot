@@ -2510,6 +2510,7 @@ __metadata:
     typescript: ^5.0.4
     vitepress: ^1.0.0-beta.3
     vue: ^3.3.4
+    vue-chartjs: ^5.2.0
   peerDependencies:
     chart.js: ^4.1.1
   dependenciesMeta:
@@ -9451,6 +9452,16 @@ __metadata:
   version: 8.0.0
   resolution: "vscode-textmate@npm:8.0.0"
   checksum: 127780dfea89559d70b8326df6ec344cfd701312dd7f3f591a718693812b7852c30b6715e3cfc8b3200a4e2515b4c96f0843c0eacc0a3020969b5de262c2a4bb
+  languageName: node
+  linkType: hard
+
+"vue-chartjs@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "vue-chartjs@npm:5.2.0"
+  peerDependencies:
+    chart.js: ^4.1.1
+    vue: ^3.0.0-0 || ^2.7.0
+  checksum: e707bcbe442d85a3ec23825620f6b1ba4f43eba67c68e1bd845ef5536b754c4447dc9a249f4ec92f8a29a479981b07382bd32b6449686676dd22d5e18f366ffa
   languageName: node
   linkType: hard
 

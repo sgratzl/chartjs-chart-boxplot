@@ -111,7 +111,8 @@
     "typedoc-vitepress-theme": "^1.0.0-next.2",
     "typescript": "^5.0.4",
     "vitepress": "^1.0.0-beta.3",
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "vue-chartjs": "^5.2.0"
   },
   "scripts": {
     "clean": "rimraf --glob build docs node_modules \"*.tgz\" \"*.tsbuildinfo\"",
@@ -131,7 +132,7 @@
     "eslint:fix": "yarn run eslint --fix",
     "docs": "typedoc src/index.ts",
     "prepare": "yarn run build",
-    "docs:api": "typedoc --config typedoc.json",
+    "docs:api": "typedoc --options typedoc.json",
     "docs:dev": "vitepress dev docs",
     "docs:build": "yarn run docs:api && vitepress build docs",
     "docs:preview": "vitepress preview docs"
