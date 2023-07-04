@@ -23,7 +23,7 @@ and [CodePen](https://codepen.io/sgratzl/pen/QxoLoY)
 
 ### Data Structure
 
-see [DataStructures](./examples/datastrutures)
+see [DataStructures](./examples/datastructures)
 
 ### Styling
 
