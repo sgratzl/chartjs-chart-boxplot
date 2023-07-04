@@ -28,4 +28,3 @@ see [DataStructures](./examples/datastrutures)
 ### Styling
 
 see [IBoxAndWhiskersOptions](/api/interfaces/interface.IBoxAndWhiskersOptions.md), [IViolinElementOptions](/api/type-aliases/type-alias.IViolinElementOptions.md), and [Styling](./examples/styling)
-
