@@ -26,7 +26,7 @@ import {config as violin} from './horizontalViolin';
 
 :::
 
-##  Violin Plot
+## Violin Plot
 
 <ViolinChart
   :options="violin.options"

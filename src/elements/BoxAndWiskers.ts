@@ -1,5 +1,12 @@
 ﻿import { BarElement, ChartType, CommonHoverOptions, ScriptableAndArrayOptions, ScriptableContext } from 'chart.js';
-import { StatsBase, baseDefaults, baseOptionKeys, baseRoutes, IStatsBaseOptions, IStatsBaseProps } from './base';
+import {
+  StatsBase,
+  baseDefaults,
+  baseOptionKeys,
+  baseRoutes,
+  type IStatsBaseOptions,
+  type IStatsBaseProps,
+} from './base';
 /**
  * @internal
  */

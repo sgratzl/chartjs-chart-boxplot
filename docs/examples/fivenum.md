@@ -8,7 +8,6 @@ Quantiles can be computed in different ways. Different statistical software has 
 
 see [quantiles](/api/interfaces/interface.IBaseOptions.html#quantiles) option for available options
 
-
 <script setup>
 import {configType7, configFiveNum} from './fivenum';
 </script>
@@ -46,4 +45,3 @@ import {configType7, configFiveNum} from './fivenum';
 <<< ./fivenum.ts#fivenum [data]
 
 :::
-

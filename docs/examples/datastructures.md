@@ -12,6 +12,7 @@ import {config as violin} from './datastructuresViolin';
 </script>
 
 ## BoxPlot
+
 <BoxplotChart
   :options="config.options"
   :data="config.data"
@@ -28,6 +29,7 @@ import {config as violin} from './datastructuresViolin';
 :::
 
 ## Violin Plot
+
 <ViolinChart
   :options="violin.options"
   :data="violin.data"

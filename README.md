@@ -106,7 +106,6 @@ Check out also my other chart.js plugins:
 - [chartjs-chart-wordcloud](https://github.com/sgratzl/chartjs-chart-wordcloud) for rendering word clouds
 - [chartjs-plugin-hierarchical](https://github.com/sgratzl/chartjs-plugin-hierarchical) for rendering hierarchical categorical axes which can be expanded and collapsed
 
-
 ## Development Environment
 
 ```sh

@@ -6,9 +6,9 @@ title: Data Limits
 
 You can customize the scale limit the the minimal and maximal values independently. There are three common choices:
 
- * data limits (default) ... the minimal and maximal values of the data are the scale limits
- * whiskers ... the minimal and maximal values are the whisker endpoints
- * box ... the minimal and maximal values are the box endpoints q1 (25% quantile) and q3 (75% quantile)
+- data limits (default) ... the minimal and maximal values of the data are the scale limits
+- whiskers ... the minimal and maximal values are the whisker endpoints
+- box ... the minimal and maximal values are the box endpoints q1 (25% quantile) and q3 (75% quantile)
 
 <script setup>
 import {minmax, box, whiskers} from './datalimits';
@@ -64,4 +64,3 @@ import {minmax, box, whiskers} from './datalimits';
 <<< ./boxplot.ts#data [data]
 
 :::
-
