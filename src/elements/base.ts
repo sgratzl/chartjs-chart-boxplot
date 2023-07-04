@@ -182,6 +182,9 @@ export interface IStatsBaseOptions {
   meanBorderWidth: number;
 }
 
+/**
+ * @internal
+ */
 export const baseDefaults = {
   borderWidth: 1,
 
@@ -201,6 +204,9 @@ export const baseDefaults = {
   outlierHitRadius: 4,
 };
 
+/**
+ * @internal
+ */
 export const baseRoutes = {
   outlierBackgroundColor: 'backgroundColor',
   outlierBorderColor: 'borderColor',
@@ -210,6 +216,9 @@ export const baseRoutes = {
   meanBorderColor: 'borderColor',
 };
 
+/**
+ * @internal
+ */
 export const baseOptionKeys = /* #__PURE__ */ (() => Object.keys(baseDefaults).concat(Object.keys(baseRoutes)))();
 
 export interface IStatsBaseProps {
@@ -225,16 +234,31 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
   T,
   O
 > {
+  /**
+   * @internal
+   */
   declare _datasetIndex: number;
 
+  /**
+   * @internal
+   */
   declare horizontal: boolean;
 
+  /**
+   * @internal
+   */
   declare _index: number;
 
+  /**
+   * @internal
+   */
   isVertical(): boolean {
     return !this.horizontal;
   }
 
+  /**
+   * @internal
+   */
   protected _drawItems(ctx: CanvasRenderingContext2D): void {
     const vert = this.isVertical();
     const props = this.getProps(['x', 'y', 'items', 'width', 'height', 'outliers']);
@@ -274,6 +298,9 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
     ctx.restore();
   }
 
+  /**
+   * @internal
+   */
   protected _drawOutliers(ctx: CanvasRenderingContext2D): void {
     const vert = this.isVertical();
     const props = this.getProps(['x', 'y', 'outliers']);
@@ -305,6 +332,9 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
     ctx.restore();
   }
 
+  /**
+   * @internal
+   */
   protected _drawMeanDot(ctx: CanvasRenderingContext2D): void {
     const vert = this.isVertical();
     const props = this.getProps(['x', 'y', 'mean']);
@@ -332,6 +362,9 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
     ctx.restore();
   }
 
+  /**
+   * @internal
+   */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars,class-methods-use-this
   _getBounds(_useFinalPosition?: boolean): { left: number; top: number; right: number; bottom: number } {
     // abstract
@@ -343,6 +376,9 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
     };
   }
 
+  /**
+   * @internal
+   */
   _getHitBounds(useFinalPosition?: boolean): { left: number; top: number; right: number; bottom: number } {
     const padding = this.options.hitPadding;
     const b = this._getBounds(useFinalPosition);
@@ -354,6 +390,9 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
     };
   }
 
+  /**
+   * @internal
+   */
   inRange(mouseX: number, mouseY: number, useFinalPosition?: boolean): boolean {
     if (Number.isNaN(this.x) && Number.isNaN(this.y)) {
       return false;
@@ -364,16 +403,25 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
     );
   }
 
+  /**
+   * @internal
+   */
   inXRange(mouseX: number, useFinalPosition?: boolean): boolean {
     const bounds = this._getHitBounds(useFinalPosition);
     return mouseX >= bounds.left && mouseX <= bounds.right;
   }
 
+  /**
+   * @internal
+   */
   inYRange(mouseY: number, useFinalPosition?: boolean): boolean {
     const bounds = this._getHitBounds(useFinalPosition);
     return mouseY >= bounds.top && mouseY <= bounds.bottom;
   }
 
+  /**
+   * @internal
+   */
   protected _outlierIndexInRange(mouseX: number, mouseY: number, useFinalPosition?: boolean): number {
     const props = this.getProps(['x', 'y'], useFinalPosition);
     const hitRadius = this.options.outlierHitRadius;
@@ -393,11 +441,17 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
     return -1;
   }
 
+  /**
+   * @internal
+   */
   protected _boxInRange(mouseX: number, mouseY: number, useFinalPosition?: boolean): boolean {
     const bounds = this._getHitBounds(useFinalPosition);
     return mouseX >= bounds.left && mouseX <= bounds.right && mouseY >= bounds.top && mouseY <= bounds.bottom;
   }
 
+  /**
+   * @internal
+   */
   getCenterPoint(useFinalPosition?: boolean): { x: number; y: number } {
     const props = this.getProps(['x', 'y'], useFinalPosition);
     return {
@@ -406,11 +460,17 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
     };
   }
 
+  /**
+   * @internal
+   */
   protected _getOutliers(useFinalPosition?: boolean): number[] {
     const props = this.getProps(['outliers'], useFinalPosition);
     return props.outliers || [];
   }
 
+  /**
+   * @internal
+   */
   tooltipPosition(
     eventPosition?: { x: number; y: number } | boolean,
     tooltip?: ExtendedTooltip

@@ -13,7 +13,7 @@
   CartesianScaleTypeRegistry,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
-import { asViolinStats, IBaseStats, IViolin, IViolinOptions } from '../data';
+import { asViolinStats, IViolin, IViolinOptions } from '../data';
 import { StatsBase, baseDefaults, defaultOverrides } from './StatsBase';
 import { baseOptionKeys } from '../elements/base';
 import { IViolinElementOptions, Violin } from '../elements';
@@ -21,11 +21,17 @@ import { interpolateKdeCoords } from '../animation';
 import patchController from './patchController';
 
 export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions>> {
+  /**
+   * @internal
+   */
   // eslint-disable-next-line class-methods-use-this,@typescript-eslint/explicit-module-boundary-types
   protected _parseStats(value: any, config: IViolinOptions): IViolin | undefined {
     return asViolinStats(value, config);
   }
 
+  /**
+   * @internal
+   */
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   protected _transformStats<T>(target: any, source: IViolin, mapper: (v: number) => T): void {
     super._transformStats(target, source, mapper);
@@ -37,8 +43,14 @@ export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions
     }
   }
 
+  /**
+   * @internal
+   */
   static readonly id = 'violin';
 
+  /**
+   * @internal
+   */
   static readonly defaults: any = /* #__PURE__ */ merge({}, [
     BarController.defaults,
     baseDefaults(baseOptionKeys),
@@ -61,9 +73,12 @@ export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions
     },
   ]);
 
+  /**
+   * @internal
+   */
   static readonly overrides: any = /* #__PURE__ */ merge({}, [(BarController as any).overrides, defaultOverrides()]);
 }
-export type ViolinDataPoint = number[] | (Partial<IViolin> & IBaseStats);
+export type ViolinDataPoint = number[] | (Partial<IViolin> & Pick<IViolin, 'median' | 'coords'>);
 
 export interface ViolinControllerDatasetOptions
   extends ControllerDatasetOptions,
@@ -73,7 +88,7 @@ export interface ViolinControllerDatasetOptions
     AnimationOptions<'violin'> {}
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IViolinChartOptions {}
+export interface IViolinChartOptions extends IViolinOptions {}
 
 declare module 'chart.js' {
   export interface ChartTypeRegistry {

@@ -1,6 +1,15 @@
 ﻿import { BarElement, ChartType, CommonHoverOptions, ScriptableAndArrayOptions, ScriptableContext } from 'chart.js';
-import { StatsBase, baseDefaults, baseOptionKeys, baseRoutes, IStatsBaseOptions, IStatsBaseProps } from './base';
-
+import {
+  StatsBase,
+  baseDefaults,
+  baseOptionKeys,
+  baseRoutes,
+  type IStatsBaseOptions,
+  type IStatsBaseProps,
+} from './base';
+/**
+ * @internal
+ */
 export const boxOptionsKeys = baseOptionKeys.concat(['medianColor', 'lowerBackgroundColor']);
 
 export interface IBoxAndWhiskersOptions extends IStatsBaseOptions {
@@ -31,6 +40,9 @@ export interface IBoxAndWhiskerProps extends IStatsBaseProps {
 }
 
 export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhiskersOptions> {
+  /**
+   * @internal
+   */
   draw(ctx: CanvasRenderingContext2D): void {
     ctx.save();
 
@@ -47,6 +59,9 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
     this._drawItems(ctx);
   }
 
+  /**
+   * @internal
+   */
   protected _drawBoxPlot(ctx: CanvasRenderingContext2D): void {
     if (this.isVertical()) {
       this._drawBoxPlotVertical(ctx);
@@ -55,6 +70,9 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
     }
   }
 
+  /**
+   * @internal
+   */
   protected _drawBoxPlotVertical(ctx: CanvasRenderingContext2D): void {
     const { options } = this;
     const props = this.getProps(['x', 'width', 'q1', 'q3', 'median', 'whiskerMin', 'whiskerMax']);
@@ -118,6 +136,9 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
     ctx.stroke();
   }
 
+  /**
+   * @internal
+   */
   protected _drawBoxPlotHorizontal(ctx: CanvasRenderingContext2D): void {
     const { options } = this;
     const props = this.getProps(['y', 'height', 'q1', 'q3', 'median', 'whiskerMin', 'whiskerMax']);
@@ -178,6 +199,9 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
     ctx.stroke();
   }
 
+  /**
+   * @internal
+   */
   _getBounds(useFinalPosition?: boolean): { left: number; top: number; right: number; bottom: number } {
     const vert = this.isVertical();
     if (this.x == null) {
@@ -215,8 +239,14 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
     };
   }
 
+  /**
+   * @internal
+   */
   static id = 'boxandwhiskers';
 
+  /**
+   * @internal
+   */
   static defaults = /* #__PURE__ */ {
     ...BarElement.defaults,
     ...baseDefaults,
@@ -224,6 +254,9 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
     lowerBackgroundColor: 'transparent',
   };
 
+  /**
+   * @internal
+   */
   static defaultRoutes = /* #__PURE__ */ { ...BarElement.defaultRoutes, ...baseRoutes };
 }
 

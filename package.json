@@ -106,8 +106,13 @@
     "rollup-plugin-dts": "^5.3.0",
     "ts-jest": "^29.1.0",
     "tslib": "^2.5.0",
-    "typedoc": "^0.24.6",
-    "typescript": "^5.0.4"
+    "typedoc": "^0.24.8",
+    "typedoc-plugin-markdown": "^4.0.0-next.16",
+    "typedoc-vitepress-theme": "^1.0.0-next.2",
+    "typescript": "^5.0.4",
+    "vitepress": "^1.0.0-beta.3",
+    "vue": "^3.3.4",
+    "vue-chartjs": "^5.2.0"
   },
   "scripts": {
     "clean": "rimraf --glob build docs node_modules \"*.tgz\" \"*.tsbuildinfo\"",
@@ -118,7 +123,6 @@
     "test": "yarn node --experimental-vm-modules $(yarn bin jest) --passWithNoTests --detectOpenHandles --forceExit",
     "test:watch": "yarn run test --watch",
     "test:coverage": "yarn run test --coverage",
-    "samples": "yarn tsc samples/type_test.ts",
     "lint": "yarn run eslint && yarn run prettier",
     "fix": "yarn run eslint:fix && yarn run prettier:write",
     "prettier:write": "prettier \"*\" \"*/**\" --write",
@@ -126,13 +130,14 @@
     "eslint": "eslint src --ext .ts,.tsx --cache",
     "eslint:fix": "yarn run eslint --fix",
     "docs": "typedoc src/index.ts",
-    "prepare": "yarn run build"
+    "prepare": "yarn run build",
+    "docs:api": "typedoc --options typedoc.json",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "yarn run docs:api && vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "packageManager": "yarn@3.5.0",
   "dependenciesMeta": {
-    "chart.js@4.0.1": {
-      "unplugged": true
-    },
     "chart.js@4.1.2": {
       "unplugged": true
     }
