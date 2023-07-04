@@ -14,7 +14,7 @@ import {
   BarController,
   LineController,
 } from 'chart.js';
-import { BoxAndWiskers, BoxPlotController, Violin, ViolinController } from '../../../';
+import { BoxAndWiskers, BoxPlotController, Violin, ViolinController } from '../../../src';
 
 export default {
   ...Theme,

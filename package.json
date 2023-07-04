@@ -116,7 +116,7 @@
   },
   "scripts": {
     "clean": "rimraf --glob build docs node_modules \"*.tgz\" \"*.tsbuildinfo\"",
-    "compile": "tsc -b tsconfig.c.json --noEmit",
+    "compile": "tsc -b tsconfig.c.json",
     "start": "yarn run watch",
     "watch": "rollup -c -w",
     "build": "rollup -c",

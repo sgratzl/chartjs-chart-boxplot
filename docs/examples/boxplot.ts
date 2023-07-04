@@ -17,7 +17,7 @@ export const data: ChartConfiguration<'boxplot'>['data'] = {
         randomValues(100, 0, 20, [110]),
         randomValues(100, 20, 70),
         // empty data
-        [null as unknown as number],
+        [],
       ],
     },
     {

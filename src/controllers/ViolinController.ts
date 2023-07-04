@@ -13,7 +13,7 @@
   CartesianScaleTypeRegistry,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
-import { asViolinStats, IBaseStats, IViolin, IViolinOptions } from '../data';
+import { asViolinStats, IViolin, IViolinOptions } from '../data';
 import { StatsBase, baseDefaults, defaultOverrides } from './StatsBase';
 import { baseOptionKeys } from '../elements/base';
 import { IViolinElementOptions, Violin } from '../elements';
@@ -78,7 +78,7 @@ export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions
    */
   static readonly overrides: any = /* #__PURE__ */ merge({}, [(BarController as any).overrides, defaultOverrides()]);
 }
-export type ViolinDataPoint = number[] | (Partial<IViolin> & IBaseStats);
+export type ViolinDataPoint = number[] | (Partial<IViolin> & Pick<IViolin, 'median' | 'coords'>);
 
 export interface ViolinControllerDatasetOptions
   extends ControllerDatasetOptions,
@@ -88,7 +88,7 @@ export interface ViolinControllerDatasetOptions
     AnimationOptions<'violin'> {}
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IViolinChartOptions {}
+export interface IViolinChartOptions extends IViolinOptions {}
 
 declare module 'chart.js' {
   export interface ChartTypeRegistry {

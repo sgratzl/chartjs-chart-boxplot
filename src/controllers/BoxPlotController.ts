@@ -13,7 +13,7 @@
   CartesianScaleTypeRegistry,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
-import { asBoxPlotStats, IBaseStats, IBoxPlot, IBoxplotOptions } from '../data';
+import { asBoxPlotStats, IBoxPlot, IBoxplotOptions } from '../data';
 import { baseDefaults, StatsBase, defaultOverrides } from './StatsBase';
 import { BoxAndWiskers, IBoxAndWhiskersOptions } from '../elements';
 import patchController from './patchController';
@@ -78,10 +78,10 @@ export interface BoxPlotControllerDatasetOptions
     ScriptableAndArrayOptions<CommonHoverOptions, ScriptableContext<'boxplot'>>,
     AnimationOptions<'boxplot'> {}
 
-export type BoxPlotDataPoint = number[] | (Partial<IBoxPlot> & IBaseStats);
+export type BoxPlotDataPoint = number[] | (Partial<IBoxPlot> & Pick<IBoxPlot, 'min' | 'max' | 'median' | 'q1' | 'q3'>);
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IBoxPlotChartOptions {}
+export interface IBoxPlotChartOptions extends IBoxplotOptions {}
 
 declare module 'chart.js' {
   export interface ChartTypeRegistry {
@@ -96,7 +96,11 @@ declare module 'chart.js' {
   }
 }
 
-export class BoxPlotChart<DATA extends unknown[] = BoxPlotDataPoint[], LABEL = string> extends Chart<'boxplot', DATA, LABEL> {
+export class BoxPlotChart<DATA extends unknown[] = BoxPlotDataPoint[], LABEL = string> extends Chart<
+  'boxplot',
+  DATA,
+  LABEL
+> {
   /**
    * @internal
    */

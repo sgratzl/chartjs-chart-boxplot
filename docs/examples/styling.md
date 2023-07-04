@@ -1,13 +1,13 @@
 ---
-title: Coloring
+title: Styling
 ---
 
-# Coloring
+# Styling
 
 BoxPlot and Violin plots support various styling options. see ['IBoxAndWhiskerOptions'](/api/interfaces/interface.IBoxAndWhiskersOptions)
 
 <script setup>
-import {config} from './coloring';
+import {config} from './styling';
 </script>
 
 <BoxplotChart
@@ -19,8 +19,8 @@ import {config} from './coloring';
 
 :::code-group
 
-<<< ./coloring.ts#config [config]
+<<< ./styling.ts#config [config]
 
-<<< ./coloring.ts#data [data]
+<<< ./styling.ts#data [data]
 
 :::

@@ -15,7 +15,7 @@ npm install chart.js @sgratzl/chartjs-chart-boxplot
 
 ## Usage
 
-see [Samples](https://github.com/sgratzl/chartjs-chart-box-and-violin-plot/tree/main/samples) on Github
+see [Examples](https://sgratzl.com/chartjs-chart-boxplot/examples/)
 
 and [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/QxoLoY)
 

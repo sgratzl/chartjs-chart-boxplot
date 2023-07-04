@@ -2,6 +2,8 @@
 title: Related Plugins
 ---
 
+There are several related chart.js plugins providing additional functionality and chart types:
+
 - [chartjs-chart-boxplot](https://github.com/sgratzl/chartjs-chart-boxplot) for rendering boxplots and violin charts
 - [chartjs-chart-error-bars](https://github.com/sgratzl/chartjs-chart-error-bars) for rendering errors bars to bars and line charts
 - [chartjs-chart-geo](https://github.com/sgratzl/chartjs-chart-geo) for rendering map, bubble maps, and choropleth charts

@@ -33,7 +33,7 @@ export default defineConfig({
           { text: 'Logarithmic Scale', link: '/examples/logarithm' },
           { text: 'Hybrid Chart', link: '/examples/hybrid' },
           { text: 'Data Points', link: '/examples/items' },
-          { text: 'Coloring', link: '/examples/coloring' },
+          { text: 'Styling', link: '/examples/styling' },
         ],
       },
       {
