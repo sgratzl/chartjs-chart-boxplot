@@ -24,8 +24,9 @@ export default defineConfig({
       {
         text: 'Examples',
         items: [
-          { text: 'BoxPlot', link: '/examples/boxplot' },
-          { text: 'Violin Plot', link: '/examples/violin' },
+          { text: 'Basic', link: '/examples/' },
+          { text: 'Data Limits', link: '/examples/datalimits' },
+          { text: 'Data Structures', link: '/examples/datastructures' },
         ],
       },
       {
