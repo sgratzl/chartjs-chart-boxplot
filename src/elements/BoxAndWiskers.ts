@@ -239,9 +239,6 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
     };
   }
 
-  /**
-   * @internal
-   */
   static id = 'boxandwhiskers';
 
   /**

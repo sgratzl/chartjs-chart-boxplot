@@ -126,9 +126,6 @@ export class Violin extends StatsBase<IViolinElementProps, IViolinElementOptions
     };
   }
 
-  /**
-   * @internal
-   */
   static id = 'violin';
 
   /**

@@ -98,9 +98,6 @@ export class BoxPlotChart<DATA extends unknown[] = BoxPlotDataPoint[], LABEL = s
   DATA,
   LABEL
 > {
-  /**
-   * @internal
-   */
   static id = BoxPlotController.id;
 
   constructor(item: ChartItem, config: Omit<ChartConfiguration<'boxplot', DATA, LABEL>, 'type'>) {
