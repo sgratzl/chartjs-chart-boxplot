@@ -43,9 +43,6 @@ export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions
     }
   }
 
-  /**
-   * @internal
-   */
   static readonly id = 'violin';
 
   /**

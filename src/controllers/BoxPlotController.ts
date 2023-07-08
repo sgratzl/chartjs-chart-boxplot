@@ -40,9 +40,6 @@ export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOpti
     }
   }
 
-  /**
-   * @internal
-   */
   static readonly id = 'boxplot';
 
   /**
