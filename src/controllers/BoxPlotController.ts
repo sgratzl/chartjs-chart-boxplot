@@ -21,7 +21,7 @@ import { boxOptionsKeys } from '../elements/BoxAndWiskers';
 
 export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOptions>> {
   /**
-   * @internal
+   * @hidden
    */
   // eslint-disable-next-line class-methods-use-this
   protected _parseStats(value: unknown, config: IBoxplotOptions): IBoxPlot | undefined {
@@ -29,7 +29,7 @@ export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOpti
   }
 
   /**
-   * @internal
+   * @hidden
    */
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   protected _transformStats<T>(target: any, source: IBoxPlot, mapper: (v: number) => T): void {
@@ -43,7 +43,7 @@ export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOpti
   static readonly id = 'boxplot';
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly defaults: any = /* #__PURE__ */ merge({}, [
     BarController.defaults,
@@ -63,7 +63,7 @@ export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOpti
   ]);
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly overrides: any = /* #__PURE__ */ merge({}, [(BarController as any).overrides, defaultOverrides()]);
 }

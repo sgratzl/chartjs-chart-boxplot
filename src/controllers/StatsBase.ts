@@ -4,7 +4,7 @@ import { interpolateNumberArray } from '../animation';
 import { outlierPositioner, patchInHoveredOutlier } from '../tooltip';
 import { defaultStatsOptions, IBaseOptions, IBaseStats } from '../data';
 /**
- * @internal
+ * @hidden
  */
 export /* #__PURE__ */ function baseDefaults(keys: string[]): Record<string, unknown> {
   const colorKeys = ['borderColor', 'backgroundColor'].concat(keys.filter((c) => c.endsWith('Color')));
@@ -60,12 +60,12 @@ export function defaultOverrides(): Record<string, unknown> {
 
 export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOptions>> extends BarController {
   /**
-   * @internal
+   * @hidden
    */
   declare options: C;
 
   /**
-   * @internal
+   * @hidden
    */
   // eslint-disable-next-line class-methods-use-this,@typescript-eslint/explicit-module-boundary-types
   protected _transformStats<T>(target: any, source: S, mapper: (v: number) => T): void {
@@ -85,7 +85,7 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
   }
 
   /**
-   * @internal
+   * @hidden
    */
   getMinMax(scale: Scale, canStack?: boolean | undefined): { min: number; max: number } {
     const bak = scale.axis;
@@ -102,7 +102,7 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
   }
 
   /**
-   * @internal
+   * @hidden
    */
   parsePrimitiveData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -126,26 +126,26 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
   }
 
   /**
-   * @internal
+   * @hidden
    */
   parseArrayData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
     return this.parsePrimitiveData(meta, data, start, count);
   }
 
   /**
-   * @internal
+   * @hidden
    */
   parseObjectData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
     return this.parsePrimitiveData(meta, data, start, count);
   }
 
   /**
-   * @internal
+   * @hidden
    */
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   protected abstract _parseStats(value: any, options: C): S | undefined;
   /**
-   * @internal
+   * @hidden
    */
   getLabelAndValue(index: number): { label: string; value: string & { raw: S; hoveredOutlierIndex: number } & S } {
     const r = super.getLabelAndValue(index) as any;
@@ -172,7 +172,7 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
   }
 
   /**
-   * @internal
+   * @hidden
    */
   // eslint-disable-next-line class-methods-use-this
   protected _toStringStats(b: S): string {
@@ -184,7 +184,7 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
   }
 
   /**
-   * @internal
+   * @hidden
    */
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   updateElement(rectangle: Element, index: number, properties: any, mode: UpdateMode): void {

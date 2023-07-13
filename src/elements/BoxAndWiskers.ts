@@ -8,7 +8,7 @@ import {
   type IStatsBaseProps,
 } from './base';
 /**
- * @internal
+ * @hidden
  */
 export const boxOptionsKeys = baseOptionKeys.concat(['medianColor', 'lowerBackgroundColor']);
 
@@ -41,7 +41,7 @@ export interface IBoxAndWhiskerProps extends IStatsBaseProps {
 
 export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhiskersOptions> {
   /**
-   * @internal
+   * @hidden
    */
   draw(ctx: CanvasRenderingContext2D): void {
     ctx.save();
@@ -60,7 +60,7 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
   }
 
   /**
-   * @internal
+   * @hidden
    */
   protected _drawBoxPlot(ctx: CanvasRenderingContext2D): void {
     if (this.isVertical()) {
@@ -71,7 +71,7 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
   }
 
   /**
-   * @internal
+   * @hidden
    */
   protected _drawBoxPlotVertical(ctx: CanvasRenderingContext2D): void {
     const { options } = this;
@@ -137,7 +137,7 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
   }
 
   /**
-   * @internal
+   * @hidden
    */
   protected _drawBoxPlotHorizontal(ctx: CanvasRenderingContext2D): void {
     const { options } = this;
@@ -200,7 +200,7 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
   }
 
   /**
-   * @internal
+   * @hidden
    */
   _getBounds(useFinalPosition?: boolean): { left: number; top: number; right: number; bottom: number } {
     const vert = this.isVertical();
@@ -242,7 +242,7 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
   static id = 'boxandwhiskers';
 
   /**
-   * @internal
+   * @hidden
    */
   static defaults = /* #__PURE__ */ {
     ...BarElement.defaults,
@@ -252,7 +252,7 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
   };
 
   /**
-   * @internal
+   * @hidden
    */
   static defaultRoutes = /* #__PURE__ */ { ...BarElement.defaultRoutes, ...baseRoutes };
 }
