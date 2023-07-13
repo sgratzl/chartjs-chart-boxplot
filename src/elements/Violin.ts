@@ -21,7 +21,7 @@ export interface IViolinElementProps extends IStatsBaseProps {
 
 export class Violin extends StatsBase<IViolinElementProps, IViolinElementOptions> {
   /**
-   * @internal
+   * @hidden
    */
   draw(ctx: CanvasRenderingContext2D): void {
     ctx.save();
@@ -58,7 +58,7 @@ export class Violin extends StatsBase<IViolinElementProps, IViolinElementOptions
   }
 
   /**
-   * @internal
+   * @hidden
    */
   protected _drawCoords(
     ctx: CanvasRenderingContext2D,
@@ -103,7 +103,7 @@ export class Violin extends StatsBase<IViolinElementProps, IViolinElementOptions
   }
 
   /**
-   * @internal
+   * @hidden
    */
   _getBounds(useFinalPosition?: boolean): { left: number; top: number; right: number; bottom: number } {
     if (this.isVertical()) {
@@ -129,12 +129,12 @@ export class Violin extends StatsBase<IViolinElementProps, IViolinElementOptions
   static id = 'violin';
 
   /**
-   * @internal
+   * @hidden
    */
   static defaults = /* #__PURE__ */ { ...BarElement.defaults, ...baseDefaults };
 
   /**
-   * @internal
+   * @hidden
    */
   static defaultRoutes = /* #__PURE__ */ { ...BarElement.defaultRoutes, ...baseRoutes };
 }

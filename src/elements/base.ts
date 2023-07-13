@@ -183,7 +183,7 @@ export interface IStatsBaseOptions {
 }
 
 /**
- * @internal
+ * @hidden
  */
 export const baseDefaults = {
   borderWidth: 1,
@@ -205,7 +205,7 @@ export const baseDefaults = {
 };
 
 /**
- * @internal
+ * @hidden
  */
 export const baseRoutes = {
   outlierBackgroundColor: 'backgroundColor',
@@ -217,7 +217,7 @@ export const baseRoutes = {
 };
 
 /**
- * @internal
+ * @hidden
  */
 export const baseOptionKeys = /* #__PURE__ */ (() => Object.keys(baseDefaults).concat(Object.keys(baseRoutes)))();
 
@@ -235,29 +235,29 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
   O
 > {
   /**
-   * @internal
+   * @hidden
    */
   declare _datasetIndex: number;
 
   /**
-   * @internal
+   * @hidden
    */
   declare horizontal: boolean;
 
   /**
-   * @internal
+   * @hidden
    */
   declare _index: number;
 
   /**
-   * @internal
+   * @hidden
    */
   isVertical(): boolean {
     return !this.horizontal;
   }
 
   /**
-   * @internal
+   * @hidden
    */
   protected _drawItems(ctx: CanvasRenderingContext2D): void {
     const vert = this.isVertical();
@@ -299,7 +299,7 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
   }
 
   /**
-   * @internal
+   * @hidden
    */
   protected _drawOutliers(ctx: CanvasRenderingContext2D): void {
     const vert = this.isVertical();
@@ -333,7 +333,7 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
   }
 
   /**
-   * @internal
+   * @hidden
    */
   protected _drawMeanDot(ctx: CanvasRenderingContext2D): void {
     const vert = this.isVertical();
@@ -363,7 +363,7 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
   }
 
   /**
-   * @internal
+   * @hidden
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars,class-methods-use-this
   _getBounds(_useFinalPosition?: boolean): { left: number; top: number; right: number; bottom: number } {
@@ -377,7 +377,7 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
   }
 
   /**
-   * @internal
+   * @hidden
    */
   _getHitBounds(useFinalPosition?: boolean): { left: number; top: number; right: number; bottom: number } {
     const padding = this.options.hitPadding;
@@ -391,7 +391,7 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
   }
 
   /**
-   * @internal
+   * @hidden
    */
   inRange(mouseX: number, mouseY: number, useFinalPosition?: boolean): boolean {
     if (Number.isNaN(this.x) && Number.isNaN(this.y)) {
@@ -404,7 +404,7 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
   }
 
   /**
-   * @internal
+   * @hidden
    */
   inXRange(mouseX: number, useFinalPosition?: boolean): boolean {
     const bounds = this._getHitBounds(useFinalPosition);
@@ -412,7 +412,7 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
   }
 
   /**
-   * @internal
+   * @hidden
    */
   inYRange(mouseY: number, useFinalPosition?: boolean): boolean {
     const bounds = this._getHitBounds(useFinalPosition);
@@ -420,7 +420,7 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
   }
 
   /**
-   * @internal
+   * @hidden
    */
   protected _outlierIndexInRange(mouseX: number, mouseY: number, useFinalPosition?: boolean): number {
     const props = this.getProps(['x', 'y'], useFinalPosition);
@@ -442,7 +442,7 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
   }
 
   /**
-   * @internal
+   * @hidden
    */
   protected _boxInRange(mouseX: number, mouseY: number, useFinalPosition?: boolean): boolean {
     const bounds = this._getHitBounds(useFinalPosition);
@@ -450,7 +450,7 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
   }
 
   /**
-   * @internal
+   * @hidden
    */
   getCenterPoint(useFinalPosition?: boolean): { x: number; y: number } {
     const props = this.getProps(['x', 'y'], useFinalPosition);
@@ -461,7 +461,7 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
   }
 
   /**
-   * @internal
+   * @hidden
    */
   protected _getOutliers(useFinalPosition?: boolean): number[] {
     const props = this.getProps(['outliers'], useFinalPosition);
@@ -469,7 +469,7 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
   }
 
   /**
-   * @internal
+   * @hidden
    */
   tooltipPosition(
     eventPosition?: { x: number; y: number } | boolean,

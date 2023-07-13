@@ -148,7 +148,7 @@ export interface IViolinOptions extends IBaseOptions {
 }
 
 /**
- * @internal
+ * @hidden
  */
 export const defaultStatsOptions = {
   coef: 1.5,
@@ -184,7 +184,7 @@ function determineStatsOptions(options?: IBaseOptions) {
 }
 
 /**
- * @internal
+ * @hidden
  */
 export function boxplotStats(arr: readonly number[] | Float32Array | Float64Array, options: IBaseOptions): IBoxPlot {
   const vs =
@@ -221,7 +221,7 @@ function computeSamples(min: number, max: number, points: number) {
 }
 
 /**
- * @internal
+ * @hidden
  */
 export function violinStats(arr: readonly number[], options: IViolinOptions): IViolin | undefined {
   // console.assert(Array.isArray(arr));
@@ -254,7 +254,7 @@ export function violinStats(arr: readonly number[], options: IViolinOptions): IV
 }
 
 /**
- * @internal
+ * @hidden
  */
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function asBoxPlotStats(value: any, options: IBoxplotOptions): IBoxPlot | undefined {
@@ -284,7 +284,7 @@ export function asBoxPlotStats(value: any, options: IBoxplotOptions): IBoxPlot |
 }
 
 /**
- * @internal
+ * @hidden
  */
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function asViolinStats(value: any, options: IViolinOptions): IViolin | undefined {
@@ -301,7 +301,7 @@ export function asViolinStats(value: any, options: IViolinOptions): IViolin | un
 }
 
 /**
- * @internal
+ * @hidden
  */
 export function rnd(seed = Date.now()): () => number {
   // Adapted from http://indiegamr.com/generate-repeatable-random-numbers-in-js/

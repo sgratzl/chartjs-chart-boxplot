@@ -8,7 +8,7 @@ export interface ExtendedTooltip extends TooltipModel<'boxplot' | 'violin'> {
 }
 
 /**
- * @internal
+ * @hidden
  */
 export function patchInHoveredOutlier(
   this: TooltipModel<'boxplot' | 'violin'>,
@@ -23,7 +23,7 @@ export function patchInHoveredOutlier(
 
 /**
  * based on average positioner but allow access to the tooltip instance
- * @internal
+ * @hidden
  */
 export function outlierPositioner(
   this: TooltipModel<'boxplot' | 'violin'>,
