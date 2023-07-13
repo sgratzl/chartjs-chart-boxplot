@@ -22,7 +22,7 @@ import patchController from './patchController';
 
 export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions>> {
   /**
-   * @internal
+   * @hidden
    */
   // eslint-disable-next-line class-methods-use-this,@typescript-eslint/explicit-module-boundary-types
   protected _parseStats(value: any, config: IViolinOptions): IViolin | undefined {
@@ -30,7 +30,7 @@ export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions
   }
 
   /**
-   * @internal
+   * @hidden
    */
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   protected _transformStats<T>(target: any, source: IViolin, mapper: (v: number) => T): void {
@@ -46,7 +46,7 @@ export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions
   static readonly id = 'violin';
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly defaults: any = /* #__PURE__ */ merge({}, [
     BarController.defaults,
@@ -71,7 +71,7 @@ export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions
   ]);
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly overrides: any = /* #__PURE__ */ merge({}, [(BarController as any).overrides, defaultOverrides()]);
 }
