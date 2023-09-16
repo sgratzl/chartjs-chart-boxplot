@@ -1,4 +1,4 @@
-﻿import { BarElement, ChartType, CommonHoverOptions, ScriptableAndArrayOptions, ScriptableContext } from 'chart.js';
+import { BarElement, ChartType, CommonHoverOptions, ScriptableAndArrayOptions, ScriptableContext } from 'chart.js';
 import {
   StatsBase,
   baseDefaults,
