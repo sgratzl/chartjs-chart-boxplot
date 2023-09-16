@@ -1,4 +1,4 @@
-﻿import { BarController, Element, ChartMeta, LinearScale, Scale, UpdateMode } from 'chart.js';
+import { BarController, Element, ChartMeta, LinearScale, Scale, UpdateMode } from 'chart.js';
 import { formatNumber } from 'chart.js/helpers';
 import { interpolateNumberArray } from '../animation';
 import { outlierPositioner, patchInHoveredOutlier } from '../tooltip';
