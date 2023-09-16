@@ -1,4 +1,4 @@
-﻿import { Element } from 'chart.js';
+import { Element } from 'chart.js';
 import { drawPoint } from 'chart.js/helpers';
 import { rnd } from '../data';
 import type { ExtendedTooltip } from '../tooltip';
