@@ -6,7 +6,7 @@ title: Quantile Computation
 
 Quantiles can be computed in different ways. Different statistical software has different logic by default.
 
-see [quantiles](/api/interfaces/interface.IBaseOptions.html#quantiles) option for available options
+see [quantiles](/api/interfaces/IBaseOptions.html#quantiles) option for available options
 
 <script setup>
 import {configType7, configFiveNum} from './fivenum';
