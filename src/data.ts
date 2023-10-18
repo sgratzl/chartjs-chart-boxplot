@@ -136,6 +136,13 @@ export interface IBaseOptions {
    */
   quantiles?: QuantileMethod;
 
+  /**
+   * the method to compute the whiskers.
+   * 
+   * 'nearest': with this mode computed whisker values will be replaced with nearest real data points
+   * 'exact': with this mode exact computed whisker values will be displayed on chart
+   * @default 'nearest'
+   */
   whiskersMode?: 'nearest' | 'exact';
 }
 
