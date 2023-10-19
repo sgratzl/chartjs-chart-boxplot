@@ -135,6 +135,15 @@ export interface IBaseOptions {
    * @default 7
    */
   quantiles?: QuantileMethod;
+
+  /**
+   * the method to compute the whiskers.
+   * 
+   * 'nearest': with this mode computed whisker values will be replaced with nearest real data points
+   * 'exact': with this mode exact computed whisker values will be displayed on chart
+   * @default 'nearest'
+   */
+  whiskersMode?: 'nearest' | 'exact';
 }
 
 export type IBoxplotOptions = IBaseOptions;
@@ -150,9 +159,10 @@ export interface IViolinOptions extends IBaseOptions {
 /**
  * @hidden
  */
-export const defaultStatsOptions = {
+export const defaultStatsOptions: IBoxplotOptions = {
   coef: 1.5,
   quantiles: 7,
+  whiskersMode: 'nearest',
 };
 
 function determineQuantiles(q: QuantileMethod) {
@@ -177,9 +187,11 @@ function determineStatsOptions(options?: IBaseOptions) {
   const coef = options == null || typeof options.coef !== 'number' ? defaultStatsOptions.coef : options.coef;
   const q = options == null || options.quantiles == null ? quantilesType7 : options.quantiles;
   const quantiles = determineQuantiles(q);
+  const whiskersMode = options == null || typeof options.whiskersMode !== 'string' ? defaultStatsOptions.whiskersMode : options.whiskersMode;
   return {
     coef,
     quantiles,
+    whiskersMode,
   };
 }
 
