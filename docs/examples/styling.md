@@ -4,7 +4,7 @@ title: Styling
 
 # Styling
 
-BoxPlot and Violin plots support various styling options. see ['IBoxAndWhiskerOptions'](/api/interfaces/interface.IBoxAndWhiskersOptions)
+BoxPlot and Violin plots support various styling options. see ['IBoxAndWhiskerOptions'](/api/interfaces/IBoxAndWhiskersOptions)
 
 <script setup>
 import {config} from './styling';
