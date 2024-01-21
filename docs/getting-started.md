@@ -27,4 +27,4 @@ see [DataStructures](./examples/datastructures)
 
 ### Styling
 
-see [IBoxAndWhiskersOptions](/api/interfaces/interface.IBoxAndWhiskersOptions.md), [IViolinElementOptions](/api/type-aliases/type-alias.IViolinElementOptions.md), and [Styling](./examples/styling)
+see [IBoxAndWhiskersOptions](/api/interfaces/IBoxAndWhiskersOptions.md), [IViolinElementOptions](/api/type-aliases/IViolinElementOptions.md), and [Styling](./examples/styling)
