@@ -203,7 +203,7 @@ function determineStatsOptions(options?: IBaseOptions) {
  */
 export function boxplotStats(arr: readonly number[] | Float32Array | Float64Array, options: IBaseOptions): IBoxPlot {
   const vs =
-    window.Float64Array != null && !(arr instanceof Float32Array || arr instanceof Float64Array)
+    typeof Float64Array !== 'undefined' && !(arr instanceof Float32Array || arr instanceof Float64Array)
       ? Float64Array.from(arr)
       : arr;
   const r = boxplots(vs, determineStatsOptions(options));
@@ -244,7 +244,7 @@ export function violinStats(arr: readonly number[], options: IViolinOptions): IV
     return undefined;
   }
   const vs =
-    window.Float64Array != null && !(arr instanceof Float32Array || arr instanceof Float64Array)
+    typeof Float64Array !== 'undefined' && !(arr instanceof Float32Array || arr instanceof Float64Array)
       ? Float64Array.from(arr)
       : arr;
   const stats = boxplots(vs, determineStatsOptions(options));
