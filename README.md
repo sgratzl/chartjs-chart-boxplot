@@ -15,7 +15,7 @@ npm install chart.js @sgratzl/chartjs-chart-boxplot
 
 ## Usage
 
-see [Examples](https://sgratzl.com/chartjs-chart-boxplot/examples/)
+see [Examples](https://www.sgratzl.com/chartjs-chart-boxplot/examples/)
 
 and [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/QxoLoY)
 
