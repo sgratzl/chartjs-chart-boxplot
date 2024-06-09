@@ -11,6 +11,7 @@ import {
   AnimationOptions,
   ScriptableContext,
   CartesianScaleTypeRegistry,
+  BarControllerDatasetOptions,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { asViolinStats, IViolin, IViolinOptions } from '../data';
@@ -79,6 +80,10 @@ export type ViolinDataPoint = number[] | (Partial<IViolin> & Pick<IViolin, 'medi
 
 export interface ViolinControllerDatasetOptions
   extends ControllerDatasetOptions,
+    Pick<
+      BarControllerDatasetOptions,
+      'barPercentage' | 'barThickness' | 'categoryPercentage' | 'maxBarThickness' | 'minBarLength'
+    >,
     IViolinOptions,
     ScriptableAndArrayOptions<IViolinElementOptions, ScriptableContext<'violin'>>,
     ScriptableAndArrayOptions<CommonHoverOptions, ScriptableContext<'violin'>>,

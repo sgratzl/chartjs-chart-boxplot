@@ -116,6 +116,13 @@ export interface IStatsBaseOptions {
    * @indexable
    */
   itemBorderWidth: number;
+  /**
+   * hit radius for hit test of items
+   * @default 0
+   * @scriptable
+   * @indexable
+   */
+  itemHitRadius: number;
 
   /**
    * padding that is added around the bounding box when computing a mouse hit
@@ -195,6 +202,7 @@ export const baseDefaults = {
   itemStyle: 'circle',
   itemRadius: 0,
   itemBorderWidth: 0,
+  itemHitRadius: 0,
 
   meanStyle: 'circle',
   meanRadius: 3,
@@ -399,7 +407,8 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
     }
     return (
       this._boxInRange(mouseX, mouseY, useFinalPosition) ||
-      this._outlierIndexInRange(mouseX, mouseY, useFinalPosition) >= 0
+      this._outlierIndexInRange(mouseX, mouseY, useFinalPosition) != null ||
+      this._itemIndexInRange(mouseX, mouseY, useFinalPosition) != null
     );
   }
 
@@ -422,7 +431,11 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
   /**
    * @hidden
    */
-  protected _outlierIndexInRange(mouseX: number, mouseY: number, useFinalPosition?: boolean): number {
+  protected _outlierIndexInRange(
+    mouseX: number,
+    mouseY: number,
+    useFinalPosition?: boolean
+  ): { index: number; x: number; y: number } | null {
     const props = this.getProps(['x', 'y'], useFinalPosition);
     const hitRadius = this.options.outlierHitRadius;
     const outliers = this._getOutliers(useFinalPosition);
@@ -430,15 +443,63 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
 
     // check if along the outlier line
     if ((vertical && Math.abs(mouseX - props.x) > hitRadius) || (!vertical && Math.abs(mouseY - props.y) > hitRadius)) {
-      return -1;
+      return null;
     }
     const toCompare = vertical ? mouseY : mouseX;
     for (let i = 0; i < outliers.length; i += 1) {
       if (Math.abs(outliers[i] - toCompare) <= hitRadius) {
-        return i;
+        return vertical ? { index: i, x: props.x, y: outliers[i] } : { index: i, x: outliers[i], y: props.y };
       }
     }
-    return -1;
+    return null;
+  }
+
+  /**
+   * @hidden
+   */
+  protected _itemIndexInRange(
+    mouseX: number,
+    mouseY: number,
+    useFinalPosition?: boolean
+  ): { index: number; x: number; y: number } | null {
+    const hitRadius = this.options.itemHitRadius;
+    if (hitRadius <= 0) {
+      return null;
+    }
+    const props = this.getProps(['x', 'y', 'items', 'width', 'height', 'outliers'], useFinalPosition);
+    const vert = this.isVertical();
+    const { options } = this;
+
+    if (options.itemRadius <= 0 || !props.items || props.items.length <= 0) {
+      return null;
+    }
+    // jitter based on random data
+    // use the dataset index and index to initialize the random number generator
+    const random = rnd(this._datasetIndex * 1000 + this._index);
+    const outliers = new Set(props.outliers || []);
+
+    if (vert) {
+      for (let i = 0; i < props.items.length; i++) {
+        const y = props.items[i];
+        if (!outliers.has(y)) {
+          const x = props.x - props.width / 2 + random() * props.width;
+          if (Math.abs(x - mouseX) <= hitRadius && Math.abs(y - mouseY) <= hitRadius) {
+            return { index: i, x, y };
+          }
+        }
+      }
+    } else {
+      for (let i = 0; i < props.items.length; i++) {
+        const x = props.items[i];
+        if (!outliers.has(x)) {
+          const y = props.y - props.height / 2 + random() * props.height;
+          if (Math.abs(x - mouseX) <= hitRadius && Math.abs(y - mouseY) <= hitRadius) {
+            return { index: i, x, y };
+          }
+        }
+      }
+    }
+    return null;
   }
 
   /**
@@ -482,28 +543,40 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
     if (tooltip) {
       // eslint-disable-next-line no-param-reassign
       delete tooltip._tooltipOutlier;
+      // eslint-disable-next-line no-param-reassign
+      delete tooltip._tooltipItem;
     }
 
-    const props = this.getProps(['x', 'y']);
-    const index = this._outlierIndexInRange(eventPosition.x, eventPosition.y);
-    if (index < 0 || !tooltip) {
-      return this.getCenterPoint();
-    }
-    // hack in the data of the hovered outlier
-    // eslint-disable-next-line no-param-reassign
-    tooltip._tooltipOutlier = {
-      index,
-      datasetIndex: this._datasetIndex,
-    };
-    if (this.isVertical()) {
+    //outlier
+    const info = this._outlierIndexInRange(eventPosition.x, eventPosition.y);
+    if (info != null && tooltip) {
+      // hack in the data of the hovered outlier
+      // eslint-disable-next-line no-param-reassign
+      tooltip._tooltipOutlier = {
+        index: info.index,
+        datasetIndex: this._datasetIndex,
+      };
       return {
-        x: props.x as number,
-        y: this._getOutliers()[index],
+        x: info.x,
+        y: info.y,
       };
     }
-    return {
-      x: this._getOutliers()[index],
-      y: props.y as number,
-    };
+    // items
+    const itemInfo = this._itemIndexInRange(eventPosition.x, eventPosition.y);
+    if (itemInfo != null && tooltip) {
+      // hack in the data of the hovered outlier
+      // eslint-disable-next-line no-param-reassign
+      tooltip._tooltipItem = {
+        index: itemInfo.index,
+        datasetIndex: this._datasetIndex,
+      };
+      return {
+        x: itemInfo.x,
+        y: itemInfo.y,
+      };
+    }
+
+    // fallback
+    return this.getCenterPoint();
   }
 }
