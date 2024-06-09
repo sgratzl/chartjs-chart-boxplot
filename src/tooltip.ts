@@ -5,6 +5,10 @@ export interface ExtendedTooltip extends TooltipModel<'boxplot' | 'violin'> {
     index: number;
     datasetIndex: number;
   };
+  _tooltipItem?: {
+    index: number;
+    datasetIndex: number;
+  };
 }
 
 /**
@@ -18,6 +22,9 @@ export function patchInHoveredOutlier(
   const that = this as ExtendedTooltip;
   if (value && that._tooltipOutlier != null && item.datasetIndex === that._tooltipOutlier.datasetIndex) {
     value.hoveredOutlierIndex = that._tooltipOutlier.index;
+  }
+  if (value && that._tooltipItem != null && item.datasetIndex === that._tooltipItem.datasetIndex) {
+    value.hoveredItemIndex = that._tooltipItem.index;
   }
 }
 

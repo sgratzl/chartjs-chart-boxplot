@@ -147,7 +147,10 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
   /**
    * @hidden
    */
-  getLabelAndValue(index: number): { label: string; value: string & { raw: S; hoveredOutlierIndex: number } & S } {
+  getLabelAndValue(index: number): {
+    label: string;
+    value: string & { raw: S; hoveredOutlierIndex: number; hoveredItemIndex: number } & S;
+  } {
     const r = super.getLabelAndValue(index) as any;
     const { vScale } = this._cachedMeta;
     const parsed = this.getParsed(index) as unknown as S;
@@ -157,6 +160,7 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
     r.value = {
       raw: parsed,
       hoveredOutlierIndex: -1,
+      hoveredItemIndex: -1,
     };
     this._transformStats(r.value, parsed, (v) => vScale.getLabelForValue(v));
     const s = this._toStringStats(r.value.raw);
@@ -165,6 +169,10 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
       if (this.hoveredOutlierIndex >= 0) {
         // TODO formatter
         return `(outlier: ${this.outliers[this.hoveredOutlierIndex]})`;
+      }
+      if (this.hoveredItemIndex >= 0) {
+        // TODO formatter
+        return `(item: ${this.items[this.hoveredItemIndex]})`;
       }
       return s;
     };

@@ -8,8 +8,9 @@ export const config: ChartConfiguration<'boxplot'> = {
   data,
   options: {
     elements: {
-      boxplot: {
+      boxandwhiskers: {
         itemRadius: 2,
+        itemHitRadius: 4,
       },
     },
   },
