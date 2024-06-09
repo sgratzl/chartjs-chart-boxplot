@@ -11,6 +11,7 @@ import {
   AnimationOptions,
   ScriptableContext,
   CartesianScaleTypeRegistry,
+  BarControllerDatasetOptions,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { asBoxPlotStats, IBoxPlot, IBoxplotOptions } from '../data';
@@ -70,6 +71,7 @@ export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOpti
 
 export interface BoxPlotControllerDatasetOptions
   extends ControllerDatasetOptions,
+    Pick<BarControllerDatasetOptions, 'barPercentage' | 'barThickness' |'categoryPercentage' | 'maxBarThickness' | 'minBarLength'>,
     IBoxplotOptions,
     ScriptableAndArrayOptions<IBoxAndWhiskersOptions, ScriptableContext<'boxplot'>>,
     ScriptableAndArrayOptions<CommonHoverOptions, ScriptableContext<'boxplot'>>,
