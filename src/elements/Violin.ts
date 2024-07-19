@@ -70,32 +70,44 @@ export class Violin extends StatsBase<IViolinElementProps, IViolinElementOptions
     } else {
       maxEstimate = props.maxEstimate;
     }
+    const firstCoord = props.coords[0];
+    const lastCoord = props.coords[props.coords.length - 1];
+
+    ctx.beginPath();
     if (this.isVertical()) {
       const { x, width } = props;
       const factor = width / 2 / maxEstimate;
-      ctx.moveTo(x, props.min);
+      ctx.moveTo(x - firstCoord.estimate * factor, firstCoord.v);
       props.coords.forEach((c) => {
         ctx.lineTo(x - c.estimate * factor, c.v);
       });
-      ctx.lineTo(x, props.max);
-      ctx.moveTo(x, props.min);
-      props.coords.forEach((c) => {
-        ctx.lineTo(x + c.estimate * factor, c.v);
-      });
-      ctx.lineTo(x, props.max);
+
+      ctx.lineTo(x - lastCoord.estimate * factor, props.max);
+      ctx.lineTo(x + lastCoord.estimate * factor, props.max);
+      props.coords
+        .slice()
+        .reverse()
+        .forEach((c) => {
+          ctx.lineTo(x + c.estimate * factor, c.v);
+        });
+      ctx.lineTo(x - firstCoord.estimate * factor, firstCoord.v);
     } else {
       const { y, height } = props;
       const factor = height / 2 / maxEstimate;
-      ctx.moveTo(props.min, y);
+      ctx.moveTo(firstCoord.v, y - firstCoord.estimate * factor);
       props.coords.forEach((c) => {
         ctx.lineTo(c.v, y - c.estimate * factor);
       });
-      ctx.lineTo(props.max, y);
-      ctx.moveTo(props.min, y);
-      props.coords.forEach((c) => {
-        ctx.lineTo(c.v, y + c.estimate * factor);
-      });
-      ctx.lineTo(props.max, y);
+
+      ctx.lineTo(props.max, y - props.coords[props.coords.length - 1].estimate * factor);
+      ctx.lineTo(props.max, y + props.coords[props.coords.length - 1].estimate * factor);
+      props.coords
+        .slice()
+        .reverse()
+        .forEach((c) => {
+          ctx.lineTo(c.v, y + c.estimate * factor);
+        });
+      ctx.lineTo(props.min, y - props.coords[0].estimate * factor);
     }
     ctx.closePath();
     ctx.stroke();
