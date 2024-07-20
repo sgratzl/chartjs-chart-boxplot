@@ -70,32 +70,36 @@ export class Violin extends StatsBase<IViolinElementProps, IViolinElementOptions
     } else {
       maxEstimate = props.maxEstimate;
     }
+
+    ctx.beginPath();
     if (this.isVertical()) {
       const { x, width } = props;
       const factor = width / 2 / maxEstimate;
-      ctx.moveTo(x, props.min);
+
       props.coords.forEach((c) => {
         ctx.lineTo(x - c.estimate * factor, c.v);
       });
-      ctx.lineTo(x, props.max);
-      ctx.moveTo(x, props.min);
-      props.coords.forEach((c) => {
-        ctx.lineTo(x + c.estimate * factor, c.v);
-      });
-      ctx.lineTo(x, props.max);
+
+      props.coords
+        .slice()
+        .reverse()
+        .forEach((c) => {
+          ctx.lineTo(x + c.estimate * factor, c.v);
+        });
     } else {
       const { y, height } = props;
       const factor = height / 2 / maxEstimate;
-      ctx.moveTo(props.min, y);
+
       props.coords.forEach((c) => {
         ctx.lineTo(c.v, y - c.estimate * factor);
       });
-      ctx.lineTo(props.max, y);
-      ctx.moveTo(props.min, y);
-      props.coords.forEach((c) => {
-        ctx.lineTo(c.v, y + c.estimate * factor);
-      });
-      ctx.lineTo(props.max, y);
+
+      props.coords
+        .slice()
+        .reverse()
+        .forEach((c) => {
+          ctx.lineTo(c.v, y + c.estimate * factor);
+        });
     }
     ctx.closePath();
     ctx.stroke();
