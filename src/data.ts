@@ -271,7 +271,6 @@ export function violinStats(arr: readonly number[], options: IViolinOptions): IV
 /**
  * @hidden
  */
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function asBoxPlotStats(value: any, options: IBoxplotOptions): IBoxPlot | undefined {
   if (!value) {
     return undefined;
@@ -285,9 +284,7 @@ export function asBoxPlotStats(value: any, options: IBoxplotOptions): IBoxPlot |
         Array.isArray(value.items) ? (value.items as number[]).slice().sort((a, b) => a - b) : null,
         coef
       );
-      // eslint-disable-next-line no-param-reassign
       value.whiskerMin = whiskerMin;
-      // eslint-disable-next-line no-param-reassign
       value.whiskerMax = whiskerMax;
     }
     return value;
@@ -301,7 +298,7 @@ export function asBoxPlotStats(value: any, options: IBoxplotOptions): IBoxPlot |
 /**
  * @hidden
  */
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+
 export function asViolinStats(value: any, options: IViolinOptions): IViolin | undefined {
   if (!value) {
     return undefined;
