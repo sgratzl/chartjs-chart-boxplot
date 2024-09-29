@@ -298,7 +298,7 @@ export function asBoxPlotStats(value: any, options: IBoxplotOptions): IBoxPlot |
 /**
  * @hidden
  */
- 
+
 export function asViolinStats(value: any, options: IViolinOptions): IViolin | undefined {
   if (!value) {
     return undefined;

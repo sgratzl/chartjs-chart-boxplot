@@ -67,18 +67,16 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
   /**
    * @hidden
    */
-   
+
   protected _transformStats<T>(target: any, source: S, mapper: (v: number) => T): void {
     for (const key of ['min', 'max', 'median', 'q3', 'q1', 'mean']) {
       const v = source[key as keyof IBaseStats];
       if (typeof v === 'number') {
-         
         target[key] = mapper(v);
       }
     }
     for (const key of ['outliers', 'items']) {
       if (Array.isArray(source[key as keyof IBaseStats])) {
-         
         target[key] = source[key as 'outliers' | 'items'].map(mapper);
       }
     }
@@ -90,13 +88,13 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
   getMinMax(scale: Scale, canStack?: boolean | undefined): { min: number; max: number } {
     const bak = scale.axis;
     const config = this.options;
-     
+
     scale.axis = config.minStats;
     const { min } = super.getMinMax(scale, canStack);
-     
+
     scale.axis = config.maxStats;
     const { max } = super.getMinMax(scale, canStack);
-     
+
     scale.axis = bak;
     return { min, max };
   }
@@ -105,9 +103,8 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
    * @hidden
    */
   parsePrimitiveData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
-     
     const vScale = meta.vScale!;
-     
+
     const iScale = meta.iScale!;
     const labels = iScale.getLabels();
     const r = [];
@@ -142,7 +139,7 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
   /**
    * @hidden
    */
-   
+
   protected abstract _parseStats(value: any, options: C): S | undefined;
   /**
    * @hidden
@@ -182,9 +179,8 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
   /**
    * @hidden
    */
-   
+
   protected _toStringStats(b: S): string {
-     
     const f = (v: number) => (v == null ? 'NaN' : formatNumber(v, this.chart.options.locale!, {}));
     return `(min: ${f(b.min)}, 25% quantile: ${f(b.q1)}, median: ${f(b.median)}, mean: ${f(b.mean)}, 75% quantile: ${f(
       b.q3
@@ -194,15 +190,15 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
   /**
    * @hidden
    */
-   
+
   updateElement(rectangle: Element, index: number, properties: any, mode: UpdateMode): void {
     const reset = mode === 'reset';
     const scale = this._cachedMeta.vScale as LinearScale;
     const parsed = this.getParsed(index) as unknown as S;
     const base = scale.getBasePixel();
-     
+
     properties._datasetIndex = this.index;
-     
+
     properties._index = index;
     this._transformStats(properties, parsed, (v) => (reset ? base : scale.getPixelForValue(v, index)));
     super.updateElement(rectangle, index, properties, mode);

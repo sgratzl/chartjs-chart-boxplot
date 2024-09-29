@@ -541,9 +541,8 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
       return this.getCenterPoint();
     }
     if (tooltip) {
-       
       delete tooltip._tooltipOutlier;
-       
+
       delete tooltip._tooltipItem;
     }
 
@@ -551,7 +550,7 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
     const info = this._outlierIndexInRange(eventPosition.x, eventPosition.y);
     if (info != null && tooltip) {
       // hack in the data of the hovered outlier
-       
+
       tooltip._tooltipOutlier = {
         index: info.index,
         datasetIndex: this._datasetIndex,
@@ -565,7 +564,7 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
     const itemInfo = this._itemIndexInRange(eventPosition.x, eventPosition.y);
     if (itemInfo != null && tooltip) {
       // hack in the data of the hovered outlier
-       
+
       tooltip._tooltipItem = {
         index: itemInfo.index,
         datasetIndex: this._datasetIndex,

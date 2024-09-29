@@ -25,7 +25,7 @@ export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions
   /**
    * @hidden
    */
-   
+
   protected _parseStats(value: any, config: IViolinOptions): IViolin | undefined {
     return asViolinStats(value, config);
   }
@@ -33,13 +33,12 @@ export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions
   /**
    * @hidden
    */
-   
+
   protected _transformStats<T>(target: any, source: IViolin, mapper: (v: number) => T): void {
     super._transformStats(target, source, mapper);
-     
+
     target.maxEstimate = source.maxEstimate;
     if (Array.isArray(source.coords)) {
-       
       target.coords = source.coords.map((c) => ({ ...c, v: mapper(c.v) }));
     }
   }
@@ -89,8 +88,7 @@ export interface ViolinControllerDatasetOptions
     ScriptableAndArrayOptions<CommonHoverOptions, ScriptableContext<'violin'>>,
     AnimationOptions<'violin'> {}
 
- 
-export interface IViolinChartOptions extends IViolinOptions {}
+export type IViolinChartOptions = IViolinOptions;
 
 declare module 'chart.js' {
   export interface ChartTypeRegistry {
@@ -99,7 +97,7 @@ declare module 'chart.js' {
       datasetOptions: ViolinControllerDatasetOptions;
       defaultDataPoint: ViolinDataPoint;
       scales: keyof CartesianScaleTypeRegistry;
-      metaExtensions: {};
+      metaExtensions: object;
       parsedDataType: IViolin & ChartTypeRegistry['bar']['parsedDataType'];
     };
   }

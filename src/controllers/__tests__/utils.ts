@@ -1,4 +1,3 @@
- 
 import type { BoxPlotDataPoint } from '../BoxPlotController';
 
 const Months = [
@@ -46,7 +45,6 @@ export class Samples {
     return this.randF(min, max)();
   }
 
-   
   months({ count = 12, section }: { count?: number; section?: number }): string[] {
     const values: string[] = [];
 
@@ -119,7 +117,6 @@ export class Samples {
       .map(() => this.numbers({ ...config, count: 50 }) as number[]);
   }
 
-   
   labels({
     min = 0,
     max = 100,
