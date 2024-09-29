@@ -16,16 +16,16 @@ export interface IBoxAndWhiskersOptions extends IStatsBaseOptions {
   /**
    * separate color for the median line
    * @default 'transparent' takes the current borderColor
-   * @scriptable
-   * @indexable
+   * scriptable
+   * indexable
    */
   medianColor: string;
 
   /**
    * color the lower half (median-q3) of the box in a different color
    * @default 'transparent' takes the current borderColor
-   * @scriptable
-   * @indexable
+   * scriptable
+   * indexable
    */
   lowerBackgroundColor: string;
 }
