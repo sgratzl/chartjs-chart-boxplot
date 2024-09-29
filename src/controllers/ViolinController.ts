@@ -25,7 +25,7 @@ export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions
   /**
    * @hidden
    */
-  // eslint-disable-next-line class-methods-use-this,@typescript-eslint/explicit-module-boundary-types
+   
   protected _parseStats(value: any, config: IViolinOptions): IViolin | undefined {
     return asViolinStats(value, config);
   }
@@ -33,13 +33,13 @@ export class ViolinController extends StatsBase<IViolin, Required<IViolinOptions
   /**
    * @hidden
    */
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+   
   protected _transformStats<T>(target: any, source: IViolin, mapper: (v: number) => T): void {
     super._transformStats(target, source, mapper);
-    // eslint-disable-next-line no-param-reassign
+     
     target.maxEstimate = source.maxEstimate;
     if (Array.isArray(source.coords)) {
-      // eslint-disable-next-line no-param-reassign
+       
       target.coords = source.coords.map((c) => ({ ...c, v: mapper(c.v) }));
     }
   }
@@ -89,7 +89,7 @@ export interface ViolinControllerDatasetOptions
     ScriptableAndArrayOptions<CommonHoverOptions, ScriptableContext<'violin'>>,
     AnimationOptions<'violin'> {}
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+ 
 export interface IViolinChartOptions extends IViolinOptions {}
 
 declare module 'chart.js' {

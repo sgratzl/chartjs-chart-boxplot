@@ -24,7 +24,7 @@ export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOpti
   /**
    * @hidden
    */
-  // eslint-disable-next-line class-methods-use-this
+
   protected _parseStats(value: unknown, config: IBoxplotOptions): IBoxPlot | undefined {
     return asBoxPlotStats(value, config);
   }
@@ -32,11 +32,10 @@ export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOpti
   /**
    * @hidden
    */
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+
   protected _transformStats<T>(target: any, source: IBoxPlot, mapper: (v: number) => T): void {
     super._transformStats(target, source, mapper);
     for (const key of ['whiskerMin', 'whiskerMax']) {
-      // eslint-disable-next-line no-param-reassign
       target[key] = mapper(source[key as 'whiskerMin' | 'whiskerMax']);
     }
   }
@@ -82,8 +81,7 @@ export interface BoxPlotControllerDatasetOptions
 
 export type BoxPlotDataPoint = number[] | (Partial<IBoxPlot> & Pick<IBoxPlot, 'min' | 'max' | 'median' | 'q1' | 'q3'>);
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IBoxPlotChartOptions extends IBoxplotOptions {}
+export type IBoxPlotChartOptions = IBoxplotOptions;
 
 declare module 'chart.js' {
   export interface ChartTypeRegistry {
@@ -92,7 +90,7 @@ declare module 'chart.js' {
       datasetOptions: BoxPlotControllerDatasetOptions;
       defaultDataPoint: BoxPlotDataPoint;
       scales: keyof CartesianScaleTypeRegistry;
-      metaExtensions: {};
+      metaExtensions: object;
       parsedDataType: IBoxPlot & ChartTypeRegistry['bar']['parsedDataType'];
     };
   }

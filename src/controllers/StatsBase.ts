@@ -67,18 +67,18 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
   /**
    * @hidden
    */
-  // eslint-disable-next-line class-methods-use-this,@typescript-eslint/explicit-module-boundary-types
+   
   protected _transformStats<T>(target: any, source: S, mapper: (v: number) => T): void {
     for (const key of ['min', 'max', 'median', 'q3', 'q1', 'mean']) {
       const v = source[key as keyof IBaseStats];
       if (typeof v === 'number') {
-        // eslint-disable-next-line no-param-reassign
+         
         target[key] = mapper(v);
       }
     }
     for (const key of ['outliers', 'items']) {
       if (Array.isArray(source[key as keyof IBaseStats])) {
-        // eslint-disable-next-line no-param-reassign
+         
         target[key] = source[key as 'outliers' | 'items'].map(mapper);
       }
     }
@@ -90,13 +90,13 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
   getMinMax(scale: Scale, canStack?: boolean | undefined): { min: number; max: number } {
     const bak = scale.axis;
     const config = this.options;
-    // eslint-disable-next-line no-param-reassign
+     
     scale.axis = config.minStats;
     const { min } = super.getMinMax(scale, canStack);
-    // eslint-disable-next-line no-param-reassign
+     
     scale.axis = config.maxStats;
     const { max } = super.getMinMax(scale, canStack);
-    // eslint-disable-next-line no-param-reassign
+     
     scale.axis = bak;
     return { min, max };
   }
@@ -105,9 +105,9 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
    * @hidden
    */
   parsePrimitiveData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+     
     const vScale = meta.vScale!;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+     
     const iScale = meta.iScale!;
     const labels = iScale.getLabels();
     const r = [];
@@ -142,7 +142,7 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
   /**
    * @hidden
    */
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+   
   protected abstract _parseStats(value: any, options: C): S | undefined;
   /**
    * @hidden
@@ -182,9 +182,9 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
   /**
    * @hidden
    */
-  // eslint-disable-next-line class-methods-use-this
+   
   protected _toStringStats(b: S): string {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+     
     const f = (v: number) => (v == null ? 'NaN' : formatNumber(v, this.chart.options.locale!, {}));
     return `(min: ${f(b.min)}, 25% quantile: ${f(b.q1)}, median: ${f(b.median)}, mean: ${f(b.mean)}, 75% quantile: ${f(
       b.q3
@@ -194,15 +194,15 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
   /**
    * @hidden
    */
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+   
   updateElement(rectangle: Element, index: number, properties: any, mode: UpdateMode): void {
     const reset = mode === 'reset';
     const scale = this._cachedMeta.vScale as LinearScale;
     const parsed = this.getParsed(index) as unknown as S;
     const base = scale.getBasePixel();
-    // eslint-disable-next-line no-param-reassign
+     
     properties._datasetIndex = this.index;
-    // eslint-disable-next-line no-param-reassign
+     
     properties._index = index;
     this._transformStats(properties, parsed, (v) => (reset ? base : scale.getPixelForValue(v, index)));
     super.updateElement(rectangle, index, properties, mode);

@@ -373,7 +373,7 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
   /**
    * @hidden
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars,class-methods-use-this
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _getBounds(_useFinalPosition?: boolean): { left: number; top: number; right: number; bottom: number } {
     // abstract
     return {
@@ -541,9 +541,9 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
       return this.getCenterPoint();
     }
     if (tooltip) {
-      // eslint-disable-next-line no-param-reassign
+       
       delete tooltip._tooltipOutlier;
-      // eslint-disable-next-line no-param-reassign
+       
       delete tooltip._tooltipItem;
     }
 
@@ -551,7 +551,7 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
     const info = this._outlierIndexInRange(eventPosition.x, eventPosition.y);
     if (info != null && tooltip) {
       // hack in the data of the hovered outlier
-      // eslint-disable-next-line no-param-reassign
+       
       tooltip._tooltipOutlier = {
         index: info.index,
         datasetIndex: this._datasetIndex,
@@ -565,7 +565,7 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
     const itemInfo = this._itemIndexInRange(eventPosition.x, eventPosition.y);
     if (itemInfo != null && tooltip) {
       // hack in the data of the hovered outlier
-      // eslint-disable-next-line no-param-reassign
+       
       tooltip._tooltipItem = {
         index: itemInfo.index,
         datasetIndex: this._datasetIndex,

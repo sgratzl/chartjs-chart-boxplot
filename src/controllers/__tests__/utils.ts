@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
+ 
 import type { BoxPlotDataPoint } from '../BoxPlotController';
 
 const Months = [
@@ -46,7 +46,7 @@ export class Samples {
     return this.randF(min, max)();
   }
 
-  // eslint-disable-next-line class-methods-use-this
+   
   months({ count = 12, section }: { count?: number; section?: number }): string[] {
     const values: string[] = [];
 
@@ -119,7 +119,7 @@ export class Samples {
       .map(() => this.numbers({ ...config, count: 50 }) as number[]);
   }
 
-  // eslint-disable-next-line class-methods-use-this
+   
   labels({
     min = 0,
     max = 100,
