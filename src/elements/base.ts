@@ -6,22 +6,22 @@ import type { ExtendedTooltip } from '../tooltip';
 export interface IStatsBaseOptions {
   /**
    * @default see rectangle
-   * @scriptable
-   * @indexable
+   * scriptable
+   * indexable
    */
   backgroundColor: string;
 
   /**
    * @default see rectangle
-   * @scriptable
-   * @indexable
+   * scriptable
+   * indexable
    */
   borderColor: string;
 
   /**
    * @default 1
-   * @scriptable
-   * @indexable
+   * scriptable
+   * indexable
    */
   borderWidth: number;
 
@@ -44,28 +44,28 @@ export interface IStatsBaseOptions {
   /**
    * radius used to render outliers
    * @default 2
-   * @scriptable
-   * @indexable
+   * scriptable
+   * indexable
    */
   outlierRadius: number;
 
   /**
    * @default see rectangle.backgroundColor
-   * @scriptable
-   * @indexable
+   * scriptable
+   * indexable
    */
   outlierBackgroundColor: string;
 
   /**
    * @default see rectangle.borderColor
-   * @scriptable
-   * @indexable
+   * scriptable
+   * indexable
    */
   outlierBorderColor: string;
   /**
    * @default 1
-   * @scriptable
-   * @indexable
+   * scriptable
+   * indexable
    */
   outlierBorderWidth: number;
 
@@ -88,55 +88,55 @@ export interface IStatsBaseOptions {
   /**
    * radius used to render items
    * @default 0 so disabled
-   * @scriptable
-   * @indexable
+   * scriptable
+   * indexable
    */
   itemRadius: number;
 
   /**
    * background color for items
    * @default see rectangle.backgroundColor
-   * @scriptable
-   * @indexable
+   * scriptable
+   * indexable
    */
   itemBackgroundColor: string;
 
   /**
    * border color for items
    * @default see rectangle.borderColor
-   * @scriptable
-   * @indexable
+   * scriptable
+   * indexable
    */
   itemBorderColor: string;
 
   /**
    * border width for items
    * @default 0
-   * @scriptable
-   * @indexable
+   * scriptable
+   * indexable
    */
   itemBorderWidth: number;
   /**
    * hit radius for hit test of items
    * @default 0
-   * @scriptable
-   * @indexable
+   * scriptable
+   * indexable
    */
   itemHitRadius: number;
 
   /**
    * padding that is added around the bounding box when computing a mouse hit
    * @default 2
-   * @scriptable
-   * @indexable
+   * scriptable
+   * indexable
    */
   hitPadding: number;
 
   /**
    * hit radius for hit test of outliers
    * @default 4
-   * @scriptable
-   * @indexable
+   * scriptable
+   * indexable
    */
   outlierHitRadius: number;
 
@@ -159,32 +159,32 @@ export interface IStatsBaseOptions {
   /**
    * radius used to mean dots
    * @default 3
-   * @scriptable
-   * @indexable
+   * scriptable
+   * indexable
    */
   meanRadius: number;
 
   /**
    * background color for mean dot
    * @default see rectangle.backgroundColor
-   * @scriptable
-   * @indexable
+   * scriptable
+   * indexable
    */
   meanBackgroundColor: string;
 
   /**
    * border color for mean dot
    * @default see rectangle.borderColor
-   * @scriptable
-   * @indexable
+   * scriptable
+   * indexable
    */
   meanBorderColor: string;
 
   /**
    * border width for mean dot
    * @default 0
-   * @scriptable
-   * @indexable
+   * scriptable
+   * indexable
    */
   meanBorderWidth: number;
 }
@@ -373,7 +373,7 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
   /**
    * @hidden
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars,class-methods-use-this
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _getBounds(_useFinalPosition?: boolean): { left: number; top: number; right: number; bottom: number } {
     // abstract
     return {
@@ -541,9 +541,8 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
       return this.getCenterPoint();
     }
     if (tooltip) {
-      // eslint-disable-next-line no-param-reassign
       delete tooltip._tooltipOutlier;
-      // eslint-disable-next-line no-param-reassign
+
       delete tooltip._tooltipItem;
     }
 
@@ -551,7 +550,7 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
     const info = this._outlierIndexInRange(eventPosition.x, eventPosition.y);
     if (info != null && tooltip) {
       // hack in the data of the hovered outlier
-      // eslint-disable-next-line no-param-reassign
+
       tooltip._tooltipOutlier = {
         index: info.index,
         datasetIndex: this._datasetIndex,
@@ -565,7 +564,7 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
     const itemInfo = this._itemIndexInRange(eventPosition.x, eventPosition.y);
     if (itemInfo != null && tooltip) {
       // hack in the data of the hovered outlier
-      // eslint-disable-next-line no-param-reassign
+
       tooltip._tooltipItem = {
         index: itemInfo.index,
         datasetIndex: this._datasetIndex,

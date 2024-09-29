@@ -9,6 +9,7 @@ import {
   LinearScale,
   LogarithmicScale,
 } from 'chart.js';
+import { describe, beforeAll, test } from 'vitest';
 import createChart from '../__tests__/createChart';
 import { BoxPlotController, BoxPlotDataPoint } from './BoxPlotController';
 import { Samples } from './__tests__/utils';

@@ -3,6 +3,7 @@ import createChart from '../__tests__/createChart';
 import { ViolinController } from './ViolinController';
 import { Samples } from './__tests__/utils';
 import { Violin } from '../elements';
+import { describe, beforeAll, test } from 'vitest';
 
 describe('violin', () => {
   beforeAll(() => {
