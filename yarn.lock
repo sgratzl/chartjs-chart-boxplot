@@ -990,10 +990,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sgratzl/boxplots@npm:^1.3.3":
-  version: 1.3.3
-  resolution: "@sgratzl/boxplots@npm:1.3.3"
-  checksum: 10c0/64678cf9a22155b4b6c6dd3967639345a04ea149bbae785dd482fb7d0a041f338b84aa188bde0489d246f9b73b85400f51688c38bf5f997af661557d5f9574cc
+"@sgratzl/boxplots@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@sgratzl/boxplots@npm:2.0.0"
+  checksum: 10c0/50e4e201fcbcf8b7d12a1e4eb530fae65e05fe26fd83769a093dd034ec5e2061b4466e8e837afd795e8201cb109086d9779f0cba723027baca0109087d7df2cb
   languageName: node
   linkType: hard
 
@@ -1007,7 +1007,7 @@ __metadata:
     "@rollup/plugin-node-resolve": "npm:^15.3.0"
     "@rollup/plugin-replace": "npm:^6.0.1"
     "@rollup/plugin-typescript": "npm:^12.1.1"
-    "@sgratzl/boxplots": "npm:^1.3.3"
+    "@sgratzl/boxplots": "npm:^2.0.0"
     "@types/jest-image-snapshot": "npm:^6.4.0"
     "@types/node": "npm:^22.9.0"
     "@yarnpkg/sdks": "npm:^3.2.0"
