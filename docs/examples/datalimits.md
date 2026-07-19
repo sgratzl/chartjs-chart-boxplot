@@ -9,6 +9,13 @@ You can customize the scale limit the the minimal and maximal values independent
 - data limits (default) ... the minimal and maximal values of the data are the scale limits
 - whiskers ... the minimal and maximal values are the whisker endpoints
 - box ... the minimal and maximal values are the box endpoints q1 (25% quantile) and q3 (75% quantile)
+- git clone https://github.com/YOUR-USERNAME/Spoon-Knife
+> Cloning into `Spoon-Knife`...
+> remote: Counting objects: 10, done.
+> remote: Compressing objects: 100% (8/8), done.
+> remote: Total 10 (delta 1), reused 10 (delta 1)
+> Unpacking objects: 100% (10/10), done.
+
 
 <script setup>
 import {minmax, box, whiskers} from './datalimits';
@@ -45,6 +52,13 @@ import {minmax, box, whiskers} from './datalimits';
 <<< ./datalimits.ts#whiskers [config]
 
 <<< ./boxplot.ts#data [data]
+git clone https://github.com/YOUR-USERNAME/Spoon-Knife
+> Cloning into `Spoon-Knife`...
+> remote: Counting objects: 10, done.
+> remote: Compressing objects: 100% (8/8), done.
+> remote: Total 10 (delta 1), reused 10 (delta 1)
+> Unpacking objects: 100% (10/10), done.
+
 
 :::
 
@@ -61,6 +75,6 @@ import {minmax, box, whiskers} from './datalimits';
 
 <<< ./datalimits.ts#box [config]
 
-<<< ./boxplot.ts#data [data]
+<<< ./barplot.ts#data [data]
 
 :::
