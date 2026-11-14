@@ -9,7 +9,9 @@ import { drawPoint } from 'chart.js/helpers';
 import type { IKDEPoint } from '../data';
 import { StatsBase, baseDefaults, baseRoutes, type IStatsBaseOptions, type IStatsBaseProps } from './base';
 
-export type IViolinElementOptions = IStatsBaseOptions;
+export interface IViolinElementOptions extends IStatsBaseOptions {
+  scaleItems: boolean;
+}
 
 export interface IViolinElementProps extends IStatsBaseProps {
   min: number;
@@ -55,6 +57,34 @@ export class Violin extends StatsBase<IViolinElementProps, IViolinElementOptions
     ctx.restore();
 
     this._drawItems(ctx);
+  }
+
+  /**
+   * @hidden
+   */
+  scaleItem(e: number, v: number): number {
+	const options = this.options as IViolinElementOptions;
+    const props = this.getProps(['coords', 'maxEstimate']) as Pick<
+      IViolinElementProps,
+      'coords' | 'maxEstimate'
+    >;
+    if (!options.scaleItems || !props.coords) {
+      return e;
+    }
+    let maxEstimate: number;
+    const coords: IKDEPoint[] = props.coords;
+    if (props.maxEstimate == null) {
+      maxEstimate = coords.reduce((a, d) => Math.max(a, d.estimate), Number.NEGATIVE_INFINITY);
+    } else {
+      maxEstimate = props.maxEstimate;
+    }
+    for (let i = 0; i < coords.length; i++) {
+      const coord = coords[i];
+      if (coord.v <= v) {
+        return (coord.estimate * e) / maxEstimate;
+      }
+    }
+    return e;
   }
 
   /**
@@ -135,7 +165,7 @@ export class Violin extends StatsBase<IViolinElementProps, IViolinElementOptions
   /**
    * @hidden
    */
-  static defaults = /* #__PURE__ */ { ...BarElement.defaults, ...baseDefaults };
+  static defaults = /* #__PURE__ */ { ...BarElement.defaults, ...baseDefaults, scaleItems: false };
 
   /**
    * @hidden

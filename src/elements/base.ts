@@ -293,17 +293,24 @@ export class StatsBase<T extends IStatsBaseProps & { mean?: number }, O extends 
     if (vert) {
       props.items.forEach((v) => {
         if (!outliers.has(v)) {
-          drawPoint(ctx, pointOptions, props.x - props.width / 2 + random() * props.width, v);
+          drawPoint(ctx, pointOptions, props.x + this.scaleItem(random() - 0.5, v) * props.width, v);
         }
       });
     } else {
       props.items.forEach((v) => {
         if (!outliers.has(v)) {
-          drawPoint(ctx, pointOptions, v, props.y - props.height / 2 + random() * props.height);
+          drawPoint(ctx, pointOptions, v, props.y + this.scaleItem(random() - 0.5, v) * props.height);
         }
       });
     }
     ctx.restore();
+  }
+
+  /**
+   * @hidden
+   */
+  scaleItem(e: number, v: number): number {
+    return e;
   }
 
   /**
